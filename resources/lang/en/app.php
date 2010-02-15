@@ -979,7 +979,7 @@ return [
     'in_opportunity'         => 'Opportunity',
     'amount'                => 'Amount',
     'in_status'               => 'Status',
-    'invoices_to_pay'       => 'My Invoices to Pay',
+    'invoices_to_pay'       => 'Invoices to Pay',
     'bill'                  => 'Bill',
     'type_of_position'      => 'Type of Position',
     'download_invoice'      => 'Download Invoice',

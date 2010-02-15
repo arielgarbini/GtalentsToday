@@ -22,25 +22,26 @@
                     <h2>{{$vacancy->name}}</h2>
                     <h3>{{substr($vacancy->locat->country->name.' | '.$vacancy->locat->name, 0, 25)}} @if(strlen($vacancy->locat->country->name.' | '.$vacancy->locat->name)>25) ... @endif</h3>
                     <p>@lang('app.published') | {{ $vacancy->created_at->diffForHumans() }}</p>
+                    <h3>@if($vacancy->search_type==1) {{trans('app.contingency')}} @else {{trans('app.retained')}} @endif</h3>
                 </div>
 
                 <!--RESUMEN DEL POST-->
                 <div class="item">
                     <!--VISITAS-->
                     <div class="item-option">
-                        <h4><?php echo $viewed->search(['vacancy_id' => $vacancy->id])->count() ?></h4>
-                        <span class="opt-sm">@lang('app.visits')</span>
+                        <h5 class="h4Bold">{{count($vacancy->activeSuppliers())}}</h5>
+                        <span class="opt-sm">Suppliers</span>
                     </div>
 
                     <!--CANDIDATOS-->
                     <div class="item-option">
-                        <h4>{{$vacancy->countCandidatesByStatus('Active')}}</h4>
+                        <h5 class="h4Bold">{{$vacancy->countCandidatesByStatus('Active')}}</h5>
                         <span class="opt-sm">@lang('app.candidates')</span>
                     </div>
 
                     <!--POR ACEPTAR-->
                     <div class="item-option">
-                        <h4>{{$vacancy->countCandidatesByStatus('Unconfirmed')}}</h4>
+                        <h5 class="h4Bold">{{$vacancy->countCandidatesByStatus('Unconfirmed')}}</h5>
                         <span class="opt-sm">@lang('app.to_be_accepted')</span>
                     </div>
                 </div>

@@ -31,7 +31,7 @@
                     <ul class="credits-container post-list listado-post" id="latesVacanciesPoster">
                         @foreach ($latestVacancies as $vacancy)
                             <!--POST 1 -->
-                            <li>
+                            <li class="">
                                 <a href="{{route('vacancies.show',$vacancy->id)}}" class="link-listado">
                                     <!-- RESUMEN OPORTUNIDAD-->
                                     <section class="opportunity-admin">
@@ -52,26 +52,27 @@
                                             @endif
                                             <h2>{{$vacancy->name}}</h2>
                                             <h3>{{substr($vacancy->locat->country->name.' | '.$vacancy->locat->name, 0, 25)}} @if(strlen($vacancy->locat->country->name.' | '.$vacancy->locat->name)>25) ... @endif</h3>
-                                             <p>@lang('app.published') | {{ $vacancy->created_at->diffForHumans() }}</p>
+                                            <p>@lang('app.published') | {{ $vacancy->created_at->diffForHumans() }}</p>
+                                            <h3>@if($vacancy->search_type==1) {{trans('app.contingency')}} @else {{trans('app.retained')}} @endif</h3>
                                         </div>
 
                                         <!--RESUMEN DEL POST-->
                                         <div class="item">
                                             <!--VISITAS-->
                                             <div class="item-option">
-                                                <h4><?php echo $viewed->search(['vacancy_id' => $vacancy->id])->count() ?></h4>
-                                                <span class="opt-sm">@lang('app.visits')</span>
+                                                <h5 class="h4Bold">{{count($vacancy->activeSuppliers())}}</h5>
+                                                <span class="opt-sm">Suppliers</span>
                                             </div>
 
                                             <!--CANDIDATOS-->
                                             <div class="item-option">
-                                                <h4>{{$vacancy->countCandidatesByStatus('Active')}}</h4>
+                                                <h5 class="h4Bold">{{$vacancy->countCandidatesByStatus('Active')}}</h5>
                                                 <span class="opt-sm">@lang('app.candidates')</span>
                                             </div>
 
                                             <!--POR ACEPTAR-->
                                             <div class="item-option">
-                                                <h4>{{$vacancy->countCandidatesByStatus('Unconfirmed')}}</h4>
+                                                <h5 class="h4Bold">{{$vacancy->countCandidatesByStatus('Unconfirmed')}}</h5>
                                                 <span class="opt-sm">@lang('app.to_be_accepted')</span>
                                             </div>
                                         </div>
@@ -121,7 +122,7 @@
                     <ul class="credits-container post-list listado-post" id="latesVacanciesUser">
                         @foreach ($vacancies_users as $vacancy_opportunity)
                             <!--POST SUPPLIER -->
-                            <li>
+                            <li class="">
                                 <a href="{{route('vacancies.post_user',$vacancy_opportunity->id)}}" class="link-listado">
                                     <!--RESUMEN OPORTUNIDAD-->
                                     <section class="opportunity-admin">
@@ -130,14 +131,14 @@
                                             <h5>@lang('app.active')</h5>
                                             <h2>{{$vacancy_opportunity->name}}</h2>
                                             <h3>{{substr($vacancy_opportunity->locat->country->name.' | '.$vacancy_opportunity->locat->name, 0, 25)}} @if(strlen($vacancy_opportunity->locat->country->name.' | '.$vacancy_opportunity->locat->name)>25) ... @endif</h3>
-                                           <p>@lang('app.published') | {{ $vacancy_opportunity->created_at->diffForHumans() }}</p>
-                                           
-                                            <!--SECCIONES TOOLTIPS-->
-                                            <div class="item-activity-leyend">
+                                            <p>@lang('app.published') | {{ $vacancy_opportunity->created_at->diffForHumans() }}</p>
+                                            <h3>@if($vacancy_opportunity->search_type==1) {{trans('app.contingency')}} @else {{trans('app.retained')}} @endif</h3>
+                                        </div>
 
-
-                                                <!--FACTURACION APROXIMADA-->
-                                                <?php
+                                        <!--RESUMEN DEL POST-->
+                                        <div class="item">
+                                            <!--FACTURACION APROXIMADA-->
+                                            <?php
                                                 try{
                                                     preg_match_all('/\d{1,2}/' ,$vacancy_opportunity->range_salary, $matches);
                                                     $factur = (intval($matches[0][0].'000')+intval($matches[0][1].'000'))/2;
@@ -145,48 +146,24 @@
                                                 } catch(\exception $e){
                                                     $factur = '';
                                                 }
-                                                ?>
-                                                <div class="item">
-                                                    <a class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="{{trans('app.approximate_billing')}}: ${{$factur}}">
-                                                        <span class="icon-gTalents_facturacion"></span>
-                                                    </a>
-                                                </div>
-                                                <!--CANTIDAD DE SUPPLIERS-->
-                                                <div class="item">
-                                                    <a class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="{{count($vacancy_opportunity->activeSuppliers())}} Suppliers">
-                                                        <span class="icon-gTalents_comision"></span>
-                                                    </a>
-                                                </div>
-
-                                                <!--CONTIGENCY O RETAINED-->
-                                                <div class="item">
-                                                    <a class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="@if($vacancy_opportunity->search_type==1) {{trans('app.contingency')}} @else {{trans('app.retained')}} @endif">
-                                                        <span class="icon-gTalents_estado-post"></span>
-                                                    </a>
-                                                </div>
-                                            </div>
-
-                                        </div>
-
-                                        <!--RESUMEN DEL POST-->
-                                        <div class="item">
-                                            <!--VISITAS-->
+                                            ?>
                                             <div class="item-option">
-                                                <h4><?php echo $viewed->search(['vacancy_id' => $vacancy_opportunity->id])->count() ?></h4>
-                                                <span class="opt-sm">@lang('app.visits')</span>
+                                                <h5 class="h4Bold">${{$factur}}</h5>
+                                                <span class="opt-sm tamano">{{trans('app.approximate_billing')}}</span>
                                             </div>
 
                                             <!--CANDIDATOS-->
                                             <div class="item-option">
-                                                <h4>{{$vacancy_opportunity->countCandidatesByStatus('Active')}}</h4>
-                                                <span class="opt-sm">@lang('app.candidates')</span>
+                                                <h5 class="h4Bold">{{$vacancy_opportunity->countCandidatesByStatus('Active')}}</h5>
+                                                <span class="opt-sm tamano">@lang('app.candidates')</span>
                                             </div>
 
-                                            <!--POR ACEPTAR-->
+                                            <!--CANTIDAD DE SUPPLIERS  --> 
                                             <div class="item-option">
-                                                <h4>{{$vacancy_opportunity->countCandidatesByStatus('Unconfirmed')}}</h4>
-                                                <span class="opt-sm">@lang('app.to_be_accepted')</span>
+                                                <h5 class="h4Bold">{{count($vacancy_opportunity->activeSuppliers())}}</h5>
+                                                <span class="opt-sm tamano">Suppliers</span>
                                             </div>
+
                                         </div>
                                     </section>
                                 </a>
@@ -527,6 +504,7 @@
                                         </form>
                                     </li>
                                 @endif
+                                <li class="ClassFecha">{{$notification->created_at->diffForHumans()}}</li>
                         @endforeach
                     @else
                            <li>{{trans('app.no_notifications')}}</li>

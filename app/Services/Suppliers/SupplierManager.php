@@ -82,8 +82,10 @@ class SupplierManager
         $user = User::where('id', $user)->with('company')->get()->first();
         $company = $user->company[0];
         $experience = $company->experience()->get()->first();
-        foreach($experience->industries_all()->get() as $ind){
-            $data[] = $ind->industry_id;
+        if($experience){
+            foreach($experience->industries_all()->get() as $ind){
+                $data[] = $ind->industry_id;
+            }
         }
         return $data;
     }

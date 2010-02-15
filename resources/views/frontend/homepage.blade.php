@@ -572,19 +572,25 @@
 
 				<!--INDICES DE GANANCIAS-->
 				<div class="generic-skill member">
-					<!--INDICES POSTER-->
-					<div class="item">
-						<img src="assets/img/indice-poster.png" alt="">
-					</div>
-
-					<!--INDICES SUPPLIER-->
-					<div class="item">
-						<img src="assets/img/indice-supplier.png" alt="">
-					</div>
-
-					<!--INDICES STAR-->
-					<div class="item">
-						<img src="assets/img/indice-star.png" alt="">
+					<div class="row">
+						<div class="col m4">
+							<!--INDICES POSTER-->
+							<div class="item">
+								<img src="assets/img/indice-poster.png" alt="">
+							</div>
+						</div>
+						<div class="col m4">
+							<!--INDICES SUPPLIER-->
+							<div class="item">
+								<img src="assets/img/indice-supplier.png" alt="">
+							</div>
+						</div>
+						<div class="col m4">
+							<!--INDICES STAR-->
+							<div class="item">
+								<img src="assets/img/indice-star.png" alt="">
+							</div>
+						</div>
 					</div>
 				</div>
 
@@ -752,8 +758,17 @@
 
 					<p class="text-left">{{ trans('home.Having a good rating will make you climb levels in gTalents, increasing your income and having access to more and better members')}} </p>
 				</section>			
+				
+				<div style="text-align: center; margin-top:10px;">
+					<a class=" modal-action modal-close waves-effect waves-green btn-main2">
+						Close
+					</a>
+				</div>
+
 			</article>
+
 		</div>
+
 	</div>
 
 	<!--MODAL QUESTION-->
@@ -938,8 +953,16 @@
 					</li>-->
 				</ul>
 			
+				<div style="text-align: center;">
+					<a class=" modal-action modal-close waves-effect waves-green btn-main2">
+						Close
+					</a>
+				</div>
+			
 			</article>
-	</div>
+
+		</div>
+
 	</div>
 
 

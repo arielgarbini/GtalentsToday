@@ -269,6 +269,13 @@
 									</form>
 								</li>
 							@endif
+							<li class="ClassFechaCampana right-align">
+								<div class="motivo">
+									<div class="datos">
+										<p>{{$notification->created_at->diffForHumans()}}</p>
+									</div>
+								</div>
+							</li>
                         @endforeach
                     </ul>
 				</div>

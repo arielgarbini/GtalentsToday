@@ -36,7 +36,7 @@
 
         <div class="row">
             <div class="col-md-12">
-                <a href="{{route('candidates.index')}}" class="btn btn-primary">
+                <a href="{{route('candidates.index.admin')}}" class="btn btn-primary">
                     <i class="fa fa-arrow-left "></i>
                     @lang('app.back')
                 </a>
@@ -58,7 +58,7 @@
 
         <div class="row">
             <div class="col-md-12">
-                <a href="{{route('candidates.index')}}" class="btn btn-primary">
+                <a href="{{route('candidates.index.admin')}}" class="btn btn-primary">
                     <i class="fa fa-arrow-left "></i>
                     @lang('app.back')
                 </a>
