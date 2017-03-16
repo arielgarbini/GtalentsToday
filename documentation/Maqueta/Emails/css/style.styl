@@ -1,0 +1,384 @@
+/*
+
+	Proyecto: MESABIERTA EMAILS
+
+	Maquetado por: @01Comandos
+
+	Fecha: 20/09/2016;
+
+-------------------------------------------------------------------------
+-------------------------------------------------------------------------*/
+
+/*
+	IMPORTACIONES
+-------------------------------------------------------------------------
+-------------------------------------------------------------------------*/
+@import 'nib'
+
+
+@font-face 
+    font-family 'Aileron-Regular'
+    src url('../fonts/Aileron-Regular.otf')
+    
+@font-face 
+    font-family 'Aileron-SemiBold'
+    src url('../fonts/Aileron-SemiBold.otf')
+
+@font-face 
+    font-family 'Santor-Regular'
+    src url('../fonts/Santor-Regular.otf')
+
+@font-face 
+    font-family 'HelveticaLTStd-Light'
+    src url('../fonts/HelveticaLTStd-Light.otf')
+    
+@font-face 
+    font-family 'HelveticaLTStd-Roman'
+    src url('../fonts/HelveticaLTStd-Roman.otf')
+    
+
+/*
+	VARIABLES
+-------------------------------------------------------------------------*/
+gris-texto= #333333
+gris-claro = #EEF2F3
+gris-new = #BDCCD4
+
+rojo-corporativo = #C53D38
+verde-corporativo = #73BF9B
+morado = #AD1591
+verde = #7AC943
+naranja = #ED660A
+	
+
+/*
+	HEADER
+-------------------------------------------------------------------------
+-------------------------------------------------------------------------*/	
+body
+	font-size 16px
+	margin 0
+	background gris-claro
+
+p
+	margin 0
+	font-size 1em
+	color gris-texto
+	font-family 'HelveticaLTStd-Light',sans-serif
+	line-height 1.6em
+	strong
+		color azul
+		
+h1
+	margin 0
+	font-size 1.6em
+	font-family 'Santor-Regular',sans-serif
+	color rojo-corporativo
+	
+	
+h2
+	margin 0
+	font-size 1.2em
+	font-family 'Santor-Regular',sans-serif
+	color gris-new
+	strong
+		font-family 'Aileron-SemiBold',sans-serif
+
+h3
+	margin 0
+	font-size 1em
+	color #1A1A1A
+	/*font-family 'Lato-Regular',sans-serif*/
+	
+h4
+	margin 0
+	font-size 0.9em
+	color #1A1A1A
+	font-family 'Aileron-SemiBold',sans-serif
+	text-align center
+	/*font-family 'Lato-Regular',sans-serif*/
+		
+h5
+	font-size 0.9em
+	font-family 'Aileron-SemiBold',sans-serif
+	margin 0
+	
+h6
+	font-size 0.9em
+	margin 0
+	font-family 'HelveticaLTStd-Light',sans-serif
+	color #808080
+	
+figure
+	margin 0
+	
+a
+	text-decoration none
+	
+.btn-main
+	text-align center
+	a
+		display inline-block
+		color white
+		background verde-corporativo
+		padding 1em 1.4em
+		border-radius 7px
+		font-family 'Aileron-Regular',sans-serif
+		font-size 0.9em
+	
+			
+
+/*
+	INDEX (BIENVENIDA)
+-------------------------------------------------------------------------
+-------------------------------------------------------------------------*/		
+.containerGeneral
+	width 38em
+	margin 5em auto 4em auto
+	background white
+	padding 2em 0
+	border-radius 5px
+	header
+		padding 0 2em
+		figure
+			width 10em
+			margin 0 0 1em 0
+			img
+				width 100%
+	&-hello
+		padding 0
+		margin-top -2em
+		img
+			width 100%
+			
+	&-text
+		padding 1.5em 2em
+		margin-top -0.5em
+		h1
+			text-align center
+			padding-bottom 0.5em
+		p
+			margin-bottom 0.8em
+			
+		&.complemento
+			margin -2.5em 0
+			text-align center
+			.item
+				text-align center
+				margin-bottom 1em
+				figure
+				p
+					display inline-block
+					vertical-align middle
+				
+				figure
+					width 1.7em
+					img
+						width 100%
+						
+				p
+					font-family 'Aileron-Regular'
+					
+		&.complet
+			margin 0 0 -2em 0
+			
+	&-reserv
+		padding 1.5em 0
+		text-align center
+		width 80%
+		margin 0 auto
+		.item
+			display inline-block
+			vertical-align middle
+			width 49%
+			text-align left
+			margin-bottom 1.2em
+			figure
+			.datos
+				display inline-block
+				vertical-align middle
+				
+			figure
+				width 1.7em
+				padding-right 0.4em
+				img
+					width 100%
+					
+			.datos
+				p
+					font-family 'Aileron-Regular',sans-serif
+					
+				.link
+					a
+						display inline-block
+						padding 0.4em 0.8em
+						color rojo-corporativo
+						border 1px solid rojo-corporativo
+						border-radius 5px
+						&:hover
+							background rojo-corporativo
+							color white
+					
+			&:last-child
+				width 100%
+			
+	&-menu
+		width 80%
+		margin 0 auto 1.5em auto
+		border-top 1px solid gris-new
+		border-bottom 1px solid gris-new
+		.itemMenu
+			display inline-block
+			vertical-align middle
+			width 49%
+			a
+				display inline-block
+				padding 1em
+				figure
+				p
+					display inline-block
+					vertical-align middle
+				
+				figure
+					width 1.5em
+					padding-right 0.3em
+					img
+						width 100%
+						
+				p
+					color verde-corporativo
+					
+				/.restaurantC
+					color gris-texto !important
+			&:nth-child(2n)
+				border-left 1px solid gris-new
+				
+			&:nth-child(1)
+			&:nth-child(2)
+			/.restaurant
+				border-bottom 1px solid gris-new
+
+				
+		&.reminder
+			border-bottom 0
+			
+	&-table
+		width 80%
+		margin 0 auto 1em auto
+		border 1px solid verde-corporativo
+		border-radius 8px
+		.item
+			padding 0.7em 1em
+			p
+				display inline-block				
+				width 49%
+			.right
+				text-align right
+				
+		.title
+			background verde-corporativo
+			border-radius 8px 8px 0 0
+			p
+				color white
+				
+		.description
+			background rgba(gris-new .4)
+			
+		.total
+			text-align right
+			p
+				&:last-child
+					font-family 'Aileron-SemiBold',sans-serif
+					width 23%
+					margin-right 0.3em
+				
+
+				
+				
+				
+	&-marketing
+		margin 2em auto 2em auto
+		padding 0 1.5em 1em 1.5em
+		text-align center
+		border-bottom 1px solid gris-new
+		width 80%
+		&-title
+			text-align center
+			margin-bottom 1.9em
+			
+		.item
+			display inline-block
+			vertical-align middle
+			width 49%
+			margin-bottom 1.3em
+			text-align left
+			figure
+			.datos
+				display inline-block
+				vertical-align middle
+				
+			figure
+				width 20%
+				padding-right 0.4em
+				img
+					width 100%
+					
+			.datos
+				width 70%
+				p
+					font-size 0.9em
+					
+			.line
+				height 4px
+				width 4em
+				margin-left 4em
+				
+			.verde
+				background verde-corporativo
+			.naranja
+				background naranja
+			.morado
+				background morado
+	
+	&-download
+		text-align center
+		p
+			font-family 'Aileron-SemiBold',sans-serif
+			font-size 0.9em
+		.item
+			display inline-block
+			a
+				display inline-block
+				img
+					width 8em
+					
+	ul
+		text-align center
+		padding 0
+		margin 1.8em 0
+		li
+			display inline-block
+			margin-right 0.5em
+			a
+				display inline-block
+				img
+					width 2em
+			&:last-child
+				margin-right 0
+				
+	footer
+		text-align center
+		h5
+			a
+				color verde-corporativo
+					
+
+					
+
+					
+				
+
+
+
+
+@import 'media-queries.styl'

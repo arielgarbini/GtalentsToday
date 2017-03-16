@@ -1,0 +1,462 @@
+/*
+
+	Proyecto: MESABIERTA EMAILS
+
+	Maquetado por: @01Comandos
+
+	Fecha: 20/09/2016;
+
+-------------------------------------------------------------------------
+-------------------------------------------------------------------------*/
+/*
+	IMPORTACIONES
+-------------------------------------------------------------------------
+-------------------------------------------------------------------------*/
+@font-face {
+  font-family: 'Aileron-Regular';
+  src: url("../fonts/Aileron-Regular.otf");
+}
+@font-face {
+  font-family: 'Aileron-SemiBold';
+  src: url("../fonts/Aileron-SemiBold.otf");
+}
+@font-face {
+  font-family: 'Santor-Regular';
+  src: url("../fonts/Santor-Regular.otf");
+}
+@font-face {
+  font-family: 'HelveticaLTStd-Light';
+  src: url("../fonts/HelveticaLTStd-Light.otf");
+}
+@font-face {
+  font-family: 'HelveticaLTStd-Roman';
+  src: url("../fonts/HelveticaLTStd-Roman.otf");
+}
+/*
+	VARIABLES
+-------------------------------------------------------------------------*/
+/*
+	HEADER
+-------------------------------------------------------------------------
+-------------------------------------------------------------------------*/
+body {
+  font-size: 16px;
+  margin: 0;
+  background: #eef2f3;
+}
+p {
+  margin: 0;
+  font-size: 1em;
+  color: #333;
+  font-family: 'HelveticaLTStd-Light', sans-serif;
+  line-height: 1.6em;
+}
+p strong {
+  color: azul;
+}
+h1 {
+  margin: 0;
+  font-size: 1.6em;
+  font-family: 'Santor-Regular', sans-serif;
+  color: #c53d38;
+}
+h2 {
+  margin: 0;
+  font-size: 1.2em;
+  font-family: 'Santor-Regular', sans-serif;
+  color: #bdccd4;
+}
+h2 strong {
+  font-family: 'Aileron-SemiBold', sans-serif;
+}
+h3 {
+  margin: 0;
+  font-size: 1em;
+  color: #1a1a1a;
+/*font-family 'Lato-Regular',sans-serif*/
+}
+h4 {
+  margin: 0;
+  font-size: 0.9em;
+  color: #1a1a1a;
+  font-family: 'Aileron-SemiBold', sans-serif;
+  text-align: center;
+/*font-family 'Lato-Regular',sans-serif*/
+}
+h5 {
+  font-size: 0.9em;
+  font-family: 'Aileron-SemiBold', sans-serif;
+  margin: 0;
+}
+h6 {
+  font-size: 0.9em;
+  margin: 0;
+  font-family: 'HelveticaLTStd-Light', sans-serif;
+  color: #808080;
+}
+figure {
+  margin: 0;
+}
+a {
+  text-decoration: none;
+}
+.btn-main {
+  text-align: center;
+}
+.btn-main a {
+  display: inline-block;
+  color: #fff;
+  background: #73bf9b;
+  padding: 1em 1.4em;
+  -webkit-border-radius: 7px;
+  border-radius: 7px;
+  font-family: 'Aileron-Regular', sans-serif;
+  font-size: 0.9em;
+}
+/*
+	INDEX (BIENVENIDA)
+-------------------------------------------------------------------------
+-------------------------------------------------------------------------*/
+.containerGeneral {
+  width: 38em;
+  margin: 5em auto 4em auto;
+  background: #fff;
+  padding: 2em 0;
+  -webkit-border-radius: 5px;
+  border-radius: 5px;
+}
+.containerGeneral header {
+  padding: 0 2em;
+}
+.containerGeneral header figure {
+  width: 10em;
+  margin: 0 0 1em 0;
+}
+.containerGeneral header figure img {
+  width: 100%;
+}
+.containerGeneral-hello {
+  padding: 0;
+  margin-top: -2em;
+}
+.containerGeneral-hello img {
+  width: 100%;
+}
+.containerGeneral-text {
+  padding: 1.5em 2em;
+  margin-top: -0.5em;
+}
+.containerGeneral-text h1 {
+  text-align: center;
+  padding-bottom: 0.5em;
+}
+.containerGeneral-text p {
+  margin-bottom: 0.8em;
+}
+
+
+
+.containerGeneral-text.complemento {
+  margin: -2.5em 0;
+  text-align: center;
+}
+.containerGeneral-text.complemento .item {
+  text-align: center;
+  margin-bottom: 1em;
+}
+.containerGeneral-text.complemento .item figure,
+.containerGeneral-text.complemento .item p {
+  display: inline-block;
+  vertical-align: middle;
+}
+.containerGeneral-text.complemento .item figure {
+  width: 1.7em;
+}
+.containerGeneral-text.complemento .item figure img {
+  width: 100%;
+}
+.containerGeneral-text.complemento .item p {
+  font-family: 'Aileron-Regular';
+}
+
+
+.containerGeneral-text.complet {
+  margin: 0 0 -2em 0;
+}
+
+
+.containerGeneral-reserv {
+  padding: 1.5em 0;
+  text-align: center;
+  width: 80%;
+  margin: 0 auto;
+}
+.containerGeneral-reserv .item {
+  display: inline-block;
+  vertical-align: middle;
+  width: 49%;
+  text-align: left;
+  margin-bottom: 1.2em;
+}
+.containerGeneral-reserv .item figure,
+.containerGeneral-reserv .item .datos {
+  display: inline-block;
+  vertical-align: middle;
+}
+.containerGeneral-reserv .item figure {
+  width: 1.7em;
+  padding-right: 0.4em;
+}
+.containerGeneral-reserv .item figure img {
+  width: 100%;
+}
+.containerGeneral-reserv .item .datos p {
+  font-family: 'Aileron-Regular', sans-serif;
+}
+.containerGeneral-reserv .item .datos .link a {
+  display: inline-block;
+  padding: 0.4em 0.8em;
+  color: #c53d38;
+  border: 1px solid #c53d38;
+  -webkit-border-radius: 5px;
+  border-radius: 5px;
+}
+.containerGeneral-reserv .item .datos .link a:hover {
+  background: #c53d38;
+  color: #fff;
+}
+.containerGeneral-reserv .item:last-child {
+  width: 100%;
+}
+
+
+
+.containerGeneral-menu {
+  width: 80%;
+  margin: 0 auto 1.5em auto;
+  border-top: 1px solid #bdccd4;
+  border-bottom: 1px solid #bdccd4;
+  text-align:  center;
+}
+.containerGeneral-menu .itemMenu {
+  display: inline-block;
+  vertical-align: middle;
+  width: 49%;
+}
+.containerGeneral-menu .itemMenu a {
+  display: inline-block;
+  padding: 1em;
+}
+.containerGeneral-menu .itemMenu a figure,
+.containerGeneral-menu .itemMenu a p {
+  display: inline-block;
+  vertical-align: middle;
+}
+.containerGeneral-menu .itemMenu a figure {
+  width: 1.5em;
+  padding-right: 0.3em;
+}
+.containerGeneral-menu .itemMenu a figure img {
+  width: 100%;
+}
+.containerGeneral-menu .itemMenu a p {
+  color: #73bf9b;
+}
+.restaurantC {
+  color: #333 !important;
+}
+.containerGeneral-menu .itemMenu:nth-child(2n) {
+  border-left: 1px solid #bdccd4;
+}
+.containerGeneral-menu .itemMenu:nth-child(1),
+.containerGeneral-menu .itemMenu:nth-child(2),
+.restaurant {
+  border-bottom: 1px solid #bdccd4;
+}
+.containerGeneral-menu.reminder {
+  border-bottom: 0;
+}
+
+
+
+.containerGeneral-table {
+  width: 80%;
+  margin: 0 auto 1em auto;
+  border: 1px solid #73bf9b;
+  -webkit-border-radius: 8px;
+  border-radius: 8px;
+}
+.containerGeneral-table .item {
+  padding: 0.7em 1em;
+}
+.containerGeneral-table .item p {
+  display: inline-block;
+  width: 49%;
+}
+.containerGeneral-table .item .right {
+  text-align: right;
+}
+.containerGeneral-table .title {
+  background: #73bf9b;
+  -webkit-border-radius: 8px 8px 0 0;
+  border-radius: 8px 8px 0 0;
+}
+.containerGeneral-table .title p {
+  color: #fff;
+}
+.containerGeneral-table .description {
+  background: rgba(189,204,212,0.4);
+}
+.containerGeneral-table .total {
+  text-align: right;
+}
+.containerGeneral-table .total p:last-child {
+  font-family: 'Aileron-SemiBold', sans-serif;
+  width: 23%;
+  margin-right: 0.3em;
+}
+
+
+
+
+.containerGeneral-marketing {
+  margin: 2em auto 2em auto;
+  padding: 0 1.5em 1em 1.5em;
+  text-align: center;
+  border-bottom: 1px solid #bdccd4;
+  width: 80%;
+}
+.containerGeneral-marketing-title {
+  text-align: center;
+  margin-bottom: 1.9em;
+}
+.containerGeneral-marketing .item {
+  display: inline-block;
+  vertical-align: middle;
+  width: 49%;
+  margin-bottom: 1.3em;
+  text-align: left;
+}
+.containerGeneral-marketing .item figure,
+.containerGeneral-marketing .item .datos {
+  display: inline-block;
+  vertical-align: middle;
+}
+.containerGeneral-marketing .item figure {
+  width: 20%;
+  padding-right: 0.4em;
+}
+.containerGeneral-marketing .item figure img {
+  width: 100%;
+}
+.containerGeneral-marketing .item .datos {
+  width: 70%;
+}
+.containerGeneral-marketing .item .datos p {
+  font-size: 0.9em;
+}
+.containerGeneral-marketing .item .line {
+  height: 4px;
+  width: 4em;
+  margin-left: 4em;
+}
+.containerGeneral-marketing .item .verde {
+  background: #73bf9b;
+}
+.containerGeneral-marketing .item .naranja {
+  background: #ed660a;
+}
+.containerGeneral-marketing .item .morado {
+  background: #ad1591;
+}
+
+
+
+.containerGeneral-download {
+  text-align: center;
+}
+.containerGeneral-download p {
+  font-family: 'Aileron-SemiBold', sans-serif;
+  font-size: 0.9em;
+}
+.containerGeneral-download .item {
+  display: inline-block;
+}
+.containerGeneral-download .item a {
+  display: inline-block;
+}
+.containerGeneral-download .item a img {
+  width: 8em;
+}
+
+
+
+.containerGeneral ul {
+  text-align: center;
+  padding: 0;
+  margin: 1.8em 0;
+}
+.containerGeneral ul li {
+  display: inline-block;
+  margin-right: 0.5em;
+}
+.containerGeneral ul li a {
+  display: inline-block;
+}
+.containerGeneral ul li a img {
+  width: 2em;
+}
+.containerGeneral ul li:last-child {
+  margin-right: 0;
+}
+.containerGeneral footer {
+  text-align: center;
+}
+.containerGeneral footer h5 a {
+  color: #73bf9b;
+}
+
+
+
+@media (max-width: 768px) {
+  body {
+    font-size: 14px;
+  }
+}
+@media (max-width: 630px) {
+  .containerGeneral {
+    width: 90%;
+  }
+  .containerGeneral-marketing .item {
+    display: block;
+    width: 80%;
+    margin: 0 auto 1.5em auto;
+  }
+  .containerGeneral-marketing .item figure {
+    width: 3em;
+  }
+  .containerGeneral-reserv .item figure,
+  .containerGeneral-reserv .item .datos {
+    display: block;
+    text-align: center;
+  }
+  .containerGeneral-reserv .item figure {
+    margin: 0 auto;
+  }
+  .containerGeneral-menu .itemMenu a figure,
+  .containerGeneral-menu .itemMenu a p {
+    display: block;
+    text-align: center;
+  }
+  .containerGeneral-menu .itemMenu a figure {
+    margin: 0 auto;
+  }
+  .containerGeneral-table .total p:last-child {
+    width: 40%;
+  }
+}
+@media (max-width: 415px) {
+  body {
+    font-size: 11px;
+  }
+}

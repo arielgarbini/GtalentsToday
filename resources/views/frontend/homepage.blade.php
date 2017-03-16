@@ -1,0 +1,839 @@
+@extends('layouts.master')
+	@section('metadata')
+		@parent
+	@stop
+	@section('title')
+		@parent
+	@stop
+	@section('css')
+		@parent
+	@stop
+
+@section('content')
+<body>
+<article class="header-index" id="index">
+		@include('partials.navigation')
+
+		<!-- MENSAJE PRINCIPAL-->
+		<section class="message">
+			<h1>{{ trans('home.We innovate') }}</h1>
+			<h3>{{ trans('home.How to connect Executive Recruiters around the world') }}</h3>
+			<div class="message-link">
+				<a href="{{URL('loginuser')}}" class="btn-main2">{{ trans('home.Start') }}</a>
+			</div>
+			<div class="vineta1"></div>
+		</section>
+		
+		<!--GALERIA IMAGENES-->
+		<!-- PC-->
+		<ul class="rslides pc">
+			<li><img src="assets/img/slider-1.png" alt=""></li>
+			<li><img src="assets/img/slider-2.png" alt=""></li>
+			<li><img src="assets/img/slider-3.png" alt=""></li>
+			<li><img src="assets/img/slider-4.png" alt=""></li>
+			<li><img src="assets/img/slider-5.png" alt=""></li>
+		</ul>
+
+		<!-- TABLET-->
+		<ul class="rslides tablet">
+			<li><img src="assets/img/slider-1-tablet.png" alt=""></li>
+			<li><img src="assets/img/slider-2-tablet.png" alt=""></li>
+			<li><img src="assets/img/slider-3-tablet.png" alt=""></li>
+			<li><img src="assets/img/slider-4-tablet.png" alt=""></li>
+			<li><img src="assets/img/slider-5-tablet.png" alt=""></li>
+		</ul>
+
+		<!-- MOBILE-->
+		<ul class="rslides mobile">
+			<li><img src="assets/img/slider-1-mobile.png" alt=""></li>
+			<li><img src="assets/img/slider-2-mobile.png" alt=""></li>
+			<li><img src="assets/img/slider-3-mobile.png" alt=""></li>
+			<li><img src="assets/img/slider-4-mobile.png" alt=""></li>
+			<li><img src="assets/img/slider-5-mobile.png" alt=""></li>
+		</ul>
+	</article>
+
+	<!-- PORQUE GTALENTS-->
+	<article class="generic grid" id="pqGtalents">
+		<!--TITULO DE LA SECCION-->
+		<section class="generic-title bloque">
+			<h2> {{ trans('home.Why join') }} <strong>gTalents</strong>?</h2>
+		</section>
+
+		<!--TEXTO DE LA SECCION-->
+		<section class="paragraph bloque">
+			<p>{{ trans('home.We are the most trusted technology platform created and designed by experienced Executive Recruiters for Executive Recruiters, efficiently connecting them around the world to post positions, send and receive candidates and increase revenue.') }}</p>
+		</section>
+		
+		<!--SKILL GTALENTS-->
+		<section class="generic-skill bloque">
+			<!-- ALTA CARGA DE TRABAJO-->
+			<div class="item">
+				<figure>
+					<span class="icon-gTalents_alta-carga"></span>
+				</figure>
+				<h3>{{ trans('home.HIGH LOAD OF WORK? LOW VOLUME OF SEARCHES') }}?</h3>
+				<p>{{ trans('home.Share a publication, share candidates.') }} </p>
+			</div>
+
+			<!-- FUERA DE TU AREA DE EXPERTISE-->
+			<div class="item">
+				<figure>
+					<span class="icon-gTalents_area"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span><span class="path5"></span><span class="path6"></span><span class="path7"></span><span class="path8"></span><span class="path9"></span><span class="path10"></span><span class="path11"></span><span class="path12"></span><span class="path13"></span><span class="path14"></span><span class="path15"></span><span class="path16"></span><span class="path17"></span><span class="path18"></span><span class="path19"></span><span class="path20"></span><span class="path21"></span><span class="path22"></span><span class="path23"></span><span class="path24"></span><span class="path25"></span><span class="path26"></span><span class="path27"></span><span class="path28"></span><span class="path29"></span><span class="path30"></span><span class="path31"></span><span class="path32"></span><span class="path33"></span><span class="path34"></span><span class="path35"></span><span class="path36"></span><span class="path37"></span><span class="path38"></span><span class="path39"></span><span class="path40"></span><span class="path41"></span><span class="path42"></span><span class="path43"></span><span class="path44"></span><span class="path45"></span><span class="path46"></span><span class="path47"></span><span class="path48"></span><span class="path49"></span><span class="path50"></span><span class="path51"></span><span class="path52"></span><span class="path53"></span><span class="path54"></span><span class="path55"></span><span class="path56"></span><span class="path57"></span><span class="path58"></span><span class="path59"></span></span>
+				</figure>
+				<h3> {{ trans('home.HIGH LOAD OF WORK? LOW VOLUME OF SEARCHES') }}?</h3>
+				<p> {{ trans('home.Leave it to the local experts and deliver excellent results for your global customers.') }} </p>
+			</div>
+
+			<!-- ALTO VOLUMEN DE BUSQUEDAS-->
+			<div class="item">
+				<figure>
+					<span class="icon-gTalents_search-team"></span>
+				</figure>
+				<h3> {{ trans('home.High volume of searches but low force of delivery') }}? </h3>
+				<p>{{ trans('home.If you have strong business skills and a strong network of contacts but not enough resources to execute the searches, you share a publication and receive qualified candidates within the first week.') }}
+</p>
+			</div>
+
+			<!--SOLIDA FUERZA DE ENTREGA-->
+			<div class="item">
+				<figure>
+					<span class="icon-gTalents_sleep"></span>
+				</figure>
+				<h3> {{ trans('home.SOLID DELIVERY STRENGTH BUT LOW VOLUME') }}? </h3>
+				<p>   {{ trans('home.If you have strong search skills and a solid database but not enough resources to get new clients, find a publication, send qualified candidates and make placements') }} </p>
+			</div>
+		</section>
+	</article>
+
+	<!--VENTAJAS-->
+	<article class="titleWin ventajas bloque" id="ventajas">
+
+		<section class="titleWin-container">
+			<h2> {{ trans('home.The advantages of gTalents') }}</h2>
+			<p> {{ trans('home.We are an innovative technology platform with a sophisticated data analysis engine that will work 24/7 for you. Together with our experienced consultants who will review the behavior of all activities on the platform')  }} </p>
+			<div class="titleWin-container-link">
+				<a href="#modalVentajas" class=" modal-trigger waves-effect waves-light btn-main2"> {{ trans('home.Read more') }}  </a>
+			</div>
+			<div class="vineta2"></div>			
+		</section>
+	</article>
+
+	<!-- PASOS SENCILLOS PARA COMENZAR-->
+	<article class="generic grid" id="comoComenzar">
+		<!--TITULO DE LA SECCION-->
+		<section class="generic-title bloque">
+			<h2>  {{ trans('home.The advantages of gTalents')}} {{ trans('home.Simple steps for') }}  <strong>{{ trans('home.Start') }}</strong>?</h2>
+		</section>
+		
+		<!--PASOS-->
+		<section class="generic-skill generic-index bloque">
+			<!-- PASO 1-->
+			<div class="item">
+				<figure>
+					<span class="icon-gTalents_one"></span>
+				</figure>
+				<h3>{{ trans('home.Register')}} </h3>
+				<p> {{ trans('home.Create your account with gTalents. All partners will remain anonymous for a maximum level of confidentiality of identity, clients and projects')}}  </p>
+			</div>
+
+			<!-- PASO 2-->
+			<div class="item">
+				<figure>
+					<span class="icon-gTalents_two"></span>
+				</figure>
+				<h3>{{ trans('home.Check')}} </h3>
+				<p> {{ trans('home.We will contact you to verify your account and have a brief presentation')}} </p>
+			</div>
+
+			<!-- PASO 3-->
+			<div class="item">
+				<figure>
+					<span class="icon-gTalents_three"></span>
+				</figure>
+				<h3> {{ trans('home.Demo')}}  </h3>
+				<p> {{ trans('home.We ll easily show you how to use the platform in the most efficient way to maximize profits. This will not take more than 10 minutes')}} </p>
+			</div>
+
+			<!--PASO 4-->
+			<div class="item">
+				<figure>
+					<span class="icon-gTalents_four"></span>
+				</figure>
+				<h3>  {{ trans('home.Create your profile')}}  </h3>
+				<p> {{ trans('home.It is very important for us to know the type of projects in which each partner is specialized. In this way we can optimize the success rate of all projects')}}   </p>
+			</div>
+
+			<!--PASO 5-->
+			<div class="item">
+				<figure>
+					<span class="icon-gTalents_five"></span>
+				</figure>
+				<h3> {{ trans('home.You are now a partner')}} </h3>
+				<p> {{ trans('home.You are now a partner, your compliance signature will be required')}} </p>
+			</div>
+
+			<!--PASO 6-->
+			<div class="item">
+				<figure>
+					<span class="icon-gTalents_six"></span>
+				</figure>
+				<h3>{{ trans('home.are you ready')}} </h3>
+				<p> {{ trans('home.You are ready to increase your income. Post and send candidates')}} </p>
+			</div>
+		</section>
+	</article>
+
+	<!--MEMBRESIAS-->
+	<article class="titleWin membresias bloque" id="membresias">
+
+		<section class="titleWin-container">
+			<h2> {{ trans('home.Memberships')}} gTalents!</h2>
+			<p> {{ trans('home.Build up experience and increase your share / income as you successfully publish and share candidates')}} </p>
+			<div class="titleWin-container-link">
+				<a href="#modalMembresias" class=" modal-trigger waves-effect waves-light btn-main2">{{ trans('home.Read more') }} </a>
+			</div>
+			<div class="vineta2"></div>			
+		</section>
+	</article>
+
+	<!--PREGUNTAS FRECUENTES-->
+	<article class="titleWin question bloque" id="question">
+
+		<section class="titleWin-container">
+			<h2>  {{ trans('home.Frequent questions')}} </h2>
+			<p> {{ trans('home.We know you still have doubts, we have a section for you')}} </p>
+			<div class="titleWin-container-link">
+				<a href="#modalQuestion" class=" modal-trigger waves-effect waves-light btn-main2">{{ trans('home.Read more') }}</a>
+			</div>
+			<div class="vineta1"></div>			
+		</section>
+	</article>
+	
+	<!--GARANTIAS-->
+	<article class="titleWin garantias bloque" id="garantias">
+
+		<section class="titleWin-container">
+			<h2> {{ trans('home.Our Guarantees')}} </h2>
+			<p> {{ trans('home.We care to offer you the best experience in our 24/7 technology platform. That is why we invite you to read our guarantees')}}</p>
+			<div class="titleWin-container-link">
+				<a href="#modalGarantias" class=" modal-trigger waves-effect waves-light btn-main2">{{ trans('home.Read more') }}</a>
+			</div>
+			<div class="vineta1"></div>			
+		</section>
+	</article>
+
+	<!--CONTACTO-->
+	<article class="generic grid contact-index bloque" id="contacto">
+		<!--TITULO DE LA SECCION-->
+		<section class="generic-title">
+			<h2> {{ trans('home.Contact us')}}!</h2>
+		</section>
+
+		<!--TEXTO DE LA SECCION-->
+		<section class="paragraph">
+			<p> {{ trans('home.We will respond to your concerns in a short time')}} </p>
+		</section>
+
+		<!-- CTA CONTACTO-->
+		<div class="link-contact">
+			<a href="#!" class="btn-main2" id="btn-contact">{{ trans('home.I have a doubt')}}  </a>
+		</div>		
+	</article>
+
+	<!--CONTENEDOR MAPA-->
+	<article class="contact">
+		<!--MAPA-->
+		<section class="mapa">
+			<iframe src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d31389.182690366797!2d-64.15356708862302!3d10.449494569045312!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1ses-419!2sve!4v1478370590321" width="100%" height="100%" frameborder="0" style="border:0" allowfullscreen></iframe>
+		</section>
+
+		<!--FORMULARIO DE CONTACTO-->			
+		<section class="contact-formulario">
+			<!--TITULO-->
+			<div class="title">
+				<h3>  {{ trans('home.Tell us about your concerns')}} !</h3>
+				<p>  {{ trans('home.We will give you an answer as soon as possible')}}  </p>
+			</div>
+
+			<!--FORMULARIO-->
+			<form action="">
+				<!--NOMBRE-->
+				<div class="itemForm">
+					<input type="text" placeholder="{{ trans('home.Name')}} ">
+				</div>
+
+				<!--CORREO ELECTRONICO-->
+				<div class="itemForm">
+					<input type="email" placeholder="{{ trans('home.Email')}} ">
+				</div>
+
+				<!--PAIS-->
+				<div class="itemForm">
+					<select class="browser-default">
+						<option value="" disabled selected>{{ trans('home.Select a country')}} </option>
+						<option value="1">United States of America</option>
+						<option value="2">Mexico</option>
+						<option value="3">Spain</option>
+						<option value="4">Ireland</option>
+						<option value="5">Israel</option>
+						<option value="6">United Arab Emirates</option>
+					</select>
+				</div>
+
+				<!--MENSAJE-->
+				<div class="itemForm">
+					<textarea name="" id="" cols="30" rows="10" placeholder="{{ trans('home.Write your concerns')}}"></textarea>
+				</div>
+
+				<!--SUBMIT-->
+				<div class="submit">
+					<button type="submit" class="btn-main2">{{ trans('home.Send message')}}</button>
+				</div>
+			</form>
+		</section>
+	</article>
+
+	<!--MODALES-->
+	<!--MODAL VENTAJAS-->
+	<div id="modalVentajas" class="modal modalText">
+		<!--CERRAR-->
+		<div class="modal-footer">
+			<a class=" modal-action modal-close waves-effect waves-green btn-flat">
+				<span class="icon-gTalents_close"></span>
+			</a>
+		</div>
+
+		<!--CONTENIDO-->
+		<div class="modal-content">
+			<!--EFICIENTANDO PROCESOS-->
+			<article class="generic grid">
+				<!--TITULO DE LA SECCION-->
+				<section class="generic-title">
+					<span class="icon-gTalents_team-10"></span>
+					<h2> {{ trans('home.Eficientando the')}}  <strong> {{ trans('home.Processes')}} </strong></h2>
+				</section>
+
+				<!--TEXTO DE LA SECCION-->
+				<section class="paragraph">
+					<p class="text-left"> {{ trans('home.We are an innovative technology platform with a sophisticated data analysis engine that will work 24/7 for you. Together with our experienced consultants who will personally review the behavior of all activities on the platform, our reports will assign the most efficient signature wherever you are for each particular search, considering all possible factors to optimize all projects')}} </p>
+					<p class="text-left"> {{ trans('home.Communicate efficiently with your partner through our platform and get all the necessary details to make the placement')}} </p>
+				</section>
+
+				<!--PUNTOS-->
+				<section class="skill-A">
+					<!--PUNTO 1-->
+					<div class="item">
+						<span class="icon-gTalents_point"></span>
+						<p> {{ trans('home.No duplicates, no effort in vain. We maximize the success rate')}} </p>
+					</div>
+
+					<!--PUNTO 2-->
+					<div class="item">
+						<span class="icon-gTalents_point"></span>
+						<p> {{ trans('home.The Suppliers will be qualified to present the candidates for each project')}}   </p>
+					</div>
+
+					<!--PUNTO 3-->
+					<div class="item">
+						<span class="icon-gTalents_point"></span>
+						<p> {{ trans('home.We do not assign searches to more than 2 different Suppliers')}} </p>
+					</div>
+
+					<!--PUNTO 4-->
+					<div class="item">
+						<span class="icon-gTalents_point"></span>
+						<p> {{ trans('home.We choose the best Supplier for each particular search, maximizing the success rate')}} </p>
+					</div>
+
+					<!--PUNTO 5-->
+					<div class="item">
+						<span class="icon-gTalents_point"></span>
+						<p>{{ trans('home.Candidates will not be contacted on several occasions for the same position')}}</p>
+					</div>
+
+					<!--PUNTO 6-->
+					<div class="item">
+						<span class="icon-gTalents_point"></span>
+						<p>{{ trans('home.High specialization without frontiers')}} </p>
+					</div>
+				</section>
+
+				<section class="paragraph">
+					<p> {{ trans('home.We are a global platform that connects Recruiters and HR Professionals anywhere in the world. Posting a position, within the first week, you will receive solid potential candidates from qualified recruiters with specific expertise in a location, industry or function')}} </p>
+				</section>				
+			</article>
+
+			<!--PORQUE UNIRSE A GTALENTS-->
+			<article class="generic grid">
+				<!--TITULO DE LA SECCION-->
+				<section class="generic-title bloque">
+					<figure>
+						<span class="icon-gTalents_isotipo"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span></span>
+					</figure>
+					<h2> {{ trans('home.Why join') }}<strong>gTalents</strong>?</h2>
+				</section>
+
+				<!--PUNTOS-->
+				<section class="skill-B">
+					<!--PUNTO 1-->
+					<div class="item">
+						<span class="icon-gTalents_point"></span>
+						<p> {{ trans('home.A recruiting firm with international clients will have immediate access to the best talent available in the market in a very short time, especially when they work in searches outside their country or region of origin, industry or specialization') }} </p>
+					</div>
+
+					<!--PUNTO 2-->
+					<div class="item">
+						<span class="icon-gTalents_point"></span>
+						<p> {{ trans('home.Your customers will notice that you have increased your geographic reach and experience in other industries immediately') }} </p>
+					</div>
+
+					<!--PUNTO 3-->
+					<div class="item">
+						<span class="icon-gTalents_point"></span>
+						<p> {{ trans('home.By posting a vacancy, you will receive candidates during the first few days from a gTalents partner, without creating a new contract with your counterpart') }} </p>
+					</div>
+
+					<!--PUNTO 4-->
+					<div class="item">
+						<span class="icon-gTalents_point"></span>
+						<p> {{ trans('home.Efficient and transparent communication between partners. Get feedback, get all the necessary information and make placements') }} </p>
+					</div>
+
+					<!--PUNTO 5-->
+					<div class="item">
+						<span class="icon-gTalents_point"></span>
+						<p> {{ trans('home.Share CVs through our platform and monitor the status of your candidates in real time') }} </p>
+					</div>
+
+					<!--PUNTO 6-->
+					<div class="item">
+						<span class="icon-gTalents_point"></span>
+						<p> {{ trans('home.Choose which positions will work based on your area of ​​expertise, we will help you find the best position for your signature') }} </p>
+					</div>
+
+					<!--PUNTO 7-->
+					<div class="item">
+						<span class="icon-gTalents_point"></span>
+						<p> {{ trans('home.Registration and free membership. Increase your income' ) }} </p>
+					</div>
+				</section>			
+			</article>
+
+		</div>
+	</div>
+
+	<!--MODAL GARANTIAS-->
+	<div id="modalGarantias" class="modal modalText">
+		<!--CERRAR-->
+		<div class="modal-footer">
+			<a class=" modal-action modal-close waves-effect waves-green btn-flat">
+				<span class="icon-gTalents_close"></span>
+			</a>
+		</div>
+
+		<!--CONTENIDO-->
+		<div class="modal-content">
+			<!--GARANTIAS-->
+			<article class="generic grid">
+				<!--TITULO DE LA SECCION-->
+				<section class="generic-title">
+					<span class="icon-gTalents_garantia"></span>
+					<h2> {{ trans('home.Our' ) }}  <strong> {{ trans('home.Guarantee' ) }}</strong></h2>
+				</section>
+
+				<!--TEXTO DE LA SECCION-->
+				<section class="paragraph">
+					<p class="text-left"> {{ trans('home.In the event that a Poster does not make the 60% payment of the invoice as agreed at the outset, gTalents will continue to GUARANTEE the credit to the Supplier. That is to say, if a candidate generated by a partner begins to work within the client, the partner will receive the credit of the commission earned by the project and that is a guarantee of gTalents' ) }} </p>
+
+					<p class="text-left">{{ trans('home.In the same way, in case the candidate placed resignation or has been dismissed within the period of relocation agreed at the beginning of the process and the Supplier does not conduct the process of Replacement, the Poster will receive the full credit for this project' ) }} </p>
+
+					<p class="text-left">
+						{{ trans('home.We do not assign searches to more than 2 different Suppliers. Candidates will not be contacted on several occasions for the same position. The Suppliers will be qualified to present the indicated candidates for each project to do the placement' ) }} 
+					</p>
+
+					<p class="text-left">
+						{{ trans('home.In this way, we choose the best Supplier for each particular search, maximizing the success rate for both parties, this with the support of our efficient data analysis engine' ) }} 
+					</p>
+				</section>			
+			</article>
+		</div>
+	</div>
+
+	<!--MODAL MEMBRESIAS-->
+	<div id="modalMembresias" class="modal modalText">
+		<!--CERRAR-->
+		<div class="modal-footer">
+			<a class=" modal-action modal-close waves-effect waves-green btn-flat">
+				<span class="icon-gTalents_close"></span>
+			</a>
+		</div>
+
+		<!--CONTENIDO-->
+		<div class="modal-content">
+			<!--PODRAS CONVERTIRTE EN SOCIO-->
+			<article class="generic grid">
+				<!--TITULO DE LA SECCION-->
+				<section class="generic-title bloque">
+					<span class="icon-gTalents_win-23"></span>
+					<h2> {{ trans('home.You can become' ) }} <strong>{{ trans('home.partner' ) }} </strong> {{ trans('home.if you re' ) }}</h2>
+				</section>
+
+				<!--PUNTOS-->
+				<section class="skill-A">
+					<!--PUNTO 1-->
+					<div class="item">
+						<span class="icon-gTalents_point"></span>
+						<p> {{ trans('home.A global, regional or local Executive Recruitment firm (Retention or Contingency)' ) }} </p>
+					</div>
+
+					<!--PUNTO 2-->
+					<div class="item">
+						<span class="icon-gTalents_point"></span>
+						<p>{{ trans('home.Human Resources Professionals or experienced leaders with solid network in contacts') }}</p>
+					</div>
+
+					<!--PUNTO 3-->
+					<div class="item">
+						<span class="icon-gTalents_point"></span>
+						<p> {{ trans('home.Consulting Firms in Human Resources' ) }} </p>
+					</div>
+
+					<!--PUNTO 4-->
+					<div class="item">
+						<span class="icon-gTalents_point"></span>
+						<p>{{ trans('home.Independent Executive Recruiters') }} </p>
+					</div>
+				</section>
+
+				<section class="link">
+					<a href="" class="btn-main2">{{ trans('home.Start now' ) }} </a>
+				</section>				
+			</article>
+
+			<!--TIPOS DE SOCIOS-->
+			<article class="generic grid">
+				<!--TITULO DE LA SECCION-->
+				<section class="generic-title">
+					<span class="icon-gTalents_mountain"></span>
+					<h2>{{ trans('home.Types of') }}<strong> {{ trans('home.partner' ) }}  </strong></h2>
+				</section>
+
+				<!--TEXTO DE LA SECCION-->
+				<section class="paragraph">
+					<p> {{ trans('home.We are a global platform that connects Recruiters and HR Professionals anywhere in the world') }} </p>
+				</section>
+
+				<!--TIPOS DE SOCIOS-->
+				<section class="generic-skill partner">
+					<!-- POSTER-->
+					<div class="item">
+						<figure>
+							<span class="icon-gTalents_poster"></span>
+						</figure>
+						<h3> poster</h3>
+						<p>{{ trans('home.It is the partner who publishes the position, who handles the contact with the client and ensures the closure of the project') }} </p>
+					</div>
+
+					<!-- SUPPLIER-->
+					<div class="item">
+						<figure>
+							<span class="icon-gTalents_supplier-26"></span>
+						</figure>
+						<h3> Supplier</h3>
+						<p>{{ trans('home.It is the partner who works in the generation of candidates, who has a clear understanding of the profile and efficiently presents the profiles') }} </p>
+					</div>
+
+					<!--GTALENTS STAR-->
+					<div class="item">
+						<figure>
+							<span class="icon-gTalents_gtalents-star"></span>
+						</figure>
+						<h3> gtalents star</h3>
+						<p>{{ trans('home.It is the partner who has both roles and the one who earns the most income. Duplicate the profits by publishing positions and generating candidates for other publications simultaneously') }} </p>
+					</div>
+				</section>				
+			</article>
+
+			<!--COMO RECIBEN LOS PAGOS-->
+			<article class="generic grid">
+				<!--TITULO DE LA SECCION-->
+				<section class="generic-title">
+					<span class="icon-gTalents_pagos"></span>
+					<h2>{{ trans('home.How do they receive payments each')}} <strong> {{ trans('home.partner')}} </strong>?</h2>
+				</section>
+
+				<!--TEXTO DE LA SECCION-->
+				<section class="paragraph">
+					<p> {{ trans('home.Accumulate experience and increase your proportion / income as you publish and share candidates successfully. Human resources anywhere around the world')}} </p>
+				</section>
+
+				<!--INDICES DE GANANCIAS-->
+				<div class="generic-skill partner">
+					<!--INDICES POSTER-->
+					<div class="item">
+						<img src="assets/img/indice-poster.png" alt="">
+					</div>
+
+					<!--INDICES SUPPLIER-->
+					<div class="item">
+						<img src="assets/img/indice-supplier.png" alt="">
+					</div>
+
+					<!--INDICES STAR-->
+					<div class="item">
+						<img src="assets/img/indice-star.png" alt="">
+					</div>
+				</div>
+
+				<!--PUNTOS de EJEMPLO-->
+				<section class="skill-B">
+					<div class="example">
+						<h4> {{ trans('home.Example, Invoice Search:')}} USD 40,000</h4>
+					</div>
+					<!--PUNTO 1-->
+					<div class="item">
+						<span class="icon-gTalents_point"></span>
+						<p>  40% Poster: USD 16,000 - {{ trans('home.Become a Top Poster, your proportion increases as you publish and successfully close projects')}} </p>
+					</div>
+
+					<!--PUNTO 2-->
+					<div class="item">
+						<span class="icon-gTalents_point"></span>
+						<p>  40% Supplier: USD 16,000 - {{ trans('home.Become a Top Supplier, in the same way, as you make successful placements, your proportion and income will increase')}} </p>
+					</div>
+
+					<!--PUNTO 3-->
+					<div class="item">
+						<span class="icon-gTalents_point"></span>
+						<p>  20% gTalents: USD 8,000 - gTalents {{ trans('home.will reinvest in their loyal partners. As our partners become frequent users, gTalents will lower their fees to a minimum')}} </p>
+					</div>
+
+					<!--PUNTO 4-->
+					<div class="item">
+						<span class="icon-gTalents_point"></span>
+						<p>{{ trans('home.The Poster sends an invoice to its client as soon as the candidate has been placed')}} </p>
+					</div>
+
+					<!--PUNTO 5-->
+					<div class="item">
+						<span class="icon-gTalents_point"></span>
+						<p>{{ trans('home.Global Talent Shift sends an invoice to the Poster for 60% of the value of the initial invoice that was sent to the customer')}} </p>
+					</div>
+
+					<!--PUNTO 6-->
+					<div class="item">
+						<span class="icon-gTalents_point"></span>
+						<p>{{ trans('home.The Supplier sends an invoice to Global Talent Shift for 40% of the value of the initial invoice sent to the customer')}} </p>
+					</div>
+
+					<!--PUNTO 7-->
+					<div class="item">
+						<span class="icon-gTalents_point"></span>
+						<p>{{ trans('home.In this way, the Poster receives 40%, Supplier 40% and Global Talent Shift 20%')}} </p>
+					</div>
+				</section>
+			</article>
+
+			<!--RANGOS EN GTALENTS-->
+			<article class="generic grid">
+				<!--TITULO DE LA SECCION-->
+				<section class="generic-title">
+					<span class="icon-gTalents_ranking"></span>
+					<h2> {{ trans('home.Ranges in')}} <strong>gTalents</strong></h2>
+				</section>
+
+				<!--TEXTO DE LA SECCION-->
+				<section class="paragraph">
+					<p>{{ trans('home.Being an active and well-qualified partner, you will get great benefits, increasing your income ratio')}} </p>
+				</section>
+
+				<!--RANGOS-->
+				<section class="skill-rangos">
+					<!--RANGO 1-3-->
+					<div class="item">
+						<!--RANGO 1-->
+						<div class="item-options">
+							<div class="number">
+								<span class="icon-gTalents_one"></span>
+							</div>
+							<div class="rango">
+								<figure>
+									<span class="icon-gTalents_rango-1"><span class="path1"></span><span class="path2"></span></span>
+								</figure>
+								<p>Newbie (Talent Shifty)</p>
+							</div>
+						</div>
+
+						<!--RANGO 2-->
+						<div class="item-options">
+							<div class="number">
+								<span class="icon-gTalents_two"></span>
+							</div>
+							<div class="rango">
+								<figure class="special">
+									<span class="icon-gTalents_rango-2"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span><span class="path5"></span><span class="path6"></span></span>
+								</figure>
+								<p>NHiring Pro </p>
+							</div>
+						</div>
+
+						<!--RANGO 3-->
+						<div class="item-options">
+							<div class="number">
+								<span class="icon-gTalents_three"></span>
+							</div>
+							<div class="rango">
+								<figure>
+									<span class="icon-gTalents_rango-3"><span class="path1"></span><span class="path2"></span><span class="path3"></span></span>
+								</figure>
+								<p>Boolean Boss</p>
+							</div>
+						</div>
+					</div>
+
+					<!--RANGO 4-6-->
+					<div class="item">
+						<!--RANGO 4-->
+						<div class="item-options">
+							<div class="number">
+								<span class="icon-gTalents_four"></span>
+							</div>
+							<div class="rango">
+								<figure class="special">
+									<span class="icon-gTalents_rango-4"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span><span class="path5"></span></span>
+								</figure>
+								<p>Staffing Elite</p>
+							</div>
+						</div>
+
+						<!--RANGO 5-->
+						<div class="item-options">
+							<div class="number">
+								<span class="icon-gTalents_five"></span>
+							</div>
+							<div class="rango">
+								<figure class="special">
+									<span class="icon-gTalents_rango-5"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span><span class="path5"></span><span class="path6"></span><span class="path7"></span></span>
+								</figure>
+								<p>Sourcing Guru</p>
+							</div>
+						</div>
+
+						<!--RANGO 6-->
+						<div class="item-options">
+							<div class="number">
+								<span class="icon-gTalents_six"></span>
+							</div>
+							<div class="rango">
+								<figure class="special">
+									<span class="icon-gTalents_rango-6"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span><span class="path5"></span><span class="path6"></span></span>
+								</figure>
+								<p>Global Talent Shifter </p>
+							</div>
+						</div>
+					</div>
+				</section>		
+			</article>
+
+			<!--COMO CALIFICO POR OTROS SOCIOS-->
+			<article class="generic grid">
+				<!--TITULO DE LA SECCION-->
+				<section class="generic-title">
+					<span class="icon-gTalents_mountain"></span>
+					<h2>{{ trans('home.How do I qualify and qualify for other partners')}} ? </h2>
+				</section>
+
+				<!--TEXTO DE LA SECCION-->
+				<section class="paragraph">
+					<p class="text-left">{{ trans('home.Once a publication has been successfully closed, the Poster will be able to qualify the Suppliers that worked together and in the same way they will be able to qualify the Poster. Our Audit team will review each case and will sometimes act as a "judge", based on good practice in executive search and global ethical principles')}} </p>
+
+					<p class="text-left">{{ trans('home.Having a good rating will make you climb levels in gTalents, increasing your income and having access to more and better partners')}} </p>
+				</section>			
+			</article>
+		</div>
+	</div>
+
+	<!--MODAL QUESTION-->
+	<div id="modalQuestion" class="modal modalText">
+		<!--CERRAR-->
+		<div class="modal-footer">
+			<a class=" modal-action modal-close waves-effect waves-green btn-flat">
+				<span class="icon-gTalents_close"></span>
+			</a>
+		</div>
+
+		<!--CONTENIDO-->
+		<div class="modal-content">
+			<!--PODRAS CONVERTIRTE EN SOCIO-->
+			<article class="generic grid">
+				<!--TITULO DE LA SECCION-->
+				<section class="generic-title bloque">
+					<span class="icon-gTalents_question"></span>
+					<h2>{{ trans('home.questions') }}  <strong> {{ trans('home.Frequent') }}  </strong></h2>
+				</section>
+
+				<!--PREGUNTAS FRECUENTES-->
+				<ul class="collapsible" data-collapsible="accordion">
+					<li>
+						<div class="collapsible-header">
+							<span class="icon-gTalents_point"></span>
+							<h5>{{ trans('home.How can I access my account') }} gTalents?</h5>
+						</div>
+						<div class="collapsible-body">
+							<p>{{ trans('home.We are an innovative technology platform with a sophisticated data analysis engine that will work 24/7 for you. Together with our experienced consultants who will personally review the behavior of all activities on the platform, our reports will assign the most efficient signature wherever you are for each particular search, considering all possible factors to optimize all projects')}}</p>
+							<p>{{ trans('home.Communicate efficiently with your partner through our platform and get all the necessary details to make the placement')}}</p>
+						</div>
+					</li>
+					<li>
+						<div class="collapsible-header">
+							<span class="icon-gTalents_point"></span>
+							<h5>{{ trans('home.Question')}} 2</h5>
+						</div>
+						<div class="collapsible-body">
+							<p>Lorem ipsum dolor sit amet.</p>
+						</div>
+					</li>
+					<li>
+						<div class="collapsible-header">
+							<span class="icon-gTalents_point"></span>
+							<h5>{{ trans('home.Question')}} 3</h5>
+						</div>
+						<div class="collapsible-body">
+							<p>Lorem ipsum dolor sit amet.</p>
+						</div>
+					</li>
+				</ul>
+			
+			</article>
+	</div>
+	</div>
+
+
+
+@include('partials.footer')
+
+@stop
+
+@section('scripts')
+  	<script>
+	    $(document).ready(
+	    		//ANIMACION ENTRE ANCLAS
+				$(function() {
+				  $('a[href*="#"]:not([href="#"])').click(function() {
+				    if (location.pathname.replace(/^\//,'') == this.pathname.replace(/^\//,'') && location.hostname == this.hostname) {
+				      var target = $(this.hash);
+				      target = target.length ? target : $('[name=' + this.hash.slice(1) +']');
+				      if (target.length) {
+				        $('html, body').animate({
+				          scrollTop: target.offset().top
+				        }, 1000);
+				        return false;
+				      }
+				    }
+				  });
+				});
+	    	
+	    );
+	</script>
+@stop	
