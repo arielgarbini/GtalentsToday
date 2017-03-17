@@ -16,7 +16,6 @@
 
 		<!-- MENSAJE PRINCIPAL-->
 		<section class="message">
-			<h1>{{ trans('home.We innovate') }}</h1>
 			<h3>{{ trans('home.How to connect Executive Recruiters around the world') }}</h3>
 			<div class="message-link">
 				<a href="{{URL('loginuser')}}" class="btn-main2">{{ trans('home.Start') }}</a>
@@ -72,7 +71,7 @@
 				<figure>
 					<span class="icon-gTalents_alta-carga"></span>
 				</figure>
-				<h3>{{ trans('home.HIGH LOAD OF WORK? LOW VOLUME OF SEARCHES') }}?</h3>
+				<h3>{{ trans('home.HIGH LOAD OF WORK? LOW VOLUME OF SEARCHES') }}</h3>
 				<p>{{ trans('home.Share a publication, share candidates.') }} </p>
 			</div>
 
@@ -81,7 +80,7 @@
 				<figure>
 					<span class="icon-gTalents_area"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span><span class="path5"></span><span class="path6"></span><span class="path7"></span><span class="path8"></span><span class="path9"></span><span class="path10"></span><span class="path11"></span><span class="path12"></span><span class="path13"></span><span class="path14"></span><span class="path15"></span><span class="path16"></span><span class="path17"></span><span class="path18"></span><span class="path19"></span><span class="path20"></span><span class="path21"></span><span class="path22"></span><span class="path23"></span><span class="path24"></span><span class="path25"></span><span class="path26"></span><span class="path27"></span><span class="path28"></span><span class="path29"></span><span class="path30"></span><span class="path31"></span><span class="path32"></span><span class="path33"></span><span class="path34"></span><span class="path35"></span><span class="path36"></span><span class="path37"></span><span class="path38"></span><span class="path39"></span><span class="path40"></span><span class="path41"></span><span class="path42"></span><span class="path43"></span><span class="path44"></span><span class="path45"></span><span class="path46"></span><span class="path47"></span><span class="path48"></span><span class="path49"></span><span class="path50"></span><span class="path51"></span><span class="path52"></span><span class="path53"></span><span class="path54"></span><span class="path55"></span><span class="path56"></span><span class="path57"></span><span class="path58"></span><span class="path59"></span></span>
 				</figure>
-				<h3> {{ trans('home.HIGH LOAD OF WORK? LOW VOLUME OF SEARCHES') }}?</h3>
+				<h3> {{ trans('home.Outside your area of ​​expertise and geographical area') }}</h3>
 				<p> {{ trans('home.Leave it to the local experts and deliver excellent results for your global customers.') }} </p>
 			</div>
 
@@ -90,7 +89,7 @@
 				<figure>
 					<span class="icon-gTalents_search-team"></span>
 				</figure>
-				<h3> {{ trans('home.High volume of searches but low force of delivery') }}? </h3>
+				<h3> {{ trans('home.HIGH VOLUME OF SEARCHES BUT LOW DELIVERY FORCE') }} </h3>
 				<p>{{ trans('home.If you have strong business skills and a strong network of contacts but not enough resources to execute the searches, you share a publication and receive qualified candidates within the first week.') }}
 </p>
 			</div>
@@ -100,7 +99,7 @@
 				<figure>
 					<span class="icon-gTalents_sleep"></span>
 				</figure>
-				<h3> {{ trans('home.SOLID DELIVERY STRENGTH BUT LOW VOLUME') }}? </h3>
+				<h3> {{ trans('home.SOLID DELIVERY STRENGTH BUT LOW VOLUME') }} </h3>
 				<p>   {{ trans('home.If you have strong search skills and a solid database but not enough resources to get new clients, find a publication, send qualified candidates and make placements') }} </p>
 			</div>
 		</section>
@@ -123,7 +122,7 @@
 	<article class="generic grid" id="comoComenzar">
 		<!--TITULO DE LA SECCION-->
 		<section class="generic-title bloque">
-			<h2>  {{ trans('home.The advantages of gTalents')}} {{ trans('home.Simple steps for') }}  <strong>{{ trans('home.Start') }}</strong>?</h2>
+			<h2>  {{ trans('home.The advantages of gTalents Simple steps for')}}  <strong>{{ trans('home.Start') }}</strong>?</h2>
 		</section>
 		
 		<!--PASOS-->
@@ -188,7 +187,7 @@
 	<article class="titleWin membresias bloque" id="membresias">
 
 		<section class="titleWin-container">
-			<h2> {{ trans('home.Memberships')}} gTalents!</h2>
+			<h2> ¡{{ trans('home.Memberships')}}!</h2>
 			<p> {{ trans('home.Build up experience and increase your share / income as you successfully publish and share candidates')}} </p>
 			<div class="titleWin-container-link">
 				<a href="#modalMembresias" class=" modal-trigger waves-effect waves-light btn-main2">{{ trans('home.Read more') }} </a>
@@ -201,8 +200,7 @@
 	<article class="titleWin question bloque" id="question">
 
 		<section class="titleWin-container">
-			<h2>  {{ trans('home.Frequent questions')}} </h2>
-			<p> {{ trans('home.We know you still have doubts, we have a section for you')}} </p>
+			<h2>  {{ trans('home.Frequent questions')}}</h2>
 			<div class="titleWin-container-link">
 				<a href="#modalQuestion" class=" modal-trigger waves-effect waves-light btn-main2">{{ trans('home.Read more') }}</a>
 			</div>
@@ -215,7 +213,7 @@
 
 		<section class="titleWin-container">
 			<h2> {{ trans('home.Our Guarantees')}} </h2>
-			<p> {{ trans('home.We care to offer you the best experience in our 24/7 technology platform. That is why we invite you to read our guarantees')}}</p>
+<!--			<p> {{ trans('home.We care to offer you the best experience in our 24/7 technology platform. That is why we invite you to read our guarantees')}}</p>-->
 			<div class="titleWin-container-link">
 				<a href="#modalGarantias" class=" modal-trigger waves-effect waves-light btn-main2">{{ trans('home.Read more') }}</a>
 			</div>
@@ -272,12 +270,11 @@
 				<div class="itemForm">
 					<select class="browser-default">
 						<option value="" disabled selected>{{ trans('home.Select a country')}} </option>
-						<option value="1">United States of America</option>
-						<option value="2">Mexico</option>
-						<option value="3">Spain</option>
-						<option value="4">Ireland</option>
-						<option value="5">Israel</option>
-						<option value="6">United Arab Emirates</option>
+						@foreach($countries as $country)
+							@if($country['full_name']!='')
+							<option value="<?= $country['id'] ?>"><?= $country['full_name'] ?></option>
+							@endif
+						@endforeach
 					</select>
 				</div>
 
@@ -371,7 +368,7 @@
 					<figure>
 						<span class="icon-gTalents_isotipo"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span></span>
 					</figure>
-					<h2> {{ trans('home.Why join') }}<strong>gTalents</strong>?</h2>
+					<h2> {{ trans('home.Why join') }} <strong>gTalents</strong>?</h2>
 				</section>
 
 				<!--PUNTOS-->
@@ -594,19 +591,19 @@
 					<!--PUNTO 1-->
 					<div class="item">
 						<span class="icon-gTalents_point"></span>
-						<p>  40% Poster: USD 16,000 - {{ trans('home.Become a Top Poster, your proportion increases as you publish and successfully close projects')}} </p>
+						<p>  40% Poster: USD <b>16,000</b> - {{ trans('home.Become a Top Poster, your proportion increases as you publish and successfully close projects')}} </p>
 					</div>
 
 					<!--PUNTO 2-->
 					<div class="item">
 						<span class="icon-gTalents_point"></span>
-						<p>  40% Supplier: USD 16,000 - {{ trans('home.Become a Top Supplier, in the same way, as you make successful placements, your proportion and income will increase')}} </p>
+						<p>  40% Supplier: USD <b>16,000</b> - {{ trans('home.Become a Top Supplier, in the same way, as you make successful placements, your proportion and income will increase')}} </p>
 					</div>
 
 					<!--PUNTO 3-->
 					<div class="item">
 						<span class="icon-gTalents_point"></span>
-						<p>  20% gTalents: USD 8,000 - gTalents {{ trans('home.will reinvest in their loyal partners. As our partners become frequent users, gTalents will lower their fees to a minimum')}} </p>
+						<p>  20% gTalents: USD <b>8,000</b> - gTalents {{ trans('home.will reinvest in their loyal partners. As our partners become frequent users, gTalents will lower their fees to a minimum')}} </p>
 					</div>
 
 					<!--PUNTO 4-->
@@ -640,7 +637,7 @@
 				<!--TITULO DE LA SECCION-->
 				<section class="generic-title">
 					<span class="icon-gTalents_ranking"></span>
-					<h2> {{ trans('home.Ranges in')}} <strong>gTalents</strong></h2>
+					<h2> {{ trans('home.Ranges in')}} <strong>gTalents</strong> {{ trans('home.Climbing up ranks')}}</h2>
 				</section>
 
 				<!--TEXTO DE LA SECCION-->
@@ -674,7 +671,7 @@
 								<figure class="special">
 									<span class="icon-gTalents_rango-2"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span><span class="path5"></span><span class="path6"></span></span>
 								</figure>
-								<p>NHiring Pro </p>
+								<p>Hiring Pro </p>
 							</div>
 						</div>
 
@@ -778,6 +775,138 @@
 					<li>
 						<div class="collapsible-header">
 							<span class="icon-gTalents_point"></span>
+							<h5>1. {{ trans('home.frequent_questions.01.title')}}</h5>
+						</div>
+						<div class="collapsible-body">
+							<p>a. {{ trans('home.frequent_questions.01.answer01')}}</p>
+							<p>b. {{ trans('home.frequent_questions.01.answer02')}}</p>
+							<p>c. {{ trans('home.frequent_questions.01.answer03')}}</p>
+							<p>d. {{ trans('home.frequent_questions.01.answer04')}}</p>
+						</div>
+					</li>
+					<li>
+						<div class="collapsible-header">
+							<span class="icon-gTalents_point"></span>
+							<h5>2. {{ trans('home.frequent_questions.02.title')}}</h5>
+						</div>
+						<div class="collapsible-body">
+							<p>{{ trans('home.frequent_questions.02.answer01')}}</p>
+						</div>
+					</li>
+					<!--
+					<li>
+						<div class="collapsible-header">
+							<span class="icon-gTalents_point"></span>
+							<h5>3. {{ trans('home.frequent_questions.03.title')}}</h5>
+						</div>
+						<div class="collapsible-body">
+							<p>{{ trans('home.frequent_questions.03.answer01')}}</p>
+							<p>{{ trans('home.frequent_questions.03.answer02')}}</p>
+							<p>{{ trans('home.frequent_questions.03.answer03')}}</p>
+						</div>
+					</li>-->
+					<li>
+						<div class="collapsible-header">
+							<span class="icon-gTalents_point"></span>
+							<h5>3. {{ trans('home.frequent_questions.04.title')}}</h5>
+						</div>
+						<div class="collapsible-body">
+							<p>{{ trans('home.frequent_questions.04.answer01')}}</p>
+							<p>{{ trans('home.frequent_questions.04.answer02')}}</p>
+						</div>
+					</li>
+					<li>
+						<div class="collapsible-header">
+							<span class="icon-gTalents_point"></span>
+							<h5>4. {{ trans('home.frequent_questions.05.title')}}</h5>
+						</div>
+						<div class="collapsible-body">
+							<p>{{ trans('home.frequent_questions.05.answer01')}}</p>
+							<p>{{ trans('home.frequent_questions.05.answer02')}}</p>
+						</div>
+					</li>
+					<li>
+						<div class="collapsible-header">
+							<span class="icon-gTalents_point"></span>
+							<h5>5. {{ trans('home.frequent_questions.06.title')}}</h5>
+						</div>
+						<div class="collapsible-body">
+							<p>{{ trans('home.frequent_questions.06.answer01')}}</p>
+							<p>{{ trans('home.frequent_questions.06.answer02')}}</p>
+							<p>{{ trans('home.frequent_questions.06.answer03')}}</p>
+							<p>{{ trans('home.frequent_questions.06.answer04')}}</p>
+							<p>{{ trans('home.frequent_questions.06.answer05')}}</p>
+							<p>{{ trans('home.frequent_questions.06.answer06')}}</p>
+							<p>{{ trans('home.frequent_questions.06.answer07')}}</p>
+						</div>
+					</li>
+					<li>
+						<div class="collapsible-header">
+							<span class="icon-gTalents_point"></span>
+							<h5>6. {{ trans('home.frequent_questions.07.title')}}</h5>
+						</div>
+						<div class="collapsible-body">
+							<p>{{ trans('home.frequent_questions.07.answer01')}}</p>
+						</div>
+					</li>
+					<li>
+						<div class="collapsible-header">
+							<span class="icon-gTalents_point"></span>
+							<h5>7. {{ trans('home.frequent_questions.08.title')}}</h5>
+						</div>
+						<div class="collapsible-body">
+							<p>{{ trans('home.frequent_questions.08.answer01')}}</p>
+						</div>
+					</li>
+					<li>
+						<div class="collapsible-header">
+							<span class="icon-gTalents_point"></span>
+							<h5>8. {{ trans('home.frequent_questions.09.title')}}</h5>
+						</div>
+						<div class="collapsible-body">
+							<p>{{ trans('home.frequent_questions.09.answer01')}}</p>
+						</div>
+					</li>
+					<li>
+						<div class="collapsible-header">
+							<span class="icon-gTalents_point"></span>
+							<h5>9. {{ trans('home.frequent_questions.10.title')}}</h5>
+						</div>
+						<div class="collapsible-body">
+							<p>{{ trans('home.frequent_questions.10.answer01')}}</p>
+						</div>
+					</li>
+					<li>
+						<div class="collapsible-header">
+							<span class="icon-gTalents_point"></span>
+							<h5>10. {{ trans('home.frequent_questions.11.title')}}</h5>
+						</div>
+						<div class="collapsible-body">
+							<p>{{ trans('home.frequent_questions.11.answer01')}}</p>
+						</div>
+					</li>
+					<li>
+						<div class="collapsible-header">
+							<span class="icon-gTalents_point"></span>
+							<h5>11. {{ trans('home.frequent_questions.12.title')}}</h5>
+						</div>
+						<div class="collapsible-body">
+							<p>{{ trans('home.frequent_questions.12.answer01')}}</p>
+							<p>{{ trans('home.frequent_questions.12.answer02')}}</p>
+						</div>
+					</li>
+					<li>
+						<div class="collapsible-header">
+							<span class="icon-gTalents_point"></span>
+							<h5>12. {{ trans('home.frequent_questions.13.title')}}</h5>
+						</div>
+						<div class="collapsible-body">
+							<p>{{ trans('home.frequent_questions.13.answer01')}}</p>
+						</div>
+					</li>
+				<!--<li>
+						<div class="collapsible-header">
+							<span class="icon-gTalents_point"></span>
 							<h5>{{ trans('home.How can I access my account') }} gTalents?</h5>
 						</div>
 						<div class="collapsible-body">
@@ -802,7 +931,7 @@
 						<div class="collapsible-body">
 							<p>Lorem ipsum dolor sit amet.</p>
 						</div>
-					</li>
+					</li>-->
 				</ul>
 			
 			</article>

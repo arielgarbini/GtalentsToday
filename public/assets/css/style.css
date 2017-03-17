@@ -1100,7 +1100,7 @@ textarea:focus {
   font-family: 'OpenSans-Semibold';
   text-shadow: 1px 1px 3px rgba(0,0,0,0.19);
   width: 22em;
-  margin: -1.2em auto 0.5em auto;
+/*  margin: -1.2em auto 0.5em auto;*/
   z-index: 5;
   position: relative;
 }
@@ -1761,7 +1761,7 @@ textarea:focus {
   -webkit-background-size: cover;
   -moz-background-size: cover;
   background-size: cover;
-  height: 138%;
+  height: 148%;
   width: 121%;
   position: absolute;
   z-index: 4;

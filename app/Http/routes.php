@@ -629,7 +629,7 @@ Route::post('vacancies/store', [
     'uses' => 'VacancyController@view',
     'middleware' => 'permission:vacancies.view'
 ]);
-*/
+
 Route::get('vacancies/{vacancy}/edit', [
     'as' => 'vacancies.edit',
     'uses' => 'VacancyController@edit',
@@ -751,8 +751,9 @@ Route::get('/', function()
 {
     if (Auth::check()){
         return redirect()->route('dashboard');
-    } 
- return View::make('frontend.homepage');
+    }
+    $countries = \Vanguard\Country::orderBy('full_name','asc')->get();
+ return View::make('frontend.homepage', ['countries' => $countries]);
 });
 
 Route::get('about', function()
