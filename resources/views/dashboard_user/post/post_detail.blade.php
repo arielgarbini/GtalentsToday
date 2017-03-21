@@ -198,7 +198,7 @@
                 <div class="item-circle">
                     <figure>
                         <h4>9</h4>
-                        <span>no leidos</span>
+                        <span>@lang('app.not_read')</span>
                     </figure>
                 </div>
 
@@ -227,7 +227,7 @@
             <!--INVITAR SUPPLIER EXTERNO-->
             <div class="btn-section">
                 <a href="#modalInvitar" class="btn-main modal-trigger waves-effect waves-light">
-                    Invitar Supplier externo a la Plataforma
+                    @lang('app.invite_external_supplier_to_platform')
                 </a>
             </div>
 
@@ -241,7 +241,7 @@
                         <a href="#myCandidates">@lang('app.candidates')</a>
                     </li>
                     <li class="tab">
-                        <a href="#noLeidos">No leidos</a>
+                        <a href="#noLeidos">@lang('app.not_read')</a>
                     </li>
                 </ul>
 
@@ -295,8 +295,8 @@
 
                                     <!-- Dropdown Structure -->
                                     <ul id='option-team01' class='dropdown-content'>
-                                        <li><a href="#modalCalificar" class="modal-trigger waves-effect waves-light">Calificar</a></li>
-                                        <li><a href="#">Descartar</a></li>
+                                        <li><a href="#modalCalificar" class="modal-trigger waves-effect waves-light">@lang('app.qualify')</a></li>
+                                        <li><a href="#">@lang('app.discard')</a></li>
                                     </ul>
                                 </div>
                             </section>
@@ -327,8 +327,8 @@
 
                                     <!-- Dropdown Structure -->
                                     <ul id='option-team02' class='dropdown-content'>
-                                        <li><a href="#modalCalificar" class="modal-trigger waves-effect waves-light">Calificar</a></li>
-                                        <li><a href="#">Descartar</a></li>
+                                        <li><a href="#modalCalificar" class="modal-trigger waves-effect waves-light">@lang('app.qualify')</a></li>
+                                        <li><a href="#">@lang('app.discard')</a></li>
                                     </ul>
                                 </div>
                             </section>
@@ -359,8 +359,8 @@
 
                                     <!-- Dropdown Structure -->
                                     <ul id='option-team03' class='dropdown-content'>
-                                        <li><a href="#modalCalificar" class="modal-trigger waves-effect waves-light">Calificar</a></li>
-                                        <li><a href="#">Descartar</a></li>
+                                        <li><a href="#modalCalificar" class="modal-trigger waves-effect waves-light">@lang('app.qualify')</a></li>
+                                        <li><a href="#">@lang('app.discard')</a></li>
                                     </ul>
                                 </div>
                             </section>
@@ -391,8 +391,8 @@
 
                                     <!-- Dropdown Structure -->
                                     <ul id='option-team04' class='dropdown-content'>
-                                        <li><a href="#modalCalificar" class="modal-trigger waves-effect waves-light">Calificar</a></li>
-                                        <li><a href="#">Descartar</a></li>
+                                        <li><a href="#modalCalificar" class="modal-trigger waves-effect waves-light">@lang('app.qualify')</a></li>
+                                        <li><a href="#">@lang('app.discard')</a></li>
                                     </ul>
                                 </div>
                             </section>
@@ -977,43 +977,43 @@
                 </a>
             </div>
 
-            <h4>Invitar Supplier Externo</h4>
+            <h4>@lang('app.invite_external_supplier')</h4>
         </div>
 
         <div class="modal-content">
             <form action="" class="formLogin">
                 <!--NOMBRE-->
                 <div class="itemForm">
-                    <label>Nombre</label>
-                    <input type="text" placeholder="Nombre">
-                    <span>Nombre inválido</span>
+                    <label>@lang('app.name')</label>
+                    <input type="text" placeholder="{{trans('app.name')}}">
+                    <span>@lang('app.invalid_name')</span>
                 </div>
 
                 <!--CORREO ELECTRONICO-->
                 <div class="itemForm">
-                    <label>Correo Electrónico</label>
-                    <input type="email" placeholder="Correo Electrónico">
-                    <span>Correo electrónico inválido</span>
+                    <label>{{trans('app.email')}}</label>
+                    <input type="email" placeholder="{{trans('app.email')}}">
+                    <span>@lang('app.invalid_email')</span>
                 </div>
 
                 <!--MENSJE-->
                 <div class="itemForm icon-help">
-                    <label>Mensaje</label>
-                    <textarea name="" id="" cols="30" rows="10" placeholder="Escribe tu mensaje de recomendación"></textarea>
+                    <label>@lang('app.message')</label>
+                    <textarea name="" id="" cols="30" rows="10" placeholder="{{trans('app.message_invited')}}"></textarea>
                 </div>
 
                 <section class="buttonsMain">
                     <!--REGRESAR-->
                     <div class="item">
                         <a href="#!" class="modal-action modal-close waves-effect waves-green btn-return">
-                            Regresar
+                            @lang('app.back')
                         </a>
                     </div>
 
                     <!--INVITAR-->
                     <div class="item">
                         <a href="#" class="btn-main" type="submit" id="btn-modalMain">
-                            Invitar
+                            @lang('app.invited')
                         </a>
                     </div>
                 </section>
@@ -1024,11 +1024,11 @@
                 <figure>
                     <span class="icon-gTalents_win-53"></span>
                 </figure>
-                <p>Mensaje enviado exitosamente</p>
+                <p>@lang('app.message_created')</p>
                 <!--BTN-MAIN-->
                 <div class="item">
                     <a href="#!" class="btn-main">
-                        Continuar
+                        @lang('app.continue')
                     </a>
                 </div>
             </div>
@@ -1046,7 +1046,7 @@
                 </a>
             </div>
 
-            <h4>Calificar Supplier</h4>
+            <h4>@lang('app.rate_supplier')</h4>
         </div>
 
         <div class="modal-content">
@@ -1067,7 +1067,7 @@
                     </section>
                     
                     <p class="note">
-                        Te ofreció 15 candidatos
+                        @lang('app.he_offer') 15 @lang('app.candidates')
                     </p>
                 </section>
 
@@ -1087,7 +1087,7 @@
             <form action="" class="formLogin">
                 <!--MENSJE-->
                 <div class="itemForm icon-help">
-                    <label>¿Cuál es tu opinión?</label>
+                    <label>@lang('app.what_is_your_opinion?')</label>
                     <textarea name="" id="" cols="30" rows="10" placeholder="¿Cuál es tu opinión?"></textarea>
                 </div>
 
@@ -1095,14 +1095,14 @@
                     <!--REGRESAR-->
                     <div class="item">
                         <a href="#!" class="modal-action modal-close waves-effect waves-green btn-return">
-                            Regresar
+                            @lang('app.back')
                         </a>
                     </div>
 
                     <!--INVITAR-->
                     <div class="item">
                         <a href="#" class="btn-main" type="submit" id="btn-modalMain">
-                            Invitar
+                            @lang('app.qualify')
                         </a>
                     </div>
                 </section>
@@ -1113,11 +1113,11 @@
                 <figure>
                     <span class="icon-gTalents_win-53"></span>
                 </figure>
-                <p>Mensaje enviado exitosamente</p>
+                <p>@lang('app.message_created')</p>
                 <!--BTN-MAIN-->
                 <div class="item">
                     <a href="#!" class="btn-main">
-                        Continuar
+                        @lang('app.continue')
                     </a>
                 </div>
             </div>

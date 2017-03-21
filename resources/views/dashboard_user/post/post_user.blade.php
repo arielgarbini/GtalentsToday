@@ -11,7 +11,7 @@
             <!--TITULO-->
             <div class="jobs-detail-title">
                 <h3>{{$vacancy->name}}</h3>
-                <p>{{$vacancy->location}} | {{$vacancy->contract_type->name}}</p>
+                <p>{{$vacancy->location}} | {{$experiencie['name']}}</p>
             </div>
 
             <!--CUERPO DE LA DESCRIPCION-->
@@ -50,31 +50,37 @@
                 </ul>
                 <!--INFORMACION ADICIONAL-->
                 <h4>{{trans('app.additional_information')}}</h4>
-                <p><span style="color:red">Este campo no esta reflejado al crear Nuevo Post</span></p>
+                <p>{{$vacancy->responsabilities}}</p>
 
                 <!--HORARIO DE TRABAJO-->
-                <h4>{{trans('app.working_hours')}}</h4>
+                <!--<h4>{{trans('app.working_hours')}}</h4>
                 <p><span style="color:red">Este campo no esta reflejado al crear Nuevo Post</span></p>
-
+                -->
                 <!--UBICACION-->
                 <h4>{{trans('app.location')}}</h4>
                 <p>{{$vacancy->location}}</p>
 
                 <!--TIPO DE CONTRATACION-->
                 <h4>{{trans('app.contract_type')}}</h4>
-                <p>{{$vacancy->contract_type->name}}</p>
+                <p>{{$contract['name']}}</p>
 
                 <!--ESPECIALIZACION-->
                 <h4>{{trans('app.especialization')}}</h4>
-                <p>Diseño, Programación Frontend.</p>
+                <p>{{$functionalArea['name']}}</p>
 
                 <!--AÑOS DE EXPERIENCIA-->
                 <h4>{{trans('app.experience_years')}}</h4>
-                <p>{{$vacancy->years_experience}}</p>
+                <p>{{$experiencie['name']}}</p>
 
                 <!--IDIOMAS-->
                 <h4>{{trans('app.languages')}}</h4>
-                <p>Español.</p>
+                <p>
+                    @if($vacancy->language_id == 1)
+                        {{trans('app.spanish')}}
+                    @else
+                        {{trans('app.english')}}
+                    @endif
+                </p>
 
                 <!--RANGO SALARIAL-->
                 <h4>{{trans('app.range_salary')}}</h4>
@@ -82,11 +88,17 @@
 
                 <!--HONORARIO COBRADO AL EMPLEADOR-->
                 <h4>{{trans('app.employer_fee')}}</h4>
-                <p>23% - Fijo.</p>
+                <p>
+                    @if($vacancy->group1)
+                        % {{$vacancy->fee}}
+                    @else
+                        $ {{$vacancy->fee}} {{trans('app.fixed')}})
+                    @endif
+                </p>
 
                 <!--PERIODO DE REEMPLAZO-->
                 <h4>{{trans('app.replacement_period')}}</h4>
-                <p>{{$vacancy->replacement_period}}</p>
+                <p>{{$replacementPeriod['name']}}</p>
 
                 <!--LINK DESCARGA-->
                 <div class="link">
@@ -94,7 +106,7 @@
                         <figure>
                             <span class="icon-gTalents_pdf"></span>
                         </figure>
-                        <p>Descripción del puesto</p>
+                        <p>@lang('app.job_Description')</p>
                     </a>
                 </div>
 
@@ -106,8 +118,8 @@
                             <span class="icon-gTalents_billetes"></span>
                         </figure>
                         <div class="datos">
-                            <h4>$350</h4>
-                            <p>Facturación total aproximada</p>
+                            <h4>${{$factura}}</h4>
+                            <p>@lang('app.approximate_total_billing')</p>
                         </div>
                     </li>
 
@@ -117,8 +129,8 @@
                             <span class="icon-gTalents_coins"></span>
                         </figure>
                         <div class="datos">
-                            <h4>20% de Comisión</h4>
-                            <p>Comisión del Supplier</p>
+                            <h4>20% @lang('app.of_commission')</h4>
+                            <p>@lang('app.supplier_commission')</p>
                         </div>
                     </li>
 
@@ -128,8 +140,8 @@
                             <span class="icon-gTalents_coins"></span>
                         </figure>
                         <div class="datos">
-                            <h4>5% de Comisión</h4>
-                            <p>Comisión del Poster</p>
+                            <h4>5% @lang('app.of_commission')</h4>
+                            <p>@lang('app.poster_commission')</p>
                         </div>
                     </li>
 
@@ -139,8 +151,8 @@
                             <span class="icon-gTalents_stars"></span>
                         </figure>
                         <div class="datos">
-                            <h4>1.500 puntos</h4>
-                            <p>Compensación de la posición</p>
+                            <h4>1.500 @lang('app.points')</h4>
+                            <p>@lang('app.position_compensation')</p>
                         </div>
                     </li>
 
@@ -150,8 +162,8 @@
                             <span class="icon-gTalents_help"></span>
                         </figure>
                         <div class="datos">
-                            <h4>Tus Garantias</h4>
-                            <p>Velamos por ti</p>
+                            <h4>@lang('app.your_garanties')</h4>
+                            <p>@lang('app.we_watch_over_you')</p>
                         </div>
                     </li>
 
@@ -161,8 +173,8 @@
                             <span class="icon-gTalents_isotipo"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span><span class="path5"></span></span>
                         </figure>
                         <div class="datos">
-                            <h4>30% de Comisión</h4>
-                            <p>Comisión de gTalents</p>
+                            <h4>30% @lang('app.of_commission')</h4>
+                            <p>@lang('app.gTalents_commission')</p>
                         </div>
                     </li>
                 </ul>
@@ -173,11 +185,13 @@
         <section class="user-main-contain">
 
             <!--BTN NUEVO COLABORADOR-->
-            <div class="btn-section">
-                <a href="#modalParticipar" class="btn-main modal-trigger waves-effect waves-light">
-                    Estoy Interesado
-                </a>
-            </div>
+            @if(!in_array($vacancy->id,$userVacancy))
+                <div class="btn-section">
+                    <a href="#modalParticipar" class="btn-main modal-trigger waves-effect waves-light">
+                        @lang('app.interested')
+                    </a>
+                </div>
+            @endif
 
             <!-- RESUMEN -->
             <div class="bills">
@@ -188,8 +202,8 @@
                             <span class="icon-gTalents_billetes"></span>
                         </figure>
                         <div class="datos">
-                            <h4>30% de Comisión</h4>
-                            <p>Si cierras la posición</p>
+                            <h4>30% @lang('app.of_commission')</h4>
+                            <p>@lang('app.if_you_close_the_position')</p>
                         </div>
                     </div>
 
@@ -199,8 +213,8 @@
                             <span class="icon-gTalents_help"></span>
                         </figure>
                         <div class="datos">
-                            <h4>Tus Garantias</h4>
-                            <p>Velamos por ti</p>
+                            <h4>@lang('app.your_garanties')</h4>
+                            <p>@lang('app.we_watch_over_you')</p>
                         </div>
                     </div>
                 </div>
@@ -210,7 +224,7 @@
             <div class="bills">
                 <!--TITULO DE LA SECCION-->
                 <section class="bills-title">
-                    <h3>Ofertas Similares</h3>
+                    <h3>@lang('app.similar_offers')</h3>
                 </section>
 
                 <!--RANGO-->
@@ -344,8 +358,7 @@
                     <span class="icon-gTalents_close-2"></span>
                 </a>
             </div>
-
-            <h4>¿Deseas Participar?</h4>
+            <h4>@lang('app.so_you_want_to_participate?')</h4>
         </div>
 
         <div class="modal-content">
@@ -354,7 +367,7 @@
                 <div class="profile-colab profile-supplier">
                     <!--RESUMEN 1-->
                     <div class="profile-colab-message">
-                        <p>Al participar en esta oportunidad podrás conversar con el Poster de forma directa, oferle los candidatos necesarios y aumentar tu reputación y beneficios.</p>
+                        <p>@lang('app.participate_message')</p>
                     </div>
                 </div>
 
@@ -362,14 +375,14 @@
                     <!--REGRESAR-->
                     <div class="item">
                         <a href="#!" class="modal-action modal-close waves-effect waves-green btn-return">
-                            Regresar
+                            @lang('app.back')
                         </a>
                     </div>
 
                     <!--INVITAR-->
                     <div class="item">
                         <a href="{{route('vacancies.post_supplier',$vacancy->id)}}" class="btn-main" type="submit" id="btn-modalMain">
-                            Participar
+                            @lang('app.participate')
                         </a>
                     </div>
                 </section>              
@@ -380,11 +393,11 @@
                 <figure>
                     <span class="icon-gTalents_win-53"></span>
                 </figure>
-                <p>Solicitud enviada, pronto te notificaremos tu aceptación por parte del Poster</p>
+                <p>@lang('app.participate_message_success')</p>
                 <!--BTN-MAIN-->
                 <div class="item">
                     <a href="#!" class="btn-main">
-                        Continuar
+                        @lang('app.continue')
                     </a>
                 </div>
             </div>

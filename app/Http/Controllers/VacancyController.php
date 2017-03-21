@@ -342,7 +342,7 @@ class VacancyController extends Controller
         $contract = ContractType::where('value_id', $vacancy->contract_type_id)->where('language_id', $language)->get()->first();
         $experiencie = ExperienceYear::where('value_id', $vacancy->contract_type_id)->where('language_id', $language)->get()->first();
         $replacementPeriod = ReplacementPeriod::where('value_id', $vacancy->contract_type_id)->where('language_id', $language)->get()->first();
-        //return $language;
+        $replacementPeriod = ReplacementPeriod::where('value_id', $vacancy->contract_type_id)->where('language_id', $language)->get()->first();
         $functionalArea = FunctionalArea::where('value_id', $vacancy->contract_type_id)->where('language_id', $language)->get()->first();
         preg_match_all('/\d{1,2}/' ,$vacancy->range_salary, $matches);
         $factura = (intval($matches[0][0].'000')+intval($matches[0][1].'000'))/2;
@@ -691,12 +691,28 @@ class VacancyController extends Controller
     //** Detail Opportunity Available
     public function show_post_user($id, User $users){
         $vacancy = $this->vacancies->find($id);
+        if (session('lang') =='en'){
+            $language = 2;
+        }else{
+            $language = 1;
+        }
+        $contract = ContractType::where('value_id', $vacancy->contract_type_id)->where('language_id', $language)->get()->first();
+        $experiencie = ExperienceYear::where('value_id', $vacancy->contract_type_id)->where('language_id', $language)->get()->first();
+        $replacementPeriod = ReplacementPeriod::where('value_id', $vacancy->contract_type_id)->where('language_id', $language)->get()->first();
+        $functionalArea = FunctionalArea::where('value_id', $vacancy->contract_type_id)->where('language_id', $language)->get()->first();
+        preg_match_all('/\d{1,2}/' ,$vacancy->range_salary, $matches);
+        $factura = (intval($matches[0][0].'000')+intval($matches[0][1].'000'))/2;
+        $factura = number_format($factura, 2, '.', ',');
+        $userVacancy = [];
+        foreach(Auth::user()->vacancy as $vacancy){
+            $userVacancy[] = $vacancy['id'];
+        }
         if (isset($vacancy)) {
             $companies_users       = $this->companies_users->where('user_id',$this->theUser->id);
             if ($companies_users){
               $companies  = $this->companies->find($companies_users->company_id);                
             }
-            return view('dashboard_user.post.post_user',compact('vacancy','companies')) ;              
+            return view('dashboard_user.post.post_user',compact('userVacancy', 'vacancy','companies', 'factura', 'contract', 'experiencie', 'replacementPeriod', 'functionalArea')) ;
         }           
        
        return redirect()->action('VacancyController@list')
