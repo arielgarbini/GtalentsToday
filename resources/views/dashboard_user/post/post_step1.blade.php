@@ -3,9 +3,6 @@
 @section('page-title', trans('app.post'))
 
 @section('content')
-@foreach ($errors->all() as $error)
-      {{ $error }}
- @endforeach
 
  <!--DETALLES - CONTAINER-->
         <!--CREAR NUEVO POST-->
@@ -17,7 +14,7 @@
                 <figure>
                     <span class="icon-gTalents_crear" ><span class="path1"></span><span class="path2"></span><span class="path3"></span></span>
                 </figure>
-                <p>Crear</p>
+                <p>@lang('app.create')</p>
             </div>
 
             <!--DETALLES-->
@@ -25,7 +22,7 @@
                 <figure>
                     <span class="icon-gTalents_detalles "><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span><span class="path5"></span><span class="path6"></span><span class="path7"></span></span>
                 </figure>
-                <p>Detalles</p>
+                <p>@lang('app.details')</p>
             </div>
 
             <!--EMPEZAR-->
@@ -33,7 +30,7 @@
                 <figure>
                     <span class="icon-gTalents_empezar"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span><span class="path5"></span><span class="path6"></span></span>
                 </figure>
-                <p>Empezar</p>
+                <p>@lang('app.start')</p>
             </div>
         </section>
   
@@ -45,13 +42,19 @@
                     <!--INDUSTRIA-->
                     <div class="itemForm">
                         <label for="industry">@lang('app.industry')</label>
-                        {!!  Form::select('industry',array( '1' => '1', '2' => '2', '3' => '3'), null, ['id' => 'industry', 'class' => 'browser-default'] )!!}
+                        {!!  Form::select('industry',$industries, null, ['id' => 'industry', 'class' => 'browser-default'] )!!}
+                        @if($errors->has('industry'))
+                            <p class="text-darger" style="color:red;"> {{ $errors->first('industry') }}</p>
+                        @endif
                     </div>
 
                     <!--TIPO DE BUSQUEDA-->
                     <div class="itemForm">
                         <label for="search_type">@lang('app.search_type')</label>
-                        {!!  Form::select('search_type',array('1' => 'Contingency', '2' => 'Retained'), null, ['id' => 'search_type', 'class' => 'browser-default'] )!!}
+                        {!!  Form::select('search_type',$searchType, null, ['id' => 'search_type', 'class' => 'browser-default'] )!!}
+                        @if($errors->has('search_type'))
+                            <p class="text-darger" style="color:red;"> {{ $errors->first('search_type') }}</p>
+                        @endif
                     </div>
                 </div>
 
@@ -60,12 +63,18 @@
                     <div class="itemForm">
                         <label for="contract_type_id">@lang('app.contract_type')</label>
                         {!!  Form::select('contract_type_id', $contractTypes , null, ['id' => 'contract_type', 'class' => 'browser-default'] )!!}
-                      </div>
+                        @if($errors->has('contract_type_id'))
+                            <p class="text-darger" style="color:red;"> {{ $errors->first('contract_type_id') }}</p>
+                        @endif
+                    </div>
 
                     <!--AÑOS DE EXPERIENCIA-->
                     <div class="itemForm">
                         <label for="years_of_experience">@lang('app.years_of_experience')</label>
-                        {!!  Form::select('years_experience',array('3-5 años' => '3-5 años', '6-10 años' => '6-10 años', '10-15 años' => '10-15 años'),null, ['id' => 'years_experience' , 'class' => 'browser-default'] )!!}
+                        {!!  Form::select('years_experience',$experience,null, ['id' => 'years_experience' , 'class' => 'browser-default'] )!!}
+                        @if($errors->has('years_experience'))
+                            <p class="text-darger" style="color:red;"> {{ $errors->first('years_experience') }}</p>
+                        @endif
                     </div>
                 </div>
 
@@ -73,13 +82,16 @@
                     <!--ESPECIALIZACION-->
                     <div class="itemForm">
                         <label for="especialization">@lang('app.especialization')</label>
-                         {!!  Form::select('especialization_id',array('1' => 'Diseño', '2' => 'Ingeniería'),null, ['id' => 'especialization_id' , 'class' => 'browser-default'] )!!}
+                        {!!  Form::select('especialization_id',$functionalArea,null, ['id' => 'especialization_id' , 'class' => 'browser-default'] )!!}
+                        @if($errors->has('especialization_id'))
+                            <p class="text-darger" style="color:red;"> {{ $errors->first('especialization_id') }}</p>
+                        @endif
                     </div>
 
                     <!--IDIOMAS-->
                     <div class="itemForm">
                         <label for="languages">@lang('app.languages')</label>
-                        {!! Form::select('list_languages[]', $languages, null, ['class' => 'browser-default', 'id' => 'list_languages']) !!}
+                        {!! Form::select('list_languages[]', array('1'=>trans('app.spanish'), '2'=> trans('app.english')), null, ['class' => 'browser-default', 'id' => 'list_languages']) !!}
                     </div>
                 </div>
 
@@ -88,6 +100,9 @@
                     <div class="itemForm">
                         <label for="range_salary">@lang('app.range_salary')</label>
                         {!!  Form::select('range_salary',array('USD 5k - 10k' => 'USD 5k - 10k', 'USD 5k - 15k' => 'USD 5k - 15k', 'USD 25k - 35k' => 'USD 25k - 35k'), null, ['id' => 'range_salary' , 'class' => 'browser-default'] )!!}
+                        @if($errors->has('range_salary'))
+                            <p class="text-darger" style="color:red;"> {{ $errors->first('range_salary') }}</p>
+                        @endif
                     </div>
 
                     <!--HONORARIO COBRADO AL EMPLEADOR-->
@@ -105,18 +120,15 @@
                             <!-- $ Fijo -->
                             <p>
                                 <!--<input name="group1" type="radio" id="test2" />-->
-                                {!!  Form::radio('group2','$Fijo',null, ['id' => 'test2'])!!}
-                                <label for="test2">$ Fijo</label>
+                                {!!  Form::radio('group1','$',null, ['id' => 'test2'])!!}
+                                <label for="test2">$ @lang('app.fixed')</label>
                                
                             </p>                            
                         </div>
-                    {!! Form::text('fee', null,['id' => 'fee', 'class' => 'form-control','placeholder' => '22']) !!}              
+                    {!! Form::text('fee', null,['id' => 'fee', 'class' => 'form-control','placeholder' => '22', 'maxlength' => 5]) !!}
                    @if($errors->has('group1'))
                           <p class="text-darger" style="color:red;"> {{ $errors->first('group1') }}</p>
-                    @endif 
-                   @if($errors->has('group2'))
-                          <p class="text-darger" style="color:red;"> {{ $errors->first('group2') }}</p>
-                    @endif 
+                    @endif
                     @if($errors->has('fee'))
                           <p class="text-darger" style="color:red;"> {{ $errors->first('fee') }}</p>
                     @endif 
@@ -127,9 +139,9 @@
                     <!--PERIODO DE REEMPLAZO-->
                     <div class="itemForm">
                         <label for="replacement_period">@lang('app.replacement_period')</label>
-                    {!!  Form::select('replacement_period', array('1 mes' => '1 mes', '2 mes' => '2 mes'), null, ['id' => 'replacement_period' , 'class' => 'browser-default'] )!!}
-                    @if($errors->has('replacement_period'))
-                          <p class="text-darger" style="color:red;"> {{ $errors->first('replacement_period') }}</p>
+                    {!!  Form::select('replacement_period_id', $replacement_period, null, ['id' => 'replacement_period' , 'class' => 'browser-default'] )!!}
+                    @if($errors->has('replacement_period_id'))
+                          <p class="text-darger" style="color:red;"> {{ $errors->first('replacement_period_id') }}</p>
                     @endif 
                     </div>
 
@@ -185,11 +197,17 @@
 
 @section('scripts')
    <script type="text/javascript">
-$(document).ready(function() {
-      
-                    $("#crear-container").hide();
-                
-      
+        $(document).ready(function() {
+            $("#crear-container").hide();
+            $('#test1').click(function(){
+                $('#fee').val('');
+                $('#fee').attr('maxlength',2);
+            });
+
+            $('#test2').click(function(){
+                $('#fee').val('');
+                $('#fee').attr('maxlength',5);
+            });
        });
 </script>
 

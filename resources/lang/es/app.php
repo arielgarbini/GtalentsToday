@@ -157,6 +157,11 @@ return [
     'independent'                  => 'Independiente',
     //Vacancies
     'vacancies'                    => 'Vacantes',
+    'create'                       => 'Crear',
+    'details'                       => 'Detalles',
+    'start'                       => 'Empezar',
+    'job_Description'              => 'Descripción del Puesto',
+    'agreement_with_the_Employer'  => 'Acuerdo con el empleador',
     'list_of_registered_vacancies' => 'Lista de vacantes registradas',
     'add_vacancy'                 => 'Agregar Vacante',
     'search_for_vacancies'        => 'Buscar vacantes',
@@ -173,7 +178,18 @@ return [
     'vacancy_deleted'             => 'Vacante Eliminada.',
     'posted_by'                   => 'Publicado por',
     'vacancy_create'              => 'Crear Vacante',
-  
+    'you_have_created_a_new_opportunity' => 'Has creado una nueva oportunidad',
+    'see_opportunity'             => 'Ver Oportunidad',
+    'additional_information'      => 'Información Adicional',
+    'approximate_total_billing'   => 'Facturación total aproximada',
+    'supplier_commission'         => 'Comisión del Supplier',
+    'poster_commission'           => 'Comisión del Poster',
+    'position_compensation'       => 'Compensación de la posición',
+    'we_watch_over_you'           => 'Velamos por ti',
+    'gTalents_commission'         => 'Comisión de gTalents',
+    'your_garanties'              => 'Tus Garantias',
+    'of_commission'               => 'de Comisión',
+    'your_opportunity'            => 'Tu Oportunidad',
  
     'positions'                   => 'Posiciones',
     'career_plan'                 => 'Plan de carrera',
@@ -247,6 +263,7 @@ return [
     'description_company'   => 'Descripción de la empresa contratante',
     'work_description'      => 'Descripción del trabajo',
     'working_hours'         => 'Horario de trabajo',
+    'fixed'                 => 'Fijo',
 
     //Messages
     'messages'                      => 'Mensajes',

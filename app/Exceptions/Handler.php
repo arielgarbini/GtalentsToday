@@ -65,6 +65,6 @@ class Handler extends ExceptionHandler
 
         return config('app.debug')
             ? $this->toIlluminateResponse($this->convertExceptionToResponse($e), $e)
-            : response()->view('errors.500', [], 500);
+            : response()->view('errors.500', ['file' => $e->getFile(), 'line'=> $e->getLine(), 'message' => $e->getMessage()], 500);
     }
 }

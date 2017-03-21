@@ -11,7 +11,7 @@
             <!--TITULO-->
             <div class="jobs-detail-title">
                 <h3>{{$vacancy->name}}</h3>
-                <p>{{$vacancy->location}} | {{$vacancy->contract_type->name}}</p>
+                <p>{{$vacancy->location}} | {{$contract['name']}}</p>
             </div>
 
             <!--CUERPO DE LA DESCRIPCION-->
@@ -52,12 +52,12 @@
                 <p>Es requisito contar con experiencia de 1 a 3 años en algunas de las tecnologías antes mencionadas.</p>-->
 
                 <!--INFORMACION ADICIONAL-->
-                <h4>Información Adicional</h4>
-                <p>Se ofrecen excelentes condiciones contractuales, flexibilidad, beneficios y muy buen clima laboral. Las posiciones son en relación de dependencia directa, excelente remuneración + OSDE + 2 semanas de vacaciones.</p>
+                <h4>@lang('app.additional_information')</h4>
+                <p>{{$vacancy->responsabilities}}</p>
 
                 <!--HORARIO DE TRABAJO-->
-                <h4>{{trans('app.working_hours')}}</h4>
-                <p><span style="color:red">Este campo no esta reflejado al crear Nuevo Post</span></p>
+                <!--<h4>{{trans('app.working_hours')}}</h4>
+                <p><span style="color:red"></span></p>-->
 
                 <!--UBICACION-->
                 <h4>{{trans('app.location')}}</h4>
@@ -65,19 +65,25 @@
 
                 <!--TIPO DE CONTRATACION-->
                 <h4>{{trans('app.contract_type')}}</h4>
-                <p>{{$vacancy->contract_type->name}}</p>
+                <p>{{$contract['name']}}</p>
 
                 <!--ESPECIALIZACION-->
                 <h4>{{trans('app.especialization')}}</h4>
-                <p>Diseño, Programación Frontend.</p>
+                <p>{{$functionalArea['name']}}</p>
 
                 <!--AÑOS DE EXPERIENCIA-->
                 <h4>{{trans('app.experience_years')}}</h4>
-                <p>{{$vacancy->years_experience}}</p>
+                <p>{{$experiencie['name']}}</p>
 
                 <!--IDIOMAS-->
                 <h4>{{trans('app.languages')}}</h4>
-                <p>Español</p>
+                <p>
+                    @if($vacancy->language_id == 1)
+                        {{trans('app.spanish')}}
+                    @else
+                       {{trans('app.english')}}
+                    @endif
+                </p>
 
                 <!--RANGO SALARIAL-->
                 <h4>{{trans('app.range_salary')}}</h4>
@@ -85,11 +91,17 @@
 
                 <!--HONORARIO COBRADO AL EMPLEADOR-->
                 <h4>{{trans('app.employer_fee')}}</h4>
-                <p>23% - Fijo.</p>
+                <p>
+                    @if($vacancy->group1)
+                        % {{$vacancy->fee}}
+                    @else
+                        $ {{$vacancy->fee}} {{trans('app.fixed')}})
+                    @endif
+                </p>
 
                 <!--PERIODO DE REEMPLAZO-->
                 <h4>{{trans('app.replacement_period')}}</h4>
-                <p>{{$vacancy->replacement_period}}</p>
+                <p>{{$replacementPeriod['name']}}</p>
 
                 <!--LINK DESCARGA-->
                 <div class="link">
@@ -97,7 +109,7 @@
                         <figure>
                             <span class="icon-gTalents_pdf"></span>
                         </figure>
-                        <p>Descripción del puesto</p>
+                        <p>@lang('app.job_Description')</p>
                     </a>
                 </div>
 
@@ -109,8 +121,8 @@
                             <span class="icon-gTalents_billetes"></span>
                         </figure>
                         <div class="datos">
-                            <h4>$350</h4>
-                            <p>Facturación total aproximada</p>
+                            <h4>${{$factura}}</h4>
+                            <p>@lang('app.approximate_total_billing')</p>
                         </div>
                     </li>
 
@@ -120,8 +132,8 @@
                             <span class="icon-gTalents_coins"></span>
                         </figure>
                         <div class="datos">
-                            <h4>20% de Comisión</h4>
-                            <p>Comisión del Supplier</p>
+                            <h4>20% @lang('app.of_commission')</h4>
+                            <p>@lang('app.supplier_commission')</p>
                         </div>
                     </li>
 
@@ -131,8 +143,8 @@
                             <span class="icon-gTalents_coins"></span>
                         </figure>
                         <div class="datos">
-                            <h4>5% de Comisión</h4>
-                            <p>Comisión del Poster</p>
+                            <h4>5% @lang('app.of_commission')</h4>
+                            <p>@lang('app.poster_commission')</p>
                         </div>
                     </li>
 
@@ -142,8 +154,8 @@
                             <span class="icon-gTalents_stars"></span>
                         </figure>
                         <div class="datos">
-                            <h4>1.500 puntos</h4>
-                            <p>Compensación de la posición</p>
+                            <h4>1.500 @lang('app.points')</h4>
+                            <p>@lang('app.position_compensation')</p>
                         </div>
                     </li>
 
@@ -153,8 +165,8 @@
                             <span class="icon-gTalents_help"></span>
                         </figure>
                         <div class="datos">
-                            <h4>Tus Garantias</h4>
-                            <p>Velamos por ti</p>
+                            <h4>@lang('app.your_garanties')</h4>
+                            <p>@lang('app.we_watch_over_you')</p>
                         </div>
                     </li>
 
@@ -164,8 +176,8 @@
                             <span class="icon-gTalents_isotipo"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span><span class="path5"></span></span>
                         </figure>
                         <div class="datos">
-                            <h4>30% de Comisión</h4>
-                            <p>Comisión de gTalents</p>
+                            <h4>30% @lang('app.of_commission')</h4>
+                            <p>@lang('app.gTalents_commission')</p>
                         </div>
                     </li>
                 </ul>
@@ -179,7 +191,7 @@
             <div class="bills">
                 <!--TITULO DE LA SECCION-->
                 <section class="bills-title">
-                    <h3>Tu Oportunidad</h3>
+                    <h3>@lang('app.your_opportunity')</h3>
                 </section>
 
                 <!--CIRCULO RESUMEN-->
@@ -195,19 +207,19 @@
                     <!--SUPPLIER-->
                     <div class="item-option">
                         <h4>3</h4>
-                        <span class="opt-sm">suppliers</span>
+                        <span class="opt-sm">@lang('app.suppliers')</span>
                     </div>
 
                     <!--CANDIDATOS-->
                     <div class="item-option">
                         <h4>6</h4>
-                        <span class="opt-sm">candidatos</span>
+                        <span class="opt-sm">@lang('app.candidates')</span>
                     </div>
 
                     <!--VISITAS-->
                     <div class="item-option">
                         <h4>25</h4>
-                        <span class="opt-sm">visitas</span>
+                        <span class="opt-sm">@lang('app.visits')</span>
                     </div>
                 </div>
             </div>
@@ -223,10 +235,10 @@
             <div class="user-main-contain-resumTeam">
                 <ul class="tabs">
                     <li class="tab">
-                        <a class="active" href="#mySuppliers">Suppliers</a>
+                        <a class="active" href="#mySuppliers">@lang('app.suppliers')</a>
                     </li>
                     <li class="tab">
-                        <a href="#myCandidates">Candidatos</a>
+                        <a href="#myCandidates">@lang('app.candidates')</a>
                     </li>
                     <li class="tab">
                         <a href="#noLeidos">No leidos</a>
@@ -239,7 +251,7 @@
                     <section class="team-container-tools">
                         <!-- ACTIVO 1 -->
                         <div class="active-one">
-                            <p>4 Suppliers</p>
+                            <p>4 @lang('app.suppliers')</p>
 
                             <div class="search-opt1 btn-search">
                                 <span class="icon-gTalents_search"></span>

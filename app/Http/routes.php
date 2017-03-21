@@ -606,9 +606,9 @@ Route::get('vacancies', [
     'middleware' => 'permission:vacancies.view'
 ]);
 
-Route::get('vacancies', [
+Route::get('vacancies/list', [
     'as' => 'vacancies.list',
-    'uses' => 'VacancyController@list',
+    'uses' => 'VacancyController@listVacancies',
     'middleware' => 'permission:vacancies.view'
 ]);
 /*
@@ -846,6 +846,24 @@ Route::get('vacancies/{vacancy}/show', [
     'as' => 'vacancies.show',
     'uses' => 'VacancyController@view',
     'middleware' => 'permission:vacancies.view'
+]);
+
+Route::get('vacancies/{vacancy}/edit', [
+    'as' => 'vacancies.edit',
+    'uses' => 'VacancyController@edit',
+    'middleware' => 'permission:vacancies.edit'
+]);
+
+Route::put('vacancies/{vacancy}/update', [
+    'as' => 'vacancies.update',
+    'uses' => 'VacancyController@update',
+    'middleware' => 'permission:vacancies.edit'
+]);
+
+Route::delete('vacancies/{vacancy}/delete', [
+    'as' => 'vacancies.delete',
+    'uses' => 'VacancyController@delete',
+    'middleware' => 'permission:vacancies.delete'
 ]);
 
 Route::get('vacancies/{vacancy}/status', [

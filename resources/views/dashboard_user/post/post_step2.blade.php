@@ -13,7 +13,7 @@
                 <figure>
                     <span class="icon-gTalents_crear" ><span class="path1"></span><span class="path2"></span><span class="path3"></span></span>
                 </figure>
-                <p>Crear</p>
+                <p>@lang('app.create')</p>
             </div>
 
             <!--DETALLES-->
@@ -21,7 +21,7 @@
                 <figure>
                     <span class="icon-gTalents_detalles "><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span><span class="path5"></span><span class="path6"></span><span class="path7"></span></span>
                 </figure>
-                <p>Detalles</p>
+                <p>@lang('app.details')</p>
             </div>
 
             <!--EMPEZAR-->
@@ -29,7 +29,7 @@
                 <figure>
                     <span class="icon-gTalents_empezar"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span><span class="path5"></span><span class="path6"></span></span>
                 </figure>
-                <p>Empezar</p>
+                <p>@lang('app.start')</p>
             </div>
         </section>
    <!--EMPEZAR - CONTAINER -->
@@ -39,12 +39,12 @@
             <figure>
                 <span class="icon-gTalents_win-2"></span>
             </figure>
-            <p>Has creado una nueva oportunidad</p>
+            <p>@lang('app.you_have_created_a_new_opportunity')</p>
 
             <div class="btn-container">
                 <!--NEXT-->
                 <div class="item">
-                    <a href="{{route('vacancies.show',$vacancy_id)}}" class="btn-main">Ver Oportunidad</a>
+                    <a href="{{route('vacancies.show',$vacancy_id)}}" class="btn-main">@lang('app.see_opportunity')</a>
                 </div>
             </div>
         </div>

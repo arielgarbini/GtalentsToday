@@ -52,7 +52,7 @@ class DatabaseSeeder extends Seeder
         $this->call(ContactsSeeder::class);
         $this->call(OrganizationRolesSeeder::class);
         $this->call(CompensationsSeeder::class);
-
+        $this->call(ReplacementPeriodSeeder::class);
         Model::reguard();
     }
 }

@@ -157,9 +157,14 @@ return [
 
     //Vacancies
     'vacancies'                    => 'Vacancies',
+    'create'                       => 'Create',
+    'details'                      => 'Details',
+    'start'                        => 'Start',
+    'job_Description'              => 'Job Description',
+    'agreement_with_the_Employer'  => 'Agreement with the Employer',
     'list_of_registered_vacancies' => 'List of registered vacancies',
-    'add_vacancy'                 => 'Add Vacancy',
-    'search_for_vacancies'          => 'Search for vacancies',
+    'add_vacancy'                  => 'Add Vacancy',
+    'search_for_vacancies'         => 'Search for vacancies',
     'vacancy_details'             => 'Vacancy details', 
     'create_new_vacancy'          => 'Create New Vacancy',
     'create_vacancy'              => 'Create vacancy',
@@ -173,8 +178,18 @@ return [
     'vacancy_deleted'             => 'Vacancy deleted.',
     'posted_by'                   => 'Posted by',
     'vacancy_create'              => 'Vacancy Create',
- 
-
+    'you_have_created_a_new_opportunity' => 'You have created a new opportunity',
+    'see_opportunity'             => 'See Opportunity',
+    'additional_information'      => 'Additional Information',
+    'approximate_total_billing'   => 'Approximate total billing',
+    'supplier_commission'         => 'Supplier Commission',
+    'poster_commission'           => 'Poster Commission',
+    'position_compensation'       => 'Position Compensation',
+    'we_watch_over_you'           => 'We watch over you',
+    'gTalents_commission'         => 'gTalents Commission',
+    'your_garanties'              => 'Your Garanties',
+    'of_commission'               => 'of Commission',
+    'your_opportunity'            => 'Your opportunity',
 
     'positions'                   => 'Positions',
     'career_plan'                 => 'Career Plan',
@@ -239,6 +254,7 @@ return [
     'employer_fee'                => 'Employer fee', 
     'fee_charged_to_employer'     => 'Fee charged to employer',
     'replacement_period'         =>  'Replacement period',
+    'warranty_employer'           => 'Warranty employer',
     'additional_information'     => 'Additional Information',
 
 
@@ -246,6 +262,7 @@ return [
     'description_company'       =>'Description of the contracting company',
     'work_description'          => 'Work Description',
     'working_hours'             => 'Working Hours',
+    'fixed'                     => 'Fixed',
 
     //Messages
     'messages'               => 'Messages',

@@ -26,7 +26,7 @@ class VacancyStatus extends Model
     /**
      * {@inheritdoc}
      */
-    public function getNameLang(int $id) {
+    public function getNameLang($id) {
 
         if(session('lang') == 'es')
             $lang = 1;

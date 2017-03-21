@@ -104,7 +104,7 @@ class User extends Model implements AuthenticatableContract,
 
     public function address()
     {
-        return $this->hasOne(Address::class, 'address_id');
+        return $this->hasOne(Address::class, 'id', 'address_id');
     }
 
     public function country()

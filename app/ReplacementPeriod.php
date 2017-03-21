@@ -5,11 +5,11 @@ namespace Vanguard;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class ContractType extends Model
+class ReplacementPeriod extends Model
 {
     use SoftDeletes;
 
-    protected $table = 'contract_types';
+    protected $table = 'replacement_periods';
 
     public $primaryKey = 'id';
 
@@ -17,11 +17,7 @@ class ContractType extends Model
 
     public $dates = ['deleted_at'];
 
-    protected $fillable = [	'name', 
-    						'description', 
-    						'language_id', 
-    						'value_id'
-    					];
+    protected $fillable = [	'name', 'language_id'];
 
     /**
      * {@inheritdoc}
@@ -31,6 +27,6 @@ class ContractType extends Model
         if(session('lang') == 'es')
             $lang = 1;
         else $lang = 2;
-        return ContractType::where('value_id', $id)->where('language_id', $lang)->first();
+        return ReplacementPeriod::where('value_id', $id)->where('language_id', $lang)->first();
     }
 }

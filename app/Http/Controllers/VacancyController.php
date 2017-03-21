@@ -6,11 +6,19 @@ use Auth;
 use Cache;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Input;
+use Vanguard\ContractType;
 use Vanguard\Events\Vacancy\Viewed;
 use Vanguard\Events\Vacancy\Logged;
 use Vanguard\Events\Vacancy\Applied;
+use Vanguard\ExperienceYear;
+use Vanguard\FunctionalArea;
 use Vanguard\Http\Requests\Vacancy\CreateVacancyRequest;
 use Vanguard\Http\Requests\Vacancy\UpdateVacancyRequest;
+use Vanguard\ReplacementPeriod;
+use Vanguard\Repositories\ExperienceYear\ExperienceYearRepository;
+use Vanguard\Repositories\FunctionalArea\FunctionalAreaRepository;
+use Vanguard\Repositories\Industry\IndustryRepository;
+use Vanguard\Repositories\ReplacementPeriod\ReplacementPeriodRepository;
 use Vanguard\Repositories\Vacancy\VacancyRepository;
 use Vanguard\Repositories\Vacancy\VacancyLogRepository;
 use Vanguard\Repositories\User\UserRepository;
@@ -89,6 +97,12 @@ class VacancyController extends Controller
     private $companies_users;
 
     /**
+     * @var ReplacementPeriodRepository
+     */
+    private $replacement_period;
+
+
+    /**
      * VacancyController constructor.
      * @param VacancyRepository $vacancies)
      */
@@ -103,7 +117,7 @@ class VacancyController extends Controller
                                 CompanyUserRepository $companies_users,
                                 CompanyRepository $companies)
     {
-        $this->middleware('permission:vacancies.view');
+        //$this->middleware('permission:vacancies.view');
         $this->vacancies = $vacancies;
         $this->invoices = $invoices;
         $this->candidates = $candidates;
@@ -128,13 +142,12 @@ class VacancyController extends Controller
      *
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function index () 
+    public function index()
     {
-        $perPage = 20; 
-
+        $perPage = 20;
         $vacancies = $this->vacancies->paginate($perPage, Input::get('search'), Input::get('status'));
 
-    	return view('vacancy.index', compact('vacancies'));		
+    	return view('vacancy.index', compact('vacancies'));
     }
 
     /**
@@ -242,17 +255,23 @@ class VacancyController extends Controller
 
 
     public function getVacancyStepOne(Request $request, ContractTypeRepository $contractTypes, 
-                            LanguageRepository $languages){
+                            LanguageRepository $languages, ExperienceYearRepository $experience,
+                            FunctionalAreaRepository $functionalArea, IndustryRepository $industries){
 
         if (session('lang') =='en'){
             $language = 2;
+            $searchType = ['1'=>'Contingency', '2'=>'Retained'];
         }else{
-           $language = 1; 
+           $language = 1;
+           $searchType = ['1' => 'Contingencia', '2' => 'Retenido'];
         }
         $contractTypes = $contractTypes->lists($language);
+        $experience = $experience->lists($language);
         $languages = $languages->lists()->toArray();
-
-        return view('dashboard_user.post.post_step1',compact('contractTypes', 'languages') , ['vacancies' => $request->session()->get('vacancies')]);
+        $functionalArea = $functionalArea->lists($language);
+        $industries = $industries->lists($language);
+        $replacement_period = ReplacementPeriod::where('language_id',$language)->lists('name', 'value_id');
+        return view('dashboard_user.post.post_step1',compact('replacement_period', 'contractTypes', 'languages', 'searchType', 'experience', 'functionalArea', 'industries') , ['vacancies' => $request->session()->get('vacancies')]);
 
     }
 
@@ -261,16 +280,15 @@ class VacancyController extends Controller
     {
 
        $this->validate($request,[
-                'contract_type_id'          => 'required|exists:contract_types,id',  
+                'contract_type_id'         => 'required|exists:contract_types,id',
                 'industry'                 => 'required',
                 'search_type'              => 'required', 
                 'years_experience'         => 'required',
                 'especialization_id'       => 'required|numeric', 
                 'range_salary'             => 'required',
                 'warranty_employer'        => 'required', 
-                'replacement_period'       => 'required',
+                'replacement_period_id'    => 'required',
                 'group1'                   => 'required',
-                'group2'                   => 'required',
                 'fee'                      => 'required',
                 'general_conditions'       => 'required',
                 'terms'                    => 'required',
@@ -286,15 +304,17 @@ class VacancyController extends Controller
                 'range_salary'             =>  $request->range_salary,
                 'warranty_employer'         => $request->warranty_employer, 
                 'general_conditions'        => $request->general_conditions,
-                'replacement_period'        => $request->replacement_period,
-                'group1'                    => $request->group1,
-                'group2'                    => $request->group2,
+                'replacement_period'        => $request->replacement_period_id,
                 'fee'                       => $request->fee,
                 'terms'                     => $request->terms,
                 'created_at'                => \Carbon\Carbon::now(),
                 'updated_at'                => \Carbon\Carbon::now(),
             ];
-
+    if($request->group1=='%'){
+        $data['group1'] = 1;
+    } else {
+        $data['group2'] = 1;
+    }
    $vacancy_id= $request->session()->get('id');
    $this->vacancies->update($vacancy_id,$data);
 
@@ -308,19 +328,30 @@ class VacancyController extends Controller
      * @param VacancyRepository $vacancy
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function view ($id)
+    public function view($id)
     {
         $vacancy = $this->vacancies->find($id);
-
+        if (session('lang') =='en'){
+            $language = 2;
+        }else{
+            $language = 1;
+        }
         if(!isset($vacancy))
                 return redirect()->route('vacancies.index')
                     ->withErrors(trans('app.register_not_found'));
-
+        $contract = ContractType::where('value_id', $vacancy->contract_type_id)->where('language_id', $language)->get()->first();
+        $experiencie = ExperienceYear::where('value_id', $vacancy->contract_type_id)->where('language_id', $language)->get()->first();
+        $replacementPeriod = ReplacementPeriod::where('value_id', $vacancy->contract_type_id)->where('language_id', $language)->get()->first();
+        //return $language;
+        $functionalArea = FunctionalArea::where('value_id', $vacancy->contract_type_id)->where('language_id', $language)->get()->first();
+        preg_match_all('/\d{1,2}/' ,$vacancy->range_salary, $matches);
+        $factura = (intval($matches[0][0].'000')+intval($matches[0][1].'000'))/2;
+        $factura = number_format($factura, 2, '.', ',');
         event(new Viewed($vacancy));
          if($this->theUser->hasRole('Admin')){
            return view('vacancy.view', compact('vacancy')); 
          }else {
-          return view('dashboard_user.post.post_detail', compact('vacancy')); 
+          return view('dashboard_user.post.post_detail', compact('factura', 'vacancy', 'contract', 'experiencie', 'replacementPeriod', 'functionalArea'));
          }
     }
 
@@ -649,7 +680,7 @@ class VacancyController extends Controller
       }
 
     //** List Opportunites Available  
-    public function list () 
+    public function listVacancies()
     {
         $perPage = 20; 
         $vacancies = $this->vacancies->getOpportunities('poster_user_id',$this->theUser->id, $perPage);

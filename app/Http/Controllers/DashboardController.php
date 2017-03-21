@@ -92,12 +92,14 @@ class DashboardController extends Controller
             Carbon::now()->subWeeks(2),
             Carbon::now()
         )->toArray();
+
+
         $perPage =20;
         $latestVacancies        = $this->vacancies->lastestPoster('poster_user_id',Auth::user()->id,$perPage);      
       //  $vacancies_users        = $this->vacancies_users->where('status',0); //** Request Supplier  
         $vacancies_users = $this->vacancies->getSupplier('vacancy_users','vacancy_users.vacancy_id','vacancies.id','users','users.id','vacancy_users.supplier_user_id','vacancies.poster_user_id', 'users.*', 'vacancy_users.status', 0, 'vacancies.*','vacancy_users.*', Auth::user()->id);
         $lastestOpportunities   = $this->vacancies->lastestOpportunities('poster_user_id',Auth::user()->id,$perPage); //** Opportunities Available
-  
+
         return view('dashboard_user.default', compact('activities', 'latestVacancies', 'vacancies_users','lastestOpportunities' ));
     }
 

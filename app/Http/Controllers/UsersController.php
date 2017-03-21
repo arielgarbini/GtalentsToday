@@ -168,7 +168,6 @@ class UsersController extends Controller
         $roles = $roleRepository->lists();
         $statuses = UserStatus::lists();
         $socialLogins = $this->users->getUserSocialLogins($user->id);
-
         return view('user.edit',
             compact('edit', 'user', 'countries', 'socials', 'socialLogins', 'roles', 'statuses'));
     }

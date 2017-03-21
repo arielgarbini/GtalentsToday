@@ -31,7 +31,10 @@
                 <h1>Whoops, something went wrong! :(</h1>
                 <br />
                 <p>
-                    Something went wrong and we could not proceed... Please try again or contact website owner.
+                   <?= $message ?>
+                   <?= $file ?>
+                   <?= $line ?>
+                       Something went wrong and we could not proceed... Please try again or contact website owner.
                 </p>
             </div>
         </div>

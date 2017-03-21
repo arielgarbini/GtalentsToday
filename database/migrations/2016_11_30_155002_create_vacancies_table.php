@@ -48,7 +48,7 @@ class CreateVacanciesTable extends Migration
             $table->string('years_experience');
             $table->unsignedInteger('especialization_id');
             $table->string('range_salary');
-            $table->string('replacement_period');
+            $table->unsignedInteger('replacement_period_id');
             $table->string('general_conditions');
             $table->string('warranty_employer');
             $table->boolean('group1');
@@ -75,6 +75,10 @@ class CreateVacanciesTable extends Migration
             $table->foreign('contract_type_id')
                   ->references('id')->on('contract_types')
                   ->onDelete('cascade');
+
+            /*$table->foreign('replacement_period_id')
+                ->references('id')->on('replacement_periods')
+                ->onDelete('cascade');*/
 
           /*  $table->foreign('address_id')
                   ->references('id')->on('address')

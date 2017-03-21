@@ -194,7 +194,8 @@ class EloquentVacancy implements VacancyRepository
      */
     public function lastestPoster($column, $id, $count)
     {
-        return Vacancy::where($column, '=', $id)->orderBy('created_at', 'DESC')
+        return Vacancy::where($column, '=', $id)->where('general_conditions', '!=', '')
+            ->orderBy('created_at', 'DESC')
             ->limit($count)
             ->get();
     }
