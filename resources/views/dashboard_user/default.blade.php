@@ -119,7 +119,7 @@
                         @foreach ($lastestOpportunities as $vacancy_opportunity)
                             <!--POST SUPPLIER -->
                             <li>
-                                <a href="{{route('vacancies.list')}}" class="link-listado">
+                                <a href="{{route('vacancies.post_user',$vacancy_opportunity->id)}}" class="link-listado">
                                     <!--RESUMEN OPORTUNIDAD-->
                                     <section class="opportunity-admin">
                                         <!--DATOS DEL POST-->

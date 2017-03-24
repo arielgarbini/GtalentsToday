@@ -3,6 +3,7 @@
 namespace Vanguard\Providers;
 
 use Carbon\Carbon;
+use Vacancy\Repositories\NotificationRepository;
 use Vanguard\Repositories\Activity\ActivityRepository;
 use Vanguard\Repositories\Activity\EloquentActivity;
 use Vanguard\Repositories\Country\CountryRepository;

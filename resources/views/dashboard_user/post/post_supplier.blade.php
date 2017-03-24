@@ -9,88 +9,95 @@
         <section class="user-main-create credits jobs-detail">
             <!--TITULO-->
             <div class="jobs-detail-title">
-                <h3>Desarrollador .NET</h3>
-                <p>Buenos Aires, Argentina | Jornada Completa</p>
+                <h3>{{$vacancy->name}}</h3>
+                <p>{{$vacancy->location}} | {{$experiencie['name']}}</p>
             </div>
 
             <!--CUERPO DE LA DESCRIPCION-->
             <div class="jobs-detail-body">
                 <!--DESCRIPCION DE LA EMPRESA-->
-                <h4>Descripción de la empresa contratante</h4>
-                <p>Software Factory ubicada en la zona de Colegiales (CABA)</p>
+                <h4>{{trans('app.description_company')}}</h4>
+                <p>@if($companies) {{$companies->name}} @else {{trans('app.independent')}} @endif </p>
 
                 <!--DESCRIPCION DEL TRABAJO-->
-                <h4>Descripción del trabajo</h4>
-                <p>Buscamos una persona con ganas de seguir capacitándose en nuevas tecnologías.
-                    <br>El trabajo es en relación de dependencia directa con la empresa, y existe la posibilidad de trabajar desde casa algún día a la semana.
-                    <br>La búsqueda está orientada a personas que estén interesadas en aplicar tecnologías y metodologías tales como WPF, ASP.net MVC, JQuery, Knockout, Entity Framework, Ajax/Json, HTML5 Bootstrap, webservices y WCF.
-                </p>
+                <h4>{{trans('app.work_description')}}</h4>
+                <p>{{$vacancy->target_companies}}</p>
 
                 <!--EXPERIENCIA DESEADA-->
-                <h4>Experiencia Deseada</h4>
+                <h4>{{trans('app.desired_experience')}}</h4>
                 <ul class="jobs-detail-body-kills">
                     <li>
                         <span class="icon-gTalents_point"></span>
-                        <p>Lenguajes de programación: C# - WinForm o WPF (Excluyente)</p>
+                        <p>{{$vacancy->required_experience}}</p>
                     </li>
-                    <li>
-                        <span class="icon-gTalents_point"></span>
-                        <p>Lenguajes de programación: .NET Framework 3.0 / 4.0 (Excluyente)</p>
-                    </li>
-                    <li>
-                        <span class="icon-gTalents_point"></span>
-                        <p>Bases de Datos: MS SQL Server u ORACLE (Excluyente)</p>
-                    </li>
-                    <li>
-                        <span class="icon-gTalents_point"></span>
-                        <p>Lenguajes de programación: ASP.NET MVC (Deseable)</p>
-                    </li>
-                    <li>
-                        <span class="icon-gTalents_point"></span>
-                        <p>Lenguajes de programación: Java Script (Deseable)</p>
-                    </li>
+                    <!--  <li>
+                          <span class="icon-gTalents_point"></span>
+                          <p>Lenguajes de programación: .NET Framework 3.0 / 4.0 (Excluyente)</p>
+                      </li>
+                      <li>
+                          <span class="icon-gTalents_point"></span>
+                          <p>Bases de Datos: MS SQL Server u ORACLE (Excluyente)</p>
+                      </li>
+                      <li>
+                          <span class="icon-gTalents_point"></span>
+                          <p>Lenguajes de programación: ASP.NET MVC (Deseable)</p>
+                      </li>
+                      <li>
+                          <span class="icon-gTalents_point"></span>
+                          <p>Lenguajes de programación: Java Script (Deseable)</p>
+                      </li>-->
                 </ul>
-                <p>Es requisito contar con experiencia de 1 a 3 años en algunas de las tecnologías antes mencionadas.</p>
-
                 <!--INFORMACION ADICIONAL-->
-                <h4>Información Adicional</h4>
-                <p>Se ofrecen excelentes condiciones contractuales, flexibilidad, beneficios y muy buen clima laboral. Las posiciones son en relación de dependencia directa, excelente remuneración + OSDE + 2 semanas de vacaciones.</p>
+                <h4>{{trans('app.additional_information')}}</h4>
+                <p>{{$vacancy->responsabilities}}</p>
 
                 <!--HORARIO DE TRABAJO-->
-                <h4>Horario de trabajo</h4>
-                <p>9 a 18 hs.</p>
-
+            <!--<h4>{{trans('app.working_hours')}}</h4>
+                <p><span style="color:red">Este campo no esta reflejado al crear Nuevo Post</span></p>
+                -->
                 <!--UBICACION-->
-                <h4>Ubicación</h4>
-                <p>Capital Federal - Colegiales</p>
+                <h4>{{trans('app.location')}}</h4>
+                <p>{{$vacancy->location}}</p>
 
                 <!--TIPO DE CONTRATACION-->
-                <h4>Tipo de Contratación</h4>
-                <p>Full-time.</p>
+                <h4>{{trans('app.contract_type')}}</h4>
+                <p>{{$contract['name']}}</p>
 
                 <!--ESPECIALIZACION-->
-                <h4>Especialización</h4>
-                <p>Diseño, Programación Frontend.</p>
+                <h4>{{trans('app.especialization')}}</h4>
+                <p>{{$functionalArea['name']}}</p>
 
                 <!--AÑOS DE EXPERIENCIA-->
-                <h4>Años de experiencia</h4>
-                <p>3-5 años.</p>
+                <h4>{{trans('app.experience_years')}}</h4>
+                <p>{{$experiencie['name']}}</p>
 
                 <!--IDIOMAS-->
-                <h4>Idiomas</h4>
-                <p>Español.</p>
+                <h4>{{trans('app.languages')}}</h4>
+                <p>
+                    @if($vacancy->language_id == 1)
+                        {{trans('app.spanish')}}
+                    @else
+                        {{trans('app.english')}}
+                    @endif
+                </p>
 
                 <!--RANGO SALARIAL-->
-                <h4>Rango Salarial</h4>
-                <p>USD 125k - 150k.</p>
+                <h4>{{trans('app.range_salary')}}</h4>
+                <p>{{$vacancy->range_salary}}</p>
 
                 <!--HONORARIO COBRADO AL EMPLEADOR-->
-                <h4>Honorario cobrado al empleador</h4>
-                <p>23% - Fijo.</p>
+                <h4>{{trans('app.employer_fee')}}</h4>
+                <p>
+                    @if($vacancy->group1)
+                        % {{$vacancy->fee}}
+                    @else
+                        $ {{$vacancy->fee}} {{trans('app.fixed')}}
+                    @endif
+                </p>
 
                 <!--PERIODO DE REEMPLAZO-->
-                <h4>Periodo de Reemplazo</h4>
-                <p>1 MES.</p>
+                <h4>{{trans('app.replacement_period')}}</h4>
+                <p>{{$replacementPeriod['name']}}</p>
 
                 <!--LINK DESCARGA-->
                 <div class="link">
@@ -98,7 +105,7 @@
                         <figure>
                             <span class="icon-gTalents_pdf"></span>
                         </figure>
-                        <p>Descripción del puesto</p>
+                        <p>@lang('app.job_Description')</p>
                     </a>
                 </div>
 
@@ -110,8 +117,8 @@
                             <span class="icon-gTalents_billetes"></span>
                         </figure>
                         <div class="datos">
-                            <h4>$350</h4>
-                            <p>Facturación total aproximada</p>
+                            <h4>${{$factura}}</h4>
+                            <p>@lang('app.approximate_total_billing')</p>
                         </div>
                     </li>
 
@@ -121,8 +128,8 @@
                             <span class="icon-gTalents_coins"></span>
                         </figure>
                         <div class="datos">
-                            <h4>20% de Comisión</h4>
-                            <p>Comisión del Supplier</p>
+                            <h4>20% @lang('app.of_commission')</h4>
+                            <p>@lang('app.supplier_commission')</p>
                         </div>
                     </li>
 
@@ -132,8 +139,8 @@
                             <span class="icon-gTalents_coins"></span>
                         </figure>
                         <div class="datos">
-                            <h4>5% de Comisión</h4>
-                            <p>Comisión del Poster</p>
+                            <h4>5% @lang('app.of_commission')</h4>
+                            <p>@lang('app.poster_commission')</p>
                         </div>
                     </li>
 
@@ -143,8 +150,8 @@
                             <span class="icon-gTalents_stars"></span>
                         </figure>
                         <div class="datos">
-                            <h4>1.500 puntos</h4>
-                            <p>Compensación de la posición</p>
+                            <h4>1.500 @lang('app.points')</h4>
+                            <p>@lang('app.position_compensation')</p>
                         </div>
                     </li>
 
@@ -154,8 +161,8 @@
                             <span class="icon-gTalents_help"></span>
                         </figure>
                         <div class="datos">
-                            <h4>Tus Garantias</h4>
-                            <p>Velamos por ti</p>
+                            <h4>@lang('app.your_garanties')</h4>
+                            <p>@lang('app.we_watch_over_you')</p>
                         </div>
                     </li>
 
@@ -165,8 +172,8 @@
                             <span class="icon-gTalents_isotipo"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span><span class="path5"></span></span>
                         </figure>
                         <div class="datos">
-                            <h4>30% de Comisión</h4>
-                            <p>Comisión de gTalents</p>
+                            <h4>30% @lang('app.of_commission')</h4>
+                            <p>@lang('app.gTalents_commission')</p>
                         </div>
                     </li>
                 </ul>

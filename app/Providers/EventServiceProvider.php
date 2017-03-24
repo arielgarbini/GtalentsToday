@@ -16,6 +16,7 @@ use Vanguard\Listeners\ConditionEventsSubscriber;
 use Vanguard\Listeners\MessageEventsSubscriber;
 use Vanguard\Listeners\NewsEventsSubscriber;
 use Vanguard\Listeners\PointEventsSubscriber;
+use Vanguard\Listeners\NotificationEventsSuscriber;
 use Illuminate\Contracts\Events\Dispatcher as DispatcherContract;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
 
@@ -27,7 +28,10 @@ class EventServiceProvider extends ServiceProvider
      * @var array
      */
     protected $listen = [
-        Registered::class => [UserWasRegisteredListener::class]
+        'Vanguard\Events\NotificationEvent' => [
+            'Vanguard\Listeners\NotificationEventsSuscriber',
+        ],
+        //Registered::class => [UserWasRegisteredListener::class]
     ];
 
     /**

@@ -10,10 +10,12 @@ use Vanguard\ContractType;
 use Vanguard\Events\Vacancy\Viewed;
 use Vanguard\Events\Vacancy\Logged;
 use Vanguard\Events\Vacancy\Applied;
+use Vanguard\Events\NotificationEvent;
 use Vanguard\ExperienceYear;
 use Vanguard\FunctionalArea;
 use Vanguard\Http\Requests\Vacancy\CreateVacancyRequest;
 use Vanguard\Http\Requests\Vacancy\UpdateVacancyRequest;
+use Vanguard\Notification;
 use Vanguard\ReplacementPeriod;
 use Vanguard\Repositories\ExperienceYear\ExperienceYearRepository;
 use Vanguard\Repositories\FunctionalArea\FunctionalAreaRepository;
@@ -331,28 +333,13 @@ class VacancyController extends Controller
     public function view($id)
     {
         $vacancy = $this->vacancies->find($id);
-        if (session('lang') =='en'){
-            $language = 2;
-        }else{
-            $language = 1;
-        }
         if(!isset($vacancy))
-                return redirect()->route('vacancies.index')
-                    ->withErrors(trans('app.register_not_found'));
-        $contract = ContractType::where('value_id', $vacancy->contract_type_id)->where('language_id', $language)->get()->first();
-        $experiencie = ExperienceYear::where('value_id', $vacancy->contract_type_id)->where('language_id', $language)->get()->first();
-        $replacementPeriod = ReplacementPeriod::where('value_id', $vacancy->contract_type_id)->where('language_id', $language)->get()->first();
-        $replacementPeriod = ReplacementPeriod::where('value_id', $vacancy->contract_type_id)->where('language_id', $language)->get()->first();
-        $functionalArea = FunctionalArea::where('value_id', $vacancy->contract_type_id)->where('language_id', $language)->get()->first();
-        preg_match_all('/\d{1,2}/' ,$vacancy->range_salary, $matches);
-        $factura = (intval($matches[0][0].'000')+intval($matches[0][1].'000'))/2;
-        $factura = number_format($factura, 2, '.', ',');
-        event(new Viewed($vacancy));
-         if($this->theUser->hasRole('Admin')){
-           return view('vacancy.view', compact('vacancy')); 
-         }else {
-          return view('dashboard_user.post.post_detail', compact('factura', 'vacancy', 'contract', 'experiencie', 'replacementPeriod', 'functionalArea'));
-         }
+            return redirect()->route('vacancies.index')->withErrors(trans('app.register_not_found'));
+        if($this->theUser->hasRole('Admin')){
+            return view('vacancy.view', compact('vacancy'));
+        }else {
+            return view('dashboard_user.post.post_detail', compact('vacancy'));
+        }
     }
 
     /**
@@ -557,14 +544,17 @@ class VacancyController extends Controller
      * @param int $id
      * @return mixed
      */
-    public function approbateSupplier($id)
+    public function approbateSupplier(Request $request, $id)
     {
         //id => vacancy
-        $vacancy         = $this->vacancies->find($id);
+        $vacancy = $this->vacancies->find($id);
         $vacancy_users = $this->vacancies_users->where('vacancy_id', $id);
         if (count($vacancy_users)>0) {
           $this->vacancies_users->updateStatusSupplier($id,$vacancy_users->supplier_user_id,1);
         }
+        event(new NotificationEvent(['element_id' => $vacancy->id,
+            'user_id'=>$vacancy_users->supplier_user_id, 'type' => 'approved_supplier_vacancy', 'name'=>$vacancy->name]));
+        Notification::destroy($request->notification);
          return redirect()->back()
             ->withSuccess(trans('app.approved_application')); 
     }
@@ -575,11 +565,17 @@ class VacancyController extends Controller
      * @param int $id
      * @return mixed
      */
-    public function rejectSupplier(Request $request)
+    public function rejectSupplier(Request $request, $id)
     {
-        $vacancy = $this->vacancies->find($request->vacancy);
+        $vacancy = $this->vacancies->find($id);
 
-        return $vacancy->updateStatusSupplier($request->supplier, GeneralStatus::REJECTED);
+        $vacancy->updateStatusSupplier($request->supplier, GeneralStatus::REJECTED);
+
+        //event(new NotificationEvent(['element_id' => $vacancy->id,
+        //    'user_id'=>$vacancy_users->supplier_user_id, 'type' => 'approved_supplier_vacancy', 'name'=>$vacancy->name]));
+
+        return redirect()->back()
+            ->withSuccess(trans('app.reject_application'));
     }
 
     /**
@@ -691,49 +687,47 @@ class VacancyController extends Controller
     //** Detail Opportunity Available
     public function show_post_user($id, User $users){
         $vacancy = $this->vacancies->find($id);
-        if (session('lang') =='en'){
-            $language = 2;
-        }else{
-            $language = 1;
-        }
-        $contract = ContractType::where('value_id', $vacancy->contract_type_id)->where('language_id', $language)->get()->first();
-        $experiencie = ExperienceYear::where('value_id', $vacancy->contract_type_id)->where('language_id', $language)->get()->first();
-        $replacementPeriod = ReplacementPeriod::where('value_id', $vacancy->contract_type_id)->where('language_id', $language)->get()->first();
-        $functionalArea = FunctionalArea::where('value_id', $vacancy->contract_type_id)->where('language_id', $language)->get()->first();
-        preg_match_all('/\d{1,2}/' ,$vacancy->range_salary, $matches);
-        $factura = (intval($matches[0][0].'000')+intval($matches[0][1].'000'))/2;
-        $factura = number_format($factura, 2, '.', ',');
         $userVacancy = [];
+        $userSupplierPost = false;
         foreach(Auth::user()->vacancy as $vacancy){
             $userVacancy[] = $vacancy['id'];
+            if($vacancy['id']==$id && $vacancy['pivot']['status']=='1'){
+                $userSupplierPost = true;
+            }
         }
+        event(new Viewed($vacancy));
         if (isset($vacancy)) {
-            $companies_users       = $this->companies_users->where('user_id',$this->theUser->id);
+            $companies_users = $this->companies_users->where('user_id',$this->theUser->id);
             if ($companies_users){
               $companies  = $this->companies->find($companies_users->company_id);                
             }
-            return view('dashboard_user.post.post_user',compact('userVacancy', 'vacancy','companies', 'factura', 'contract', 'experiencie', 'replacementPeriod', 'functionalArea')) ;
-        }           
-       
+            if(!$userSupplierPost){
+                return view('dashboard_user.post.post_user',compact('userVacancy', 'vacancy','companies')) ;
+            } else {
+                return view('dashboard_user.post.post_supplier',compact('userVacancy', 'vacancy','companies')) ;
+            }
+
+        }
        return redirect()->action('VacancyController@list')
           ->withErrors(trans('app.register_not_found'));
     }
 
     //** Request Supplier 
     public function post_supplier($id){
-      $vacancy  = $this->vacancies->find($id);                
-      if ($vacancy){
-        $data     = [ 'vacancy_id'        => $id, 
-                      'supplier_user_id'  => $this->theUser->id, 
-                      'status'            => 0,
-                      'is_active'         => 0,      
-                      'comment'           => '',
-                      'created_at'        => \Carbon\Carbon::now(),
-                      'updated_at'        => \Carbon\Carbon::now(),]; 
-      $this->vacancies_users->create($data);
-       
-       return redirect()->back()
-            ->withSuccess(trans('app.has_applied_for_vacancy')); 
-      }
+        $vacancy  = $this->vacancies->find($id);
+        if ($vacancy){
+        $data = [ 'vacancy_id'        => $id,
+              'supplier_user_id'  => $this->theUser->id,
+              'status'            => 0,
+              'is_active'         => 0,
+              'comment'           => '',
+              'created_at'        => \Carbon\Carbon::now(),
+              'updated_at'        => \Carbon\Carbon::now(),];
+        $vacancy_user = $this->vacancies_users->create($data);
+        event(new NotificationEvent(['element_id' => $vacancy_user->id,
+            'user_id'=>$vacancy->poster_user_id, 'type' => 'request_supplier_vacancy', 'name'=>$vacancy->name]));
+        return redirect()->back()
+            ->withSuccess(trans('app.has_applied_for_vacancy'));
+        }
     }
 }

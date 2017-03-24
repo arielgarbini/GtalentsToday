@@ -251,7 +251,7 @@
                     <section class="team-container-tools">
                         <!-- ACTIVO 1 -->
                         <div class="active-one">
-                            <p>4 @lang('app.suppliers')</p>
+                            <p>{{count($suppliers)}} @lang('app.suppliers')</p>
 
                             <div class="search-opt1 btn-search">
                                 <span class="icon-gTalents_search"></span>
@@ -270,133 +270,40 @@
                     
                     <!--LISTADO DE EQUIPO-->
                     <ul class="team">
-                        <!-- SUPPLIER 1 -->
-                        <li>
-                            <section class="team-card">
-                                <!--RESUMEN SUPPLIER-->
-                                <section class="supplierContain1">
-                                    <!--ICONO RANGO-->
-                                    <figure class="supplierContain1-ranking">
-                                        <span class="icon-gTalents_rango-1"><span class="path1"></span><span class="path2"></span></span>
-                                    </figure>
 
-                                    <div class="datos">
-                                        <h4>QDT876</h4>
-                                        <p>Newbie</p>
+                        <!-- SUPPLIERS -->
+                        @foreach($suppliers as $supplier)
+                            <li>
+                                <section class="team-card">
+                                    <!--RESUMEN SUPPLIER-->
+                                    <section class="supplierContain1">
+                                        <!--ICONO RANGO-->
+                                        <figure class="supplierContain1-ranking">
+                                            <span class="icon-gTalents_rango-1"><span class="path1"></span><span class="path2"></span></span>
+                                        </figure>
+
+                                        <div class="datos">
+                                            <h4>{{$supplier->supplier->code}}</h4>
+                                            <p>Newbie</p>
+                                        </div>
+                                    </section>
+
+                                    <!--OPCIONES-->
+                                    <div class="options">
+                                        <!-- Dropdown Trigger -->
+                                        <a class='dropdown-button' href='#' data-activates='option-team01'>
+                                            <span class="icon-gTalents_submenu"></span>
+                                        </a>
+
+                                        <!-- Dropdown Structure -->
+                                        <ul id='option-team01' class='dropdown-content'>
+                                            <li><a href="#modalCalificar" class="modal-trigger waves-effect waves-light">@lang('app.qualify')</a></li>
+                                            <li><a href="#">@lang('app.discard')</a></li>
+                                        </ul>
                                     </div>
                                 </section>
-
-                                <!--OPCIONES-->
-                                <div class="options">
-                                    <!-- Dropdown Trigger -->
-                                    <a class='dropdown-button' href='#' data-activates='option-team01'>
-                                        <span class="icon-gTalents_submenu"></span>
-                                    </a>
-
-                                    <!-- Dropdown Structure -->
-                                    <ul id='option-team01' class='dropdown-content'>
-                                        <li><a href="#modalCalificar" class="modal-trigger waves-effect waves-light">@lang('app.qualify')</a></li>
-                                        <li><a href="#">@lang('app.discard')</a></li>
-                                    </ul>
-                                </div>
-                            </section>
-                        </li>
-
-                        <!-- SUPPLIER 2 -->
-                        <li>
-                            <section class="team-card">
-                                <!--RESUMEN SUPPLIER-->
-                                <section class="supplierContain1">
-                                    <!--ICONO RANGO-->
-                                    <figure class="supplierContain1-ranking">
-                                        <span class="icon-gTalents_rango-1"><span class="path1"></span><span class="path2"></span></span>
-                                    </figure>
-
-                                    <div class="datos">
-                                        <h4>QDT876</h4>
-                                        <p>Newbie</p>
-                                    </div>
-                                </section>
-
-                                <!--OPCIONES-->
-                                <div class="options">
-                                    <!-- Dropdown Trigger -->
-                                    <a class='dropdown-button' href='#' data-activates='option-team02'>
-                                        <span class="icon-gTalents_submenu"></span>
-                                    </a>
-
-                                    <!-- Dropdown Structure -->
-                                    <ul id='option-team02' class='dropdown-content'>
-                                        <li><a href="#modalCalificar" class="modal-trigger waves-effect waves-light">@lang('app.qualify')</a></li>
-                                        <li><a href="#">@lang('app.discard')</a></li>
-                                    </ul>
-                                </div>
-                            </section>
-                        </li>
-
-                        <!-- SUPPLIER 3 -->
-                        <li>
-                            <section class="team-card">
-                                <!--RESUMEN SUPPLIER-->
-                                <section class="supplierContain1">
-                                    <!--ICONO RANGO-->
-                                    <figure class="supplierContain1-ranking">
-                                        <span class="icon-gTalents_rango-1"><span class="path1"></span><span class="path2"></span></span>
-                                    </figure>
-
-                                    <div class="datos">
-                                        <h4>QDT876</h4>
-                                        <p>Newbie</p>
-                                    </div>
-                                </section>
-
-                                <!--OPCIONES-->
-                                <div class="options">
-                                    <!-- Dropdown Trigger -->
-                                    <a class='dropdown-button' href='#' data-activates='option-team03'>
-                                        <span class="icon-gTalents_submenu"></span>
-                                    </a>
-
-                                    <!-- Dropdown Structure -->
-                                    <ul id='option-team03' class='dropdown-content'>
-                                        <li><a href="#modalCalificar" class="modal-trigger waves-effect waves-light">@lang('app.qualify')</a></li>
-                                        <li><a href="#">@lang('app.discard')</a></li>
-                                    </ul>
-                                </div>
-                            </section>
-                        </li>
-
-                        <!-- SUPPLIER 4 -->
-                        <li>
-                            <section class="team-card">
-                                <!--RESUMEN SUPPLIER-->
-                                <section class="supplierContain1">
-                                    <!--ICONO RANGO-->
-                                    <figure class="supplierContain1-ranking">
-                                        <span class="icon-gTalents_rango-1"><span class="path1"></span><span class="path2"></span></span>
-                                    </figure>
-
-                                    <div class="datos">
-                                        <h4>QDT876</h4>
-                                        <p>Newbie</p>
-                                    </div>
-                                </section>
-
-                                <!--OPCIONES-->
-                                <div class="options">
-                                    <!-- Dropdown Trigger -->
-                                    <a class='dropdown-button' href='#' data-activates='option-team04'>
-                                        <span class="icon-gTalents_submenu"></span>
-                                    </a>
-
-                                    <!-- Dropdown Structure -->
-                                    <ul id='option-team04' class='dropdown-content'>
-                                        <li><a href="#modalCalificar" class="modal-trigger waves-effect waves-light">@lang('app.qualify')</a></li>
-                                        <li><a href="#">@lang('app.discard')</a></li>
-                                    </ul>
-                                </div>
-                            </section>
-                        </li>
+                            </li>
+                        @endforeach
                     </ul>
                 </div>
 

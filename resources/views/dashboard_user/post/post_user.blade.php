@@ -92,7 +92,7 @@
                     @if($vacancy->group1)
                         % {{$vacancy->fee}}
                     @else
-                        $ {{$vacancy->fee}} {{trans('app.fixed')}})
+                        $ {{$vacancy->fee}} {{trans('app.fixed')}}
                     @endif
                 </p>
 
@@ -362,7 +362,8 @@
         </div>
 
         <div class="modal-content">
-            <form action="" class="formLogin">
+            <form action="{{route('vacancies.post_supplier', $vacancy->id)}}" class="formLogin" method="POST">
+                 {{ csrf_field() }}
                 <!--RESUMEN SUPPLIER-->
                 <div class="profile-colab profile-supplier">
                     <!--RESUMEN 1-->
@@ -381,9 +382,9 @@
 
                     <!--INVITAR-->
                     <div class="item">
-                        <a href="{{route('vacancies.post_supplier',$vacancy->id)}}" class="btn-main" type="submit" id="btn-modalMain">
+                        <button class="btn-main" type="submit" id="btn-modalMain">
                             @lang('app.participate')
-                        </a>
+                        </button>
                     </div>
                 </section>              
             </form>

@@ -174,4 +174,9 @@ class User extends Model implements AuthenticatableContract,
     {
         return $this->hasOne(ExperienceYear::class, 'id', 'years_recruitment_id');
     }
+
+    public function notifications()
+    {
+        return $this->hasMany(Notification::class);
+    }
 }

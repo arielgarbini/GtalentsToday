@@ -661,13 +661,13 @@ Route::get('vacancies/{vacancy}/apply', [
     'middleware' => 'permission:vacancies.view'
 ]);
 
-Route::get('vacancies/{id}/approbate', [
+Route::post('vacancies/{id}/approbate', [
     'as' => 'vacancies.approbate.supplier',
     'uses' => 'VacancyController@approbateSupplier',
     'middleware' => 'permission:vacancies.view'
 ]);
 
-Route::get('vacancies/reject/supplier', [
+Route::post('vacancies/{id}/reject/supplier', [
     'as' => 'vacancies.reject.supplier',
     'uses' => 'VacancyController@rejectSupplier',
     'middleware' => 'permission:vacancies.view'
@@ -880,12 +880,23 @@ Route::get('vacancies/{vacancy}/show_post_user', [
 ]);
 
 //Post-Supplier (Solicitud Supplier)
-Route::get('vacancies/{vacancy}/post_supplier', [
+Route::post('vacancies/{vacancy}/post_supplier', [
     'as' => 'vacancies.post_supplier',
     'uses' => 'VacancyController@post_supplier',
     'middleware' => 'permission:vacancies.view'
 ]);
 
+Route::post('vacancies/{id}/approbate', [
+    'as' => 'vacancies.approbate.supplier',
+    'uses' => 'VacancyController@approbateSupplier',
+    'middleware' => 'permission:vacancies.view'
+]);
+
+Route::post('vacancies/{id}/reject/supplier', [
+    'as' => 'vacancies.reject.supplier',
+    'uses' => 'VacancyController@rejectSupplier',
+    'middleware' => 'permission:vacancies.view'
+]);
 
 Route::get('post_user', function()
 {
@@ -896,10 +907,6 @@ Route::get('post_detail', function()
 {
  return View::make('dashboard_user.post.post_detail');
 });
-
-
-
-
 
 Route::get('post_supplier', function()
 {

@@ -64,112 +64,51 @@
 					<!--ALERTAS-->
 					<ul class="alerts-div">
 						<!--ALERTA 1-->
-						<li class="alert-participar">
-							<div class="motivo">
-								<a href="#">
-									<figure>
-										<span class="icon-gTalents_point"></span>
-									</figure>
-									<div class="datos">
-										<h4>Supplier GHT89564</h4>
-										<p>Quiere participar en Desarrollador .NET</p>
+                        @foreach($notifications as $notification)
+							@if($notification->type=='request_supplier_vacancy')
+								<li class="alert-participar">
+									<div class="motivo">
+										<a href="{{route('vacancies.show',$notification->post_id)}}">
+											<figure>
+												<span class="icon-gTalents_point"></span>
+											</figure>
+											<div class="datos">
+												<h4>{{$notification->title}}</h4>
+												<p>{{$notification->message}}</p>
+											</div>
+										</a>
 									</div>
-								</a>
-							</div>
 
-							<!--ACEPTAR-->
-							<span class="icon-gTalents_win-53 acept-alert"></span>
+									<!--ACEPTAR-->
+									<form action="{{route('vacancies.approbate.supplier',$notification->post_id)}}" method="POST">
+										{{csrf_field()}}
+										<input type="hidden" value="{{$notification->id}}" name="notification">
+										<span class="icon-gTalents_win-53 acept-alert send_form"></span>
+									</form>
+									<!--BTN ELIMINAR -->
+									<span class="icon-gTalents_close close-alert"></span>
+								</li>
+							@elseif($notification->type=='approved_supplier_vacancy')
 
-							<!--BTN ELIMINAR -->
-							<span class="icon-gTalents_close close-alert"></span>
-						</li>
-
-						<!--ALERTA 2-->
-						<li>
-							<div class="motivo">
-								<a href="#">
-									<figure>
-										<span class="icon-gTalents_point"></span>
-									</figure>
-									<div class="datos">
-										<h4>¡Nuevo Candidato!</h4>
-										<p>Desarrollador .NET</p>
+								<li class="alert-participar">
+									<div class="motivo">
+										<a href="{{route('vacancies.post_user',$notification->element_id)}}">
+											<figure>
+												<span class="icon-gTalents_point"></span>
+											</figure>
+											<div class="datos">
+												<h4>{{$notification->title}}</h4>
+												<p>{{$notification->message}}</p>
+											</div>
+										</a>
 									</div>
-								</a>
-							</div>
-							<!--BTN ELIMINAR -->
-							<span class="icon-gTalents_close close-alert"></span>
-						</li>
 
-						<!--ALERTA 3-->
-						<li>
-							<div class="motivo">
-								<a href="#">
-									<figure>
-										<span class="icon-gTalents_point"></span>
-									</figure>
-									<div class="datos">
-										<h4>¡Nuevo Candidato!</h4>
-										<p>Desarrollador .NET</p>
-									</div>
-								</a>
-							</div>
-							<!--BTN ELIMINAR -->
-							<span class="icon-gTalents_close close-alert"></span>
-						</li>
-
-						<!--ALERTA 4-->
-						<li>
-							<div class="motivo">
-								<a href="#">
-									<figure>
-										<span class="icon-gTalents_point"></span>
-									</figure>
-									<div class="datos">
-										<h4>¡Nuevo Candidato!</h4>
-										<p>Desarrollador .NET</p>
-									</div>
-								</a>
-							</div>
-							<!--BTN ELIMINAR -->
-							<span class="icon-gTalents_close close-alert"></span>
-						</li>
-
-						<!--ALERTA 5-->
-						<li>
-							<div class="motivo">
-								<a href="#">
-									<figure>
-										<span class="icon-gTalents_point"></span>
-									</figure>
-									<div class="datos">
-										<h4>¡Nuevo Candidato!</h4>
-										<p>Desarrollador .NET</p>
-									</div>
-								</a>
-							</div>
-							<!--BTN ELIMINAR -->
-							<span class="icon-gTalents_close close-alert"></span>
-						</li>	
-
-						
-						<!--ALERTA 6-->
-						<li>
-							<div class="motivo">
-								<a href="#">
-									<figure>
-										<span class="icon-gTalents_point"></span>
-									</figure>
-									<div class="datos">
-										<h4>¡Nuevo Candidato!</h4>
-										<p>Desarrollador .NET</p>
-									</div>
-								</a>
-							</div>
-							<!--BTN ELIMINAR -->
-							<span class="icon-gTalents_close close-alert"></span>
-						</li>	
-					</ul>				
+									<!--BTN ELIMINAR -->
+									<span class="icon-gTalents_close close-alert"></span>
+								</li>
+							@endif
+                        @endforeach
+                    </ul>
 				</div>
 			</li>
 

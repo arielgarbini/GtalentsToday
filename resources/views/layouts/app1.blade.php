@@ -74,6 +74,13 @@
     {!! HTML::script('assets/js/as/auth-frontend.js') !!}
 
 <!--    {!! HTML::script('assets/js/jquery.validate.min.js') !!} -->
+    <script>
+        $(document).ready(function(){
+            $('.send_form').click(function(){
+                $(this).parent().submit();
+            });
+        });
+    </script>
     @yield('scripts')
     @show
 </body>

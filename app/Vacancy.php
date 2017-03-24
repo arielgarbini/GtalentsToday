@@ -163,7 +163,7 @@ class Vacancy extends Model
                                 ->get();
         return $result;
     }
-
+*/
     public function updateStatusSupplier($supplier_id, $status)
     {
         $data = [ 'status'     => $status,
@@ -177,7 +177,7 @@ class Vacancy extends Model
                             
         return $this->countApplicationByStatus($status); 
     }
-
+/*
     public function pendingCandidates()
     {
         $result = VacancyCandidate::where('vacancy_id', '=', $this->id)
