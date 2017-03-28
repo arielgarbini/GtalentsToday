@@ -60,13 +60,9 @@ class CandidateController extends Controller
        	    $candidates = $this->candidates->paginate($perPage, Input::get('search'), Input::get('status'));*/
 
         $users = $this->users->lists();
-        $positions = ActualPosition::orderBy('name')->lists('name', 'id')->all();
-        $companies = Company::orderBy('name')->lists('name', 'id')->all();
-        $countries = Country::orderBy('citizenship')->lists('name', 'id')->all();
-        $compensations = Compensation::orderBy('id')->lists('salary', 'id')->all();
         //dd($positions);
     	//return view('candidate.index', compact('candidates','users'));
-        return view('dashboard_user.candidate.index', compact('candidates','users', 'positions', 'companies', 'countries','compensations'));		
+        return view('dashboard_user.candidate.index', compact('candidates','users'));
     }
 
     /**
@@ -116,12 +112,10 @@ class CandidateController extends Controller
 
 
         if ($mycandidate->save()) {
-            return redirect()->route('candidates.index')
-            ->withSuccess(trans('app.candidate_created')); 
+            return redirect()->back()->withSuccess(trans('app.candidate_created'));
         }
         else{
-            return redirect()->route('candidates.index')
-            ->withFlashDanger(trans('No creado'));
+            return redirect()->back()->withFlashDanger(trans('No creado'));
         }   
     }
 

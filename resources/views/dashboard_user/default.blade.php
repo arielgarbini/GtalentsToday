@@ -425,29 +425,59 @@
                 <ul class="alerts-div">
                     <!--ALERTA 0-->
                 <!-- Request Suppliers - request Candidats -->
-               @if($vacancies_users != NULL)
-                @foreach($vacancies_users as $vacancies_user)    
-                    <li class="alert-participar">
-                        <div class="motivo">
-                            <a href="#">
-                                <figure>
-                                    <span class="icon-gTalents_point"></span>
-                                </figure>
-                                <div class="datos">
-                                    <h4>@lang('app.supplier') {{$vacancies_user->first_name}} {{$vacancies_user->last_name}}</h4>
-                                    <p>Quiere participar en {{$vacancies_user->name}}</p>
-                                </div>
-                            </a>
-                        </div>
-                        
-                        <!--ACEPTAR-->
-                        <span class="icon-gTalents_win-53 acept-alert"></span>
+               @if(count($notifications)>0)
+                        @foreach($notifications as $notification)
+                            @if($notification->type=='request_supplier_vacancy')
+                                <li class="alert-participar">
+                                    <div class="motivo">
+                                        <a href="{{route('vacancies.show',$notification->post_id)}}">
+                                            <figure>
+                                                <span class="icon-gTalents_point"></span>
+                                            </figure>
+                                            <div class="datos">
+                                                <h4>{{$notification->title}}</h4>
+                                                <p>{{$notification->message}}</p>
+                                            </div>
+                                        </a>
+                                    </div>
 
-                        <!--BTN ELIMINAR -->
-                        <span class="icon-gTalents_close close-alert"></span>
-                    </li>
+                                    <!--ACEPTAR-->
+                                    <form action="{{route('vacancies.approbate.supplier',$notification->post_id)}}" method="POST">
+                                        {{csrf_field()}}
+                                        <input type="hidden" value="{{$notification->id}}" name="notification">
+                                        <span class="icon-gTalents_win-53 acept-alert send_form"></span>
+                                    </form>
+                                    <!--BTN ELIMINAR -->
+                                    <form action="{{route('vacancies.reject.supplier',$notification->post_id)}}" method="POST">
+                                        {{csrf_field()}}
+                                        <input type="hidden" value="{{$notification->id}}" name="notification">
+                                        <input type="hidden" value="{{$notification->supplier_id}}" name="supplier">
+                                        <span class="icon-gTalents_close close-alert send_form"></span>
+                                    </form>
+                                </li>
+                            @elseif($notification->type=='approved_supplier_vacancy' || $notification->type=='rejected_supplier_vacancy')
 
-                    @endforeach
+                                <li class="alert-participar">
+                                    <div class="motivo">
+                                        <a href="{{route('vacancies.post_user',$notification->element_id)}}">
+                                            <figure>
+                                                <span class="icon-gTalents_point"></span>
+                                            </figure>
+                                            <div class="datos">
+                                                <h4>{{$notification->title}}</h4>
+                                                <p>{{$notification->message}}</p>
+                                            </div>
+                                        </a>
+                                    </div>
+
+                                    <!--BTN ELIMINAR -->
+                                    <form action="{{route('notifications.delete',$notification->id)}}" method="POST">
+                                        {{csrf_field()}}
+                                        <span class="icon-gTalents_close close-alert send_form"></span>
+                                    </form>
+                                </li>
+                            @endif
+                        @endforeach
 
                     @else
                            <li>{{trans('app.no_notifications')}}</li>

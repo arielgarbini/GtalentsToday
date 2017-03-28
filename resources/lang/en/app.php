@@ -126,6 +126,8 @@ return [
     'send_data'                     => 'Enviar Datos',
     'browse'                        => 'Browse',
     'edit_or_leave_blank'           => 'Edit or leave blank',
+    'compesation'                   => 'Compensation',
+    'new_candidate_add_success'     => 'New candidate add successfully',
 
         //Oportunities
     'filter_your_search'            => 'Filter your search',
@@ -208,6 +210,12 @@ return [
     'rate_supplier'               => 'Rate Supplier',
     'he_offer'                    => 'He offer',
     'what_is_your_opinion?'       => 'What is your opinion?',
+    'rejected'                    => 'Rejected',
+    'in_progress'                 => 'In progress',
+    'view_cv'                     => 'View CV',
+    'historical'                  => 'Historical',
+    'send_candidates'             => 'Send Candidates',
+    'new_candidate'               => 'New Candidate',
 
     'positions'                   => 'Positions',
     'career_plan'                 => 'Career Plan',

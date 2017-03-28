@@ -127,6 +127,8 @@ return [
     'candidates_prueba'             => 'Candidatos Prueba',
     'browse'                        => 'Examinar',
     'edit_or_leave_blank'           => 'Editar o dejar en blanco',
+    'compesation'                   => 'Compensación',
+    'new_candidate_add_success'     => 'Nuevo candidato agregado exitosamente',
 
     //Oportunities
     'filter_your_search'            => 'Filtra tu búsqueda',
@@ -208,6 +210,12 @@ return [
     'rate_supplier'               => 'Calificar Supplier',
     'he_offer'                    => 'Te ofreció',
     'what_is_your_opinion?'       => '¿Cuál es tu opinión?',
+    'rejected'                    => 'Rechazados',
+    'in_progress'                 => 'En curso',
+    'view_cv'                     => 'Ver CV',
+    'historical'                  => 'Historico',
+    'send_candidates'             => 'Enviar Candidatos',
+    'new_candidate'               => 'Nuevo Candidato',
 
     'positions'                   => 'Posiciones',
     'career_plan'                 => 'Plan de carrera',

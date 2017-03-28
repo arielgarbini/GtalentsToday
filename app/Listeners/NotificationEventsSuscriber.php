@@ -39,6 +39,9 @@ class NotificationEventsSuscriber implements ShouldQueue
             case 'approved_supplier_vacancy':
                 $data =  ['title' => '¡Aprobado!', 'message' =>'Has sido aprobado a '.$dataRequest['name']];
             break;
+            case 'rejected_supplier_vacancy':
+                $data =  ['title' => '¡Rechazado!', 'message' =>'Has sido rechazado a '.$dataRequest['name']];
+            break;
         }
 
         return $data;

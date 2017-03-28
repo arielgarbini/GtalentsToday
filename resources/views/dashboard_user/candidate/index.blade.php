@@ -113,12 +113,8 @@
         </section>
     </article>
 
-
     <!--MODAL NUEVO CANDIDATO-->
     @include('dashboard_user.candidate.partials.modalcreate')
-    
-
-    
 
 @stop
 

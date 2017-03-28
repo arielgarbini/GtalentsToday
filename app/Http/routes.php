@@ -328,6 +328,11 @@ Route::post('settings/notifications', [
     'middleware' => 'permission:settings.notifications'
 ]);
 
+Route::post('{id}/notifications/delete', [
+    'as' => 'notifications.delete',
+    'uses' => 'NotificationsController@delete'
+]);
+
 /**
  * Activity Log
  */

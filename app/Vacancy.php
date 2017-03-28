@@ -139,12 +139,21 @@ class Vacancy extends Model
 
         return $result;
     }
-
+*/
     public function countApplicationByStatus($status)
     {
         $result = VacancyUser::where('vacancy_id', '=', $this->id)
                                 ->where('status', '=', $status)
                                 ->count();
+        return $result;
+    }
+
+
+    public function pendingSuppliers()
+    {
+        $result = VacancyUser::where('vacancy_id', '=', $this->id)
+                                ->where('status', '=', GeneralStatus::UNCONFIRMED)
+                                ->get();
         return $result;
     }
 
@@ -156,14 +165,6 @@ class Vacancy extends Model
         return $result;
     }
 
-    public function pendingSuppliers()
-    {
-        $result = VacancyUser::where('vacancy_id', '=', $this->id)
-                                ->where('status', '=', GeneralStatus::UNCONFIRMED)
-                                ->get();
-        return $result;
-    }
-*/
     public function updateStatusSupplier($supplier_id, $status)
     {
         $data = [ 'status'     => $status,

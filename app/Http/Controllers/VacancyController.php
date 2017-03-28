@@ -6,6 +6,7 @@ use Auth;
 use Cache;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Input;
+use Vanguard\ActualPosition;
 use Vanguard\ContractType;
 use Vanguard\Events\Vacancy\Viewed;
 use Vanguard\Events\Vacancy\Logged;
@@ -571,8 +572,9 @@ class VacancyController extends Controller
 
         $vacancy->updateStatusSupplier($request->supplier, GeneralStatus::REJECTED);
 
-        //event(new NotificationEvent(['element_id' => $vacancy->id,
-        //    'user_id'=>$vacancy_users->supplier_user_id, 'type' => 'approved_supplier_vacancy', 'name'=>$vacancy->name]));
+        event(new NotificationEvent(['element_id' => $vacancy->id,
+           'user_id'=>$request->supplier, 'type' => 'rejected_supplier_vacancy', 'name'=>$vacancy->name]));
+        Notification::destroy($request->notification);
 
         return redirect()->back()
             ->withSuccess(trans('app.reject_application'));
@@ -697,6 +699,11 @@ class VacancyController extends Controller
         }
         event(new Viewed($vacancy));
         if (isset($vacancy)) {
+            if (session('lang') =='en'){
+                $language = 2;
+            }else{
+                $language = 1;
+            }
             $companies_users = $this->companies_users->where('user_id',$this->theUser->id);
             if ($companies_users){
               $companies  = $this->companies->find($companies_users->company_id);                
@@ -704,7 +711,17 @@ class VacancyController extends Controller
             if(!$userSupplierPost){
                 return view('dashboard_user.post.post_user',compact('userVacancy', 'vacancy','companies')) ;
             } else {
-                return view('dashboard_user.post.post_supplier',compact('userVacancy', 'vacancy','companies')) ;
+                $userCandidates = $this->candidates->where('supplier_user_id', Auth::user()->id);
+                $data = [];
+                $i = 0;
+                foreach ($userCandidates as $can){
+                    $data[] = $can;
+                    $data[$i]['actual_position'] = ActualPosition::where('value_id', $can->actual_position_id)
+                        ->where('language_id', $language)->get()->first();
+                    $i++;
+                }
+                $data = (object) $data;
+                return view('dashboard_user.post.post_supplier',compact('userCandidates','userVacancy', 'vacancy','companies')) ;
             }
 
         }

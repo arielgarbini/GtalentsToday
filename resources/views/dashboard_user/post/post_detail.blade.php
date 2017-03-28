@@ -206,13 +206,13 @@
                 <div class="item-resumVisitas">
                     <!--SUPPLIER-->
                     <div class="item-option">
-                        <h4>3</h4>
+                        <h4>{{count($suppliers)}}</h4>
                         <span class="opt-sm">@lang('app.suppliers')</span>
                     </div>
 
                     <!--CANDIDATOS-->
                     <div class="item-option">
-                        <h4>6</h4>
+                        <h4>{{count($candidatesApproved)}}</h4>
                         <span class="opt-sm">@lang('app.candidates')</span>
                     </div>
 

@@ -8,7 +8,7 @@
                 </a>
             </div>
 
-            <h4>Nuevo Candidato</h4>
+            <h4>@lang('app.new_candidate')</h4>
         </div>
 
         <div class="modal-content">
@@ -18,11 +18,11 @@
                     
                     <div class="item">
                         <a href="#" class="modal-action modal-close waves-effect btn-return">
-                        Regresar</a>
+                        @lang('app.back')</a>
                     </div>
                     <div class="item">
                         <button class="btn-main" type="submit" name="action">
-                      Crear</button>
+                      @lang('app.create')</button>
                     </div>
 
                 </section>
@@ -31,11 +31,11 @@
                 <figure>
                     <span class="icon-gTalents_win-53"></span>
                 </figure>
-                <p>Nuevo candidato agregado exitosamente</p>
+                <p>@lang('app.new_candidate_add_success')</p>
                 <!--BTN-MAIN-->
                 <div class="item">
                     <a href="#!" class="btn-main">
-                        Continuar
+                        @lang('app.continue')
                     </a>
                 </div>
             </div>

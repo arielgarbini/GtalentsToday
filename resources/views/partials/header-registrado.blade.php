@@ -85,10 +85,15 @@
 										<input type="hidden" value="{{$notification->id}}" name="notification">
 										<span class="icon-gTalents_win-53 acept-alert send_form"></span>
 									</form>
+                                    <form action="{{route('vacancies.reject.supplier',$notification->post_id)}}" method="POST">
+                                        {{csrf_field()}}
+                                        <input type="hidden" value="{{$notification->id}}" name="notification">
+                                        <input type="hidden" value="{{$notification->supplier_id}}" name="supplier">
+                                        <span class="icon-gTalents_close close-alert send_form"></span>
+                                    </form>
 									<!--BTN ELIMINAR -->
-									<span class="icon-gTalents_close close-alert"></span>
 								</li>
-							@elseif($notification->type=='approved_supplier_vacancy')
+							@elseif($notification->type=='approved_supplier_vacancy' || $notification->type=='rejected_supplier_vacancy')
 
 								<li class="alert-participar">
 									<div class="motivo">
@@ -104,7 +109,10 @@
 									</div>
 
 									<!--BTN ELIMINAR -->
-									<span class="icon-gTalents_close close-alert"></span>
+                                    <form action="{{route('notifications.delete',$notification->id)}}" method="POST">
+                                        {{csrf_field()}}
+                                        <span class="icon-gTalents_close close-alert send_form"></span>
+                                    </form>
 								</li>
 							@endif
                         @endforeach
