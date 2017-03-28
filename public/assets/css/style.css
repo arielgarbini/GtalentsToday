@@ -1067,7 +1067,7 @@ textarea:focus {
   border: 1px solid #3a6097;
 }
 .sticky {
-  background: #fff !important;
+  background: rgba(246, 246, 246, 0.72) !important;
   border-bottom: 1px solid #f6f6f6 !important;
   position: fixed !important;
   left: 0;

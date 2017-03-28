@@ -76,7 +76,7 @@ return [
 
     //Language
     'english' => 'English',
-    'spanish' => 'Spanish',
+    'spanish' => 'Español',
 
     //Categories
     'category' => 'Category',

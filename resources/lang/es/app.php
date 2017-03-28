@@ -75,8 +75,8 @@ return [
     'admin_consultant' => 'Administrador Consultor',
     'consultant' => 'Consultor', 
 
-    //Language
-    'english' => 'Inglés',
+    //Language 
+    'english' => 'English',
     'spanish' => 'Español',
 
     //Categories
