@@ -16,7 +16,9 @@
 
 		<!-- MENSAJE PRINCIPAL-->
 		<section class="message">
-			<h3>{{ trans('home.How to connect Executive Recruiters around the world') }}</h3>
+			<h3>{{ trans('home.How to connect Executive Recruiters around the world') }}
+			<p style="font-size: medium;">{{ trans('home.Present candidates, post positions confidentially.') }}
+			{{ trans('home.gTalents, the platform that connects Executive Recruiters around the globe.') }}</p></h3><br>
 			<div class="message-link">
 				<a href="{{URL('loginuser')}}" class="btn-main2">{{ trans('home.Start') }}</a>
 			</div>
@@ -122,7 +124,7 @@
 	<article class="generic grid" id="comoComenzar">
 		<!--TITULO DE LA SECCION-->
 		<section class="generic-title bloque">
-			<h2>  {{ trans('home.The advantages of gTalents Simple steps for')}}  <strong>{{ trans('home.Start') }}</strong> {{ trans('home.? How to Start!')}}</h2>
+			<h2>  {{ trans('home.The advantages of gTalents Simple steps for')}}  <strong>{{ trans('home.Start') }}</strong>?</h2>
 		</section>
 		
 		<!--PASOS-->
@@ -187,7 +189,7 @@
 	<article class="titleWin membresias bloque" id="membresias">
 
 		<section class="titleWin-container">
-			<h2> ¡{{ trans('home.Memberships')}}!</h2>
+			<h2> {{ trans('home.Memberships')}}!</h2>
 			<p> {{ trans('home.Build up experience and increase your share / income as you successfully publish and share candidates')}} </p>
 			<div class="titleWin-container-link">
 				<a href="#modalMembresias" class=" modal-trigger waves-effect waves-light btn-main2">{{ trans('home.Read more') }} </a>
@@ -200,7 +202,7 @@
 	<article class="titleWin question bloque" id="question">
 
 		<section class="titleWin-container">
-			<h2>  {{ trans('home.Frequent questions')}}</h2>
+			<h2>  {{ trans('home.Frequently Asked Questions')}}</h2>
 			<div class="titleWin-container-link">
 				<a href="#modalQuestion" class=" modal-trigger waves-effect waves-light btn-main2">{{ trans('home.Read more') }}</a>
 			</div>
@@ -228,10 +230,10 @@
 			<h2> {{ trans('home.Contact us')}}!</h2>
 		</section>
 
-		<!--TEXTO DE LA SECCION-->
+		<!--TEXTO DE LA SECCION
 		<section class="paragraph">
 			<p> {{ trans('home.We will respond to your concerns in a short time')}} </p>
-		</section>
+		</section> -->
 
 		<!-- CTA CONTACTO-->
 		<div class="link-contact">
@@ -248,11 +250,12 @@
 
 		<!--FORMULARIO DE CONTACTO-->			
 		<section class="contact-formulario">
-			<!--TITULO-->
+			<!--TITULO
 			<div class="title">
 				<h3>  {{ trans('home.Tell us about your concerns')}} !</h3>
 				<p>  {{ trans('home.We will give you an answer as soon as possible')}}  </p>
-			</div>
+			</div> -->
+
 
 			<!--FORMULARIO-->
 			<form action="">
@@ -767,7 +770,7 @@
 				<!--TITULO DE LA SECCION-->
 				<section class="generic-title bloque">
 					<span class="icon-gTalents_question"></span>
-					<h2>{{ trans('home.questions') }}  <strong> {{ trans('home.Frequent') }}  </strong></h2>
+					<h2>{{ trans('home.Frequently Asked Questions') }}</h2>
 				</section>
 
 				<!--PREGUNTAS FRECUENTES-->
@@ -822,7 +825,6 @@
 						</div>
 						<div class="collapsible-body">
 							<p>{{ trans('home.frequent_questions.05.answer01')}}</p>
-							<p>{{ trans('home.frequent_questions.05.answer02')}}</p>
 						</div>
 					</li>
 					<li>
@@ -846,7 +848,7 @@
 							<h5>7. {{ trans('home.frequent_questions.07.title')}}</h5>
 						</div>
 						<div class="collapsible-body">
-							<p>{{ trans('home.frequent_questions.07.answer01')}}</p>
+							<p>{{ trans('home.frequent_questions.07.answer01')}}<a href="#modalGarantias" class=" modal-trigger waves-effect waves-light">{{ trans('home.frequent_questions.07.answer02')}}</a>{{ trans('home.frequent_questions.07.answer03')}}</p>
 						</div>
 					</li>
 					<li>
