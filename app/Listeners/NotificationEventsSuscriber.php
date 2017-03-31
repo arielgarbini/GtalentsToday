@@ -34,13 +34,25 @@ class NotificationEventsSuscriber implements ShouldQueue
     {
         switch($dataRequest['type']){
             case 'request_supplier_vacancy':
-                $data =  ['title' => 'Supplier '.Auth::user()->code, 'message' =>'Quiere participar en '.$dataRequest['name']];
+                $data =  ['title' => 'title_supplier__'.Auth::user()->code, 'message' =>'request_supplier_vacancy__'.$dataRequest['name']];
             break;
             case 'approved_supplier_vacancy':
-                $data =  ['title' => '¡Aprobado!', 'message' =>'Has sido aprobado a '.$dataRequest['name']];
+                $data =  ['title' => 'title_approved_supplier', 'message' =>'approved_supplier_vacancy__'.$dataRequest['name']];
             break;
             case 'rejected_supplier_vacancy':
-                $data =  ['title' => '¡Rechazado!', 'message' =>'Has sido rechazado a '.$dataRequest['name']];
+                $data =  ['title' => 'title_rejected_supplier', 'message' =>'rejected_supplier_vacancy__'.$dataRequest['name']];
+            break;
+            case 'request_supplier_candidates':
+                $data =  ['title' => 'title_candidates', 'message' =>'request_supplier_candidates__'.$dataRequest['name']];
+            break;
+            case 'rejected_supplier_candidate':
+                $data =  ['title' => 'title_rejected_candidates', 'message' =>'rejected_supplier_candidate__'.$dataRequest['name']];
+            break;
+            case 'approbate_supplier_candidate':
+                $data =  ['title' => 'title_approved_candidates', 'message' =>'approbate_supplier_candidate__'.$dataRequest['name']];
+            break;
+            case 'message_received':
+                $data =  ['title' => 'title_message_received', 'message' =>'message_received__'.$dataRequest['name']];
             break;
         }
 

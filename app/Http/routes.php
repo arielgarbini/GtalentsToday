@@ -903,6 +903,48 @@ Route::post('vacancies/{id}/reject/supplier', [
     'middleware' => 'permission:vacancies.view'
 ]);
 
+Route::post('vacancies/{id}/approbate/candidate', [
+    'as' => 'vacancies.approbate.candidate',
+    'uses' => 'VacancyController@approbateCandidate',
+    'middleware' => 'permission:vacancies.view'
+]);
+
+Route::post('vacancies/{id}/reject/candidate', [
+    'as' => 'vacancies.reject.candidate',
+    'uses' => 'VacancyController@rejectCandidate',
+    'middleware' => 'permission:vacancies.view'
+]);
+
+Route::post('vacancies/{id}/postulate/candidate', [
+    'as' => 'vacancies.postulate.candidate',
+    'uses' => 'VacancyController@postulateCandidate',
+    'middleware' => 'permission:vacancies.view'
+]);
+
+Route::post('vacancies/{id}/read/candidate', [
+    'as' => 'vacancies.read.candidate',
+    'uses' => 'VacancyController@read',
+    'middleware' => 'permission:vacancies.view'
+]);
+
+Route::get('vacancies/{id}/history/candidate', [
+    'as' => 'vacancies.history.candidate',
+    'uses' => 'VacancyController@getHistory',
+    'middleware' => 'permission:vacancies.view'
+]);
+
+Route::get('vacancies/{id}/contract/candidate', [
+    'as' => 'vacancies.contract.candidate',
+    'uses' => 'VacancyController@getContractCandidate',
+    'middleware' => 'permission:vacancies.view'
+]);
+
+Route::post('vacancies/{id}/contract/candidate/save', [
+    'as' => 'vacancies.contract.candidate.post',
+    'uses' => 'VacancyController@postContractCandidate',
+    'middleware' => 'permission:vacancies.view'
+]);
+
 Route::get('post_user', function()
 {
  return View::make('dashboard_user.post.post_user');
@@ -924,11 +966,25 @@ Route::get('post_credits', function()
 });
 
 // ======Mensajes============
-Route::get('message_list', function()
-{
- return View::make('dashboard_user.message.index');
-});
+Route::get('message/list', [
+    'as' => 'message.indexFrontend',
+    'uses' => 'MessageController@indexFrontend'
+]);
 
+Route::get('message_list', [
+    'as' => 'message.index',
+    'uses' => 'MessageController@index'
+]);
+
+Route::get('conversations/{id}/messages', [
+    'as' => 'conversations.message',
+    'uses' => 'MessageController@getMessages'
+]);
+
+Route::post('conversations/messages', [
+    'as' => 'conversations.message.save',
+    'uses' => 'MessageController@PostMessages'
+]);
 
 // ======Equipo============
 Route::get('team', function()

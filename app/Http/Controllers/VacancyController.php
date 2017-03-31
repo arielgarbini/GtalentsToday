@@ -7,7 +7,9 @@ use Cache;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Input;
 use Vanguard\ActualPosition;
+use Vanguard\Candidate;
 use Vanguard\ContractType;
+use Vanguard\Conversation;
 use Vanguard\Events\Vacancy\Viewed;
 use Vanguard\Events\Vacancy\Logged;
 use Vanguard\Events\Vacancy\Applied;
@@ -38,12 +40,16 @@ use Vanguard\Repositories\Invoice\InvoiceRepository;
 use Vanguard\Repositories\VacancyUser\VacancyUserRepository;
 use Vanguard\Repositories\CompanyUser\CompanyUserRepository;
 use Vanguard\Repositories\Company\CompanyRepository;
+use Vanguard\Repositories\VacancyViewedRepository;
+use Vanguard\Repositories\VacancyCandidatesStatusRepository;
 use Vanguard\Services\Upload\FileManager;
 use Vanguard\Support\Enum\InvoiceStatus;
 use Vanguard\Support\Enum\GeneralStatus;
 use Vanguard\Http\Requests;
+use Vanguard\Support\Enum\UserStatus;
 use Vanguard\User;
 use Vanguard\Vacancy;
+use Vanguard\VacancyCandidate;
 use Vanguard\VacancyUser;
 use Vanguard\CompanyUser;
 use JavaScript;
@@ -104,6 +110,15 @@ class VacancyController extends Controller
      */
     private $replacement_period;
 
+    /**
+     * @var VacancyViewedRepository
+     */
+    private $vacancy_viewed;
+
+    /**
+     * @var VacancyCandidatesStatusRepository
+     */
+    private $vacancy_candidates_status;
 
     /**
      * VacancyController constructor.
@@ -118,7 +133,9 @@ class VacancyController extends Controller
                                 InvoiceRepository $invoices, 
                                 VacancyUserRepository $vacancies_users,
                                 CompanyUserRepository $companies_users,
-                                CompanyRepository $companies)
+                                CompanyRepository $companies,
+                                VacancyViewedRepository $vacancy_viewed,
+                                VacancyCandidatesStatusRepository $vacancy_candidates_status)
     {
         //$this->middleware('permission:vacancies.view');
         $this->vacancies = $vacancies;
@@ -131,6 +148,8 @@ class VacancyController extends Controller
         $this->vacancies_users = $vacancies_users;
         $this->companies_users = $companies_users;
         $this->companies = $companies;
+        $this->vacancy_viewed = $vacancy_viewed;
+        $this->vacancy_candidates_status = $vacancy_candidates_status;
         $this->theUser = Auth::user();
 
         JavaScript::put([
@@ -556,7 +575,9 @@ class VacancyController extends Controller
         event(new NotificationEvent(['element_id' => $vacancy->id,
             'user_id'=>$vacancy_users->supplier_user_id, 'type' => 'approved_supplier_vacancy', 'name'=>$vacancy->name]));
         Notification::destroy($request->notification);
-         return redirect()->back()
+        Conversation::create(['sender_user_id' => Auth::user()->id, 'destinatary_user_id' => $vacancy_users->supplier_user_id,
+        'vacancy_id' => $vacancy->id]);
+        return redirect()->back()
             ->withSuccess(trans('app.approved_application')); 
     }
 
@@ -586,32 +607,48 @@ class VacancyController extends Controller
      * @param int $id
      * @return mixed
      */
-    public function approbateCandidate(Request $request)
+
+    public function getHistory(Request $request, $id)
+    {
+        $history = $this->vacancy_candidates_status->search(['vacancy_id' => $request->vacancy, 'candidate_id' => $id])->get();
+        $data = [];
+        foreach($history as $his){
+            $date = explode(' ', $his->created_at);
+            $time = explode(':', $date[1]);
+            $date = explode('-', $date[0]);
+            $data[] = ['status' =>trans('app.'.$his->status),
+                'created_at' => \Carbon\Carbon::create($date[0], $date[1], $date[2], $time[0], $time[1], $time[2])->diffForHumans()];
+        }
+        return $data;
+    }
+
+    public function read (Request $request, $id)
     {
         $vacancy = $this->vacancies->find($request->vacancy);
-        $return = $vacancy->updateStatusCandidate($request->candidate, GeneralStatus::ACTIVE);
-
-        $candidate = $this->candidates->find($request->candidate);
-
-        if($vacancy->isApprobateCandidate($candidate->id)){
-            $data =['vacancy_id'       => $vacancy->id, 
-                    'number'           => substr (microtime(), 12, 20), 
-                    'name'             => 'Invoice test', 
-                    'amount' => ($vacancy->condition->approximate_total_billing)/$vacancy->positions_number, 
-                    'tax'              => ($vacancy->condition->comission)/$vacancy->positions_number, 
-                    'supplier_user_id' => $candidate->supplier_user_id, 
-                    'poster_user_id'   => $vacancy->poster_user_id, 
-                    'status'           => InvoiceStatus::PENDING,  
-                    'payment_due'      => $vacancy->created_at->addDays(12)
-                    ];
-
-            $this->invoices->create($data);
-
-            //Vacancy Log
-            event(new Logged($vacancy, $candidate));
+        if(!$this->vacancy_candidates_status->search(['status'=>'read', 'candidate_id'=>$id, 'vacancy_id'=>$vacancy->id])->get()->first()){
+            $vacancy->updateStatusCandidate($id, 'Read');
+            return $this->vacancy_candidates_status->create(['candidate_id' =>$id,
+                'vacancy_id'=>$vacancy->id, 'status'=>'read']);
+        } else {
+            return response()->json([]);
         }
+    }
 
-        return $return;
+
+    public function approbateCandidate(Request $request, $id)
+    {
+        $vacancy = $this->vacancies->find($request->vacancy);
+        $return = $vacancy->updateStatusCandidate($id, GeneralStatus::ACTIVE);
+
+        $candidate = $this->candidates->find($id);
+
+        event(new NotificationEvent(['element_id' => $vacancy->id,
+            'user_id'=>$candidate->supplier_user_id, 'type' => 'approbate_supplier_candidate',
+            'name'=>$candidate->first_name.' '.$candidate->last_name]));
+        $this->vacancy_candidates_status->create(['candidate_id' =>$id,
+            'vacancy_id'=>$vacancy->id, 'status'=>GeneralStatus::ACTIVE]);
+        return redirect()->back()
+            ->withSuccess(trans('app.approved_candidate'));
     }
 
     /**
@@ -620,11 +657,21 @@ class VacancyController extends Controller
      * @param int $id
      * @return mixed
      */
-    public function rejectCandidate(Request $request)
+    public function rejectCandidate(Request $request, $id)
     {
         $vacancy = $this->vacancies->find($request->vacancy);
 
-        return $vacancy->updateStatusCandidate($request->candidate, GeneralStatus::REJECTED);
+        $vacancy->updateStatusCandidate($id, GeneralStatus::REJECTED);
+
+        $candidate = $this->candidates->find($id);
+
+        event(new NotificationEvent(['element_id' => $vacancy->id,
+            'user_id'=>$candidate->supplier_user_id, 'type' => 'rejected_supplier_candidate',
+            'name'=>$candidate->first_name.' '.$candidate->last_name]));
+        $this->vacancy_candidates_status->create(['candidate_id' =>$id,
+            'vacancy_id'=>$vacancy->id, 'status'=>GeneralStatus::REJECTED]);
+        return redirect()->back()
+            ->withSuccess(trans('app.rejected_candidate'));
     }
 
     /**
@@ -633,16 +680,27 @@ class VacancyController extends Controller
      * @param int $id
      * @return mixed
      */
-    public function postulateCandidate(Request $request)
+    public function postulateCandidate(Request $request, $id)
     {
-        $vacancy = $this->vacancies->find($request->vacancy);              
+        $vacancy = $this->vacancies->find($id);
 
         $data = [ 'status'      => GeneralStatus::UNCONFIRMED,
+                  'comment'     => $request->comment,
                   'created_at'  => \Carbon\Carbon::now(),
                   'updated_at'  => \Carbon\Carbon::now() ];
 
         //Postulate
-        return $this->vacancies->candidates($vacancy->id)->attach($request->candidate, $data);
+        $candidates = explode(',',$request->candidates);
+        foreach($candidates as $candidate){
+            $vacancy_candidates = $this->vacancies->candidates($vacancy->id)->attach($candidate, $data);
+            $this->vacancy_candidates_status->create(['candidate_id' =>$candidate,
+                'vacancy_id'=>$vacancy->id, 'status'=>UserStatus::UNCONFIRMED]);
+        }
+        event(new NotificationEvent(['element_id' => $vacancy->id,
+            'user_id'=>$vacancy->poster_user_id, 'type' => 'request_supplier_candidates', 'name'=>$vacancy->name]));
+
+        return redirect()->back()
+            ->withSuccess(trans('app.candidates_send_success'));
     }
 
     //** Status Post-Vancancy (Approved Administrador)
@@ -687,7 +745,7 @@ class VacancyController extends Controller
     }
 
     //** Detail Opportunity Available
-    public function show_post_user($id, User $users){
+    public function show_post_user(Request $request, $id, User $users){
         $vacancy = $this->vacancies->find($id);
         $userVacancy = [];
         $userSupplierPost = false;
@@ -698,6 +756,10 @@ class VacancyController extends Controller
             }
         }
         event(new Viewed($vacancy));
+        if(!$this->vacancy_viewed->search(['user_id' => Auth::user()->id, 'vacancy_id' => $vacancy->id])->get()->first()){
+            $this->vacancy_viewed->create(['vacancy_id' => $vacancy->id, 'user_id' => Auth::user()->id,
+                'ip_address' => $request->ip(), 'user_agent' => $this->getUserAgent($request)]);
+        }
         if (isset($vacancy)) {
             if (session('lang') =='en'){
                 $language = 2;
@@ -711,22 +773,54 @@ class VacancyController extends Controller
             if(!$userSupplierPost){
                 return view('dashboard_user.post.post_user',compact('userVacancy', 'vacancy','companies')) ;
             } else {
-                $userCandidates = $this->candidates->where('supplier_user_id', Auth::user()->id);
-                $data = [];
-                $i = 0;
-                foreach ($userCandidates as $can){
-                    $data[] = $can;
-                    $data[$i]['actual_position'] = ActualPosition::where('value_id', $can->actual_position_id)
-                        ->where('language_id', $language)->get()->first();
-                    $i++;
-                }
-                $data = (object) $data;
-                return view('dashboard_user.post.post_supplier',compact('userCandidates','userVacancy', 'vacancy','companies')) ;
+                $data = $this->getCandidatesSupplier(Auth::user()->id, $vacancy);
+                $userCandidatesAvailable = $data['userCandidatesAvailable'];
+                $userCandidatesProgress = $data['userCandidatesProgress'];
+                $userCandidatesRejected = $data['userCandidatesRejected'];
+                return view('dashboard_user.post.post_supplier',compact('userCandidatesRejected', 'userCandidatesProgress', 'userCandidatesAvailable','userVacancy', 'vacancy','companies')) ;
             }
 
         }
        return redirect()->action('VacancyController@list')
           ->withErrors(trans('app.register_not_found'));
+    }
+
+    public function getCandidatesSupplier($supplierId, $vacancy)
+    {
+        $users = Candidate::where('supplier_user_id', $supplierId)->get();
+        if (session('lang') =='en'){
+            $language = 2;
+        }else{
+            $language = 1;
+        }
+        $data1 = [];
+        $data2 = [];
+        $data3 = [];
+        $i = 0;
+        $j = 0;
+        $p = 0;
+        foreach ($users as $can){
+            if(!VacancyCandidate::where('candidate_id', $can->id)->where('vacancy_id', $vacancy->id)->get()->first()) {
+                $data1[] = $can;
+                $data1[$i]['actual_position'] = ActualPosition::where('value_id', $can->actual_position_id)
+                    ->where('language_id', $language)->get()->first()->name;
+                $i++;
+            }
+            if(VacancyCandidate::where('candidate_id', $can->id)->where('vacancy_id', $vacancy->id)->where('status','!=','Rejected')->get()->first()) {
+                $data2[] = $can;
+                $data2[$j]['actual_position'] = ActualPosition::where('value_id', $can->actual_position_id)
+                    ->where('language_id', $language)->get()->first()->name;
+                $j++;
+            }
+            if(VacancyCandidate::where('candidate_id', $can->id)->where('vacancy_id', $vacancy->id)->where('status','Rejected')->get()->first()) {
+                $data3[] = $can;
+                $data3[$p]['actual_position'] = ActualPosition::where('value_id', $can->actual_position_id)
+                    ->where('language_id', $language)->get()->first()->name;
+                $p++;
+            }
+        }
+        return ['userCandidatesAvailable' =>  $data1, 'userCandidatesProgress' => $data2,
+        'userCandidatesRejected' => $data3];
     }
 
     //** Request Supplier 
@@ -747,4 +841,47 @@ class VacancyController extends Controller
             ->withSuccess(trans('app.has_applied_for_vacancy'));
         }
     }
+
+    public function getContractCandidate(Request $request, $id)
+    {
+        $vacancy  = $this->vacancies->find($id);
+        $candidate = $this->candidates->find($request->candidate);
+        return view('dashboard_user.post.contratar',compact('vacancy','candidate'));
+    }
+
+    public function postContractCandidate(Request $request, $id)
+    {
+        $vacancy  = $this->vacancies->find($id);
+        $candidate = $this->candidates->find($request->candidate);
+
+        if($vacancy->isApprobateCandidate($candidate->id)){
+            $data =['vacancy_id'       => $vacancy->id,
+                'number'           => substr (microtime(), 12, 20),
+                'name'             => 'Invoice test',
+                //'amount' => ($vacancy->condition->approximate_total_billing)/$vacancy->positions_number,
+                //'tax'              => ($vacancy->condition->comission)/$vacancy->positions_number,
+                'supplier_user_id' => $candidate->supplier_user_id,
+                'poster_user_id'   => $vacancy->poster_user_id,
+                'status'           => InvoiceStatus::PENDING,
+                'payment_due'      => $vacancy->created_at->addDays(12)
+            ];
+            $this->invoices->create($data);
+            //Vacancy Log
+            //event(new Logged($vacancy, $candidate));
+        }
+
+        return redirect()->route('vacancies.show', $vacancy->id)
+            ->withSuccess(trans('app.has_contract_candidate'));
+    }
+
+    /**
+     * Get user agent from request headers.
+     *
+     * @return string
+     */
+    private function getUserAgent($request)
+    {
+        return substr((string) $request->header('User-Agent'), 0, 500);
+    }
+
 }

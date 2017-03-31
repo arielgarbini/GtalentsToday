@@ -25,6 +25,7 @@ class Message extends Model
     						'subject', 
     						'message', 
     						'status',
+                            'conversation_id',
                             'deleted_by_sender',
                             'deleted_by_destinatary'
     						];

@@ -8,33 +8,33 @@
                 </a>
             </div>
 
-            <h4>Editar Candidato</h4>
+            <h4>@lang('app.edit_candidate')</h4>
         </div>
 
         <div class="modal-content">
-            {!! Form::model($candidate, ['route' => ['candidates.update', $candidate->id], 'method' => 'PUT', 'class' => 'formLogin', 'id' => 'formEdit',]) !!}
+            {!! Form::model($candidate, ['route' => ['candidates.update', $candidate->id], 'method' => 'PUT', 'class' => 'formCreate', 'id' => 'formEdit', 'enctype' => 'multipart/form-data']) !!}
                @include('dashboard_user.candidate.partials.fields')               
                 <section class="buttonsMain">
-                    
                     <div class="item">
                         <a href="#" class="modal-action modal-close waves-effect btn-return">
-                        Regresar</a>
+                            @lang('app.back')
+                        </a>
                     </div>
                     <div class="item">
                         <button class="btn-main" type="submit" name="action">
-                      Editar</button>
+                            @lang('app.edit')
+                        </button>
                     </div>
-
                 </section>
             <div class="messageModal">
                 <figure>
                     <span class="icon-gTalents_win-53"></span>
                 </figure>
-                <p>Candidato editado exitosamente</p>
+                <p>@lang('app.candidate_updated_successfully')</p>
                 <!--BTN-MAIN-->
                 <div class="item">
                     <a href="#!" class="btn-main">
-                        Continuar
+                        @lang('app.continue')
                     </a>
                 </div>
             </div>

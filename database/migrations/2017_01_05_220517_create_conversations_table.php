@@ -16,6 +16,7 @@ class CreateConversationsTable extends Migration
             $table->increments('id');
             $table->unsignedInteger('sender_user_id');
             $table->unsignedInteger('destinatary_user_id');
+            $table->unsignedInteger('vacancy_id');
 
             $table->engine = 'InnoDB';
             $table->foreign('sender_user_id')
@@ -24,7 +25,11 @@ class CreateConversationsTable extends Migration
 
             $table->foreign('destinatary_user_id')
                   ->references('id')->on('users')
-                  ->onDelete('cascade');      
+                  ->onDelete('cascade');
+
+            $table->foreign('vacancy_id')
+                ->references('id')->on('vacancies')
+                ->onDelete('cascade');
 
             $table->timestamps();
         });

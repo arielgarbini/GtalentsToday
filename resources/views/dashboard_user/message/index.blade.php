@@ -15,7 +15,7 @@
 					<div class="active-one">
 						<!--FILTRADO-->
 						<select class="browser-default">
-							<option value="" disabled selected>Todos los mensajes</option>
+							<option value="" disabled selected>@lang('app.all_messages')</option>
 							<option value="1">Administrador</option>
 							<option value="2">Poster</option>
 							<option value="3">Novato</option>
@@ -39,189 +39,27 @@
 
 			<!-- LISTADO DE SUPPLIER POR POST-->
 			<ul class="collapsible" data-collapsible="accordion">
-				<li>
-					<div class="collapsible-header">
-						<h3>Desarrollador Node.js</h3>
-					</div>
-					<div class="collapsible-body">
-						<!--PERSONA 1-->
-						<div class="team-card-person">
-							<figure>
-								<span class="icon-gTalents_supplier-60"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span><span class="path5"></span><span class="path6"></span><span class="path7"></span></span>
-							</figure>
-							<div class="datos">
-								<h3>RET-12</h3>
-								<p>Agregado recientemente</p>
-							</div>
+				@foreach($conversations as $conversation)
+					<li>
+						<div class="collapsible-header" value="{{$conversation->poster_user_id}}" vacancy="{{$conversation->id}}">
+							<h3>{{$conversation->name}}</h3>
 						</div>
-
-						<!--PERSONA 2-->
-						<div class="team-card-person active">
-							<figure>
-								<span class="icon-gTalents_supplier-60"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span><span class="path5"></span><span class="path6"></span><span class="path7"></span></span>
-							</figure>
-							<div class="datos">
-								<h3>RET-12</h3>
-								<p>Agregado recientemente</p>
-							</div>
+						<div class="collapsible-body">
+							<!--PERSONA 1-->
+							@foreach($conversation->conversations as $conver)
+								<div class="team-card-person show_messages" value="{{$conver->id}}" @if($user_id!=$conver->sender_user_id) sender="{{$conver->sender_user_id}}" @else sender="{{$conver->destinatary_user_id}}" @endif>
+									<figure>
+										<span class="icon-gTalents_supplier-60"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span><span class="path5"></span><span class="path6"></span><span class="path7"></span></span>
+									</figure>
+									<div class="datos">
+										<h3>{{$conver->code}}</h3>
+										<p>{{$conver->created_at->diffForHumans()}}</p>
+									</div>
+								</div>
+							@endforeach
 						</div>
-
-						<!--PERSONA 3-->
-						<div class="team-card-person">
-							<figure>
-								<span class="icon-gTalents_supplier-60"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span><span class="path5"></span><span class="path6"></span><span class="path7"></span></span>
-							</figure>
-							<div class="datos">
-								<h3>RET-12</h3>
-								<p>Agregado recientemente</p>
-							</div>
-						</div>
-
-						<!--PERSONA 4-->
-						<div class="team-card-person">
-							<figure>
-								<span class="icon-gTalents_supplier-60"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span><span class="path5"></span><span class="path6"></span><span class="path7"></span></span>
-							</figure>
-							<div class="datos">
-								<h3>RET-12</h3>
-								<p>Agregado recientemente</p>
-							</div>
-						</div>
-
-						<!--PERSONA 5-->
-						<div class="team-card-person">
-							<figure>
-								<span class="icon-gTalents_supplier-60"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span><span class="path5"></span><span class="path6"></span><span class="path7"></span></span>
-							</figure>
-							<div class="datos">
-								<h3>RET-12</h3>
-								<p>Agregado recientemente</p>
-							</div>
-						</div>
-					</div>
-				</li>
-				<li>
-					<div class="collapsible-header">
-						<h3>Desarrollador .NET</h3>
-					</div>
-					<div class="collapsible-body">
-						<!--PERSONA 1-->
-						<div class="team-card-person">
-							<figure>
-								<span class="icon-gTalents_supplier-60"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span><span class="path5"></span><span class="path6"></span><span class="path7"></span></span>
-							</figure>
-							<div class="datos">
-								<h3>RET-12</h3>
-								<p>Agregado recientemente</p>
-							</div>
-						</div>
-
-						<!--PERSONA 2-->
-						<div class="team-card-person">
-							<figure>
-								<span class="icon-gTalents_supplier-60"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span><span class="path5"></span><span class="path6"></span><span class="path7"></span></span>
-							</figure>
-							<div class="datos">
-								<h3>RET-12</h3>
-								<p>Agregado recientemente</p>
-							</div>
-						</div>
-
-						<!--PERSONA 3-->
-						<div class="team-card-person">
-							<figure>
-								<span class="icon-gTalents_supplier-60"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span><span class="path5"></span><span class="path6"></span><span class="path7"></span></span>
-							</figure>
-							<div class="datos">
-								<h3>RET-12</h3>
-								<p>Agregado recientemente</p>
-							</div>
-						</div>
-
-						<!--PERSONA 4-->
-						<div class="team-card-person">
-							<figure>
-								<span class="icon-gTalents_supplier-60"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span><span class="path5"></span><span class="path6"></span><span class="path7"></span></span>
-							</figure>
-							<div class="datos">
-								<h3>RET-12</h3>
-								<p>Agregado recientemente</p>
-							</div>
-						</div>
-
-						<!--PERSONA 5-->
-						<div class="team-card-person">
-							<figure>
-								<span class="icon-gTalents_supplier-60"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span><span class="path5"></span><span class="path6"></span><span class="path7"></span></span>
-							</figure>
-							<div class="datos">
-								<h3>RET-12</h3>
-								<p>Agregado recientemente</p>
-							</div>
-						</div>
-					</div>
-				</li>
-				<li>
-					<div class="collapsible-header">
-						<h3>Desarrollador JAVA</h3>
-					</div>
-					<div class="collapsible-body">
-						<!--PERSONA 1-->
-						<div class="team-card-person">
-							<figure>
-								<span class="icon-gTalents_supplier-60"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span><span class="path5"></span><span class="path6"></span><span class="path7"></span></span>
-							</figure>
-							<div class="datos">
-								<h3>RET-12</h3>
-								<p>Agregado recientemente</p>
-							</div>
-						</div>
-
-						<!--PERSONA 2-->
-						<div class="team-card-person">
-							<figure>
-								<span class="icon-gTalents_supplier-60"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span><span class="path5"></span><span class="path6"></span><span class="path7"></span></span>
-							</figure>
-							<div class="datos">
-								<h3>RET-12</h3>
-								<p>Agregado recientemente</p>
-							</div>
-						</div>
-
-						<!--PERSONA 3-->
-						<div class="team-card-person">
-							<figure>
-								<span class="icon-gTalents_supplier-60"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span><span class="path5"></span><span class="path6"></span><span class="path7"></span></span>
-							</figure>
-							<div class="datos">
-								<h3>RET-12</h3>
-								<p>Agregado recientemente</p>
-							</div>
-						</div>
-
-						<!--PERSONA 4-->
-						<div class="team-card-person">
-							<figure>
-								<span class="icon-gTalents_supplier-60"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span><span class="path5"></span><span class="path6"></span><span class="path7"></span></span>
-							</figure>
-							<div class="datos">
-								<h3>RET-12</h3>
-								<p>Agregado recientemente</p>
-							</div>
-						</div>
-
-						<!--PERSONA 5-->
-						<div class="team-card-person">
-							<figure>
-								<span class="icon-gTalents_supplier-60"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span><span class="path5"></span><span class="path6"></span><span class="path7"></span></span>
-							</figure>
-							<div class="datos">
-								<h3>RET-12</h3>
-								<p>Agregado recientemente</p>
-							</div>
-						</div>
-					</div>
-				</li>
+					</li>
+				@endforeach
 			</ul>
 		</section>
 
@@ -234,104 +72,39 @@
 					<figure>
 						<span class="icon-gTalents_message-header"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span><span class="path5"></span><span class="path6"></span></span>
 					</figure>
-					<div class="datos">
-						<h4>RET-012</h4>
-						<p>Agregado recientemente</p>
+					<div class="datos datos_sender">
+						<!--<h4>RET-012</h4>
+						<p>Agregado recientemente</p>-->
 					</div>
 				</div>
 
 				<!--OPORTUNIDAD-->
-				<div class="item">
+				<div class="item datos_vacancy">
+					<!--
 					<h4>
 						<a href="post-detail.php">Desarrollador Node.js</a>
 					</h4>
 					<p>Creado por ti</p>
+					-->
 				</div>
 			</div>
 
 			<!--MENSAJE-->
 			<div class="message-body">
 				<!--FECHA DE CONVERSACION-->
-				<h5>20 de Noviembre</h5>
+				<!--<h5>20 de Noviembre</h5>-->
 
 				<!--MENSAJE RECIBIDO-->
-				<div class="message-body-general received">
-					<!--CONTENEDOR INFORMACION-->
-					<div class="item">
-						<p>
-							¡Hola! ¿Cómo estas?
-							<br>Acabo de ver tu Post y me interesa mucho colaborarte con lo que buscas. Sin embargo, veo una ambiguedad con el perfil que planteas. ¿Puedes ser mas especifico?
-						</p>
-					</div>
-					<span>14:15</span>
-				</div>
-
-				<!--MENSAJE ENVIADO-->
-				<div class="message-body-general send">
-					<!--CONTENEDOR INFORMACION-->
-					<div class="item">
-						<p>
-							¡Hey! Me disculpo por la demora en responderte.
-							<br>En efecto, estaba generalizando mucho le perfil profesional que busco y acabo de editar el post. Te invito a leerlo nuevamente, si me puedes ayudar estaria agradecido.
-						</p>
-					</div>
-					<span>16:11</span>
-				</div>
-
-				<!--MENSAJE RECIBIDO-->
-				<div class="message-body-general received">
-					<!--CONTENEDOR INFORMACION-->
-					<div class="item">
-						<p>
-							¡Hola! ¿Cómo estas?
-							<br>Acabo de ver tu Post y me interesa mucho colaborarte con lo que buscas. Sin embargo, veo una ambiguedad con el perfil que planteas. ¿Puedes ser mas especifico?
-						</p>
-					</div>
-					<span>14:15</span>
-				</div>
-
-				<!--MENSAJE ENVIADO-->
-				<div class="message-body-general send">
-					<!--CONTENEDOR INFORMACION-->
-					<div class="item">
-						<p>
-							¡Hey! Me disculpo por la demora en responderte.
-							<br>En efecto, estaba generalizando mucho le perfil profesional que busco y acabo de editar el post. Te invito a leerlo nuevamente, si me puedes ayudar estaria agradecido.
-						</p>
-					</div>
-					<span>16:11</span>
-				</div>
-
-				<!--MENSAJE RECIBIDO-->
-				<div class="message-body-general received">
-					<!--CONTENEDOR INFORMACION-->
-					<div class="item">
-						<p>
-							¡Hola! ¿Cómo estas?
-							<br>Acabo de ver tu Post y me interesa mucho colaborarte con lo que buscas. Sin embargo, veo una ambiguedad con el perfil que planteas. ¿Puedes ser mas especifico?
-						</p>
-					</div>
-					<span>14:15</span>
-				</div>
-
-				<!--MENSAJE ENVIADO-->
-				<div class="message-body-general send">
-					<!--CONTENEDOR INFORMACION-->
-					<div class="item">
-						<p>
-							¡Hey! Me disculpo por la demora en responderte.
-							<br>En efecto, estaba generalizando mucho le perfil profesional que busco y acabo de editar el post. Te invito a leerlo nuevamente, si me puedes ayudar estaria agradecido.
-						</p>
-					</div>
-					<span>16:11</span>
-				</div>
 			</div>
 
 			<!--FORMULARIO ENVIAR MENSAJE-->
-			<form class="message-footer">
-				<textarea name="" id="" cols="30" rows="10" placeholder="Responde o envía un mensaje"></textarea>
+			<form method="POST" action="{{route('conversations.message.save')}}" class="message-footer" style="display: none;">
+				{{csrf_field()}}
+				<input type="hidden" name="conversation" id="conversation">
+				<input type="hidden" name="destinatary" id="destinatary">
+				<textarea name="message" id="message" cols="30" rows="10" placeholder="{{trans('app.reply_send_message')}}"></textarea>
 				<div class="item">
-					<a href="#" class="btn-main" type="submit">Enviar Mensaje</a>
+					<button type="submit" class="btn-main" >@lang('app.message')</button>
 				</div>
 			</form>
 		</section>
@@ -339,5 +112,39 @@
 @stop
 
 @section('scripts')
-   
+   <script>
+	   $(document).ready(function(){
+	       user = "{{$user_id}}";
+	       $('.show_messages').click(function(){
+               $('#conversation').val($(this).attr('value'));
+               $('#destinatary').val($(this).attr('sender'));
+	           var element = $(this);
+	           $.ajax({
+	               url: '/conversations/'+$(this).attr('value')+'/messages/',
+				   success: function(result){
+                       console.log(result);
+                       $('.message-footer').show();
+	                   $('.datos_sender').html('<h4>'+$(element).find('.datos h3').html()+'</h4><p>'+$(element).find('.datos p').html()+'</p>');
+	                   if(user == $(element).parent().parent().find('.collapsible-header').attr('value')){
+                           var html = '<h4><a target="_blank" href="/vacancy/'+$(element).parent().parent().find('.collapsible-header').attr('vacancy')+'/show">'+$(element).parent().parent().find('.collapsible-header h3').html()+'</a></h4>';
+	                       html += '<p>{{trans("app.created_by_you")}}</p>';
+					   } else {
+                           var html = '<h4><a target="_blank" href="/vacancy/'+$(element).parent().parent().find('.collapsible-header').attr('vacancy')+'/show_post_user">'+$(element).parent().parent().find('.collapsible-header h3').html()+'</a></h4>';
+                           html += '<p></p>';
+					   }
+	                   $('.datos_vacancy').html(html);
+	                   var html = '';
+	                   for(var i = 0; i < result.length; i++){
+	                       if(result[i].sender_user_id==user){
+                               html += '<div class="message-body-general send"><div class="item"><p>'+result[i].message+'</p></div><span>'+result[i].created_at+'</span></div>';
+						   } else {
+	                           html += '<div class="message-body-general received"><div class="item"><p>'+result[i].message+'</p></div><span>'+result[i].created_at+'</span></div>';
+						   }
+					   }
+					   $('.message-body').html(html);
+				   }
+			   })
+		   });
+	   });
+   </script>
 @stop

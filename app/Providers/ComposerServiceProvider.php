@@ -24,7 +24,7 @@ class ComposerServiceProvider extends ServiceProvider
         );
 
         View::composer(
-            ['dashboard_user/candidate/index', 'dashboard_user/post/post_supplier'],
+            ['dashboard_user/candidate/index', 'dashboard_user/post/post_supplier', 'dashboard_user/default'],
             'Vanguard\Http\Viewcomposers\CandidateComposer'
         );
     }

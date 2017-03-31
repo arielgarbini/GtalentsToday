@@ -36,8 +36,8 @@
 				})
 			   
 			   //INICIALIZAR MODALES
-			   $('.modal-trigger').leanModal();
-			   /*$('.modal').modal();*/
+			   //$('.modal-trigger').leanModal();
+			   $('.modal').modal();
 
 			   //MENU HAMBURGUESA
 			    $("#btn-menuHamburguer").click(function(){

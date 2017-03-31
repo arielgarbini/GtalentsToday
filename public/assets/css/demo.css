@@ -202,3 +202,14 @@
 		font-size: 2.8em;
 	}
 }
+
+
+div[class = 'error']{
+	color: red;
+	text-align: right;
+	font-size: 0.8em;
+	font-style: italic;
+}
+.dropdown-content{
+	width: 110px !important;
+}

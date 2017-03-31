@@ -3475,7 +3475,6 @@ input
   margin-bottom: 0;
 }
 .alerts-div {
-  max-height: 9.5em;
   padding: 0 1em;
   overflow: auto;
 }

@@ -2,6 +2,7 @@
 
 return [
     //NEW DASHBOARD
+    'success'           => 'Good!',
     'opportunities'     => 'Opportunities',
     'post'              => 'Post',
     'new_opportunity'   => 'New Opportunity',
@@ -24,6 +25,7 @@ return [
     'alerts'            => 'Alerts',
     'my_position'       => 'My position',
     'i_lack'            => 'I lack',
+    'no_create'         => 'No create',
     'my_published_opportunities' => 'My Published Opportunities',
     'no_activities_recorded' => 'No activities ecorded',
     'create_a_job_opportunity' => 'Create a job opportunity',
@@ -39,7 +41,7 @@ return [
     'no_notifications'    => 'No notifications',
     'you_want_to_participate_in' =>  'Quiere participar en' ,
     'approved_application' => 'Aprobada Solicitud',
-
+    'error'                 => 'Error',
 
     'home' => 'Home',
     'my_user_details' => 'My User Details',
@@ -73,10 +75,11 @@ return [
     'language' => 'Language',
     'admin_consultant' => 'Admin Consultant',
     'consultant' => 'Consultant',
+    'team'       => 'Team',
 
     //Language
     'english' => 'English',
-    'spanish' => 'Español',
+    'spanish' => 'Spanish',
 
     //Categories
     'category' => 'Category',
@@ -126,8 +129,34 @@ return [
     'send_data'                     => 'Enviar Datos',
     'browse'                        => 'Browse',
     'edit_or_leave_blank'           => 'Edit or leave blank',
-    'compesation'                   => 'Compensation',
+    'compensation'                   => 'Compensation',
     'new_candidate_add_success'     => 'New candidate add successfully',
+    'approved_candidate'            => 'Candidate approved',
+    'rejected_candidate'            => 'Candidate rejected',
+    'view_all'                      => 'View all',
+    'we_recommend_you'              => 'We recommended you',
+
+    'candidate_validate'            => [
+        'first_name_required'    => 'The first name is required',
+        'first_name_length'    => 'The first name need be than 6',
+        'last_name_required'     => 'The last name is required',
+        'last_name_length'     => 'The last name need be than 6',
+        'email_required'     => 'The email is required',
+        'email_valid'           => 'Enter a valid email',
+        'telf_required'        => 'The phone is required',
+        'telf_number'        => 'Enter a valid phone number',
+        'company_required'        => 'The company is required',
+    ],
+
+    'vacancy_validate'         => [
+        'position'  => 'The position is required',
+        'salario'  => 'The salary is required',
+        'salario_number'  => 'Enter a valid salary',
+        'date_admision'  => 'The date of admission is required',
+        'details'  => 'The detail of the offert is required',
+        'comments'  => 'The comment to gtalents is required',
+        'comments_supplier'  => 'The comment to supplier is required',
+    ],
 
         //Oportunities
     'filter_your_search'            => 'Filter your search',
@@ -216,6 +245,21 @@ return [
     'historical'                  => 'Historical',
     'send_candidates'             => 'Send Candidates',
     'new_candidate'               => 'New Candidate',
+    'write_your_comment'          => 'Write your comment',
+    'error_message_send_candidates' => 'Your need selected almost one candidate to send',
+    'candidates_send_success'     => 'Candidates send successfully',
+    'name_candidates'             => 'Name of the candidate',
+    'view_note'                   => 'View note',
+    'candidate_historical'        => 'Candidate historical',
+    'contract'                    => 'Contract',
+    'you_want_contract'           => 'We are happy to know that you want to hire',
+    'annual_salary'               => 'Annual Salary',
+    'date_of_admission'           => 'Date of admission',
+    'details_offert'              => 'Offer Details and Additional Compensations',
+    'comments_to'                 => 'Comments to',
+    'calificate_supplier'         => '¡Calificate your Supplier!',
+    'attach_job_offer'            => 'Attach Job Offer',
+    'contract_process'            => 'Contract Process',
 
     'positions'                   => 'Positions',
     'career_plan'                 => 'Career Plan',
@@ -239,8 +283,10 @@ return [
     'select_another_country'      => 'Select another country',
     'view_all_vacancies'          => 'View all vacancies',
     'relevant_opportunities'      => 'Relevant opportunities',
+    'interesting_opportunities'   => 'You are interesting',
     'to_apply'                    => 'To apply',
     'has_applied_for_vacancy'     => 'Has applied for a vacancy successfully.',
+    'has_contract_candidate'      => 'The candidate has been hired.',
     'languages_required'          => 'Languages required',
     'postulation_is_not_allowed'  => 'Postulation is not allowed',
     'already_been_postulated'     => 'It has already been postulated',
@@ -299,6 +345,12 @@ return [
     'new_message'            => 'New message.',
     'updated_message'        => 'Updated message.',
     'deleted_message'        => 'Deleted message.',
+    'Read' => 'Read',
+    'read' => 'Read',
+    'all_messages'           => 'All messages',
+    'send_message'           => 'Send message',
+    'reply_send_message'     => 'Reply or send a message',
+    'created_by_you'         => 'Created by you',
 
     //News
     'news'                     => 'News',
@@ -452,6 +504,7 @@ return [
     'permission_details' => 'Permission Details',
     'permission_details_sm' => 'permission details',
     'edit' => 'Edit',
+    'delete' => 'Delete',
     'create' => 'Create',
     'name' => 'Name',
     'permission_name' => 'Permission Name',
@@ -792,5 +845,22 @@ return [
         'October' => 'October',
         'November' => 'November',
         'December' => 'December',
-    ]
+    ],
+
+    //notifications
+    'title_supplier'          => 'Supplier',
+    'title_approved_supplier' => '¡Approved!',
+    'title_rejected_supplier' => '¡Rejected!',
+    'title_candidates' => '¡Candidates received!',
+    'title_approved_candidates' => '¡Candidate approved!',
+    'title_rejected_candidates' => '¡Candidate rejected!',
+    'title_message_received'    => '¡Message received!',
+
+    'request_supplier_vacancy'  => 'Want participate on',
+    'approved_supplier_vacancy' => 'You have been approved to',
+    'rejected_supplier_vacancy' => 'You have been rejected to',
+    'request_supplier_candidates' => 'You have received candidates to',
+    'approbate_supplier_candidate' => 'They have approved the candidate',
+    'rejected_supplier_candidate' => 'They have rejected the candidate',
+    'message_received'            => 'Message received of'
 ];

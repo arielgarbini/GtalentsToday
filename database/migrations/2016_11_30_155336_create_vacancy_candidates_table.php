@@ -17,6 +17,7 @@ class CreateVacancyCandidatesTable extends Migration
             $table->unsignedInteger('vacancy_id');
             $table->unsignedInteger('candidate_id');
             $table->string('status');
+            $table->text('comment');
             $table->timestamps();
             $table->softDeletes();
 

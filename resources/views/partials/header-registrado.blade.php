@@ -38,7 +38,7 @@
 			</li>
 			<!--MENSAJES ALERT-->
 			<li>
-				<a href="{{URL::to('message_list')}}">
+				<a href="{{route('message.indexFrontend')}}">
 					<figure class="icon-message">
 						<span class="icon-gTalents_message"></span>
 					</figure>
@@ -73,8 +73,8 @@
 												<span class="icon-gTalents_point"></span>
 											</figure>
 											<div class="datos">
-												<h4>{{$notification->title}}</h4>
-												<p>{{$notification->message}}</p>
+												<h4>{{$notification->title_traduccion}}</h4>
+												<p>{{$notification->message_traduccion}}</p>
 											</div>
 										</a>
 									</div>
@@ -93,8 +93,7 @@
                                     </form>
 									<!--BTN ELIMINAR -->
 								</li>
-							@elseif($notification->type=='approved_supplier_vacancy' || $notification->type=='rejected_supplier_vacancy')
-
+							@elseif($notification->type=='approved_supplier_vacancy' || $notification->type=='rejected_supplier_vacancy' || $notification->type=='approbate_supplier_candidate' || $notification->type=='rejected_supplier_candidate')
 								<li class="alert-participar">
 									<div class="motivo">
 										<a href="{{route('vacancies.post_user',$notification->element_id)}}">
@@ -102,8 +101,8 @@
 												<span class="icon-gTalents_point"></span>
 											</figure>
 											<div class="datos">
-												<h4>{{$notification->title}}</h4>
-												<p>{{$notification->message}}</p>
+												<h4>{{$notification->title_traduccion}}</h4>
+												<p>{{$notification->message_traduccion}}</p>
 											</div>
 										</a>
 									</div>
@@ -113,6 +112,46 @@
                                         {{csrf_field()}}
                                         <span class="icon-gTalents_close close-alert send_form"></span>
                                     </form>
+								</li>
+							@elseif($notification->type=='request_supplier_candidates')
+								<li class="alert-participar">
+									<div class="motivo">
+										<a href="{{route('vacancies.show',$notification->element_id)}}">
+											<figure>
+												<span class="icon-gTalents_point"></span>
+											</figure>
+											<div class="datos">
+												<h4>{{$notification->title_traduccion}}</h4>
+												<p>{{$notification->message_traduccion}}</p>
+											</div>
+										</a>
+									</div>
+
+									<!--BTN ELIMINAR -->
+									<form action="{{route('notifications.delete',$notification->id)}}" method="POST">
+										{{csrf_field()}}
+										<span class="icon-gTalents_close close-alert send_form"></span>
+									</form>
+								</li>
+							@elseif($notification->type=='message_received')
+								<li class="alert-participar">
+									<div class="motivo">
+										<a href="{{route('message.indexFrontend')}}">
+											<figure>
+												<span class="icon-gTalents_point"></span>
+											</figure>
+											<div class="datos">
+												<h4>{{$notification->title_traduccion}}</h4>
+												<p>{{$notification->message_traduccion}}</p>
+											</div>
+										</a>
+									</div>
+
+									<!--BTN ELIMINAR -->
+									<form action="{{route('notifications.delete',$notification->id)}}" method="POST">
+										{{csrf_field()}}
+										<span class="icon-gTalents_close close-alert send_form"></span>
+									</form>
 								</li>
 							@endif
                         @endforeach

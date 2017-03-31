@@ -9,7 +9,7 @@
                 </a>
             </div>
 
-            <h4>¿Seguro quieres eliminarlo?</h4>
+            <h4>@lang('app.are_you_sure_delete_candidate')</h4>
         </div>
 
         <div class="modal-content">
@@ -22,7 +22,7 @@
                     </figure>
 
                     <div class="datos">
-                        <h4>{{$candidate->first_name}}</h4>
+                        <h4>{{$candidate->first_name}} {{$candidate->last_name}}</h4>
                         <span>{{$candidate->email}}</span>
                     </div>
                 </section>
@@ -30,14 +30,14 @@
                     <!--REGRESAR-->
                     <div class="item">
                         <a href="#!" class="modal-action modal-close waves-effect waves-green btn-return">
-                            Regresar
+                            @lang('app.back')
                         </a>
                     </div>
 
                     <!--INVITAR-->
                     <div class="item">
                         <button class="btn-main" type="submit" name="action">
-                         Eliminar</button> 
+                            @lang('app.delete')</button>
                     </div>
                 </section>
 
@@ -48,11 +48,11 @@
                 <figure>
                     <span class="icon-gTalents_win-53"></span>
                 </figure>
-                <p>Candidato eliminado exitosamente</p>
+                <p>@lang('app.candidate_deleted')</p>
                 <!--BTN-MAIN-->
                 <div class="item">
                     <a href="#!" class="btn-main">
-                        Continuar
+                        @lang('app.continue')
                     </a>
                 </div>
             </div>

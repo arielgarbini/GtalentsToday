@@ -19,7 +19,8 @@ class VacancyCandidate extends Model
 
     protected $fillable = [	'vacancy_id', 
     						'candidate_id', 
-    						'status'
+    						'status',
+                            'comment'
     					];
 
     public function vacacy()

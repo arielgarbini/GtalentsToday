@@ -142,7 +142,7 @@
             <div class="bills">
                 <!--TITULO DE LA SECCION-->
                 <section class="bills-title">
-                    <h3>Posición de mi Perfil</h3>
+                    <h3>@lang('app.position_of_my_Profile')</h3>
                 </section>
 
                 <!--RANGO-->
@@ -172,14 +172,14 @@
                 <section class="position-resum">
                     <!--POSICION-->
                     <div class="item">
-                        <h4>Mi Posición</h4>
+                        <h4>@lang('app.my_position')</h4>
                         <p><strong>Recruiting Rockstar</strong></p>
                     </div>
 
                     <!--PUNTAJE-->
                     <div class="item">
-                        <h4>Me faltan</h4>
-                        <p><strong>500pts</strong> para el próximo nivel</p>
+                        <h4>@lang('app.i_lack')</h4>
+                        <p><strong>500pts</strong> @lang('app.next_level')</p>
                     </div>
                 </section>
             </div>
@@ -230,8 +230,7 @@
                     <select class="browser-default">
                         <option value="" disabled selected>Elige un tipo de Acceso</option>
                         <option value="1">Administrador</option>
-                        <option value="2">Poster</option>
-                        <option value="3">Novato</option>
+                        <option value="2">Usuario</option>
                     </select>
                 </div>
 

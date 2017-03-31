@@ -12,7 +12,7 @@
         </div>
 
         <div class="modal-content">
-            {!! Form::open(array('route' => 'candidates.store','method'=>'POST', 'id' => 'formCreate', 'role' => 'form', 'class' => 'formLogin')) !!}
+            {!! Form::open(array('route' => 'candidates.store','method'=>'POST', 'id' => 'formCreate', 'role' => 'form', 'class' => 'formLogin', 'enctype' => 'multipart/form-data')) !!}
                @include('dashboard_user.candidate.partials.fields')               
                 <section class="buttonsMain">
                     

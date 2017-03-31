@@ -9,7 +9,11 @@
         <section class="user-main-create credits jobs-detail">
             <!--TITULO-->
             <div class="jobs-detail-title">
-                <h3>{{$vacancy->name}}</h3>
+                <h3>{{$vacancy->name}}
+                    @if (!empty($success))
+                        {{ $success }}
+                    @endif
+                </h3>
                 <p>{{$vacancy->location}} | {{$experiencie['name']}}</p>
             </div>
 
@@ -150,7 +154,7 @@
                             <span class="icon-gTalents_stars"></span>
                         </figure>
                         <div class="datos">
-                            <h4>1.500 @lang('app.points')</h4>
+                            <h4>25 @lang('app.points')</h4>
                             <p>@lang('app.position_compensation')</p>
                         </div>
                     </li>
@@ -193,7 +197,7 @@
                 <!--CIRCULO RESUMEN-->
                 <div class="item-circle">
                     <figure>
-                        <h4>57</h4>
+                        <h4>{{$viewed}}</h4>
                         <span>@lang('app.visits')</span>
                     </figure>
                 </div>
@@ -234,7 +238,7 @@
                     <section class="team-container-tools">
                         <!-- ACTIVO 1 -->
                         <div class="active-one">
-                            <p>{{count($userCandidates)}} @lang('app.candidates')</p>
+                            <p>{{count($userCandidatesAvailable)}} @lang('app.candidates')</p>
 
                             <div class="search-opt1 btn-search">
                                 <span class="icon-gTalents_search"></span>
@@ -255,33 +259,35 @@
                     <form action="" class="formLogin select-colab">
                         <ul class="team">
                             <!-- SUPPLIER 1 -->
-                            @foreach($userCandidates as $candidate)
+                            @foreach($userCandidatesAvailable as $candidate)
                                 <li>
                                     <p class="check">
-                                        <input type="checkbox" id="test5" name="candidates_send[]" value="{{$candidate->id}}"/>
-                                        <label for="test5"></label>
+                                        <input type="checkbox" id="test{{$candidate['id']}}" class="user-candidates"  value="{{$candidate['id']}}"/>
+                                        <label for="test{{$candidate['id']}}"></label>
                                     </p>
                                     <section class="team-card">
                                         <!--PERSONA-->
                                         <div class="team-card-person">
                                             <div class="datos">
-                                                <h3>{{$candidate->first_name}} {{$candidate->last_name}}</h3>
-                                                <p>{{substr($candidate->actual_position->name, 0, 20)}}</p>
+                                                <h3>{{$candidate['first_name']}} {{$candidate['last_name']}}</h3>
+                                                <p>{{substr($candidate['actual_position'], 0, 20)}}</p>
                                             </div>
                                         </div>
 
                                         <!--OPCIONES-->
                                         <div class="options">
                                             <!-- Dropdown Trigger -->
-                                            <a class='dropdown-button' href='#' data-activates='option-team01'>
+                                            <a class='dropdown-button' href='#' data-activates='option-team{{$candidate['id']}}'>
                                                 <span class="icon-gTalents_submenu"></span>
                                             </a>
 
                                             <!-- Dropdown Structure -->
-                                            <ul id='option-team01' class='dropdown-content'>
-                                                <li><a href="#">@lang('app.view_cv')</a></li>
-                                                <li><a href="#modalHistorico" class="modal-trigger waves-effect waves-light">@lang('app.historical')</a></li>
-                                                <!--<li><a href="#">@lang('app.discard')</a></li>-->
+                                            <ul id='option-team{{$candidate['id']}}' class='dropdown-content'>
+                                                @if($candidate['file']!='')
+                                                    <li><a href="/upload/docs/{{$candidate['file']}}" class="cv_candidate" target="_blank">@lang('app.view_cv')</a></li>
+                                                @else
+                                                    <li><a href="#">@lang('app.view_cv')</a></li>
+                                                @endif
                                             </ul>
                                         </div>
                                     </section>
@@ -290,7 +296,8 @@
                         </ul>
 
                         <div class="send-colab">
-                            <a href="#modalSendColab" class="modal-trigger waves-effect waves-light">
+                            <!--href="#modalSendColab"-->
+                            <a id="send-candidate" class="waves-effect waves-light">
                                 @lang('app.send_candidates')
                             </a>
                         </div>                      
@@ -310,7 +317,7 @@
                     <section class="team-container-tools">
                         <!-- ACTIVO 1 -->
                         <div class="active-one">
-                            <p>51 @lang('app.candidates')</p>
+                            <p>{{count($userCandidatesProgress)}} @lang('app.candidates')</p>
 
                             <div class="search-opt1 btn-search">
                                 <span class="icon-gTalents_search"></span>
@@ -319,7 +326,7 @@
 
                         <!-- SECCION DE BUSQUEDA -->
                         <form class="active-two">
-                            <input type="text" placeholder="Nombre del Colaborador">
+                            <input type="text" placeholder="{{trans('app.name_candidates')}}">
                             <!--CERRAR SEGMENTO-->
                             <div class="close btn-closeInput">
                                 <span class="icon-gTalents_close"></span>
@@ -330,6 +337,7 @@
                     <!--LISTADO DE CANDIDATOS-->
                     <ul class="team">
                         <!-- CANDIDATO 1 -->
+                        @foreach($userCandidatesProgress as $candidate)
                         <li>
                             <section class="team-card">
                                 <!--PERSONA-->
@@ -338,27 +346,33 @@
                                         <span class="icon-gTalents_team-48"></span>
                                     </figure>
                                     <div class="datos">
-                                        <h3>Andres Gonzalez</h3>
-                                        <p>FrontEnd Developer</p>
+                                        <h3>{{$candidate['first_name']}} {{$candidate['last_name']}}</h3>
+                                        <p>{{substr($candidate['actual_position'], 0, 20)}}</p>
                                     </div>
                                 </div>
 
                                 <!--OPCIONES-->
                                 <div class="options">
                                     <!-- Dropdown Trigger -->
-                                    <a class='dropdown-button' href='#' data-activates='option-colb1'>
+                                    <a class='dropdown-button' href='#' data-activates='option-colb{{$candidate['id']}}'>
                                         <span class="icon-gTalents_submenu"></span>
                                     </a>
 
                                     <!-- Dropdown Structure -->
-                                    <ul id='option-colb1' class='dropdown-content'>
-                                        <li><a href="#">@lang('app.view_cv')</a></li>
-                                        <li><a href="#modalHistorico" class="modal-trigger waves-effect waves-light">@lang('app.historical')</a></li>
+                                    <ul id='option-colb{{$candidate['id']}}' class='dropdown-content'>
+                                        @if($candidate['file']!='')
+                                            <li><a class="cv_candidate" href="/upload/docs/{{$candidate['file']}}" target="_blank">@lang('app.view_cv')</a></li>
+                                        @else
+                                            <li><a href="#">@lang('app.view_cv')</a></li>
+                                        @endif
+                                        <!-- href="#modalHistorico" -->
+                                        <li class="open-modal-history" value="{{$candidate['id']}}"><a class="waves-effect waves-light">@lang('app.historical')</a></li>
                                     <!--<li><a href="#">@lang('app.discard')</a></li>-->
                                     </ul>
                                 </div>
                             </section>
                         </li>
+                        @endforeach
                     </ul>
                 </div>
 
@@ -368,7 +382,7 @@
                     <section class="team-container-tools">
                         <!-- ACTIVO 1 -->
                         <div class="active-one">
-                            <p>22 No Leidos</p>
+                            <p>{{count($userCandidatesRejected)}} @lang('app.not_read')</p>
 
                             <div class="search-opt1 btn-search">
                                 <span class="icon-gTalents_search"></span>
@@ -377,7 +391,7 @@
 
                         <!-- SECCION DE BUSQUEDA -->
                         <form class="active-two">
-                            <input type="text" placeholder="Nombre del Colaborador">
+                            <input type="text" placeholder="{{trans('app.name_candidates')}}">
                             <!--CERRAR SEGMENTO-->
                             <div class="close btn-closeInput">
                                 <span class="icon-gTalents_close"></span>
@@ -388,6 +402,7 @@
                     <!--LISTADO DE CANDIDATOS-->
                     <ul class="team">
                         <!-- CANDIDATO 1 -->
+                        @foreach($userCandidatesRejected as $candidate)
                         <li>
                             <section class="team-card">
                                 <!--PERSONA-->
@@ -396,27 +411,32 @@
                                         <span class="icon-gTalents_team-48"></span>
                                     </figure>
                                     <div class="datos">
-                                        <h3>Andres Gonzalez</h3>
-                                        <p>FrontEnd Developer</p>
+                                        <h3>{{$candidate['first_name']}} {{$candidate['last_name']}}</h3>
+                                        <p>{{substr($candidate['actual_position'], 0, 20)}}</p>
                                     </div>
                                 </div>
 
                                 <!--OPCIONES-->
                                 <div class="options">
                                     <!-- Dropdown Trigger -->
-                                    <a class='dropdown-button' href='#' data-activates='option-noleido1'>
+                                    <a class='dropdown-button' href='#' data-activates='option-noleido{{$candidate['id']}}'>
                                         <span class="icon-gTalents_submenu"></span>
                                     </a>
 
                                     <!-- Dropdown Structure -->
-                                    <ul id='option-noleido1' class='dropdown-content'>
-                                        <li><a href="#">@lang('app.view_cv')</a></li>
+                                    <ul id='option-noleido{{$candidate['id']}}' class='dropdown-content'>
+                                        @if($candidate['file']!='')
+                                            <li><a href="/upload/docs/{{$candidate['file']}}" target="_blank">@lang('app.view_cv')</a></li>
+                                        @else
+                                            <li><a href="#">@lang('app.view_cv')</a></li>
+                                        @endif
                                         <li><a href="#modalHistorico" class="modal-trigger waves-effect waves-light">@lang('app.historical')</a></li>
-                                        <li><a href="#modalNota" class="modal-trigger waves-effect waves-light">Ver Nota</a></li>
+                                        <li><a href="#modalNota" class="modal-trigger waves-effect waves-light">@lang('app.view_note')</a></li>
                                     </ul>
                                 </div>
                             </section>
                         </li>
+                        @endforeach
                     </ul>
                 </div>
             </div>
@@ -425,6 +445,7 @@
 
 
     <!--MODAL NUEVO CANDIDATO-->
+    <?php $dataFile = 'create'; ?>
     @include('dashboard_user.candidate.partials.modalcreate')
 
     <!--MODAL CALIFICAR SUPPLIER-->
@@ -438,115 +459,38 @@
                 </a>
             </div>
 
-            <h4>Enviar Candidatos</h4>
+            <h4>@lang('app.send_candidates')</h4>
         </div>
 
         <div class="modal-content">
 
             <!--RESPUESTA-->
-            <form action="" class="formLogin">
+            <form action="{{route('vacancies.postulate.candidate', $vacancy->id)}}" method="POST" class="formLogin">
                 <!--SLIDER DE CANDIDATOS SELECCIONADOS-->
+                {{csrf_field()}}
                 <div class="slider">
-                    <ul class="slides">
+                    <ul class="slides slides-candidates">
                         <!-- CANDIDATO 1-->
-                        <li>
-                            <!--TARJETA DEL CANDIDATO-->
-                            <div class="profile-colab">
-                                <section class="team-card">
-                                    <!--PERSONA-->
-                                    <div class="team-card-person">
-                                        <figure>
-                                            <span class="icon-gTalents_team-48"></span>
-                                        </figure>
-                                        <div class="datos">
-                                            <h3>Andres Gonzalez</h3>
-                                            <p>FrontEnd Developer</p>
-                                        </div>
-                                    </div>
-
-                                    <!--DESCARGAR CV-->
-                                    <div class="link">
-                                        <a href="#">
-                                            <span class="icon-gTalents_download"></span>
-                                        </a>
-                                    </div>
-                                </section>
-                            </div>
-                        </li>
-
-                        <!-- CANDIDATO 2-->
-                        <li>
-                            <!--TARJETA DEL CANDIDATO-->
-                            <div class="profile-colab">
-                                <section class="team-card">
-                                    <!--PERSONA-->
-                                    <div class="team-card-person">
-                                        <figure>
-                                            <span class="icon-gTalents_team-48"></span>
-                                        </figure>
-                                        <div class="datos">
-                                            <h3>COLF-857</h3>
-                                            <p>FrontEnd Developer</p>
-                                        </div>
-                                    </div>
-
-                                    <!--DESCARGAR CV-->
-                                    <div class="link">
-                                        <a href="#">
-                                            <span class="icon-gTalents_download"></span>
-                                        </a>
-                                    </div>
-                                </section>
-                            </div>
-                        </li>
-
-                        <!-- CANDIDATO 3-->
-                        <li>
-                            <!--TARJETA DEL CANDIDATO-->
-                            <div class="profile-colab">
-                                <section class="team-card">
-                                    <!--PERSONA-->
-                                    <div class="team-card-person">
-                                        <figure>
-                                            <span class="icon-gTalents_team-48"></span>
-                                        </figure>
-                                        <div class="datos">
-                                            <h3>VEF-785</h3>
-                                            <p>FrontEnd Developer</p>
-                                        </div>
-                                    </div>
-
-                                    <!--DESCARGAR CV-->
-                                    <div class="link">
-                                        <a href="#">
-                                            <span class="icon-gTalents_download"></span>
-                                        </a>
-                                    </div>
-                                </section>
-                            </div>
-                        </li>
                     </ul>
                 </div>
-
-                        <!--MENSAJE-->
-                        <div class="itemForm icon-help">
-                            <label>Escribe tu comentario</label>
-                            <textarea name="" id="" cols="30" rows="10" placeholder="Escribe tu comentario"></textarea>
-                        </div>
-
+                <!--MENSAJE-->
+                <div class="itemForm icon-help">
+                    <label>@lang('app.write_your_comment')</label>
+                    <textarea name="comment" id="" cols="30" rows="10" placeholder="{{trans('app.write_your_comment')}}"></textarea>
+                </div>
                 <section class="buttonsMain">
                     <!--REGRESAR-->
                     <div class="item">
                         <a href="#!" class="modal-action modal-close waves-effect waves-green btn-return">
-                            Regresar
+                            @lang('app.back')
                         </a>
                     </div>
 
                     <!--INVITAR-->
                     <div class="item">
-                        <a href="#" class="btn-main" type="submit" id="btn-modalMain">
-                            Invitar
-                        </a>
+                        <button type="submit" class="btn-main" type="submit" id="btn-modalMain">
+                            @lang('app.send')
+                        </button>
                     </div>
                 </section>
             </form>
@@ -556,14 +500,21 @@
                 <figure>
                     <span class="icon-gTalents_win-53"></span>
                 </figure>
+                <p>@lang('app.candidates_send_success')</p>
+            </div>
+            <!--MENSAJE DE COLABORADOR CARGADO-->
+            <!--<div class="messageModal">
+                <figure>
+                    <span class="icon-gTalents_win-53"></span>
+                </figure>
                 <p>Candidatos enviados exitosamente</p>
                 <!--BTN-MAIN-->
-                <div class="item">
+                <!--<div class="item">
                     <a href="#!" class="btn-main">
                         Continuar
                     </a>
                 </div>
-            </div>
+            </div>-->
         </div>
     </div>
 
@@ -578,7 +529,7 @@
                 </a>
             </div>
 
-            <h4>Historico del Candidato</h4>
+            <h4>@lang('app.candidate_historical')</h4>
         </div>
 
         <div class="modal-content">
@@ -591,16 +542,13 @@
                             <span class="icon-gTalents_team-48"></span>
                         </figure>
                         <div class="datos">
-                            <h3>Andres Gonzalez</h3>
-                            <p>FrontEnd Developer</p>
+
                         </div>
                     </div>
 
                     <!--DESCARGAR CV-->
                     <div class="link">
-                        <a href="#">
-                            <span class="icon-gTalents_download"></span>
-                        </a>
+
                     </div>
                 </section>
 
@@ -618,90 +566,135 @@
                 <!--HISTORIAL DE ESTATUS-->
                 <ul class="historial-status">
                     <!--ESTATUS 1-->
-                    <li>
-                        <span class="icon-gTalents_point"></span>
-                        <p>15 Ene</p>
-                        <p>Estatus 1</p>
-                    </li>
 
-                    <!--ESTATUS 2-->
-                    <li>
-                        <span class="icon-gTalents_point"></span>
-                        <p>15 Ene</p>
-                        <p>Estatus 2</p>
-                    </li>
-
-                    <!--ESTATUS 3-->
-                    <li>
-                        <span class="icon-gTalents_point"></span>
-                        <p>15 Ene</p>
-                        <p>Estatus 3</p>
-                    </li>
-
-                    <!--ESTATUS 4-->
-                    <li>
-                        <span class="icon-gTalents_point"></span>
-                        <p>15 Ene</p>
-                        <p>Estatus 4</p>
-                    </li>
-
-                    <!--ESTATUS 5-->
-                    <li>
-                        <span class="icon-gTalents_point"></span>
-                        <p>15 Ene</p>
-                        <p>Estatus 5</p>
-                    </li>
-
-                    <!--ESTATUS 6-->
-                    <li>
-                        <span class="icon-gTalents_point"></span>
-                        <p>15 Ene</p>
-                        <p>Estatus 6</p>
-                    </li>
-
-                    <!--ESTATUS 7-->
-                    <li>
-                        <span class="icon-gTalents_point"></span>
-                        <p>15 Ene</p>
-                        <p>Estatus 7</p>
-                    </li>
                 </ul>
-                
-
                 <section class="buttonsMain">
                     <!--REGRESAR-->
                     <div class="item">
                         <a href="#!" class="modal-action modal-close waves-effect waves-green btn-return">
-                            Regresar
-                        </a>
-                    </div>
-
-                    <!--CONTRATAR-->
-                    <div class="item">
-                        <a href="contratar.php" class="btn-main" type="submit" id="btn-modalMain">
-                            Contratar
+                            @lang('app.back')
                         </a>
                     </div>
                 </section>
             </form>
-
-            <!--MENSAJE DE COLABORADOR CARGADO-->
-            <div class="messageModal">
-                <figure>
-                    <span class="icon-gTalents_win-53"></span>
-                </figure>
-                <p>Mensaje enviado exitosamente</p>
-                <!--BTN-MAIN-->
-                <div class="item">
-                    <a href="#!" class="btn-main">
-                        Continuar
-                    </a>
-                </div>
-            </div>
         </div>
     </div>
 @stop
 
 @section('scripts')
-   
+   <script>
+   $("#formCreate").validate({
+       rules: {
+           first_name: {
+               required: true,
+               minlength: 3
+           },
+           last_name: {
+               required: true,
+               minlength: 3
+           },
+           email: {
+               required: true,
+               email: true
+           },
+           telf: {
+               required: true,
+           },
+       },
+       messages: {
+           first_name: {
+               required: "{{trans('app.candidate_validate.first_name_required')}}",
+               minlength: "{{trans('app.candidate_validate.first_name_length')}}"
+           },
+           last_name: {
+               required: "{{trans('app.candidate_validate.last_name_required')}}",
+               minlength: "{{trans('app.candidate_validate.last_name_length')}}"
+           },
+           email: {
+               required: "{{trans('app.candidate_validate.email_required')}}",
+               email: "{{trans('app.candidate_validate.email_valid')}}"
+           },
+           telf: {
+               required: "{{trans('app.candidate_validate.telf_required')}}",
+           },
+       },
+       errorElement : 'div',
+       errorPlacement: function(error, element) {
+           var placement = $(element).data('error');
+           if (placement) {
+               $(placement).append(error)
+           } else {
+               error.insertAfter(element);
+           }
+       }
+   });
+
+   $(document).ready(function(){
+
+       $('.open-modal-history').click(function(){
+           var candidates = [];
+           candidates.id = $(this).attr('value');
+           candidates.name = $(this).parent().parent().parent().find('.datos h3').html();
+           candidates.position = $(this).parent().parent().parent().find('.datos p').html();
+           candidates.cv = $(this).parent().find('.cv_candidate').attr('href');
+           $.ajax({url: "/vacancies/"+candidates.id+"/history/candidate?vacancy={{$vacancy->id}}",
+               success: function(result){
+                   $('#modalHistorico .datos').html('<h3>'+candidates.name+'</h3><p>'+candidates.position+'</p>');
+                   if(candidates.cv!=undefined){
+                       $('#modalHistorico .link').html('<a href="'+candidates.cv+'" target="_blank"><span class="icon-gTalents_download"></span></a>');
+                   } else {
+                       $('#modalHistorico .link').html('<a href="#" target="_blank"><span class="icon-gTalents_download"></span></a>');
+                   }
+                   var html = '';
+                   for(var i = 0; i < result.length; i++){
+                        html += '<li><span class="icon-gTalents_point"></span><p>'+result[i].created_at+'</p><p>'+result[i].status+'</p></li>';
+                   }
+                   $('.historial-status').html(html);
+                   $('#modalHistorico').modal('open');
+               }
+           });
+       });
+
+       $('#send-candidate').click(function(e){
+           var candidates = new Array;
+           $('.user-candidates').each(function(){
+                if($(this).is(':checked')){
+                    candidates.push({id:$(this).val(), name: $(this).parent().parent().find('.datos h3').html(),
+                        position: $(this).parent().parent().find('.datos p').html(),
+                        cv: $(this).parent().parent().find('.cv_candidate').attr('href')});
+                }
+           });
+           if(candidates.length==0){
+               swal({
+                   title: "{{trans('app.error')}}",
+                   text: "{{trans('app.error_message_send_candidates')}}",
+                   timer: 2000,
+                   showConfirmButton: false,
+                   type: "error"
+               });
+           } else {
+                var html = '';
+                var ids = new Array;
+                for(var i = 0; i<candidates.length; i++) {
+                    console.log(candidates[i].cv);
+                    html += '<li><div class="profile-colab"><section class="team-card"><div class="team-card-person">';
+                    html += '<figure><span class="icon-gTalents_team-48"></span></figure><div class="datos"><h3>' + candidates[i].name + '</h3>';
+                    html += '<p>' + candidates[i].position + '</p></div></div><div class="link">';
+                    if(candidates[i].cv!=undefined){
+                        html += '<a href="'+candidates[i].cv+'" target="_blank"><span class="icon-gTalents_download"></span></a>';
+                    } else {
+                        html += '<a href="#"><span class="icon-gTalents_download"></span></a>';
+                    }
+                    html += '</div></section></div></li>';
+                    ids.push(candidates[i].id);
+                }
+                html += '<input type="hidden" value="'+ids.toString()+'" name="candidates">';
+                $('.indicators').remove();
+                $('.slides-candidates').html(html);
+                $('.slider').slider({full_width: true});
+                $('#modalSendColab').modal('open');
+           }
+       });
+   });
+   </script>
 @stop

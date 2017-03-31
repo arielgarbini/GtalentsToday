@@ -20,7 +20,9 @@ class Candidate extends Model
     protected $fillable = [ 'supplier_user_id', 
     						'first_name', 
     						'last_name', 
-    						'email', 
+    						'email',
+                            'file',
+                            'company'
     						];
 
     public function user()
@@ -31,5 +33,10 @@ class Candidate extends Model
     public function pisition()
     {
         return $this->belongsTo(ActualPosition::class);
+    }
+
+    public function vacancy()
+    {
+        return $this->hasMany(VacancyCandidate::class);
     }
 }

@@ -2,6 +2,8 @@
 
 namespace Vanguard\Http\Controllers;
 
+use Vanguard\Candidate;
+use Vanguard\ActualPosition;
 use Vanguard\Repositories\Activity\ActivityRepository;
 use Vanguard\Repositories\User\UserRepository;
 use Vanguard\Repositories\Vacancy\VacancyRepository;
@@ -93,14 +95,29 @@ class DashboardController extends Controller
             Carbon::now()
         )->toArray();
 
+        if (session('lang') =='en'){
+            $language = 2;
+        }else{
+            $language = 1;
+        }
 
+        $candidates = Candidate::where('supplier_user_id', Auth::user()->id)->get();
+        $data1 = [];
+        $i = 0;
+        foreach ($candidates as $can){
+            $data1[] = $can;
+            $data1[$i]['actual_position'] = ActualPosition::where('value_id', $can->actual_position_id)
+                ->where('language_id', $language)->get()->first()->name;
+            $i++;
+        }
+        $candidates = (object) $data1;
         $perPage =20;
         $latestVacancies        = $this->vacancies->lastestPoster('poster_user_id',Auth::user()->id,$perPage);      
       //  $vacancies_users        = $this->vacancies_users->where('status',0); //** Request Supplier  
         $vacancies_users = $this->vacancies->getSupplier('vacancy_users','vacancy_users.vacancy_id','vacancies.id','users','users.id','vacancy_users.supplier_user_id','vacancies.poster_user_id', 'users.*', 'vacancy_users.status', 0, 'vacancies.*','vacancy_users.*', Auth::user()->id);
         $lastestOpportunities   = $this->vacancies->lastestOpportunities('poster_user_id',Auth::user()->id,$perPage); //** Opportunities Available
 
-        return view('dashboard_user.default', compact('activities', 'latestVacancies', 'vacancies_users','lastestOpportunities' ));
+        return view('dashboard_user.default', compact('candidates', 'activities', 'latestVacancies', 'vacancies_users','lastestOpportunities' ));
     }
 
 

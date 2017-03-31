@@ -50,7 +50,7 @@ class CandidateController extends Controller
     public function index () 
     {
         $perPage = 20;
-        $candidates = Candidate::all();
+        $candidates = Candidate::where('supplier_user_id', Auth::user()->id)->get();
         //dd($candidates);
         //dd($perPage);
         /*if(Auth::user()->hasRole('Consultant') Or Auth::user()->hasRole('Consultant Unverified'))
@@ -97,7 +97,15 @@ class CandidateController extends Controller
         }
 
         return redirect()->route('candidates.index')
-            ->withSuccess(trans('app.candidate_created'));*/ 
+            ->withSuccess(trans('app.candidate_created'));*/
+
+        $this->validate($request,
+            ['first_name'       => 'required|min:3',
+                'last_name'     => 'required|min:3',
+                'email'         => 'required|email|unique:candidates',
+                'telf'          => 'required',
+                'company'          => 'required',
+            ] );
 
         $mycandidate = new Candidate();
         $mycandidate->supplier_user_id = $this->theUser->id;
@@ -106,16 +114,19 @@ class CandidateController extends Controller
         $mycandidate->email =       $request->input('email');
         $mycandidate->telf =        $request->input('telf');
         $mycandidate->actual_position_id = $request->input('actual_position_id');
-        $mycandidate->company_id =  $request->input('company_id');
+        $mycandidate->company =  $request->input('company');
         $mycandidate->country_id =  $request->input('country_id');
         $mycandidate->compensation_id = $request->input('compensation_id');
 
-
         if ($mycandidate->save()) {
+            if($request->file('file')){
+                $name = $filemanager->uploadFile('candidate', $mycandidate->id);
+                $this->candidates->update($mycandidate->id, ['file' => $name]);
+            }
             return redirect()->back()->withSuccess(trans('app.candidate_created'));
         }
         else{
-            return redirect()->back()->withFlashDanger(trans('No creado'));
+            return redirect()->back()->withErrors(trans('no_create'));
         }   
     }
 
@@ -187,19 +198,22 @@ class CandidateController extends Controller
             ->withSuccess(trans('app.candidate_updated_successfully'));*/
 
         $mycandidate = Candidate::find($id);
-        //$mycandidate->fill($request->all());
         $mycandidate->first_name =  $request->input('first_name');
         $mycandidate->last_name =   $request->input('last_name');
         $mycandidate->email =       $request->input('email');
         $mycandidate->telf =        $request->input('telf');
         $mycandidate->actual_position_id = $request->input('actual_position_id');
-        $mycandidate->company_id =  $request->input('company_id');
+        $mycandidate->company =  $request->input('company');
         $mycandidate->country_id =  $request->input('country_id');
         $mycandidate->compensation_id = $request->input('compensation_id');
-         if($mycandidate->save())
-         {   
-             return redirect()->route('candidates.index')->withFlashSuccess('Actualizado con éxito');
-         }
+        if($mycandidate->save())
+        {
+            if($request->file('file')){
+                $name = $filemanager->uploadFile('candidate', $mycandidate->id);
+                $this->candidates->update($mycandidate->id, ['file' => $name]);
+            }
+            return redirect()->route('candidates.index')->withSuccess(trans('app.candidate_updated_successfully'));
+        }
     }
 
     /**
@@ -234,4 +248,5 @@ class CandidateController extends Controller
              ->withSuccess(trans('app.candidate_deleted'));
         }
     }
+
 }

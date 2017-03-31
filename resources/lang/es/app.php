@@ -2,6 +2,7 @@
 
 return [
     //NEW DASHBOARD
+    'success'           => 'Bien!',
     'opportunities'     => 'Oportunidades',    
     'post'              => 'Post',
     'new_opportunity'   => 'Nueva Oportunidad',
@@ -24,6 +25,7 @@ return [
     'alerts'            => 'Notificaciones',
     'my_position'       => 'Mi posición',
     'i_lack'            => 'Me faltan',
+    'no_create'         => 'No creado',
     'my_published_opportunities' => 'Mis Oportunidades Publicadas',
     'no_activities_recorded' => 'Sin actividades registradas',
     'create_a_job_opportunity' => 'Crea una oportunidad laboral',
@@ -41,7 +43,8 @@ return [
     'no_notifications'   =>'No tiene notificaciones',
     'you_want_to_participate_in' =>'Quiere participar en',
     'approved_application' => 'approved_application',
-
+    'error'                 => 'Error',
+    'team'                  => 'Colaboradores',
 
     'home' => 'Inicio',
     'my_user_details' => 'Detalles',
@@ -76,7 +79,7 @@ return [
     'consultant' => 'Consultor', 
 
     //Language 
-    'english' => 'English',
+    'english' => 'Ingles',
     'spanish' => 'Español',
 
     //Categories
@@ -112,7 +115,7 @@ return [
     'create_new_candidate'          => 'Crear Nuevo Candidato',
     'create_candidate'              => 'Crear Candidato',
     'candidate'                     => 'Candidato',
-    'candidate_created'             => 'Candidato creado con éxito.',
+    'candidate_created'             => 'Candidato creado satisfactoriamente.',
     'view_candidate'                => 'Consultar Candidato',
     'edit_candidate'                => 'Editar Candidato',
     'candidate_updated_successfully'=> 'Candidato actualizado con éxito.',
@@ -127,8 +130,35 @@ return [
     'candidates_prueba'             => 'Candidatos Prueba',
     'browse'                        => 'Examinar',
     'edit_or_leave_blank'           => 'Editar o dejar en blanco',
-    'compesation'                   => 'Compensación',
+    'compensation'                   => 'Compensación',
     'new_candidate_add_success'     => 'Nuevo candidato agregado exitosamente',
+    'approved_candidate'            => 'Candidato aprovado',
+    'rejected_candidate'            => 'Candidato rechazado',
+    'view_all'                      => 'Ver todos',
+    'we_recommend_you'              => 'Te recomendamos',
+
+    'candidate_validate'            => [
+        'first_name_required'    => 'El nombre es requerido',
+        'first_name_length'    => 'El nombre debe tener minimo 6 caracteres',
+        'last_name_required'     => 'El apellido es requerido',
+        'last_name_length'     => 'El apellido debe tener minimo 6 caracteres',
+        'email_required'     => 'El correo electrónico es requerido',
+        'email_valid'           => 'Ingrese un correo electrónico valido',
+        'telf_required'        => 'El teléfono es requerido',
+        'telf_number'        => 'Ingrese un numero de teléfono valido',
+        'company_required'        => 'La compañia es requerida',
+    ],
+
+    'vacancy_validate'         => [
+        'position'  => 'La posicion es requerida',
+        'salario'  => 'El salario es requerido',
+        'salario_number'  => 'Ingrese un salario valido',
+        'date_admision'  => 'La fecha de admision es requerida',
+        'details'  => 'El detalle de la oferta es requerido',
+        'comments'  => 'El comentario a gtalents es requerido',
+        'comments_supplier'  => 'El comentario al supplier es requerido',
+    ],
+
 
     //Oportunities
     'filter_your_search'            => 'Filtra tu búsqueda',
@@ -216,6 +246,21 @@ return [
     'historical'                  => 'Historico',
     'send_candidates'             => 'Enviar Candidatos',
     'new_candidate'               => 'Nuevo Candidato',
+    'write_your_comment'          => 'Escribe tu comentario',
+    'error_message_send_candidates' => 'Debe seleccionar almenos un candidato a enviar',
+    'candidates_send_success'     => 'candidatos enviados correctamente',
+    'name_candidates'             => 'Nombre del candidato',
+    'view_note'                   => 'Ver nota',
+    'candidate_historical'        => 'Historico del Candidato',
+    'contract'                    => 'Contratar',
+    'you_want_contract'           => 'Nos complace saber que quieras contratar',
+    'annual_salary'               => 'Salario Anual',
+    'date_of_admission'           => 'Fecha de admision',
+    'details_offert'              => 'Detalles de Oferta  y Compensaciones adicionales',
+    'comments_to'                 => 'Comentario a',
+    'calificate_supplier'         => '¡Califica a tu Supplier!',
+    'attach_job_offer'            => 'Adjuntar Oferta de Empleo',
+    'contract_process'            => 'Procesar Contrato',
 
     'positions'                   => 'Posiciones',
     'career_plan'                 => 'Plan de carrera',
@@ -238,8 +283,10 @@ return [
     'select_another_country'      => 'Seleccione otro país',
     'view_all_vacancies'          => 'Ver todas las vacantes',
     'relevant_opportunities'      => 'Oportunidades relevantes',
+    'interesting_opportunities'   => 'Te podrán interesar',
     'to_apply'                    => 'Postularse',
     'has_applied_for_vacancy'     => 'Se ha postulado a una vacante satisfactoriamente.',
+    'has_contract_candidate'      => 'Se ha contratado al candidato.',
     'languages_required'          => 'Idiomas requeridos',
     'postulation_is_not_allowed'  => 'La postulación no es pertimita',
     'already_been_postulated'     => 'Ya se ha postulado anteriormente',
@@ -296,6 +343,10 @@ return [
     'received'                      => 'Recibidos',
     'search_for_messages'           => 'Búsqueda de Mensajes',
     'message_created'               => 'Mensaje enviado',
+    'all_messages'                  => 'Todos los mensajes',
+    'send_message'                  => 'Enviar Mensaje',
+    'reply_send_message'            => 'Responde o envía un mensaje',
+    'created_by_you'                => 'Creado por ti',
 
     //News
     'news'                     => 'Noticias',
@@ -384,6 +435,7 @@ return [
     'delete_message' => 'Borrar Mensaje',
     'are_you_sure_delete_message' => 'Esta seguro de borrar este mensaje?',
     'Read' => 'Leido',
+    'read' => 'Leido',
     'Unread' => 'No leido',
     'Response' => 'Respondido',
     'Type your message here ...' => 'Escribe tu mensaje aqui ...',
@@ -501,6 +553,7 @@ return [
     'permission_details' => 'Detalles de Permisos',
     'permission_details_sm' => 'detalles de permisos',
     'edit' => 'Editar',
+    'delete' => 'Eliminar',
     'create' => 'Crear',
     'name' => 'Nombre',
     'permission_name' => 'Nombre de Permiso',
@@ -889,5 +942,23 @@ return [
         'October' => 'Octubre',
         'November' => 'Noviembre',
         'December' => 'Diciembre',
-    ]
+    ],
+
+
+    //notifications
+    'title_supplier'          => 'Supplier',
+    'title_approved_supplier' => '¡Aprobado!',
+    'title_rejected_supplier' => '¡Rechazado!',
+    'title_candidates' => '¡Candidatos recibidos!',
+    'title_approved_candidates' => '¡Candidato aprobado!',
+    'title_rejected_candidates' => '¡Candidato rechazado!',
+    'title_message_received'            => '¡Mensaje recibido!',
+
+    'request_supplier_vacancy'  => 'Quiere participar en',
+    'approved_supplier_vacancy' => 'Has sido aprobado a',
+    'rejected_supplier_vacancy' => 'Has sido rechazado a',
+    'request_supplier_candidates' => 'Te han enviado candidatos a',
+    'approbate_supplier_candidate' => 'Han aprovado al candidato',
+    'rejected_supplier_candidate' => 'Han rechazado al candidato',
+    'message_received'            => 'Mensaje recibido de'
 ];

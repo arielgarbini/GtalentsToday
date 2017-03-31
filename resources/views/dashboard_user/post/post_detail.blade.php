@@ -154,7 +154,7 @@
                             <span class="icon-gTalents_stars"></span>
                         </figure>
                         <div class="datos">
-                            <h4>1.500 @lang('app.points')</h4>
+                            <h4>25 @lang('app.points')</h4>
                             <p>@lang('app.position_compensation')</p>
                         </div>
                     </li>
@@ -197,7 +197,7 @@
                 <!--CIRCULO RESUMEN-->
                 <div class="item-circle">
                     <figure>
-                        <h4>9</h4>
+                        <h4>{{count($candidatesUnReadCount)}}</h4>
                         <span>@lang('app.not_read')</span>
                     </figure>
                 </div>
@@ -218,7 +218,7 @@
 
                     <!--VISITAS-->
                     <div class="item-option">
-                        <h4>25</h4>
+                        <h4>{{$viewed}}</h4>
                         <span class="opt-sm">@lang('app.visits')</span>
                     </div>
                 </div>
@@ -313,7 +313,7 @@
                     <section class="team-container-tools">
                         <!-- ACTIVO 1 -->
                         <div class="active-one">
-                            <p>51 Candidatos</p>
+                            <p>{{count($candidatesApproved)}} @lang('app.candidates')</p>
 
                             <div class="search-opt1 btn-search">
                                 <span class="icon-gTalents_search"></span>
@@ -322,7 +322,7 @@
 
                         <!-- SECCION DE BUSQUEDA -->
                         <form class="active-two">
-                            <input type="text" placeholder="Nombre del Colaborador">
+                            <input type="text" placeholder="{{trans('app.name_candidates')}}">
                             <!--CERRAR SEGMENTO-->
                             <div class="close btn-closeInput">
                                 <span class="icon-gTalents_close"></span>
@@ -333,185 +333,42 @@
                     <!--LISTADO DE CANDIDATOS-->
                     <ul class="team">
                         <!-- CANDIDATO 1 -->
-                        <li>
-                            <section class="team-card">
-                                <!--PERSONA-->
-                                <div class="team-card-person">
-                                    <figure>
-                                        <span class="icon-gTalents_team-48"></span>
-                                    </figure>
-                                    <div class="datos">
-                                        <h3>Andres Gonzalez</h3>
-                                        <p>FrontEnd Developer</p>
+                        @foreach($candidatesApproved as $candidate)
+                            <li>
+                                <section class="team-card">
+                                    <!--PERSONA-->
+                                    <div class="team-card-person">
+                                        <figure>
+                                            <span class="icon-gTalents_team-48"></span>
+                                        </figure>
+                                        <div class="datos">
+                                            <h3>{{$candidate['first_name']}} {{$candidate['last_name']}}</h3>
+                                            <p>{{substr($candidate['actual_position'], 0, 20)}}</p>
+                                        </div>
                                     </div>
-                                </div>
 
-                                <!--OPCIONES-->
-                                <div class="options">
-                                    <!-- Dropdown Trigger -->
-                                    <a class='dropdown-button' href='#' data-activates='option-colb1'>
-                                        <span class="icon-gTalents_submenu"></span>
-                                    </a>
+                                    <!--OPCIONES-->
+                                    <div class="options">
+                                        <!-- Dropdown Trigger -->
+                                        <a class='dropdown-button' href='#' data-activates='option-colb{{$candidate['id']}}'>
+                                            <span class="icon-gTalents_submenu"></span>
+                                        </a>
 
-                                    <!-- Dropdown Structure -->
-                                    <ul id='option-colb1' class='dropdown-content'>
-                                        <li><a href="#">Ver CV</a></li>
-                                        <li><a href="#">Descartar</a></li>
-                                    </ul>
-                                </div>
-                            </section>
-                        </li>
-
-                        <!-- CANDIDATO 2 -->
-                        <li>
-                            <section class="team-card">
-                                <!--PERSONA-->
-                                <div class="team-card-person">
-                                    <figure>
-                                        <span class="icon-gTalents_team-48"></span>
-                                    </figure>
-                                    <div class="datos">
-                                        <h3>Andres Gonzalez</h3>
-                                        <p>Backend Developer</p>
+                                        <!-- Dropdown Structure -->
+                                        <ul id='option-colb{{$candidate['id']}}' class='dropdown-content'>
+                                            @if($candidate['file']!='')
+                                                <li><a href="/upload/docs/{{$candidate['file']}}" class="cv_candidate" target="_blank">@lang('app.view_cv')</a></li>
+                                            @else
+                                                <li><a href="#">@lang('app.view_cv')</a></li>
+                                            @endif
+                                            <!--href="#modalHistorico"-->
+                                            <li class="open-modal-history" value="{{$candidate['id']}}"><a class="waves-effect waves-light">@lang('app.historical')</a></li>
+                                        </ul>
                                     </div>
-                                </div>
-
-                                <!--OPCIONES-->
-                                <div class="options">
-                                    <!-- Dropdown Trigger -->
-                                    <a class='dropdown-button' href='#' data-activates='option-colb2'>
-                                        <span class="icon-gTalents_submenu"></span>
-                                    </a>
-
-                                    <!-- Dropdown Structure -->
-                                    <ul id='option-colb2' class='dropdown-content'>
-                                        <li><a href="#">Ver CV</a></li>
-                                        <li><a href="#">Descartar</a></li>
-                                    </ul>
-                                </div>
-                            </section>
-                        </li>
-
-                        <!-- CANDIDATO 3 -->
-                        <li>
-                            <section class="team-card">
-                                <!--PERSONA-->
-                                <div class="team-card-person">
-                                    <figure>
-                                        <span class="icon-gTalents_team-48"></span>
-                                    </figure>
-                                    <div class="datos">
-                                        <h3>Andres Gonzalez</h3>
-                                        <p>UX/UI Designer</p>
-                                    </div>
-                                </div>
-
-                                <!--OPCIONES-->
-                                <div class="options">
-                                    <!-- Dropdown Trigger -->
-                                    <a class='dropdown-button' href='#' data-activates='option-colb3'>
-                                        <span class="icon-gTalents_submenu"></span>
-                                    </a>
-
-                                    <!-- Dropdown Structure -->
-                                    <ul id='option-colb3' class='dropdown-content'>
-                                        <li><a href="#">Ver CV</a></li>
-                                        <li><a href="#">Descartar</a></li>
-                                    </ul>
-                                </div>
-                            </section>
-                        </li>
-
-                        <!-- CANDIDATO 4 -->
-                        <li>
-                            <section class="team-card">
-                                <!--PERSONA-->
-                                <div class="team-card-person">
-                                    <figure>
-                                        <span class="icon-gTalents_team-48"></span>
-                                    </figure>
-                                    <div class="datos">
-                                        <h3>Andres Gonzalez</h3>
-                                        <p>Diseñador Grafico</p>
-                                    </div>
-                                </div>
-
-                                <!--OPCIONES-->
-                                <div class="options">
-                                    <!-- Dropdown Trigger -->
-                                    <a class='dropdown-button' href='#' data-activates='option-colb4'>
-                                        <span class="icon-gTalents_submenu"></span>
-                                    </a>
-
-                                    <!-- Dropdown Structure -->
-                                    <ul id='option-colb4' class='dropdown-content'>
-                                        <li><a href="#">Ver CV</a></li>
-                                        <li><a href="#">Descartar</a></li>
-                                    </ul>
-                                </div>
-                            </section>
-                        </li>
-
-                        <!-- CANDIDATO 5 -->
-                        <li>
-                            <section class="team-card">
-                                <!--PERSONA-->
-                                <div class="team-card-person">
-                                    <figure>
-                                        <span class="icon-gTalents_team-48"></span>
-                                    </figure>
-                                    <div class="datos">
-                                        <h3>Andres Gonzalez</h3>
-                                        <p>Chef</p>
-                                    </div>
-                                </div>
-
-                                <!--OPCIONES-->
-                                <div class="options">
-                                    <!-- Dropdown Trigger -->
-                                    <a class='dropdown-button' href='#' data-activates='option-colb5'>
-                                        <span class="icon-gTalents_submenu"></span>
-                                    </a>
-
-                                    <!-- Dropdown Structure -->
-                                    <ul id='option-colb5' class='dropdown-content'>
-                                        <li><a href="#">Ver CV</a></li>
-                                        <li><a href="#">Descartar</a></li>
-                                    </ul>
-                                </div>
-                            </section>
-                        </li>
-
-                        <!-- CANDIDATO 6 -->
-                        <li>
-                            <section class="team-card">
-                                <!--PERSONA-->
-                                <div class="team-card-person">
-                                    <figure>
-                                        <span class="icon-gTalents_team-48"></span>
-                                    </figure>
-                                    <div class="datos">
-                                        <h3>Andres Gonzalez</h3>
-                                        <p>Ayudante de Cocina</p>
-                                    </div>
-                                </div>
-
-                                <!--OPCIONES-->
-                                <div class="options">
-                                    <!-- Dropdown Trigger -->
-                                    <a class='dropdown-button' href='#' data-activates='option-colb6'>
-                                        <span class="icon-gTalents_submenu"></span>
-                                    </a>
-
-                                    <!-- Dropdown Structure -->
-                                    <ul id='option-colb6' class='dropdown-content'>
-                                        <li><a href="#">Ver CV</a></li>
-                                        <li><a href="#">Descartar</a></li>
-                                    </ul>
-                                </div>
-                            </section>
-                        </li>
-                    </ul>                   
+                                </section>
+                            </li>
+                        @endforeach
+                    </ul>
                 </div>
 
                 <!-- NO LEIDOS -->
@@ -520,7 +377,7 @@
                     <section class="team-container-tools">
                         <!-- ACTIVO 1 -->
                         <div class="active-one">
-                            <p>22 No Leidos</p>
+                            <p>{{count($candidatesUnRead)}} @lang('app.not_read')</p>
 
                             <div class="search-opt1 btn-search">
                                 <span class="icon-gTalents_search"></span>
@@ -529,7 +386,7 @@
 
                         <!-- SECCION DE BUSQUEDA -->
                         <form class="active-two">
-                            <input type="text" placeholder="Nombre del Colaborador">
+                            <input type="text" placeholder="{{trans('app.name_candidates')}}">
                             <!--CERRAR SEGMENTO-->
                             <div class="close btn-closeInput">
                                 <span class="icon-gTalents_close"></span>
@@ -540,6 +397,7 @@
                     <!--LISTADO DE CANDIDATOS-->
                     <ul class="team">
                         <!-- CANDIDATO 1 -->
+                        @foreach($candidatesUnRead as $candidate)
                         <li>
                             <section class="team-card">
                                 <!--PERSONA-->
@@ -548,196 +406,53 @@
                                         <span class="icon-gTalents_team-48"></span>
                                     </figure>
                                     <div class="datos">
-                                        <h3>Andres Gonzalez</h3>
-                                        <p>FrontEnd Developer</p>
+                                        <h3>{{$candidate['first_name']}} {{$candidate['last_name']}}</h3>
+                                        <p>{{substr($candidate['actual_position'], 0, 20)}}</p>
                                     </div>
                                 </div>
 
                                 <!--OPCIONES-->
                                 <div class="options">
                                     <!-- Dropdown Trigger -->
-                                    <a class='dropdown-button' href='#' data-activates='option-noleido1'>
+                                    <a class='dropdown-button' href='#' data-activates='option-noleido{{$candidate['id']}}'>
                                         <span class="icon-gTalents_submenu"></span>
                                     </a>
 
                                     <!-- Dropdown Structure -->
-                                    <ul id='option-noleido1' class='dropdown-content'>
-                                        <li><a href="#">Ver CV</a></li>
-                                        <li><a href="#modalNota" class="modal-trigger waves-effect waves-light">Ver Nota</a></li>
-                                        <li><a href="#">Aceptar</a></li>
-                                        <li><a href="#">Descartar</a></li>
+                                    <ul id='option-noleido{{$candidate['id']}}' class='dropdown-content'>
+                                        @if($candidate['file']!='')
+                                            <li class="read_candidate" value="{{$candidate['id']}}"><a href="/upload/docs/{{$candidate['file']}}" class="cv_candidate" target="_blank">@lang('app.view_cv')</a></li>
+                                        @else
+                                            <li><a href="#">@lang('app.view_cv')</a></li>
+                                        @endif
+                                        <li><a href="#modalNota" class="modal-trigger waves-effect waves-light">@lang('app.view_note')</a></li>
+                                        <form method="POST" action="{{route('vacancies.approbate.candidate',$candidate['id'])}}">
+                                            {{csrf_field()}}
+                                            <li class="send_form">
+                                                <input type="hidden" name="vacancy" value="{{$vacancy->id}}">
+                                                <a href="#">@lang('app.accept')</a>
+                                            </li>
+                                        </form>
+                                        <form method="POST" action="{{route('vacancies.reject.candidate',$candidate['id'])}}">
+                                            {{csrf_field()}}
+                                            <li class="send_form">
+                                                <input type="hidden" name="vacancy" value="{{$vacancy->id}}">
+                                                <a href="#" >@lang('app.discard')</a>
+                                            </li>
+                                        </form>
                                     </ul>
                                 </div>
                             </section>
                         </li>
-
-                        <!-- CANDIDATO 2 -->
-                        <li>
-                            <section class="team-card">
-                                <!--PERSONA-->
-                                <div class="team-card-person">
-                                    <figure>
-                                        <span class="icon-gTalents_team-48"></span>
-                                    </figure>
-                                    <div class="datos">
-                                        <h3>Andres Gonzalez</h3>
-                                        <p>Backend Developer</p>
-                                    </div>
-                                </div>
-
-                                <!--OPCIONES-->
-                                <div class="options">
-                                    <!-- Dropdown Trigger -->
-                                    <a class='dropdown-button' href='#' data-activates='option-noleido2'>
-                                        <span class="icon-gTalents_submenu"></span>
-                                    </a>
-
-                                    <!-- Dropdown Structure -->
-                                    <ul id='option-noleido2' class='dropdown-content'>
-                                        <li><a href="#">Ver CV</a></li>
-                                        <li><a href="#modalNota" class="modal-trigger waves-effect waves-light">Ver Nota</a></li>
-                                        <li><a href="#">Aceptar</a></li>
-                                        <li><a href="#">Descartar</a></li>
-                                    </ul>
-                                </div>
-                            </section>
-                        </li>
-
-                        <!-- CANDIDATO 3 -->
-                        <li>
-                            <section class="team-card">
-                                <!--PERSONA-->
-                                <div class="team-card-person">
-                                    <figure>
-                                        <span class="icon-gTalents_team-48"></span>
-                                    </figure>
-                                    <div class="datos">
-                                        <h3>Andres Gonzalez</h3>
-                                        <p>UX/UI Designer</p>
-                                    </div>
-                                </div>
-
-                                <!--OPCIONES-->
-                                <div class="options">
-                                    <!-- Dropdown Trigger -->
-                                    <a class='dropdown-button' href='#' data-activates='option-noleido3'>
-                                        <span class="icon-gTalents_submenu"></span>
-                                    </a>
-
-                                    <!-- Dropdown Structure -->
-                                    <ul id='option-noleido3' class='dropdown-content'>
-                                        <li><a href="#">Ver CV</a></li>
-                                        <li><a href="#modalNota" class="modal-trigger waves-effect waves-light">Ver Nota</a></li>
-                                        <li><a href="#">Aceptar</a></li>
-                                        <li><a href="#">Descartar</a></li>
-                                    </ul>
-                                </div>
-                            </section>
-                        </li>
-
-                        <!-- CANDIDATO 4 -->
-                        <li>
-                            <section class="team-card">
-                                <!--PERSONA-->
-                                <div class="team-card-person">
-                                    <figure>
-                                        <span class="icon-gTalents_team-48"></span>
-                                    </figure>
-                                    <div class="datos">
-                                        <h3>Andres Gonzalez</h3>
-                                        <p>Diseñador Grafico</p>
-                                    </div>
-                                </div>
-
-                                <!--OPCIONES-->
-                                <div class="options">
-                                    <!-- Dropdown Trigger -->
-                                    <a class='dropdown-button' href='#' data-activates='option-noleido4'>
-                                        <span class="icon-gTalents_submenu"></span>
-                                    </a>
-
-                                    <!-- Dropdown Structure -->
-                                    <ul id='option-noleido4' class='dropdown-content'>
-                                        <li><a href="#">Ver CV</a></li>
-                                        <li><a href="#modalNota" class="modal-trigger waves-effect waves-light">Ver Nota</a></li>
-                                        <li><a href="#">Aceptar</a></li>
-                                        <li><a href="#">Descartar</a></li>
-                                    </ul>
-                                </div>
-                            </section>
-                        </li>
-
-                        <!-- CANDIDATO 5 -->
-                        <li>
-                            <section class="team-card">
-                                <!--PERSONA-->
-                                <div class="team-card-person">
-                                    <figure>
-                                        <span class="icon-gTalents_team-48"></span>
-                                    </figure>
-                                    <div class="datos">
-                                        <h3>Andres Gonzalez</h3>
-                                        <p>Chef</p>
-                                    </div>
-                                </div>
-
-                                <!--OPCIONES-->
-                                <div class="options">
-                                    <!-- Dropdown Trigger -->
-                                    <a class='dropdown-button' href='#' data-activates='option-noleido5'>
-                                        <span class="icon-gTalents_submenu"></span>
-                                    </a>
-
-                                    <!-- Dropdown Structure -->
-                                    <ul id='option-noleido5' class='dropdown-content'>
-                                        <li><a href="#">Ver CV</a></li>
-                                        <li><a href="#modalNota" class="modal-trigger waves-effect waves-light">Ver Nota</a></li>
-                                        <li><a href="#">Aceptar</a></li>
-                                        <li><a href="#">Descartar</a></li>
-                                    </ul>
-                                </div>
-                            </section>
-                        </li>
-
-                        <!-- CANDIDATO 6 -->
-                        <li>
-                            <section class="team-card">
-                                <!--PERSONA-->
-                                <div class="team-card-person">
-                                    <figure>
-                                        <span class="icon-gTalents_team-48"></span>
-                                    </figure>
-                                    <div class="datos">
-                                        <h3>Andres Gonzalez</h3>
-                                        <p>Ayudante de Cocina</p>
-                                    </div>
-                                </div>
-
-                                <!--OPCIONES-->
-                                <div class="options">
-                                    <!-- Dropdown Trigger -->
-                                    <a class='dropdown-button' href='#' data-activates='option-noleido6'>
-                                        <span class="icon-gTalents_submenu"></span>
-                                    </a>
-
-                                    <!-- Dropdown Structure -->
-                                    <ul id='option-noleido6' class='dropdown-content'>
-                                        <li><a href="#">Ver CV</a></li>
-                                        <li><a href="#modalNota" class="modal-trigger waves-effect waves-light">Ver Nota</a></li>
-                                        <li><a href="#">Aceptar</a></li>
-                                        <li><a href="#">Descartar</a></li>
-                                    </ul>
-                                </div>
-                            </section>
-                        </li>
+                        @endforeach
                     </ul>
 
                     <!--VER TODOS LOS NO LEIDOS -->
-                    <section class="new-team">
+                    <!--<section class="new-team">
                         <a href="#modalnoLeidos" class="modal-trigger waves-effect waves-light">
-                            <p>Ver todos</p>
+                            <p>@lang('app.view_all')</p>
                         </a>
-                    </section>                  
+                    </section>-->
                 </div>
             </div>
 
@@ -745,7 +460,7 @@
             <div class="bills">
                 <!--TITULO DE LA SECCION-->
                 <section class="bills-title">
-                    <h3>Te recomendamos</h3>
+                    <h3>@lang('app.we_recommend_you')</h3>
                 </section>
 
                 <!--ALERTAS-->
@@ -864,7 +579,7 @@
 
                 <!--AGREGAR NUEVO COLABORADOR -->
                 <section class="new-team">
-                    <a href="supplier-list.php">
+                    <a href="/supplier">
                         <p>Más Supplier</p>
                     </a>
                 </section>          
@@ -1487,9 +1202,111 @@
             </div>
         </div>
     </div>
+<div id="modalHistorico" class="modal modal-userRegistered">
 
+    <div class="modal-header">
+        <!--CERRAR MODAL-->
+        <div class="close">
+            <a href="#!" class="modal-action modal-close">
+                <span class="icon-gTalents_close-2"></span>
+            </a>
+        </div>
+
+        <h4>@lang('app.candidate_historical')</h4>
+    </div>
+
+    <div class="modal-content">
+        <!--TARJETA DEL CANDIDATO-->
+        <div class="profile-colab">
+            <section class="team-card">
+                <!--PERSONA-->
+                <div class="team-card-person">
+                    <figure>
+                        <span class="icon-gTalents_team-48"></span>
+                    </figure>
+                    <div class="datos">
+
+                    </div>
+                </div>
+
+                <!--DESCARGAR CV-->
+                <div class="link">
+
+                </div>
+            </section>
+
+            <!--RESPUESTA-->
+            <form action="{{route('vacancies.contract.candidate', $vacancy->id)}}" method="GET" class="formLogin form-status">
+                <!--SELECTOR DE ESTATUS-->
+                <div class="itemForm">
+                    <select class="browser-default">
+                        <option value="1" selected>Estatus 1</option>
+                        <option value="2">Estatus 2</option>
+                        <option value="3">Estatus 3</option>
+                    </select>
+                </div>
+
+                <!--HISTORIAL DE ESTATUS-->
+                <ul class="historial-status">
+                    <!--ESTATUS 1-->
+
+                </ul>
+                <section class="buttonsMain">
+                    <!--REGRESAR-->
+                    <div class="item">
+                        <a href="#!" class="modal-action modal-close waves-effect waves-green btn-return">
+                            @lang('app.back')
+                        </a>
+                    </div>
+
+                    <div class="item">
+                        <button type="submit" class="btn-main" id="btn-modalMain">
+                            @lang('app.contract')
+                        </button>
+                    </div>
+                </section>
+            </form>
+        </div>
+    </div>
 @stop
 
 @section('scripts')
-   
+   <script>
+       $(document).ready(function(){
+           $('.read_candidate').click(function(){
+               $.ajax({
+                   url: "/vacancies/"+$(this).attr('value')+"/read/candidate",
+                   method: "POST",
+                   data: "vacancy={{$vacancy->id}}&_token={{csrf_token()}}",
+                   success: function(result){
+                       console.log(result);
+                   }
+               });
+           });
+
+           $('.open-modal-history').click(function(){
+               var candidates = [];
+               candidates.id = $(this).attr('value');
+               candidates.name = $(this).parent().parent().parent().find('.datos h3').html();
+               candidates.position = $(this).parent().parent().parent().find('.datos p').html();
+               candidates.cv = $(this).parent().find('.cv_candidate').attr('href');
+               $.ajax({url: "/vacancies/"+candidates.id+"/history/candidate?vacancy={{$vacancy->id}}",
+                   success: function(result){
+                       $('#modalHistorico .datos').html('<h3>'+candidates.name+'</h3><p>'+candidates.position+'</p>');
+                       if(candidates.cv!=undefined){
+                           $('#modalHistorico .link').html('<a href="'+candidates.cv+'" target="_blank"><span class="icon-gTalents_download"></span></a>');
+                       } else {
+                           $('#modalHistorico .link').html('<a href="#" target="_blank"><span class="icon-gTalents_download"></span></a>');
+                       }
+                       var html = '';
+                       for(var i = 0; i < result.length; i++){
+                           html += '<li><span class="icon-gTalents_point"></span><p>'+result[i].created_at+'</p><p>'+result[i].status+'</p></li>';
+                       }
+                       $('.historial-status').html(html+'<input type="hidden" name="candidate" value="'+candidates.id+'">');
+                       $('#modalHistorico').modal('open');
+                   }
+               });
+           });
+       });
+   </script>
 @stop

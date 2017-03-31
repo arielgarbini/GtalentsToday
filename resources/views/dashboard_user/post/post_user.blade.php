@@ -151,7 +151,7 @@
                             <span class="icon-gTalents_stars"></span>
                         </figure>
                         <div class="datos">
-                            <h4>1.500 @lang('app.points')</h4>
+                            <h4>25 @lang('app.points')</h4>
                             <p>@lang('app.position_compensation')</p>
                         </div>
                     </li>
@@ -229,119 +229,6 @@
 
                 <!--RANGO-->
                 <ul class="post-list">
-                    <!--OFERTA 1-->
-                    <li>
-                        <a href="#" class="link-listado">
-                            <!-- RESUMEN OPORTUNIDAD-->
-                            <section class="opportunity-admin">
-                                <!--DATOS DEL POST-->
-                                <div class="item-activity">
-                                    <h2>Desarrollador .NET</h2>
-                                    <h3>Buenos Aires, Argentina | REF49</h3>
-                                    <p>Publicado | Jue,17 Nov 2016</p>
-                                    <!--SECCIONES TOOLTIPS-->
-                                    <div class="item-activity-leyend">
-                                        <!--FACTURACION APROXIMADA-->
-                                        <div class="item">
-                                            <a class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="Facturación Aproximada: $500">
-                                                <span class="icon-gTalents_facturacion"></span>
-                                            </a>
-                                        </div>
-
-                                        <!--CANTIDAD DE SUPPLIERS-->
-                                        <div class="item">
-                                             <a class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="6 Suppliers">
-                                                <span class="icon-gTalents_comision"></span>
-                                             </a>
-                                        </div>
-
-                                        <!--CONTIGENCY O RETAINED-->
-                                        <div class="item">
-                                             <a class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="Retained">
-                                                <span class="icon-gTalents_estado-post"></span>
-                                             </a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </section>
-                        </a>
-                    </li>
-
-                    <!--OFERTA 2-->
-                    <li>
-                        <a href="#" class="link-listado">
-                            <!-- RESUMEN OPORTUNIDAD-->
-                            <section class="opportunity-admin">
-                                <!--DATOS DEL POST-->
-                                <div class="item-activity">
-                                    <h2>Desarrollador .NET</h2>
-                                    <h3>Buenos Aires, Argentina | REF49</h3>
-                                    <p>Publicado | Jue,17 Nov 2016</p>
-                                    <!--SECCIONES TOOLTIPS-->
-                                    <div class="item-activity-leyend">
-                                        <!--FACTURACION APROXIMADA-->
-                                        <div class="item">
-                                            <a class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="Facturación Aproximada: $500">
-                                                <span class="icon-gTalents_facturacion"></span>
-                                            </a>
-                                        </div>
-
-                                        <!--CANTIDAD DE SUPPLIERS-->
-                                        <div class="item">
-                                             <a class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="6 Suppliers">
-                                                <span class="icon-gTalents_comision"></span>
-                                             </a>
-                                        </div>
-
-                                        <!--CONTIGENCY O RETAINED-->
-                                        <div class="item">
-                                             <a class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="Retained">
-                                                <span class="icon-gTalents_estado-post"></span>
-                                             </a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </section>
-                        </a>
-                    </li>
-
-                    <!--OFERTA 3-->
-                    <li>
-                        <a href="#" class="link-listado">
-                            <!-- RESUMEN OPORTUNIDAD-->
-                            <section class="opportunity-admin">
-                                <!--DATOS DEL POST-->
-                                <div class="item-activity">
-                                    <h2>Desarrollador .NET</h2>
-                                    <h3>Buenos Aires, Argentina | REF49</h3>
-                                    <p>Publicado | Jue,17 Nov 2016</p>
-                                    <!--SECCIONES TOOLTIPS-->
-                                    <div class="item-activity-leyend">
-                                        <!--FACTURACION APROXIMADA-->
-                                        <div class="item">
-                                            <a class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="Facturación Aproximada: $500">
-                                                <span class="icon-gTalents_facturacion"></span>
-                                            </a>
-                                        </div>
-
-                                        <!--CANTIDAD DE SUPPLIERS-->
-                                        <div class="item">
-                                             <a class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="6 Suppliers">
-                                                <span class="icon-gTalents_comision"></span>
-                                             </a>
-                                        </div>
-
-                                        <!--CONTIGENCY O RETAINED-->
-                                        <div class="item">
-                                             <a class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="Retained">
-                                                <span class="icon-gTalents_estado-post"></span>
-                                             </a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </section>
-                        </a>
-                    </li>
                 </ul>
             </div>      
         </section>

@@ -68,7 +68,7 @@ class Vacancy extends Model
         return $this->belongsTo(User::class, 'poster_user_id');
     }
 
-   /* public function contract()
+   public function contract()
     {
         return $this->hasOne(Contract::class, 'vacancy_id');
     }
@@ -87,7 +87,7 @@ class Vacancy extends Model
     {
         return $this->hasOne(SchemeWork::class, 'id', 'scheme_work_id');
     }
-*/
+
     public function vacancy_status()
     {
         return $this->hasOne(VacancyStatus::class, 'id', 'vacancy_status_id');
@@ -111,7 +111,7 @@ class Vacancy extends Model
     public function languages(){
         return $this->belongsToMany(Language::class,'vacancy_languages');
     }
-/*
+
     public function supplier(){
         return $this->belongsToMany(User::class,'vacancy_users', 'vacancy_id', 'supplier_user_id')
                     ->withPivot('status','is_active','comment', 'created_at', 'updated_at');
@@ -139,7 +139,7 @@ class Vacancy extends Model
 
         return $result;
     }
-*/
+
     public function countApplicationByStatus($status)
     {
         $result = VacancyUser::where('vacancy_id', '=', $this->id)
@@ -157,10 +157,18 @@ class Vacancy extends Model
         return $result;
     }
 
+    public function activeSuppliers()
+    {
+        $result = VacancyUser::where('vacancy_id', '=', $this->id)
+            ->where('status', '=', 1)
+            ->get();
+        return $result;
+    }
+
     public function countCandidatesByStatus($status)
     {
-        $result = VacancyCandidate::where('vacancy_id', '=', $this->id)
-                                ->where('status', '=', $status)
+        $result = VacancyCandidate::where('vacancy_id', $this->id)
+                                ->where('status', $status)
                                 ->count();
         return $result;
     }
@@ -178,7 +186,7 @@ class Vacancy extends Model
                             
         return $this->countApplicationByStatus($status); 
     }
-/*
+
     public function pendingCandidates()
     {
         $result = VacancyCandidate::where('vacancy_id', '=', $this->id)
@@ -244,5 +252,16 @@ class Vacancy extends Model
         $contract = Contract::create($data);
 
         return $contract;
-    }*/
+    }
+
+    public function viewed()
+    {
+        return $this->hasMany(VacancyViewed::class);
+    }
+
+    public function conversations()
+    {
+        return $this->hasMany(Conversation::class);
+    }
 }
+

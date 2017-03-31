@@ -47,10 +47,11 @@ class FileManager
      */
     public function uploadFile($type, $id)
     {
-        if($type == 'vacancy')
+        if ($type == 'vacancy') {
             $model = $this->vacancy->find($id);
-        else if($type == 'candidate')
+        } else if ($type == 'candidate') {
             $model = $this->candidate->find($id);
+        }
 
         if ($model->file) {
             $path = sprintf("%s/%s", $this->getDestinationDirectory(), $model->file);
