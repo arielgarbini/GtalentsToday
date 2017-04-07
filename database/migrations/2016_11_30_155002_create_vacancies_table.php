@@ -15,6 +15,7 @@ class CreateVacanciesTable extends Migration
         Schema::create('vacancies', function (Blueprint $table) {
             $table->increments('id');
             $table->unsignedInteger('poster_user_id');
+            $table->unsignedInteger('company_id')->nullable();
 
            /* $table->string('description');
             $table->unsignedInteger('scheme_work_id');
@@ -67,6 +68,10 @@ class CreateVacanciesTable extends Migration
             $table->foreign('poster_user_id')
                   ->references('id')->on('users')
                   ->onDelete('cascade');
+
+            $table->foreign('company_id')
+                ->references('id')->on('companies')
+                ->onDelete('cascade');
 
         /*    $table->foreign('scheme_work_id')
                   ->references('id')->on('scheme_works')

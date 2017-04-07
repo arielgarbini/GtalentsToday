@@ -457,20 +457,18 @@
             </div>
 
             <!-- RECOMENDACIONES SUPPLIERS -->
-            <div class="bills">
-                <!--TITULO DE LA SECCION-->
+            <!--<div class="bills">
                 <section class="bills-title">
                     <h3>@lang('app.we_recommend_you')</h3>
                 </section>
 
-                <!--ALERTAS-->
                 <ul class="alerts-div supplier-recomend">
-                    <!--RECOMENDACION 1-->
+
                     <li>
                         <div class="motivo">
-                            <!--RESUMEN SUPPLIER-->
+
                             <section class="supplierContain1">
-                                <!--ICONO RANGO-->
+
                                 <figure class="supplierContain1-ranking">
                                     <span class="icon-gTalents_rango-1"><span class="path1"></span><span class="path2"></span></span>
                                 </figure>
@@ -482,14 +480,13 @@
                             </section>
 
                             <div class="addSupplier">
-                                <!--PERFIL-->
+
                                 <div class="link">
                                     <a href="#modalProfileSupplier" class="modal-trigger waves-effect waves-light">
                                         <span class="icon-gTalents_profile"></span>
                                     </a>
                                 </div>
 
-                                <!--AGREGAR SUPPLIER-->
                                 <div class="link">
                                     <a href="!">
                                         <span class="icon-gTalent_add-supplier"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span><span class="path5"></span></span>
@@ -498,92 +495,16 @@
                             </div>
                         </div>
 
-                        <!--BTN ELIMINAR -->
-                        <span class="icon-gTalents_close close-alert"></span>
-                    </li>
-
-                    <!--RECOMENDACION 2-->
-                    <li>
-                        <div class="motivo">
-                            <!--RESUMEN SUPPLIER-->
-                            <section class="supplierContain1">
-                                <!--ICONO RANGO-->
-                                <figure class="supplierContain1-ranking">
-                                    <span class="icon-gTalents_rango-1"><span class="path1"></span><span class="path2"></span></span>
-                                </figure>
-
-                                <div class="datos">
-                                    <h4>QDT876</h4>
-                                    <p>Newbie</p>
-                                </div>
-                            </section>
-
-                            <div class="addSupplier">
-                                <!--PERFIL-->
-                                <div class="link">
-                                    <a href="#modalProfileSupplier" class="modal-trigger waves-effect waves-light">
-                                        <span class="icon-gTalents_profile"></span>
-                                    </a>
-                                </div>
-
-                                <!--AGREGAR SUPPLIER-->
-                                <div class="link">
-                                    <a href="!">
-                                        <span class="icon-gTalent_add-supplier"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span><span class="path5"></span></span>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!--BTN ELIMINAR -->
-                        <span class="icon-gTalents_close close-alert"></span>
-                    </li>
-
-                    <!--RECOMENDACION 3-->
-                    <li>
-                        <div class="motivo">
-                            <!--RESUMEN SUPPLIER-->
-                            <section class="supplierContain1">
-                                <!--ICONO RANGO-->
-                                <figure class="supplierContain1-ranking">
-                                    <span class="icon-gTalents_rango-1"><span class="path1"></span><span class="path2"></span></span>
-                                </figure>
-
-                                <div class="datos">
-                                    <h4>QDT876</h4>
-                                    <p>Newbie</p>
-                                </div>
-                            </section>
-
-                            <div class="addSupplier">
-                                <!--PERFIL-->
-                                <div class="link">
-                                    <a href="#modalProfileSupplier" class="modal-trigger waves-effect waves-light">
-                                        <span class="icon-gTalents_profile"></span>
-                                    </a>
-                                </div>
-
-                                <!--AGREGAR SUPPLIER-->
-                                <div class="link">
-                                    <a href="!">
-                                        <span class="icon-gTalent_add-supplier"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span><span class="path5"></span></span>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!--BTN ELIMINAR -->
                         <span class="icon-gTalents_close close-alert"></span>
                     </li>
                 </ul>
 
-                <!--AGREGAR NUEVO COLABORADOR -->
                 <section class="new-team">
-                    <a href="/supplier">
-                        <p>Más Supplier</p>
+                    <a href="{{route('supplier.index')}}">
+                        <p>@lang('app.see_more') Supplier</p>
                     </a>
                 </section>          
-            </div>  
+            </div>  -->
         </section>
     </article>
 

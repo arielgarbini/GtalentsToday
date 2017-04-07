@@ -8,9 +8,13 @@ use Vanguard\Repositories\Activity\ActivityRepository;
 use Vanguard\Repositories\User\UserRepository;
 use Vanguard\Repositories\Vacancy\VacancyRepository;
 use Vanguard\Repositories\VacancyUser\VacancyUserRepository;
+use Vanguard\Repositories\VacancyViewedRepository;
 use Vanguard\Support\Enum\UserStatus;
 use Auth;
 use Carbon\Carbon;
+use Vanguard\CompanyUser;
+use Vanguard\VacancyViewed;
+use Vanguard\Vacancy;
 
 class DashboardController extends Controller
 {
@@ -32,6 +36,9 @@ class DashboardController extends Controller
      * @param UserRepository $users
      * @param ActivityRepository $activities
      */
+
+    private $viewed;
+
     public function __construct(UserRepository $users,
                                 ActivityRepository $activities,
                                 VacancyRepository $vacancies,
@@ -87,8 +94,14 @@ class DashboardController extends Controller
      *
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
+
+    //$latestVacancies        = $this->vacancies->lastestPoster('poster_user_id',Auth::user()->id,$perPage);
+    //$vacancies_users        = $this->vacancies_users->where('status',0); //** Request Supplier
+    //$vacancies_users = $this->vacancies->getSupplier('vacancy_users','vacancy_users.vacancy_id','vacancies.id','users','users.id','vacancy_users.supplier_user_id','vacancies.poster_user_id', 'users.*', 'vacancy_users.status', 0, 'vacancies.*','vacancy_users.*', Auth::user()->id);
+
     private function defaultDashboard()
     {
+        $user_id = Auth::user()->id;
         $activities = $this->activities->userActivityForPeriod(
             Auth::user()->id,
             Carbon::now()->subWeeks(2),
@@ -100,8 +113,10 @@ class DashboardController extends Controller
         }else{
             $language = 1;
         }
-
-        $candidates = Candidate::where('supplier_user_id', Auth::user()->id)->get();
+        $paginate = 5;
+        $company_id = CompanyUser::where(['user_id' => Auth::user()->id])->get()->first()->company_id;
+        $team = CompanyUser::where(['company_id' => $company_id])->where('user_id', '!=', Auth::user()->id)->orderBy('created_at','desc')->get();
+        $candidates = Candidate::where('supplier_user_id', Auth::user()->id)->orderBy('created_at','desc')->get();
         $data1 = [];
         $i = 0;
         foreach ($candidates as $can){
@@ -110,14 +125,36 @@ class DashboardController extends Controller
                 ->where('language_id', $language)->get()->first()->name;
             $i++;
         }
-        $candidates = (object) $data1;
-        $perPage =20;
-        $latestVacancies        = $this->vacancies->lastestPoster('poster_user_id',Auth::user()->id,$perPage);      
-      //  $vacancies_users        = $this->vacancies_users->where('status',0); //** Request Supplier  
-        $vacancies_users = $this->vacancies->getSupplier('vacancy_users','vacancy_users.vacancy_id','vacancies.id','users','users.id','vacancy_users.supplier_user_id','vacancies.poster_user_id', 'users.*', 'vacancy_users.status', 0, 'vacancies.*','vacancy_users.*', Auth::user()->id);
-        $lastestOpportunities   = $this->vacancies->lastestOpportunities('poster_user_id',Auth::user()->id,$perPage); //** Opportunities Available
-
-        return view('dashboard_user.default', compact('candidates', 'activities', 'latestVacancies', 'vacancies_users','lastestOpportunities' ));
+        $candidates = $data1;
+        $latestVacancies = Vacancy::where('poster_user_id', '=', Auth::user()->id)->where('general_conditions', '!=', '')
+            ->orderBy('created_at', 'DESC')->paginate($paginate);
+        $vacancies_users = Vacancy::whereHas('asSupplier', function($query) use($user_id){
+            $query->where('supplier_user_id', $user_id)->where('status',1);
+        })->paginate($paginate);
+        $lastestOpportunities   = Vacancy::orderBy('created_at', 'desc')
+            ->where('poster_user_id', '!=', Auth::user()->id)->whereNotExists(function ($query) use($user_id){
+                $query->select('vacancy_users.*')->from('vacancy_users')
+                    ->where('supplier_user_id',$user_id)->whereRaw('vg_vacancy_users.vacancy_id = vg_vacancies.id');
+            })->limit(3)->get(); //** Opportunities Available
+        $viewed = new VacancyViewedRepository(new VacancyViewed());
+        $potentialPoster = 0;
+        $potentialSupplier = 0;
+        $latestVacanciesPoster = Vacancy::where('poster_user_id', '=', Auth::user()->id)->where('general_conditions', '!=', '')
+            ->orderBy('created_at', 'DESC')->get();
+        foreach($latestVacanciesPoster as $vacancy){
+            preg_match_all('/\d{1,2}/' ,$vacancy->range_salary, $matches);
+            $factur = (intval($matches[0][0].'000')+intval($matches[0][1].'000'))/2;
+            $potentialPoster += $factur;
+        }
+        $latestVacanciesSupplier = Vacancy::whereHas('asSupplier', function($query) use($user_id){
+            $query->where('supplier_user_id', $user_id)->where('status',1);
+        })->get();
+        foreach($latestVacanciesSupplier as $vacancy){
+            preg_match_all('/\d{1,2}/' ,$vacancy->range_salary, $matches);
+            $factur = (intval($matches[0][0].'000')+intval($matches[0][1].'000'))/2;
+            $potentialSupplier += $factur;
+        }
+        return view('dashboard_user.default', compact('latestVacanciesSupplier','latestVacanciesPoster','potentialSupplier','potentialPoster','viewed','team', 'candidates', 'activities', 'latestVacancies', 'vacancies_users','lastestOpportunities' ));
     }
 
 

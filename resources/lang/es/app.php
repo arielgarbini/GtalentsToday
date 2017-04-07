@@ -22,6 +22,7 @@ return [
     'visits'            => 'Visitas',
     'to_be_accepted'    => 'Por Aceptar',
     'see_more'          => 'ver más',
+    'see_less'          => 'ver menos',
     'alerts'            => 'Notificaciones',
     'my_position'       => 'Mi posición',
     'i_lack'            => 'Me faltan',
@@ -77,6 +78,8 @@ return [
     'language' => 'Idioma',
     'admin_consultant' => 'Administrador Consultor',
     'consultant' => 'Consultor', 
+    'total'     => 'Total',
+    'recruitment_dashboard' => 'Contratación',
 
     //Language 
     'english' => 'Ingles',
@@ -118,7 +121,7 @@ return [
     'candidate_created'             => 'Candidato creado satisfactoriamente.',
     'view_candidate'                => 'Consultar Candidato',
     'edit_candidate'                => 'Editar Candidato',
-    'candidate_updated_successfully'=> 'Candidato actualizado con éxito.',
+    'candidate_updated_successfully'=> 'Candidato actualizado con exito.',
     'delete_candidate'              => 'Eliminar Candidato',
     'are_you_sure_delete_candidate' => 'Seguro que desea eliminar este candidato?',
     'candidate_deleted'             => 'Candidato borrado satisfactoriamente.',
@@ -136,6 +139,7 @@ return [
     'rejected_candidate'            => 'Candidato rechazado',
     'view_all'                      => 'Ver todos',
     'we_recommend_you'              => 'Te recomendamos',
+    'candidate_name'                => 'Nombre del candidato',
 
     'candidate_validate'            => [
         'first_name_required'    => 'El nombre es requerido',
@@ -159,12 +163,31 @@ return [
         'comments_supplier'  => 'El comentario al supplier es requerido',
     ],
 
+    'collaborator_validate' => [
+        'level_required'    => 'El nivel de acceso es requerido',
+    ],
+
+    //team
+    'collaborator'             => 'Colaborador',
+    'collaborators'            => 'Colaboradores',
+    'new_collaborator'         => 'Nuevo Colaborador',
+    'choose_an_access_type'    => 'Elige un tipo de Acceso',
+    'administrator'            => 'Administrador',
+    'User'                     => 'Usuario',
+    'new_contributor_successfully_added' => 'Nuevo colaborador agregado exitosamente',
+    'are_you_sure_you_want_to_delete' => '¿Seguro quieres eliminarlo?',
+    'successfully_deleted_contributor' => 'colaborador eliminado exitosamente',
+    'level_of_access'          => 'Nivel de Acceso',
+    'collaborator_created'     => 'Colaborador creado satisfactoriamente.',
+    'collaborator_updated'     => 'Colaborador actualizado satisfactoriamente.',
+    'collaborator_deleted'     => 'Colaborador borrado satisfactoriamente.',
+    'collaborator_name'        => 'Nombre del Colaborador',
 
     //Oportunities
     'filter_your_search'            => 'Filtra tu búsqueda',
     'what_are_you_looking_for'      =>'¿Qué buscas?',
     'title'                         =>'Título',
-    'periods'                       => 'Periodos',    
+    'periods'                       => 'Periodos',
 
     //Companies
     'companies'                    => 'Compañías',
@@ -261,7 +284,6 @@ return [
     'calificate_supplier'         => '¡Califica a tu Supplier!',
     'attach_job_offer'            => 'Adjuntar Oferta de Empleo',
     'contract_process'            => 'Procesar Contrato',
-
     'positions'                   => 'Posiciones',
     'career_plan'                 => 'Plan de carrera',
     'scheme_work'                 => 'Esquema de Trabajo',
@@ -302,6 +324,17 @@ return [
     'full_vacancy'                => 'Vacante completa',
     'postulate_candidates'        => 'Postular candidatos',
     'only_edit_your_vacancies'    => 'Solo puede modificar sus vacantes',
+    'choose_an_option'            => 'Elige una opción',
+    'paused'                      => 'Pausado',
+    'featured_candidates'         => 'Candidatos Presentados',
+    'yesterday'                   => 'Dia anterior',
+    'last'                        => 'Últimos',
+    'days'                        => 'días',
+    'search'                      => 'Buscar',
+    'order_for'                   => 'Ordenar por',
+    'supplier_cant'               => 'Cantidad Supplier',
+    'positions_state'             => 'Estado posiciones',
+    'approximate_billing'         => 'Facturación Aproximada',
 
     //Conditions
     'conditions'                => 'Condiciones',
@@ -944,6 +977,29 @@ return [
         'December' => 'Diciembre',
     ],
 
+    //invoices
+
+    'invoices_to_charged' => 'Mis Facturas a Cobrar',
+    'in_opportunity'         => 'Oportunidad',
+    'amount'                => 'Monto',
+    'in_status'               => 'Estatus',
+    'invoices_to_pay'       => 'Mis Facturas a Pagar',
+    'bill'                  => 'Factura',
+    'type_of_position'      => 'Tipo de Cargo',
+    'download_invoice'      => 'Descargar Factura',
+    'deposit'               => 'depósito',
+
+    //credits
+
+    'buy_credits'           => 'Comprar Creditos',
+    'events'                => 'Evento',
+    'credit_purchase'       => 'Compra de Creditos',
+    'buy'                   => 'Comprar',
+    'send_you_the_invoice'  => 'En breve le enviaremos la factura <br> e instrucción de pago',
+    'cr_my_credits'         => 'Mis Creditos',
+
+    //califications
+    'activity_records'      => 'Registros de Actividades',
 
     //notifications
     'title_supplier'          => 'Supplier',

@@ -36,7 +36,7 @@
 				})
 			   
 			   //INICIALIZAR MODALES
-			   //$('.modal-trigger').leanModal();
+			   $('.modal-trigger').leanModal();
 			   $('.modal').modal();
 
 			   //MENU HAMBURGUESA
@@ -217,13 +217,6 @@
 
 				//INDEX-REGISTRADO
 				//DESPLEGAR TODA LA LISTA
-				$(".btn-viewMore").click(function(){
-
-					$(this).parent().parent().find('.listado-post').toggleClass("ul-complete");
-					$(this).parent().parent().find('.pagination').toggleClass("pagination-on");
-
-					$(this).html($(this).text() == 'ver menos' ? 'ver más' : 'ver menos');
-				})
 
 				//ELIMINAR UNA ALERTA
 				$(".close-alert").click(function(){

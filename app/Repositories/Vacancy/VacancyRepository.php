@@ -30,6 +30,14 @@ interface VacancyRepository
     public function paginate($perPage, $search = null, $status = null);
 
     /**
+     * Search vacancies.
+     *
+     * @param array $data
+     * @return mixed
+     */
+    public function search($user, $perPage, array $data);
+
+    /**
      * Creates new promotion from provided data.
      *
      * @param array $data

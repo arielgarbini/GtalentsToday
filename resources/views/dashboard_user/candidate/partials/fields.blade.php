@@ -2,14 +2,14 @@
                     <!--NOMBRE-->
                     <div class="itemForm">
                         {!! Form::label('first_name', trans('app.name'), [ 'title' => trans('app.name')]) !!}
-                        {!! Form::text('first_name', null, ['id' => 'first_name', 'class' => 'validate', 'data-error' => '.errorTxtName','placeholder'=>trans('app.name')]) !!}
+                        {!! Form::text('first_name', null, ['maxlength' => 15, 'id' => 'first_name', 'class' => 'validate', 'data-error' => '.errorTxtName','placeholder'=>trans('app.name')]) !!}
                         <div class="errorTxtName"></div>
                     </div>
 
                     <!--APELLIDO-->
                     <div class="itemForm">
                         {!! Form::label('last_name', trans('app.last_name'), [ 'title' => trans('app.last_name')]) !!}
-                        {!! Form::text('last_name', null, ['id' => 'last_name', 'class' => ' validate', 'data-error' => '.errorTxtLastName','placeholder'=>trans('app.last_name')]) !!}
+                        {!! Form::text('last_name', null, ['maxlength' => 15, 'id' => 'last_name', 'class' => ' validate', 'data-error' => '.errorTxtLastName','placeholder'=>trans('app.last_name')]) !!}
                         <div class="errorTxtLastName"></div>
                     </div>
                 </div>
@@ -17,14 +17,14 @@
                 <!--TELEFONO-->
                 <div class="itemForm">
                     {!! Form::label('telf', trans('app.phone'), [ 'title' => trans('app.phone')]) !!}
-                        {!! Form::text('telf', null, ['id' => 'telf', 'class' => ' validate', 'data-error' => '.errorTxtTelf','placeholder'=>trans('app.phone')]) !!}
+                        {!! Form::text('telf', null, ['maxlength' => 15, 'id' => 'telf', 'class' => ' validate', 'data-error' => '.errorTxtTelf','placeholder'=>trans('app.phone')]) !!}
                         <div class="errorTxtTelf"></div>
                 </div>
 
                 <!--CORREO ELECTRONICO-->
                 <div class="itemForm">
                     {!! Form::label('email', trans('app.email'), [ 'title' => trans('app.email')]) !!}
-                        {!! Form::text('email', null, ['id' => 'email', 'class' => ' validate', 'data-error' => '.errorTxtEmail','placeholder'=>trans('app.email')]) !!}
+                        {!! Form::text('email', null, ['maxlength' => 25, 'id' => 'email', 'class' => ' validate', 'data-error' => '.errorTxtEmail','placeholder'=>trans('app.email')]) !!}
                         <div class="errorTxtEmail"></div>
                 </div>
 
@@ -37,7 +37,7 @@
                 <!--COMPAÑIA ACTUAL-->
                 <div class="itemForm">
                     {!! Form::label('company', trans('app.company'), ['class'=>'', 'title' => trans('app.company')]) !!}
-                    {!! Form::text('company', null, ['id' => 'company', 'class' => 'validate', 'data-error' => '.errorTxtCompany']) !!}
+                    {!! Form::text('company', null, ['maxlength' => 20, 'id' => 'company', 'class' => 'validate', 'data-error' => '.errorTxtCompany']) !!}
                     <div class="errorTxtCompany"></div>
                 </div>
 

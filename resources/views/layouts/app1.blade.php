@@ -84,6 +84,13 @@
     {!! HTML::script('assets/js/jquery.validate.min.js') !!}
     <script>
         $(document).ready(function(){
+            $(".btn-viewMore").click(function(){
+
+                $(this).parent().parent().find('.listado-post').toggleClass("ul-complete");
+                $(this).parent().parent().find('.pagination').toggleClass("pagination-on");
+
+                $(this).html(($(this).text() == 'ver menos' || $(this).text() == 'see less') ? '{{trans('app.see_more')}}' : '{{trans('app.see_less')}}');
+            });
            // $('.modal').modal();
             $('.send_form').click(function(){
                 $(this).parent('form').submit();

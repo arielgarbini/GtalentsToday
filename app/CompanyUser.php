@@ -20,11 +20,11 @@ class CompanyUser extends Model
 
     public function company()
     {
-        return $this->hasOne(Company::class, 'company_id');
+        return $this->belongsTo(Company::class, 'company_id');
     }
 
     public function user()
     {
-        return $this->hasOne(User::class, 'user_id');
+        return $this->belongsTo(User::class, 'user_id');
     }
 }

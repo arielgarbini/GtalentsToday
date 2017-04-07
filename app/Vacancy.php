@@ -62,6 +62,11 @@ class Vacancy extends Model
                         ];                   
 
 
+    public function asSupplier()
+    {
+        return $this->hasMany(VacancyUser::class);
+    }
+
 
     public function poster()
     {

@@ -1,5 +1,5 @@
 <!--MODAL ELIMINAR-->
-    <div id="modalEliminar{{$candidate->id}}" class="modal modal-userRegistered modal-fixed-footer">
+    <div id="modalEliminar{{$candidate['id']}}" class="modal modal-userRegistered modal-fixed-footer">
         
         <div class="modal-header">
             <!--CERRAR MODAL-->
@@ -13,7 +13,7 @@
         </div>
 
         <div class="modal-content">
-            {!! Form::open(['method' => 'DELETE','route' => ['candidates.delete', $candidate->id],'style'=>'display:inline']) !!}
+            {!! Form::open(['method' => 'DELETE','route' => ['candidates.delete', $candidate['id']],'style'=>'display:inline']) !!}
                 <!--RESUMEN CANDIDATO-->
                 <section class="colab">
                     <!--ICONO-->
@@ -22,8 +22,8 @@
                     </figure>
 
                     <div class="datos">
-                        <h4>{{$candidate->first_name}} {{$candidate->last_name}}</h4>
-                        <span>{{$candidate->email}}</span>
+                        <h4>{{$candidate['first_name']}} {{$candidate['last_name']}}</h4>
+                        <span>{{$candidate['email']}}</span>
                     </div>
                 </section>
                 <section class="buttonsMain">

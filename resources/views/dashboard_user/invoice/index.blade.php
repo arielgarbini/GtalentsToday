@@ -8,44 +8,30 @@
 	<article class="bills grid">
 		<!--TITULO-->
 		<section class="bills-title">
-			<h3>Mis Facturas a Cobrar</h3>
+			<h3>@lang('app.invoices_to_charged')</h3>
 		</section>
 
 		<!--TABLA DE FACTURAS-->
 		<table>
 			<thead>
 				<tr>
-					<th data-field="id">Fecha</th>
-					<th data-field="name">Oportunidad</th>
-					<th data-field="price">Monto</th>
-					<th clasS="P-estatus">Estatus</th>
+					<th data-field="id">@lang('app.date')</th>
+					<th data-field="name">@lang('app.in_opportunity')</th>
+					<th data-field="price">@lang('app.amount')</th>
+					<th clasS="P-estatus">@lang('app.in_status')</th>
 				</tr>
 			</thead>
 
 			<tbody>
 				<!--FACTURA 1-->
+				@foreach($charge as $ch)
 				<tr>
-					<td>25/10/2016</td>
-					<td>Programador JAVA</td>
-					<td>99 USD</td>
-					<td clasS="P-estatus">Esperando Pago</td>
+					<td>{{$ch->created_at->format('d/m/Y')}}</td>
+					<td>{{$ch->vacancy->name}}</td>
+					<td>{{$ch->amount}} USD</td>
+					<td clasS="P-estatus">{{$ch->status}}</td>
 				</tr>
-
-				<!--FACTURA 2-->
-				<tr>
-					<td>25/10/2016</td>
-					<td>Diseñador UX/UI</td>
-					<td>45 USD</td>
-					<td clasS="P-estatus">Pago aceptado</td>
-				</tr>
-
-				<!--FACTURA 3-->
-				<tr>
-					<td>25/10/2016</td>
-					<td>Reclutador IT</td>
-					<td>75 USD</td>
-					<td clasS="P-estatus">Pago Rechazado</td>
-				</tr>
+				@endforeach
 			</tbody>
 		</table>
 	</article>
@@ -54,58 +40,36 @@
 	<article class="bills grid">
 		<!--TITULO-->
 		<section class="bills-title">
-			<h3>Mis Facturas a Pagar</h3>
+			<h3>@lang('app.invoices_to_pay')</h3>
 		</section>
 
 		<!--TABLA DE FACTURAS-->
 		<table>
 			<thead>
 				<tr>
-					<th data-field="id">Fecha</th>
-					<th data-field="name">Oportunidad</th>
-					<th data-field="price">Monto</th>
-					<th clasS="P-estatus">Estatus</th>
-					<th class="Tcargo">Tipo de Cargo</th>
-					<th>Factura</th>
+					<th data-field="id">@lang('app.date')</th>
+					<th data-field="name">@lang('app.in_opportunity')</th>
+					<th data-field="price">@lang('app.amount')</th>
+					<th clasS="P-estatus">@lang('app.in_status')</th>
+					<th class="Tcargo">@lang('app.type_of_position')</th>
+					<th>@lang('app.bill')</th>
 				</tr>
 			</thead>
 
 			<tbody>
 				<!--FACTURA 1-->
-				<tr>
-					<td>25/10/2016</td>
-					<td>Programador JAVA</td>
-					<td>99 USD</td>
-					<td clasS="P-estatus">Esperando Pago</td>
-					<td class="Tcargo">depósito</td>
-					<td>
-						<a href="#!">Descargar Factura</a>
-					</td>
-				</tr>
-
-				<!--FACTURA 2-->
-				<tr>
-					<td>25/10/2016</td>
-					<td>Diseñador UX/UI</td>
-					<td>45 USD</td>
-					<td clasS="P-estatus">Pago aceptado</td>
-					<td class="Tcargo">depósito</td>
-					<td>
-						<a href="#!">Descargar Factura</a>
-					</td>
-				</tr>
-
-				<!--FACTURA 3-->
-				<tr>
-					<td>25/10/2016</td>
-					<td>Reclutador IT</td>
-					<td>75 USD</td>
-					<td clasS="P-estatus">Pago Rechazado</td>
-					<td class="Tcargo">depósito</td>
-					<td>
-						<a href="#!">Descargar Factura</a>
-					</td>
-				</tr>
+				@foreach($pay as $ch)
+					<tr>
+						<td>{{$ch->created_at->format('d/m/Y')}}</td>
+						<td>{{$ch->vacancy->name}}</td>
+						<td>{{$ch->amount}} USD</td>
+						<td clasS="P-estatus">{{$ch->status}}</td>
+						<td class="Tcargo">@lang('app.deposit')</td>
+						<td>
+							<a href="#!">@lang('app.download_invoice')</a>
+						</td>
+					</tr>
+				@endforeach
 			</tbody>
 		</table>
 	</article>

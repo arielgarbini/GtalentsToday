@@ -22,6 +22,7 @@ return [
     'visits'            => 'Visits',
     'to_be_accepted'    => 'To be Accepted',
     'see_more'          => 'see more',
+    'see_less'          => 'see less',
     'alerts'            => 'Alerts',
     'my_position'       => 'My position',
     'i_lack'            => 'I lack',
@@ -76,6 +77,8 @@ return [
     'admin_consultant' => 'Admin Consultant',
     'consultant' => 'Consultant',
     'team'       => 'Team',
+    'total'     => 'Total',
+    'recruitment_dashboard' => 'Recruitment',
 
     //Language
     'english' => 'English',
@@ -135,6 +138,7 @@ return [
     'rejected_candidate'            => 'Candidate rejected',
     'view_all'                      => 'View all',
     'we_recommend_you'              => 'We recommended you',
+    'candidate_name'                => 'Candidate name',
 
     'candidate_validate'            => [
         'first_name_required'    => 'The first name is required',
@@ -158,7 +162,27 @@ return [
         'comments_supplier'  => 'The comment to supplier is required',
     ],
 
-        //Oportunities
+    'collaborator_validate' => [
+        'level_required'    => 'The level of access is required',
+    ],
+
+    //team
+    'collaborator'             => 'Collaborator',
+    'collaborators'            => 'Collaborators',
+    'new_collaborator'         => 'New Collaborator',
+    'choose_an_access_type'    => 'Choose an Access Type',
+    'administrator'            => 'Administrator',
+    'User'                     => 'User',
+    'new_contributor_successfully_added' => 'New contributor successfully added',
+    'are_you_sure_you_want_to_delete' => 'Are you sure you want to delete?',
+    'successfully_deleted_contributor' => 'Successfully deleted contributor',
+    'level_of_access'          => 'Level of Access',
+    'collaborator_created'     => 'Collaborator Created',
+    'collaborator_updated'     => 'Collaborator updated',
+    'collaborator_deleted'     => 'Collaborator Deleted',
+    'collaborator_name'        => 'Collaborator name',
+
+    //Oportunities
     'filter_your_search'            => 'Filter your search',
     'what_are_you_looking_for'      =>  'What are you looking for?',
     'title'                         =>  'title',
@@ -260,7 +284,6 @@ return [
     'calificate_supplier'         => '¡Calificate your Supplier!',
     'attach_job_offer'            => 'Attach Job Offer',
     'contract_process'            => 'Contract Process',
-
     'positions'                   => 'Positions',
     'career_plan'                 => 'Career Plan',
     'scheme_work'                 => 'Scheme Work',
@@ -302,6 +325,17 @@ return [
     'full_vacancy'                => 'Full Vacancy',
     'postulate_candidates'        => 'Postulate candidates',
     'only_edit_your_vacancies'    => 'You can only change your vacancies',
+    'choose_an_option'            => 'Choose an option',
+    'paused'                      => 'Paused',
+    'featured_candidates'         => 'Featured Candidates',
+    'yesterday'                   => 'Yesterday',
+    'last'                        => 'Last',
+    'days'                        => 'days',
+    'search'                      => 'Search',
+    'order_for'                   => 'Order for',
+    'supplier_cant'               => 'Supplier cant',
+    'positions_state'             => 'Positions state',
+    'approximate_billing'         => 'Approximate Billing',
 
     //Conditions
     'conditions'                => 'Conditions',
@@ -846,6 +880,30 @@ return [
         'November' => 'November',
         'December' => 'December',
     ],
+
+    //invoices
+
+    'invoices_to_charged' => 'My Invoices to Be Charged',
+    'in_opportunity'         => 'Opportunity',
+    'amount'                => 'Amount',
+    'in_status'               => 'Status',
+    'invoices_to_pay'       => 'My Invoices to Pay',
+    'bill'                  => 'Bill',
+    'type_of_position'      => 'Type of Position',
+    'download_invoice'      => 'Download Invoice',
+    'deposit'               => 'deposit',
+
+    //credits
+
+    'buy_credits'           => 'Buy Credits',
+    'events'                => 'Events',
+    'credit_purchase'       => 'Credit Purchase',
+    'buy'                   => 'Buy',
+    'send_you_the_invoice'  => 'We will send you the invoice shortly <br> and payment instruction',
+    'cr_my_credits'         => 'My Credits',
+
+    //califications
+    'activity_records'      => 'Activity Records',
 
     //notifications
     'title_supplier'          => 'Supplier',

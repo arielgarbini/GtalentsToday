@@ -8,6 +8,7 @@ use Vanguard\Events\Vacancy\Updated;
 use Cache;
 use Vanguard\Vacancy;
 use DB;
+use Carbon\Carbon;
 
 class EloquentVacancy implements VacancyRepository
 {
@@ -47,6 +48,43 @@ class EloquentVacancy implements VacancyRepository
         }
 
         return $result;
+    }
+
+    public function search($user, $perPage, array $data)
+    {
+        $vacancy = Vacancy::where('poster_user_id', '!=', $user)->whereNotExists(function ($query) use($user){
+                $query->select('vacancy_users.*')->from('vacancy_users')
+                    ->where('supplier_user_id',$user)->whereRaw('vg_vacancy_users.vacancy_id = vg_vacancies.id');
+            });
+
+        if(isset($data['search']) && $data['search']!=''){
+            $vacancy->where(function ($query) use($data){
+                $query->orWhere('name', 'like', '%'.$data['search'].'%');
+                $query->orWhere('target_companies', 'like', '%'.$data['search'].'%');
+                $query->orWhere('off_limits_companies', 'like', '%'.$data['search'].'%');
+                $query->orWhere('responsabilities', 'like', '%'.$data['search'].'%');
+                $query->orWhere('required_experience', 'like', '%'.$data['search'].'%');
+            });
+        }
+
+        if(isset($data['location']) && $data['location']!=''){
+            $vacancy->where('location', 'like', '%'.$data['location'].'%');
+        }
+
+        if(isset($data['industry']) && $data['industry']!=''){
+            $vacancy->where('industry', $data['industry']);
+        }
+
+        if(isset($data['periods']) && $data['periods']!=''){
+            $vacancy->where('created_at', '>=', Carbon::now()->subDays($data['periods'])->format('Y-m-d'));
+        }
+
+        if(isset($data['order']) && $data['order']!='suppliers_cant'){
+            $vacancy->orderBy($data['order'], 'desc');
+        } else {
+            $vacancy->orderBy('created_at', 'desc');
+        }
+        return ['count'=> $vacancy->count(), 'data' => $vacancy->paginate($perPage)];
     }
 
     /**

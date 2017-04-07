@@ -6,7 +6,7 @@
 		</figure>
 		<div class="admin-resum-user-datos">
 			<p>@lang('app.hi'), {{ Auth::user()->present()->name }}</p>
-			<h4>ETN-22</h4>
+			<h4>{{ Auth::user()->code }}</h4>
 		</div>
 	</section>
 
@@ -16,7 +16,7 @@
 		<div class="item">
 			<p>
 				@lang('app.credits')
-				<br><strong>1.245</strong>
+				<br><strong>0</strong>
 			</p>
 		</div>
 
@@ -24,26 +24,25 @@
 		<div class="item">
 			<!--TITULO-->
 			<p>
-				Ingresos
-				<br>Potenciales
+				@lang('app.potential_income')
 			</p>
 
 			<!--TOTAL-->
 			<p>
-				Total
-				<br><strong>$30</strong>
+				@lang('app.total')
+				<br><strong>${{number_format($potentialSupplier+$potentialPoster, 2, '.', ',')}}</strong>
 			</p>
 
 			<!--COMO POSTER-->
 			<p>
 				@lang('app.poster')
-				<br><strong>$11</strong>
+				<br><strong>${{number_format($potentialPoster, 2, '.', ',')}}</strong>
 			</p>
 
 			<!--COMO SUPPLIER-->
 			<p>
 				@lang('app.supplier')
-				<br><strong>$19</strong>
+				<br><strong>${{number_format($potentialSupplier, 2, '.', ',')}}</strong>
 			</p>
 		</div>
 
@@ -60,13 +59,13 @@
 			<!--ACTIVO-->
 			<p>
 				@lang('app.actives')
-				<br><strong>6</strong>
+				<br><strong>{{count($latestVacanciesPoster)}}</strong>
 			</p>
 
 			<!--CONTRATACION-->
 			<p>
-				Contratacion
-				<br><strong>1</strong>
+				@lang('app.recruitment_dashboard')
+				<br><strong>0</strong>
 			</p>
 		</div>
 
@@ -83,13 +82,13 @@
 			<!--ACTIVO-->
 			<p>
 				@lang('app.actives')
-				<br><strong>4</strong>
+				<br><strong>{{count($latestVacanciesSupplier)}}</strong>
 			</p>
 
 			<!--CONTRATACION-->
 			<p>
-				Contratacion
-				<br><strong>3</strong>
+				@lang('app.recruitment_dashboard')
+				<br><strong>0</strong>
 			</p>
 		</div>
 	</section>
@@ -109,13 +108,13 @@
 			<!--ACTIVO-->
 			<p>
 				@lang('app.actives')
-				<br><strong>6</strong>
+				<br><strong>{{count($latestVacanciesPoster)}}</strong>
 			</p>
 
 			<!--CONTRATACION-->
 			<p>
-				Contratacion
-				<br><strong>1</strong>
+				@lang('app.recruitment_dashboard')
+				<br><strong>0</strong>
 			</p>
 		</div>
 
@@ -132,13 +131,13 @@
 			<!--ACTIVO-->
 			<p>
 				@lang('app.actives')
-				<br><strong>4</strong>
+				<br><strong>{{count($latestVacanciesSupplier)}}</strong>
 			</p>
 
 			<!--CONTRATACION-->
 			<p>
-				Contratacion
-				<br><strong>3</strong>
+				@lang('app.recruitment_dashboard')
+				<br><strong>0</strong>
 			</p>
 		</div>
 	</section>

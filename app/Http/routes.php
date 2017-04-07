@@ -790,27 +790,24 @@ Route::get('confirm', function()
 
 
 // ======Calificaciones============
-Route::get('califications', function()
-{
- return View::make('dashboard_user.calification.index');
-});
-
+Route::get('califications', [
+    'as' => 'califications.index',
+    'uses' => 'CalificationsController@index'
+]);
 
 // ======Creditos============
 
-Route::get('credits', function()
-{
- return View::make('dashboard_user.credit.index');
-});
-
+Route::get('credits', [
+    'as' => 'credits.index',
+    'uses' => 'CreditsController@index'
+]);
 
 // ======Facturas============
 
-Route::get('invoices', function()
-{
- return View::make('dashboard_user.invoice.index');
-});
-
+Route::get('invoices', [
+    'as' => 'invoices.index',
+    'uses' => 'InvoicesController@index'
+]);
 
 // ======Post============
 Route::get('post', function()
@@ -987,17 +984,32 @@ Route::post('conversations/messages', [
 ]);
 
 // ======Equipo============
-Route::get('team', function()
-{
- return View::make('dashboard_user.team.index');
-});
+Route::get('team', [
+    'as' => 'team.index',
+    'uses' => 'TeamController@index'
+]);
 
+Route::post('team/store', [
+    'as' => 'team.store',
+    'uses' => 'TeamController@store'
+]);
+
+Route::put('team/{team}/update', [
+    'as' => 'team.update',
+    'uses' => 'TeamController@update'
+]);
+
+Route::delete('team/{team}/delete', [
+    'as' => 'team.delete',
+    'uses' => 'TeamController@delete'
+]);
 
 // ======Supplier============
-Route::get('supplier', function()
-{
- return View::make('dashboard_user.supplier.index');
-});
+
+Route::get('supplier/list', [
+    'as' => 'supplier.index',
+    'uses' => 'SupplierController@index'
+]);
 
 Route::get('calification_supplier', function()
 {

@@ -1,4 +1,4 @@
-<div id="modalEditar{{$candidate->id}}" class="modal modal-userRegistered modal-fixed-footer"">
+<div id="modalEditar{{$candidate['id']}}" class="modal modal-userRegistered modal-fixed-footer"">
         
         <div class="modal-header">
             <!--CERRAR MODAL-->
@@ -12,7 +12,7 @@
         </div>
 
         <div class="modal-content">
-            {!! Form::model($candidate, ['route' => ['candidates.update', $candidate->id], 'method' => 'PUT', 'class' => 'formCreate', 'id' => 'formEdit', 'enctype' => 'multipart/form-data']) !!}
+            {!! Form::model($candidate, ['route' => ['candidates.update', $candidate['id']], 'method' => 'PUT', 'class' => 'formCreate', 'id' => 'formEdit', 'enctype' => 'multipart/form-data']) !!}
                @include('dashboard_user.candidate.partials.fields')               
                 <section class="buttonsMain">
                     <div class="item">

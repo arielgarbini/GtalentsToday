@@ -50,7 +50,7 @@ class CandidateController extends Controller
     public function index () 
     {
         $perPage = 20;
-        $candidates = Candidate::where('supplier_user_id', Auth::user()->id)->get();
+        $candidates = Candidate::where('supplier_user_id', Auth::user()->id)->orderBy('created_at','desc')->get();
         //dd($candidates);
         //dd($perPage);
         /*if(Auth::user()->hasRole('Consultant') Or Auth::user()->hasRole('Consultant Unverified'))
@@ -212,7 +212,7 @@ class CandidateController extends Controller
                 $name = $filemanager->uploadFile('candidate', $mycandidate->id);
                 $this->candidates->update($mycandidate->id, ['file' => $name]);
             }
-            return redirect()->route('candidates.index')->withSuccess(trans('app.candidate_updated_successfully'));
+            return redirect()->back()->withSuccess(trans('app.candidate_updated_successfully'));
         }
     }
 
@@ -244,7 +244,7 @@ class CandidateController extends Controller
 
 
         if($this->candidates->delete($id)){
-            return redirect()->route('candidates.index')
+            return redirect()->back()
              ->withSuccess(trans('app.candidate_deleted'));
         }
     }

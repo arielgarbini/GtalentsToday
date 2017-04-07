@@ -8,15 +8,16 @@
     <article class="postList-contain grid">
         <!--POST LIST FILTRADO-->
         <article class="postList-contain-filter no-mobile">
-            <form action="" class="formLogin">
+            <form action="{{route('vacancies.list')}}" method="GET" class="formLogin" id="formSearch">
                 <h3> @lang('app.filter_your_search')</h3>
 
                 <!--BUSQUEDA-->
                 <div class="itemForm">
-                    <input type="text" placeholder="{{trans('app.what_are_you_looking_for')}}" class="input-search">
+                    <input @if(isset($data['search'])) value="{{$data['search']}}" @endif name="search" id="search" type="text" placeholder="{{trans('app.what_are_you_looking_for')}}" class="input-search">
                 </div>
 
                 <!--COMISION-->
+                <!--
                 <div class="itemForm">
                     <label>@lang('app.comission')</label>
                     <select class="browser-default">
@@ -25,25 +26,26 @@
                         <option value="3">Dr.</option>
                     </select>
                 </div>
-
+-->
                 <!--UBICACION-->
                 <div class="itemForm">
                     <label>@lang('app.location')</label>
-                    <input type="text" placeholder="Caracas - Venezuela">
+                    <input name="location" type="text" id="location" @if(isset($data['location'])) value="{{$data['location']}}" @endif>
                 </div>
 
                 <!--INDUSTRIA-->
                 <div class="itemForm">
                     <label>@lang('app.industry')</label>
-                    <select class="browser-default">
-                        <option value="1" selected>Programador</option>
-                        <option value="2">Sra.</option>
-                        <option value="3">Dr.</option>
+                    <select name="industry" class="browser-default" id="industry">
+                        <option value="" @if(!isset($data['industry']) || $data['industry'] == '') selected @endif>@lang('app.select')</option>
+                        @foreach($industries as $key=>$value)
+                            <option @if(isset($data['industry']) && $data['industry'] == $key) selected @endif value="{{$key}}">{{$value}}</option>
+                        @endforeach
                     </select>
                 </div>
 
                 <!--TITULO-->
-                <div class="itemForm">
+<!--                <div class="itemForm">
                     <label>@lang('app.title')</label>
                     <select class="browser-default">
                         <option value="1" selected>Sales Director</option>
@@ -51,23 +53,24 @@
                         <option value="3">Dr.</option>
                     </select>
                 </div>
-
+-->
                 <!--PERIODOS-->
                 <div class="itemForm">
-                    <label>Periodos</label>
-                    <select class="browser-default">
-                        <option value="1" selected>Dia anterior</option>
-                        <option value="2">Últimos 3 días</option>
-                        <option value="3">Últimos 7 días</option>
-                        <option value="4">Últimos 15 días</option>
-                        <option value="5">Últimos 30 días</option>
-                        <option value="6">Últimos 60 días</option>
+                    <label>@lang('app.periods')</label>
+                    <select name="periods" class="browser-default" id="periods">
+                        <option value="" @if(!isset($data['periods']) || $data['periods'] == '') selected @endif>@lang('app.select')</option>
+                        <option @if(isset($data['periods']) && $data['periods'] == 1) selected @endif value="1">@lang('app.yesterday')</option>
+                        <option @if(isset($data['periods']) && $data['periods'] == 3) selected @endif value="3">@lang('app.last') 3 @lang('app.days')</option>
+                        <option @if(isset($data['periods']) && $data['periods'] == 7) selected @endif value="7">@lang('app.last') 7 @lang('app.days')</option>
+                        <option @if(isset($data['periods']) && $data['periods'] == 15) selected @endif value="15">@lang('app.last') 15 @lang('app.days')</option>
+                        <option @if(isset($data['periods']) && $data['periods'] == 30) selected @endif value="30">@lang('app.last') 30 @lang('app.days')</option>
+                        <option @if(isset($data['periods']) && $data['periods'] == 60) selected @endif value="60">@lang('app.last') 60 @lang('app.days')</option>
                     </select>
                 </div>
 
                 <!--SUBMIT-->
                 <div class="submit">
-                    <button type="submit" class="btn-main2">Buscar</button>
+                    <button type="submit" class="btn-main2">@lang('app.search')</button>
                 </div>
             </form>
         </article>
@@ -77,18 +80,18 @@
         <article class="credits">
             <!--TITULO DE LA SECCION-->
             <section class="credits-title">
-                <h3>{{trans('app.do_you_have')}} <strong> {{count($vacancies)}} {{trans('app.opportunities')}}</strong> {{trans('app.available')}}</h3>
+                <h3>{{trans('app.do_you_have')}} <strong> {{$vacanciesCount}} {{trans('app.opportunities')}}</strong> {{trans('app.available')}}</h3>
                 <!--FILTRADO DE ORDEN-->
                 <div class="orderFilter">
-                    <label>Ordenar por</label>
-                    <select class="browser-default">
-                        <option value="1" selected>Fecha</option>
-                        <option value="2">Comisión</option>
-                        <option value="3">Industria</option>
-                        <option value="4">Ubicación</option>
-                        <option value="5">Posición</option>
-                        <option value="6">Cantidad Supplier</option>
-                        <option value="7">Estado posiciones</option>
+                    <label>@lang('app.order_for')</label>
+                    <select class="browser-default" id="order">
+                        <option value="created_at" @if(!isset($data['order']) || (isset($data['order']) && $data['order'] == 'created_at')) selected @endif>@lang('app.date')</option>
+                        <!--<option value="2">@lang('app.comission')</option>-->
+                        <option @if(isset($data['order']) && $data['order'] == 'industry') selected @endif value="industry">@lang('app.industry')</option>
+                        <option @if(isset($data['order']) && $data['order'] == 'location') selected @endif value="location">@lang('app.location')</option>
+                        <option @if(isset($data['order']) && $data['order'] == 'positions_number') selected @endif value="positions_number">@lang('app.positions')</option>
+                        <option @if(isset($data['order']) && $data['order'] == 'suppliers_cant') selected @endif value="suppliers_cant">@lang('app.supplier_cant')</option>
+                        <!--<option value="7">@lang('app.positions_state')</option>-->
                     </select>
                 </div>
             </section>
@@ -108,21 +111,25 @@
                               <!--  <h5>{{ $vacancy->vacancy_status->getNameLang($vacancy->vacancy_status_id)->name }}</h5>-->
                               <h5>@lang('app.active')</h5>
                                 <h2>{{$vacancy->name}}</h2>
-                                <h3>{{$vacancy->location}} |</h3> 
-                                <h3>REF49</h3>
+                                <h3>{{$vacancy->location}} </h3>
                                 <p>@lang('app.published') |  {{ $vacancy->created_at->diffForHumans() }}</p>
                                 <!--SECCIONES TOOLTIPS-->
                                 <div class="item-activity-leyend">
                                     <!--FACTURACION APROXIMADA-->
+                                    <?php
+                                    preg_match_all('/\d{1,2}/' ,$vacancy->range_salary, $matches);
+                                    $factur = (intval($matches[0][0].'000')+intval($matches[0][1].'000'))/2;
+                                    $factur = number_format($factur, 2, '.', ',');
+                                    ?>
                                     <div class="item">
-                                        <a class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="Facturación Aproximada: $500">
+                                        <a class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="{{trans('app.approximate_billing')}}: ${{$factur}}">
                                             <span class="icon-gTalents_facturacion"></span>
                                         </a>
                                     </div>
 
                                     <!--CANTIDAD DE SUPPLIERS-->
                                     <div class="item">
-                                         <a class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="6 Suppliers">
+                                         <a class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="{{count($vacancy->activeSuppliers())}} Suppliers">
                                             <span class="icon-gTalents_comision"></span>
                                          </a>
                                     </div>
@@ -141,20 +148,20 @@
                             <div class="item">
                                 <!--VISITAS-->
                                 <div class="item-option">
-                                    <h4>47</h4>
-                                    <span class="opt-sm">Visitas</span>
+                                    <h4><?php echo $viewed->search(['vacancy_id' => $vacancy->id])->count() ?></h4>
+                                    <span class="opt-sm">@lang('app.visits')</span>
                                 </div>
 
                                 <!--CANDIDATOS-->
                                 <div class="item-option">
-                                    <h4>9</h4>
-                                    <span class="opt-sm">Candidatos</span>
+                                    <h4>{{$vacancy->countCandidatesByStatus('Active')}}</h4>
+                                    <span class="opt-sm">@lang('app.candidates')</span>
                                 </div>
 
                                 <!--POR ACEPTAR-->
                                 <div class="item-option">
-                                    <h4>3</h4>
-                                    <span class="opt-sm">Por aceptar</span>
+                                    <h4>{{$vacancy->countCandidatesByStatus('Unconfirmed')}}</h4>
+                                    <span class="opt-sm">@lang('app.to_be_accepted')</span>
                                 </div>
                             </div>
                         </section>
@@ -162,7 +169,8 @@
                 </li>
                 @endforeach
             </ul>
-
+            {{$vacancies->links()}}
+            <!--
             <ul class="pagination">
                 <li class="disabled">
                     <a href="#!">
@@ -179,7 +187,7 @@
                         <span class="icon-gTalents_right"></span>
                     </a>
                 </li>
-            </ul>
+            </ul>-->
         @endif
         </article>
     </article>
@@ -195,68 +203,7 @@
         <section class="team-mobile-container" id="teamMobile-container">
             <!--POST LIST FILTRADO-->
             <article class="postList-contain-filter">
-                <form action="" class="formLogin">
-                    <h3>Filtra tu búsqueda</h3>
 
-                    <!--BUSQUEDA-->
-                    <div class="itemForm">
-                        <input type="text" placeholder="¿Qué buscas?" class="input-search">
-                    </div>
-
-                    <!--COMISION-->
-                    <div class="itemForm">
-                        <label>Comisión</label>
-                        <select class="browser-default">
-                            <option value="1" selected>USD 25/hora</option>
-                            <option value="2">Sra.</option>
-                            <option value="3">Dr.</option>
-                        </select>
-                    </div>
-
-                    <!--UBICACION-->
-                    <div class="itemForm">
-                        <label>Ubicación</label>
-                        <input type="text" placeholder="Caracas - Venezuela">
-                    </div>
-
-                    <!--INDUSTRIA-->
-                    <div class="itemForm">
-                        <label>Industria</label>
-                        <select class="browser-default">
-                            <option value="1" selected>Diseño e Informática</option>
-                            <option value="2">Sra.</option>
-                            <option value="3">Dr.</option>
-                        </select>
-                    </div>
-
-                    <!--TITULO-->
-                    <div class="itemForm">
-                        <label>Titulo</label>
-                        <select class="browser-default">
-                            <option value="1" selected>Sales Director</option>
-                            <option value="2">Sra.</option>
-                            <option value="3">Dr.</option>
-                        </select>
-                    </div>
-
-                    <!--PERIODOS-->
-                    <div class="itemForm">
-                        <label>Periodos</label>
-                        <select class="browser-default">
-                            <option value="1" selected>Dia anterior</option>
-                            <option value="2">Últimos 3 días</option>
-                            <option value="3">Últimos 7 días</option>
-                            <option value="4">Últimos 15 días</option>
-                            <option value="5">Últimos 30 días</option>
-                            <option value="6">Últimos 60 días</option>
-                        </select>
-                    </div>
-
-                    <!--SUBMIT-->
-                    <div class="submit">
-                        <button type="submit" class="btn-main2">Buscar Poster</button>
-                    </div>
-                </form>
             </article>
         </section>
     </article>
@@ -264,5 +211,11 @@
 @stop
 
 @section('scripts')
-   
+    <script>
+        $(document).ready(function(){
+           $('#order').change(function(){
+               location.href = $('#formSearch').attr('action')+'?search='+$('#search').val()+'&location='+$('#location').val()+'&industry='+$('#industry').val()+'&periods='+$('#periods').val()+'&order='+$(this).val();
+           });
+        });
+    </script>
 @stop

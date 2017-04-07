@@ -16,6 +16,7 @@ use Vanguard\Events\Vacancy\Applied;
 use Vanguard\Events\NotificationEvent;
 use Vanguard\ExperienceYear;
 use Vanguard\FunctionalArea;
+use Vanguard\VacancyViewed;
 use Vanguard\Http\Requests\Vacancy\CreateVacancyRequest;
 use Vanguard\Http\Requests\Vacancy\UpdateVacancyRequest;
 use Vanguard\Notification;
@@ -166,6 +167,7 @@ class VacancyController extends Controller
      */
     public function index()
     {
+
         $perPage = 20;
         $vacancies = $this->vacancies->paginate($perPage, Input::get('search'), Input::get('status'));
 
@@ -736,12 +738,28 @@ class VacancyController extends Controller
       }
 
     //** List Opportunites Available  
-    public function listVacancies()
+    public function listVacancies(Request $request, ContractTypeRepository $contractTypes,
+                                  LanguageRepository $languages, ExperienceYearRepository $experience,
+                                  FunctionalAreaRepository $functionalArea, IndustryRepository $industries)
     {
-        $perPage = 20; 
-        $vacancies = $this->vacancies->getOpportunities('poster_user_id',$this->theUser->id, $perPage);
-     
-        return view('dashboard_user.post.index', compact('vacancies'));     
+        if (session('lang') =='en'){
+            $language = 2;
+        }else{
+            $language = 1;
+        }
+        //$contractTypes = $contractTypes->lists($language);
+        //$experience = $experience->lists($language);
+        //$functionalArea = $functionalArea->lists($language);
+        $industries = $industries->lists($language);
+        $user_id = Auth::user()->id;
+        $viewed = new VacancyViewedRepository(new VacancyViewed());
+        $perPage = 20;
+        $data = $this->vacancies->search(Auth::user()->id, $perPage, $request->all());
+        $vacanciesCount = $data['count'];
+        $vacancies = $data['data'];
+        $data = $request->all();
+        //$vacancies = $this->vacancies->getOpportunities('poster_user_id',$this->theUser->id, $perPage);
+        return view('dashboard_user.post.index', compact('data', 'industries','vacanciesCount','vacancies', 'viewed'));
     }
 
     //** Detail Opportunity Available
