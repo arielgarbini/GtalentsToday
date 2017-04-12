@@ -12,7 +12,8 @@ class Testimonial extends Model
 
     public $timestamps = true;
 
-    protected $fillable = ['recommended_user_id', 'recommended_by_user_id', 'testimony', 'testimonial_status_id', 'is_active'];
+    protected $fillable = ['recommended_user_id', 'recommended_by_user_id',
+        'testimony', 'testimonial_status_id', 'is_active', 'vacancy_id', 'point', 'type'];
 
     public function testimonial_status()
     {
@@ -27,5 +28,10 @@ class Testimonial extends Model
     public function recommended_by_user()
     {
         return $this->belongsTo(User::class,'recommended_by_user_id');
+    }
+
+    public function vacancy()
+    {
+        return $this->belongsTo(Vacancy::class);
     }
 }

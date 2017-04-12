@@ -18,6 +18,7 @@ use Vanguard\ActualPosition;
 use Vanguard\Company;
 use Vanguard\Country;
 use Vanguard\Compensation;
+use Vanguard\CompanyUser;
 
 class CandidateController extends Controller
 {
@@ -107,12 +108,15 @@ class CandidateController extends Controller
                 'company'          => 'required',
             ] );
 
+        $company_id = CompanyUser::where(['user_id' => Auth::user()->id])->get()->first()->company_id;
+
         $mycandidate = new Candidate();
         $mycandidate->supplier_user_id = $this->theUser->id;
         $mycandidate->first_name =  $request->input('first_name');
         $mycandidate->last_name =   $request->input('last_name');
         $mycandidate->email =       $request->input('email');
         $mycandidate->telf =        $request->input('telf');
+        $mycandidate->company_id =  $company_id;
         $mycandidate->actual_position_id = $request->input('actual_position_id');
         $mycandidate->company =  $request->input('company');
         $mycandidate->country_id =  $request->input('country_id');

@@ -612,7 +612,8 @@ class AuthController extends Controller
                         'description'           => $request->description,
                         'is_active'             => 1,
                         'created_at'            => \Carbon\Carbon::now(),
-                        'updated_at'            => \Carbon\Carbon::now()
+                        'updated_at'            => \Carbon\Carbon::now(),
+                        'category_id'           => 1
                         ];
 
         $company = Company::create($dataCompany);
@@ -627,7 +628,7 @@ class AuthController extends Controller
                   'updated_at' => \Carbon\Carbon::now() ];
 
         CompanyUser::create($data);
-        Point::create(['user_id' => $user->id, 'sum' => 25 ]);
+        Point::create(['user_id' => $user->id, 'sum' => 25, 'company_id'=>$company->id]);
 
         $dataPreference = [ 'user_id'              => $user->id,
                             'security_question1'   => $request->security_question1,

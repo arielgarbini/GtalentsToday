@@ -226,7 +226,6 @@
                     <h3>@lang('app.relevant_opportunities')</h3>
                     <p>@lang('app.interesting_opportunities')</p>
                 </section>
-
                 <ul class="credits-container post-list">
                     <!--POST RECOMENDADO 1-->
                 @foreach ($lastestOpportunities as $vacancy_opportunity)
@@ -347,6 +346,35 @@
                                         <span class="icon-gTalents_close close-alert send_form"></span>
                                     </form>
                                 </li>
+                            @elseif($notification->type=='invited_supplier_vacancy')
+                                <li class="alert-participar">
+                                    <div class="motivo">
+                                        <a href="{{route('vacancies.show',$notification->element_id)}}">
+                                            <figure>
+                                                <span class="icon-gTalents_point"></span>
+                                            </figure>
+                                            <div class="datos">
+                                                <h4>{{$notification->title_traduccion}}</h4>
+                                                <p>{{$notification->message_traduccion}}</p>
+                                            </div>
+                                        </a>
+                                    </div>
+
+                                    <!--ACEPTAR-->
+                                    <form action="{{route('vacancies.approbate.supplier.invited',$notification->element_id)}}" method="POST">
+                                        {{csrf_field()}}
+                                        <input type="hidden" value="{{$notification->id}}" name="notification">
+                                        <input type="hidden" value="{{$notification->user_id}}" name="supplier">
+                                        <span class="icon-gTalents_win-53 acept-alert send_form"></span>
+                                    </form>
+                                    <!--BTN ELIMINAR -->
+                                    <form action="{{route('vacancies.reject.supplier.invited',$notification->element_id)}}" method="POST">
+                                        {{csrf_field()}}
+                                        <input type="hidden" value="{{$notification->id}}" name="notification">
+                                        <input type="hidden" value="{{$notification->user_id}}" name="supplier">
+                                        <span class="icon-gTalents_close close-alert send_form"></span>
+                                    </form>
+                                </li>
                             @elseif($notification->type=='approved_supplier_vacancy' || $notification->type=='rejected_supplier_vacancy' || $notification->type=='approbate_supplier_candidate' || $notification->type=='rejected_supplier_candidate')
 
                                 <li class="alert-participar">
@@ -368,6 +396,28 @@
                                         <span class="icon-gTalents_close close-alert send_form"></span>
                                     </form>
                                 </li>
+
+                            @elseif($notification->type=='approved_supplier_invited_vacancy' || $notification->type=='rejected_supplier_invited_vacancy')
+                                <li class="alert-participar">
+                                    <div class="motivo">
+                                        <a href="{{route('vacancies.show',$notification->element_id)}}">
+                                            <figure>
+                                                <span class="icon-gTalents_point"></span>
+                                            </figure>
+                                            <div class="datos">
+                                                <h4>{{$notification->title_traduccion}}</h4>
+                                                <p>{{$notification->message_traduccion}}</p>
+                                            </div>
+                                        </a>
+                                    </div>
+
+                                    <!--BTN ELIMINAR -->
+                                    <form action="{{route('notifications.delete',$notification->id)}}" method="POST">
+                                        {{csrf_field()}}
+                                        <span class="icon-gTalents_close close-alert send_form"></span>
+                                    </form>
+                                </li>
+
                             @elseif($notification->type=='request_supplier_candidates')
                                 <li class="alert-participar">
                                     <div class="motivo">
@@ -408,6 +458,46 @@
                                             <span class="icon-gTalents_close close-alert send_form"></span>
                                         </form>
                                     </li>
+                                @elseif($notification->type=='qualify_supplier_vacancy')
+                                <li class="alert-participar">
+                                    <div class="motivo">
+                                        <a href="{{route('califications.index')}}">
+                                            <figure>
+                                                <span class="icon-gTalents_point"></span>
+                                            </figure>
+                                            <div class="datos">
+                                                <h4>{{$notification->title_traduccion}}</h4>
+                                                <p>{{$notification->message_traduccion}}</p>
+                                            </div>
+                                        </a>
+                                    </div>
+
+                                    <!--BTN ELIMINAR -->
+                                    <form action="{{route('notifications.delete',$notification->id)}}" method="POST">
+                                        {{csrf_field()}}
+                                        <span class="icon-gTalents_close close-alert send_form"></span>
+                                    </form>
+                                </li>
+                                @elseif($notification->type=='qualify_supplier_vacancy_contract')
+                                <li class="alert-participar">
+                                    <div class="motivo">
+                                        <a href="{{route('supplier.calification_supplier', $notification->element_id)}}">
+                                            <figure>
+                                                <span class="icon-gTalents_point"></span>
+                                            </figure>
+                                            <div class="datos">
+                                                <h4>{{$notification->title_traduccion}}</h4>
+                                                <p>{{$notification->message_traduccion}}</p>
+                                            </div>
+                                        </a>
+                                    </div>
+
+                                    <!--BTN ELIMINAR -->
+                                    <form action="{{route('notifications.delete',$notification->id)}}" method="POST">
+                                        {{csrf_field()}}
+                                        <span class="icon-gTalents_close close-alert send_form"></span>
+                                    </form>
+                                </li>
                                 @endif
                         @endforeach
                     @else
@@ -617,13 +707,13 @@
                     <!--POSICION-->
                     <div class="item">
                         <h4>@lang('app.my_position')</h4>
-                        <p><strong>{{ Auth::user()->category->name }}</strong></p>
+                        <p><strong><?php echo Auth::user()->company[0]->category->name; ?></strong></p>
                     </div>
 
                     <!--PUNTAJE-->
                     <div class="item">
                         <h4>@lang('app.i_lack')</h4>
-                        <p><strong>{{ Auth::user()->category->nextLevel() }}pts</strong> @lang('app.next_level')</p>
+                        <p><strong>{{ Auth::user()->company[0]->category->nextLevel() }}pts</strong> @lang('app.next_level')</p>
                     </div>
                 </section>
             </div>

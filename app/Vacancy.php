@@ -59,6 +59,7 @@ class Vacancy extends Model
                             'group2',
                             'fee',
                             'terms',
+                            'company_id'
                         ];                   
 
 

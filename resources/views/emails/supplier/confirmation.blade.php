@@ -76,7 +76,7 @@
                 <tr>
                     <td align="center" class="td-responsive" style="padding: 0 35px;">
                         <h2 style="font-family:Lato, helvetica,arial; font-size:20px; color : #3A6097; margin: 25px 0 0 0">
-                            @lang('app.thank_you_for_registering', ['app' => settings('app.name')])
+                            @lang('app.you_have_been_invited') {{ settings('app_name') }}
                         </h2>
                     </td>
                 </tr>
@@ -85,16 +85,19 @@
                 <tr>
                     <td class="td-responsive" style="padding: 0 80px;">
                         <p class="parrafo" style="font-size:16px;  line-height:20px; color:#22203B;">
-                        <p>@lang('app.confirm_email_on_link_below')</p>
+                            {{$message}}
+                        </p>
+                        <p class="parrafo" style="font-size:16px;  line-height:20px; color:#22203B;">
+                            <p>@lang('app.confirm_email_on_link_below')</p>
 
-                        <a href="{{ route('register.confirm-data', $token) }}">@lang('app.confirm_email')</a> <br/><br/>
+                            <a href="{{ route('register.confirm-data', $token) }}">@lang('app.confirm_email')</a> <br/><br/>
 
-                        <p>@lang('app.if_you_cant_click')</p>
+                            <p>@lang('app.if_you_cant_click')</p>
 
-                        <p>{{ route('register.confirm-data', $token) }}</p>
+                            <p>{{ route('register.confirm-data', $token) }}</p>
 
-                        @lang('app.many_thanks'), <br/>
-                        {{ settings('app_name') }}
+                            @lang('app.many_thanks'), <br/>
+                            {{ settings('app_name') }}
 
                         </p>
                     </td>
@@ -104,7 +107,7 @@
                 <tr>
                     <td align="center" style="border-bottom: 1px solid #F2F2F2; padding: 15px 0px 35px 0px;">
                         <a href="{{ route('register.confirm-data', $token) }}" target="_blank" style="color:#ffffff;background:#73BF9B;padding:10px 12px;text-align:center;border-radius:5px;display:block;text-decoration:none;width:30%; font-size:14px;" class="cta">
-                            @lang('app.confirm_subscription')
+                            @lang('app.confirm_invitation')
                         </a>
                     </td>
                 </tr>

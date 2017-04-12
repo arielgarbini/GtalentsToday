@@ -35,7 +35,7 @@ class Category extends Model
                                 ->limit(1)
                                 ->first();
 
-        $result = $category->required_points - Auth::user()->points->sum;
+        $result = $category->required_points - Auth::user()->company[0]->points->sum;
 
         return $result;
     }

@@ -36,11 +36,20 @@ class NotificationEventsSuscriber implements ShouldQueue
             case 'request_supplier_vacancy':
                 $data =  ['title' => 'title_supplier__'.Auth::user()->code, 'message' =>'request_supplier_vacancy__'.$dataRequest['name']];
             break;
+            case 'invited_supplier_vacancy':
+                $data =  ['title' => 'title_invited_supplier', 'message' =>'invited_supplier_vacancy__'.$dataRequest['name']];
+            break;
             case 'approved_supplier_vacancy':
                 $data =  ['title' => 'title_approved_supplier', 'message' =>'approved_supplier_vacancy__'.$dataRequest['name']];
             break;
             case 'rejected_supplier_vacancy':
                 $data =  ['title' => 'title_rejected_supplier', 'message' =>'rejected_supplier_vacancy__'.$dataRequest['name']];
+            break;
+            case 'approved_supplier_invited_vacancy':
+                $data =  ['title' => 'title_supplier__'.Auth::user()->code, 'message' =>'approved_supplier_invited_vacancy__'.$dataRequest['name']];
+            break;
+            case 'rejected_supplier_invited_vacancy':
+                $data =  ['title' => 'title_supplier__'.Auth::user()->code, 'message' =>'rejected_supplier_invited_vacancy__'.$dataRequest['name']];
             break;
             case 'request_supplier_candidates':
                 $data =  ['title' => 'title_candidates', 'message' =>'request_supplier_candidates__'.$dataRequest['name']];
@@ -53,6 +62,12 @@ class NotificationEventsSuscriber implements ShouldQueue
             break;
             case 'message_received':
                 $data =  ['title' => 'title_message_received', 'message' =>'message_received__'.$dataRequest['name']];
+            break;
+            case 'qualify_supplier_vacancy':
+                $data =  ['title' => 'title_qualify_supplier_vacancy', 'message' =>'qualify_supplier_vacancy__'];
+            break;
+            case 'qualify_supplier_vacancy_contract':
+                $data =  ['title' => 'title_qualify_supplier_vacancy_contract', 'message' =>'qualify_supplier_vacancy_contract__'.$dataRequest['name']];
             break;
         }
 

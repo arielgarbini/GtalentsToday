@@ -48,9 +48,9 @@
                         <span class="icon-gTalents_point"></span>
                         <p>Lenguajes de programación: Java Script (Deseable)</p>
                     </li>
-                </ul>
-                <p>Es requisito contar con experiencia de 1 a 3 años en algunas de las tecnologías antes mencionadas.</p>-->
 
+                <p>Es requisito contar con experiencia de 1 a 3 años en algunas de las tecnologías antes mencionadas.</p>-->
+                </ul>
                 <!--INFORMACION ADICIONAL-->
                 <h4>@lang('app.additional_information')</h4>
                 <p>{{$vacancy->responsabilities}}</p>
@@ -297,9 +297,16 @@
 
                                         <!-- Dropdown Structure -->
                                         <ul id='option-team01' class='dropdown-content'>
-                                            <li><a href="#modalCalificar" class="modal-trigger waves-effect waves-light">@lang('app.qualify')</a></li>
-                                            <li><a href="#">@lang('app.discard')</a></li>
+                                            <li><a href="#modalCalificar{{$supplier->supplier_user_id}}" class="modal-trigger waves-effect waves-light">@lang('app.qualify')</a></li>
+                                            <form action="{{route('vacancies.reject.supplier',$vacancy->id)}}" method="POST">
+                                                {{csrf_field()}}
+                                                <input type="hidden" value="{{$supplier->supplier_user_id}}" name="supplier">
+                                                <li class="send_form">
+                                                    <a href="#">@lang('app.discard')</a>
+                                                </li>
+                                            </form>
                                         </ul>
+                                        @include('dashboard_user.post.partials.modalcalificate')
                                     </div>
                                 </section>
                             </li>
@@ -342,7 +349,7 @@
                                             <span class="icon-gTalents_team-48"></span>
                                         </figure>
                                         <div class="datos">
-                                            <h3>{{$candidate['first_name']}} {{$candidate['last_name']}}</h3>
+                                            <h3>{{substr($candidate['first_name'].' '.$candidate['last_name'], 0, 20)}}</h3>
                                             <p>{{substr($candidate['actual_position'], 0, 20)}}</p>
                                         </div>
                                     </div>
@@ -406,7 +413,7 @@
                                         <span class="icon-gTalents_team-48"></span>
                                     </figure>
                                     <div class="datos">
-                                        <h3>{{$candidate['first_name']}} {{$candidate['last_name']}}</h3>
+                                        <h3>{{substr($candidate['first_name'].' '.$candidate['last_name'], 0, 20)}}</h3>
                                         <p>{{substr($candidate['actual_position'], 0, 20)}}</p>
                                     </div>
                                 </div>
@@ -425,7 +432,7 @@
                                         @else
                                             <li><a href="#">@lang('app.view_cv')</a></li>
                                         @endif
-                                        <li><a href="#modalNota" class="modal-trigger waves-effect waves-light">@lang('app.view_note')</a></li>
+                                        <li><a href="#modalNota{{$candidate['id']}}" class="modal-trigger waves-effect waves-light">@lang('app.view_note')</a></li>
                                         <form method="POST" action="{{route('vacancies.approbate.candidate',$candidate['id'])}}">
                                             {{csrf_field()}}
                                             <li class="send_form">
@@ -441,6 +448,7 @@
                                             </li>
                                         </form>
                                     </ul>
+                                    @include('dashboard_user.post.partials.modalnote')
                                 </div>
                             </section>
                         </li>
@@ -448,22 +456,21 @@
                     </ul>
 
                     <!--VER TODOS LOS NO LEIDOS -->
-                    <!--<section class="new-team">
+                    <section class="new-team">
                         <a href="#modalnoLeidos" class="modal-trigger waves-effect waves-light">
                             <p>@lang('app.view_all')</p>
                         </a>
-                    </section>-->
+                    </section>
                 </div>
             </div>
 
             <!-- RECOMENDACIONES SUPPLIERS -->
-            <!--<div class="bills">
+            <div class="bills">
                 <section class="bills-title">
                     <h3>@lang('app.we_recommend_you')</h3>
                 </section>
-
                 <ul class="alerts-div supplier-recomend">
-
+                    @foreach($supliers_recommended as $supplier)
                     <li>
                         <div class="motivo">
 
@@ -474,7 +481,7 @@
                                 </figure>
 
                                 <div class="datos">
-                                    <h4>QDT876</h4>
+                                    <h4>{{$supplier->code}}</h4>
                                     <p>Newbie</p>
                                 </div>
                             </section>
@@ -482,29 +489,35 @@
                             <div class="addSupplier">
 
                                 <div class="link">
-                                    <a href="#modalProfileSupplier" class="modal-trigger waves-effect waves-light">
+                                    <a href="#modalProfileSupplier{{$supplier->id}}" class="modal-trigger waves-effect waves-light">
                                         <span class="icon-gTalents_profile"></span>
                                     </a>
                                 </div>
 
                                 <div class="link">
-                                    <a href="!">
-                                        <span class="icon-gTalent_add-supplier"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span><span class="path5"></span></span>
-                                    </a>
+                                    <form method="POST" action="{{route('vacancies.invited.supplier', $vacancy->id)}}">
+                                        {{csrf_field()}}
+                                        <input type="hidden" value="{{$supplier->id}}" name="supplier">
+                                        <a href="#" class="send_form">
+                                            <span class="icon-gTalent_add-supplier"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span><span class="path5"></span></span>
+                                        </a>
+                                    </form>
                                 </div>
                             </div>
+                            @include('dashboard_user.post.partials.modalsupplier')
                         </div>
-
                         <span class="icon-gTalents_close close-alert"></span>
                     </li>
+                    @endforeach
                 </ul>
 
+                <!--
                 <section class="new-team">
                     <a href="{{route('supplier.index')}}">
                         <p>@lang('app.see_more') Supplier</p>
                     </a>
-                </section>          
-            </div>  -->
+                </section>    -->
+            </div>
         </section>
     </article>
 
@@ -524,25 +537,26 @@
         </div>
 
         <div class="modal-content">
-            <form action="" class="formLogin">
+            <form action="{{route('vacancies.invited.supplier.external', $vacancy->id)}}" role='form' method="POST" id="formCreate" class="formLogin">
                 <!--NOMBRE-->
+                {{csrf_field()}}
                 <div class="itemForm">
                     <label>@lang('app.name')</label>
-                    <input type="text" placeholder="{{trans('app.name')}}">
-                    <span>@lang('app.invalid_name')</span>
+                    <input type="text" name="name" data-error=".errorTxtName" placeholder="{{trans('app.name')}}">
+                    <div class="errorTxtName"></div>
                 </div>
 
                 <!--CORREO ELECTRONICO-->
                 <div class="itemForm">
                     <label>{{trans('app.email')}}</label>
-                    <input type="email" placeholder="{{trans('app.email')}}">
-                    <span>@lang('app.invalid_email')</span>
+                    <input type="email" placeholder="{{trans('app.email')}}" name="email" data-error=".errorTxtEmail">
+                    <div class="errorTxtEmail"></div>
                 </div>
 
                 <!--MENSJE-->
                 <div class="itemForm icon-help">
                     <label>@lang('app.message')</label>
-                    <textarea name="" id="" cols="30" rows="10" placeholder="{{trans('app.message_invited')}}"></textarea>
+                    <textarea name="message" id="message" cols="30" rows="10" placeholder="{{trans('app.message_invited')}}"></textarea>
                 </div>
 
                 <section class="buttonsMain">
@@ -555,9 +569,9 @@
 
                     <!--INVITAR-->
                     <div class="item">
-                        <a href="#" class="btn-main" type="submit" id="btn-modalMain">
+                        <button class="btn-main" type="submit" id="btn-modalMain">
                             @lang('app.invited')
-                        </a>
+                        </button>
                     </div>
                 </section>
             </form>
@@ -572,187 +586,6 @@
                 <div class="item">
                     <a href="#!" class="btn-main">
                         @lang('app.continue')
-                    </a>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!--MODAL CALIFICAR SUPPLIER-->
-    <div id="modalCalificar" class="modal modal-userRegistered">
-        
-        <div class="modal-header">
-            <!--CERRAR MODAL-->
-            <div class="close">
-                <a href="#!" class="modal-action modal-close">
-                    <span class="icon-gTalents_close-2"></span>
-                </a>
-            </div>
-
-            <h4>@lang('app.rate_supplier')</h4>
-        </div>
-
-        <div class="modal-content">
-            <!--TARJETA DEL CANDIDATO-->
-            <div class="profile-colab calificar-supplier">
-                <section class="team-card">
-                    <!--RESUMEN SUPPLIER-->
-                    <section class="supplierContain1">
-                        <!--ICONO RANGO-->
-                        <figure class="supplierContain1-ranking">
-                            <span class="icon-gTalents_rango-1"><span class="path1"></span><span class="path2"></span></span>
-                        </figure>
-
-                        <div class="datos">
-                            <h4>QDT876</h4>
-                            <p>Newbie</p>
-                        </div>
-                    </section>
-                    
-                    <p class="note">
-                        @lang('app.he_offer') 15 @lang('app.candidates')
-                    </p>
-                </section>
-
-                <!--ESTRELLAS-->
-                <div class="stars-feedback">
-                    <select id="stars1" name="rating" autocomplete="off">
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
-                        <option value="4">4</option>
-                        <option value="5">5</option>
-                    </select>
-                </div>
-            </div>
-
-            <!--RESPUESTA-->
-            <form action="" class="formLogin">
-                <!--MENSJE-->
-                <div class="itemForm icon-help">
-                    <label>@lang('app.what_is_your_opinion?')</label>
-                    <textarea name="" id="" cols="30" rows="10" placeholder="¿Cuál es tu opinión?"></textarea>
-                </div>
-
-                <section class="buttonsMain">
-                    <!--REGRESAR-->
-                    <div class="item">
-                        <a href="#!" class="modal-action modal-close waves-effect waves-green btn-return">
-                            @lang('app.back')
-                        </a>
-                    </div>
-
-                    <!--INVITAR-->
-                    <div class="item">
-                        <a href="#" class="btn-main" type="submit" id="btn-modalMain">
-                            @lang('app.qualify')
-                        </a>
-                    </div>
-                </section>
-            </form>
-
-            <!--MENSAJE DE COLABORADOR CARGADO-->
-            <div class="messageModal">
-                <figure>
-                    <span class="icon-gTalents_win-53"></span>
-                </figure>
-                <p>@lang('app.message_created')</p>
-                <!--BTN-MAIN-->
-                <div class="item">
-                    <a href="#!" class="btn-main">
-                        @lang('app.continue')
-                    </a>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!--MODAL VER NOTAS DE CANDIDATOS-->
-    <div id="modalNota" class="modal modal-userRegistered">
-        
-        <div class="modal-header">
-            <!--CERRAR MODAL-->
-            <div class="close">
-                <a href="#!" class="modal-action modal-close">
-                    <span class="icon-gTalents_close-2"></span>
-                </a>
-            </div>
-
-            <h4>Perfil Candidato</h4>
-        </div>
-
-        <div class="modal-content">
-            <!--TARJETA DEL CANDIDATO-->
-            <div class="profile-colab">
-                <section class="team-card">
-                    <!--PERSONA-->
-                    <div class="team-card-person">
-                        <figure>
-                            <span class="icon-gTalents_team-48"></span>
-                        </figure>
-                        <div class="datos">
-                            <h3>Andres Gonzalez</h3>
-                            <p>FrontEnd Developer</p>
-                        </div>
-                    </div>
-
-                    <!--DESCARGAR CV-->
-                    <div class="link">
-                        <a href="#">
-                            <span class="icon-gTalents_download"></span>
-                        </a>
-                    </div>
-                </section>
-
-                <!--MENSAJE DEL SUPPLIER-->
-                <div class="profile-colab-message">
-                    <h4>REF-0547 dice:</h4>
-                    <p>Te recomiendo este perfil, creo que encaja con lo que buscas</p>
-                </div>
-            </div>
-
-            <!--RESPUESTA-->
-            <form action="" class="formLogin">
-                <!--MENSJE-->
-                <div class="itemForm icon-help">
-                    <label>Tu Respuesta</label>
-                    <textarea name="" id="" cols="30" rows="10" placeholder="Escribe una Respuesta"></textarea>
-                </div>
-
-                <section class="buttonsMain">
-                    <!--REGRESAR-->
-                    <div class="item">
-                        <a href="#!" class="modal-action modal-close waves-effect waves-green btn-return">
-                            Regresar
-                        </a>
-                    </div>
-
-                    <!--DESCARTAR-->
-                    <div class="item">
-                        <a href="#!" class="modal-action modal-close waves-effect waves-green btn-return">
-                            Descartar
-                        </a>
-                    </div>
-
-                    <!--ACEPTAR-->
-                    <div class="item">
-                        <a href="#" class="btn-main" type="submit" id="btn-modalMain">
-                            Aceptar
-                        </a>
-                    </div>
-                </section>
-            </form>
-
-            <!--MENSAJE DE COLABORADOR CARGADO-->
-            <div class="messageModal">
-                <figure>
-                    <span class="icon-gTalents_win-53"></span>
-                </figure>
-                <p>Mensaje enviado exitosamente</p>
-                <!--BTN-MAIN-->
-                <div class="item">
-                    <a href="#!" class="btn-main">
-                        Continuar
                     </a>
                 </div>
             </div>
@@ -770,7 +603,7 @@
                 </a>
             </div>
 
-            <h4>Candidatos No Leidos</h4>
+            <h4>@lang('app.candidates') @lang('app.not_read')</h4>
         </div>
 
         <div class="modal-content">
@@ -781,7 +614,7 @@
 
                     <!--BUSQUEDA-->
                     <div class="itemForm">
-                        <input type="text" placeholder="¿Qué buscas?" class="input-search">
+                        <input type="text" placeholder="{{trans('app.what_search')}}" class="input-search">
                     </div>
                     
                 </form>
@@ -790,255 +623,59 @@
             <!--LISTADO DE CANDIDATOS-->
             <ul class="supplier-container supplier-list">
                 <!-- CANDIDATO 1 -->
-                <li>
-                    <!--RESUMEN OPORTUNIDAD-->
-                    <section class="colab">
-                        <!--ICONO-->
-                        <figure>
-                            <span class="icon-gTalents_team-48"></span>
-                        </figure>
+                @foreach($candidatesUnRead as $candidate)
+                    <li>
+                        <section class="team-card">
+                            <!--PERSONA-->
+                            <div class="team-card-person">
+                                <figure>
+                                    <span class="icon-gTalents_team-48"></span>
+                                </figure>
+                                <div class="datos">
+                                    <h3>{{substr($candidate['first_name'].' '.$candidate['last_name'], 0, 20)}}</h3>
+                                    <p>{{substr($candidate['actual_position'], 0, 20)}}</p>
+                                </div>
+                            </div>
 
-                        <div class="datos">
-                            <h4>Andres Gonzalez</h4>
-                            <p>Contador</p>
-                        </div>
-                    </section>
+                            <!--OPCIONES-->
+                            <div class="options">
+                                <!-- Dropdown Trigger -->
+                                <a class='dropdown-button' href='#' data-activates='option-noleido{{$candidate['id']}}'>
+                                    <span class="icon-gTalents_submenu"></span>
+                                </a>
 
-                    <!--OPCIONES-->
-                    <div class="options">
-                        <!-- Dropdown Trigger -->
-                        <a class='dropdown-button' href='#' data-activates='option-team1'>
-                            <span class="icon-gTalents_submenu"></span>
-                        </a>
-
-                        <!-- Dropdown Structure -->
-                        <ul id='option-team1' class='dropdown-content'>
-                            <li><a href="#">Ver CV</a></li>
-                            <li><a href="#">Aceptar</a></li>
-                            <li><a href="#">Rechazar</a></li>
-                        </ul>
-                    </div>
-                </li>
-
-                <!-- CANDIDATO 2 -->
-                <li>
-                    <!--RESUMEN OPORTUNIDAD-->
-                    <section class="colab">
-                        <!--ICONO-->
-                        <figure>
-                            <span class="icon-gTalents_team-48"></span>
-                        </figure>
-
-                        <div class="datos">
-                            <h4>Andres Gonzalez</h4>
-                            <p>Contador</p>
-                        </div>
-                    </section>
-
-                    <!--OPCIONES-->
-                    <div class="options">
-                        <!-- Dropdown Trigger -->
-                        <a class='dropdown-button' href='#' data-activates='option-team2'>
-                            <span class="icon-gTalents_submenu"></span>
-                        </a>
-
-                        <!-- Dropdown Structure -->
-                        <ul id='option-team2' class='dropdown-content'>
-                            <li><a href="#">Ver CV</a></li>
-                            <li><a href="#">Aceptar</a></li>
-                            <li><a href="#">Rechazar</a></li>
-                        </ul>
-                    </div>
-                </li>
-
-                <!-- CANDIDATO 3 -->
-                <li>
-                    <!--RESUMEN OPORTUNIDAD-->
-                    <section class="colab">
-                        <!--ICONO-->
-                        <figure>
-                            <span class="icon-gTalents_team-48"></span>
-                        </figure>
-
-                        <div class="datos">
-                            <h4>Andres Gonzalez</h4>
-                            <p>Contador</p>
-                        </div>
-                    </section>
-
-                    <!--OPCIONES-->
-                    <div class="options">
-                        <!-- Dropdown Trigger -->
-                        <a class='dropdown-button' href='#' data-activates='option-team3'>
-                            <span class="icon-gTalents_submenu"></span>
-                        </a>
-
-                        <!-- Dropdown Structure -->
-                        <ul id='option-team3' class='dropdown-content'>
-                            <li><a href="#">Ver CV</a></li>
-                            <li><a href="#">Aceptar</a></li>
-                            <li><a href="#">Rechazar</a></li>
-                        </ul>
-                    </div>
-                </li>
-
-                <!-- CANDIDATO 4 -->
-                <li>
-                    <!--RESUMEN OPORTUNIDAD-->
-                    <section class="colab">
-                        <!--ICONO-->
-                        <figure>
-                            <span class="icon-gTalents_team-48"></span>
-                        </figure>
-
-                        <div class="datos">
-                            <h4>Andres Gonzalez</h4>
-                            <p>Contador</p>
-                        </div>
-                    </section>
-
-                    <!--OPCIONES-->
-                    <div class="options">
-                        <!-- Dropdown Trigger -->
-                        <a class='dropdown-button' href='#' data-activates='option-team4'>
-                            <span class="icon-gTalents_submenu"></span>
-                        </a>
-
-                        <!-- Dropdown Structure -->
-                        <ul id='option-team4' class='dropdown-content'>
-                            <li><a href="#">Ver CV</a></li>
-                            <li><a href="#">Aceptar</a></li>
-                            <li><a href="#">Rechazar</a></li>
-                        </ul>
-                    </div>
-                </li>
-
-                <!-- CANDIDATO 5 -->
-                <li>
-                    <!--RESUMEN OPORTUNIDAD-->
-                    <section class="colab">
-                        <!--ICONO-->
-                        <figure>
-                            <span class="icon-gTalents_team-48"></span>
-                        </figure>
-
-                        <div class="datos">
-                            <h4>Andres Gonzalez</h4>
-                            <p>Contador</p>
-                        </div>
-                    </section>
-
-                    <!--OPCIONES-->
-                    <div class="options">
-                        <!-- Dropdown Trigger -->
-                        <a class='dropdown-button' href='#' data-activates='option-team5'>
-                            <span class="icon-gTalents_submenu"></span>
-                        </a>
-
-                        <!-- Dropdown Structure -->
-                        <ul id='option-team5' class='dropdown-content'>
-                            <li><a href="#">Ver CV</a></li>
-                            <li><a href="#">Aceptar</a></li>
-                            <li><a href="#">Rechazar</a></li>
-                        </ul>
-                    </div>
-                </li>
-
-                <!-- CANDIDATO 6 -->
-                <li>
-                    <!--RESUMEN OPORTUNIDAD-->
-                    <section class="colab">
-                        <!--ICONO-->
-                        <figure>
-                            <span class="icon-gTalents_team-48"></span>
-                        </figure>
-
-                        <div class="datos">
-                            <h4>Andres Gonzalez</h4>
-                            <p>Contador</p>
-                        </div>
-                    </section>
-
-                    <!--OPCIONES-->
-                    <div class="options">
-                        <!-- Dropdown Trigger -->
-                        <a class='dropdown-button' href='#' data-activates='option-team6'>
-                            <span class="icon-gTalents_submenu"></span>
-                        </a>
-
-                        <!-- Dropdown Structure -->
-                        <ul id='option-team6' class='dropdown-content'>
-                            <li><a href="#">Ver CV</a></li>
-                            <li><a href="#">Aceptar</a></li>
-                            <li><a href="#">Rechazar</a></li>
-                        </ul>
-                    </div>
-                </li>
-
-                <!-- CANDIDATO 7 -->
-                <li>
-                    <!--RESUMEN OPORTUNIDAD-->
-                    <section class="colab">
-                        <!--ICONO-->
-                        <figure>
-                            <span class="icon-gTalents_team-48"></span>
-                        </figure>
-
-                        <div class="datos">
-                            <h4>Andres Gonzalez</h4>
-                            <p>Contador</p>
-                        </div>
-                    </section>
-
-                    <!--OPCIONES-->
-                    <div class="options">
-                        <!-- Dropdown Trigger -->
-                        <a class='dropdown-button' href='#' data-activates='option-team7'>
-                            <span class="icon-gTalents_submenu"></span>
-                        </a>
-
-                        <!-- Dropdown Structure -->
-                        <ul id='option-team7' class='dropdown-content'>
-                            <li><a href="#">Ver CV</a></li>
-                            <li><a href="#">Aceptar</a></li>
-                            <li><a href="#">Rechazar</a></li>
-                        </ul>
-                    </div>
-                </li>
-
-                <!-- CANDIDATO 8 -->
-                <li>
-                    <!--RESUMEN OPORTUNIDAD-->
-                    <section class="colab">
-                        <!--ICONO-->
-                        <figure>
-                            <span class="icon-gTalents_team-48"></span>
-                        </figure>
-
-                        <div class="datos">
-                            <h4>Andres Gonzalez</h4>
-                            <p>Contador</p>
-                        </div>
-                    </section>
-
-                    <!--OPCIONES-->
-                    <div class="options">
-                        <!-- Dropdown Trigger -->
-                        <a class='dropdown-button' href='#' data-activates='option-team8'>
-                            <span class="icon-gTalents_submenu"></span>
-                        </a>
-
-                        <!-- Dropdown Structure -->
-                        <ul id='option-team8' class='dropdown-content'>
-                            <li><a href="#">Ver CV</a></li>
-                            <li><a href="#">Aceptar</a></li>
-                            <li><a href="#">Rechazar</a></li>
-                        </ul>
-                    </div>
-                </li>
+                                <!-- Dropdown Structure -->
+                                <ul id='option-noleido{{$candidate['id']}}' class='dropdown-content'>
+                                    @if($candidate['file']!='')
+                                        <li class="read_candidate" value="{{$candidate['id']}}"><a href="/upload/docs/{{$candidate['file']}}" class="cv_candidate" target="_blank">@lang('app.view_cv')</a></li>
+                                    @else
+                                        <li><a href="#">@lang('app.view_cv')</a></li>
+                                    @endif
+                                    <li><a href="#modalNota{{$candidate['id']}}" class="modal-trigger waves-effect waves-light">@lang('app.view_note')</a></li>
+                                    <form method="POST" action="{{route('vacancies.approbate.candidate',$candidate['id'])}}">
+                                        {{csrf_field()}}
+                                        <li class="send_form">
+                                            <input type="hidden" name="vacancy" value="{{$vacancy->id}}">
+                                            <a href="#">@lang('app.accept')</a>
+                                        </li>
+                                    </form>
+                                    <form method="POST" action="{{route('vacancies.reject.candidate',$candidate['id'])}}">
+                                        {{csrf_field()}}
+                                        <li class="send_form">
+                                            <input type="hidden" name="vacancy" value="{{$vacancy->id}}">
+                                            <a href="#" >@lang('app.discard')</a>
+                                        </li>
+                                    </form>
+                                </ul>
+                                @include('dashboard_user.post.partials.modalnote')
+                            </div>
+                        </section>
+                    </li>
+                @endforeach
             </ul>
 
             <!--PAGINADOR-->
+            <!--
             <ul class="pagination">
                 <li class="disabled">
                     <a href="#">
@@ -1055,74 +692,11 @@
                         <span class="icon-gTalents_right"></span>
                     </a>
                 </li>
-            </ul>
+            </ul>-->
 
         </div>
     </div>
 
-    <!--MODAL PERFIL SUPPLIER-->
-    <div id="modalProfileSupplier" class="modal modal-userRegistered">
-        
-        <div class="modal-header">
-            <!--CERRAR MODAL-->
-            <div class="close">
-                <a href="#!" class="modal-action modal-close">
-                    <span class="icon-gTalents_close-2"></span>
-                </a>
-            </div>
-
-            <h4>Perfil del Supplier</h4>
-        </div>
-
-        <div class="modal-content">
-
-            <!--RESUMEN SUPPLIER-->
-            <div class="profile-colab profile-supplier">
-                <section class="supplierContain1">
-                    <!--ICONO RANGO-->
-                    <figure class="supplierContain1-ranking">
-                        <span class="icon-gTalents_rango-1"><span class="path1"></span><span class="path2"></span></span>
-                    </figure>
-
-                    <div class="datos">
-                        <h4>QDT876</h4>
-                        <p>Newbie</p>
-                    </div>
-                </section>
-
-                <!--PROMEDIO CALIFICACIONES-->
-                <div class="qualification">
-                    <figure>
-                        <span class="icon-gTalents_stars-3"></span>
-                        <span class="icon-gTalents_stars-3"></span>
-                        <span class="icon-gTalents_stars-3"></span>
-                        <span class="icon-gTalents_stars-3"></span>
-                        <span class="icon-gTalents_stars-3 star-null"></span>
-                    </figure>
-                </div>
-
-                <!--RESUMEN 1-->
-                <div class="profile-colab-message">
-                    <h4>Ha participado en:</h4>
-                    <p>214 oportunidades laborales</p>
-                </div>
-
-                <!--RESUMEN 2-->
-                <div class="profile-colab-message">
-                    <h4>Indice de aceptación de candidatos:</h4>
-                    <p>90%</p>
-                </div>
-            </div>
-
-            
-            <!--BTN-MAIN-->
-            <div class="item-btn">
-                <a href="#!" class="btn-main">
-                    Continuar
-                </a>
-            </div>
-        </div>
-    </div>
 <div id="modalHistorico" class="modal modal-userRegistered">
 
     <div class="modal-header">
@@ -1194,6 +768,38 @@
 @section('scripts')
    <script>
        $(document).ready(function(){
+           $("#formCreate").validate({
+               rules: {
+                   name: {
+                       required: true,
+                       minlength: 3
+                   },
+                   email: {
+                       required: true,
+                       email: true
+                   },
+               },
+               messages: {
+                   name: {
+                       required: "{{trans('app.candidate_validate.first_name_required')}}",
+                       minlength: "{{trans('app.candidate_validate.first_name_length')}}"
+                   },
+                   email: {
+                       required: "{{trans('app.candidate_validate.email_required')}}",
+                       email: "{{trans('app.candidate_validate.email_valid')}}"
+                   },
+               },
+               errorElement : 'div',
+               errorPlacement: function(error, element) {
+                   var placement = $(element).data('error');
+                   if (placement) {
+                       $(placement).append(error)
+                   } else {
+                       error.insertAfter(element);
+                   }
+               }
+           });
+
            $('.read_candidate').click(function(){
                $.ajax({
                    url: "/vacancies/"+$(this).attr('value')+"/read/candidate",

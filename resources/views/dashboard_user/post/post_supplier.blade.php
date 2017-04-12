@@ -269,7 +269,7 @@
                                         <!--PERSONA-->
                                         <div class="team-card-person">
                                             <div class="datos">
-                                                <h3>{{$candidate['first_name']}} {{$candidate['last_name']}}</h3>
+                                                <h3>{{substr($candidate['first_name'].' '.$candidate['last_name'], 0, 20)}}</h3>
                                                 <p>{{substr($candidate['actual_position'], 0, 20)}}</p>
                                             </div>
                                         </div>

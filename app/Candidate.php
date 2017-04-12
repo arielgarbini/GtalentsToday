@@ -22,7 +22,8 @@ class Candidate extends Model
     						'last_name', 
     						'email',
                             'file',
-                            'company'
+                            'company',
+                            'company_id'
     						];
 
     public function user()

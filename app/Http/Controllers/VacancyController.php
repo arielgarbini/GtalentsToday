@@ -4,6 +4,7 @@ namespace Vanguard\Http\Controllers;
 
 use Auth;
 use Cache;
+use Vanguard\Events\User\Registered;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Input;
 use Vanguard\ActualPosition;
@@ -53,11 +54,16 @@ use Vanguard\Vacancy;
 use Vanguard\VacancyCandidate;
 use Vanguard\VacancyUser;
 use Vanguard\CompanyUser;
+use Vanguard\Testimonial;
+use Vanguard\Point;
 use JavaScript;
 
 use Illuminate\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\File\File;
 
+use Vanguard\Http\Requests\Auth\RegisterRequest;
+use Vanguard\Mailers\InvitationMailer;
+use Vanguard\Repositories\Role\RoleRepository;
 
 class VacancyController extends Controller
 {
@@ -232,7 +238,9 @@ class VacancyController extends Controller
             'key_position_questions'    => 'required'
             ] );
 
-       $data = ['poster_user_id'    => $this->theUser->id,
+        $company_id = CompanyUser::where(['user_id' => Auth::user()->id])->get()->first()->company_id;
+
+        $data = ['poster_user_id'    => $this->theUser->id,
               'name'                      => $request->name,
               'positions_number'          => $request->positions_number,
               'vacancy_status_id'         => 2,
@@ -242,7 +250,8 @@ class VacancyController extends Controller
               'responsabilities'          => $request->responsabilities, 
               'required_experience'       => $request->required_experience,
               'key_position_questions'    => $request->key_position_questions,
-              'contract_type_id'          => 1, 
+              'contract_type_id'          => 1,
+              'company_id'                => $company_id,
               'created_at'                => \Carbon\Carbon::now(),
               'updated_at'                => \Carbon\Carbon::now(),
                 ];
@@ -360,7 +369,14 @@ class VacancyController extends Controller
         if($this->theUser->hasRole('Admin')){
             return view('vacancy.view', compact('vacancy'));
         }else {
-            return view('dashboard_user.post.post_detail', compact('vacancy'));
+            $company_id = CompanyUser::where(['user_id' => Auth::user()->id])->get()->first()->company_id;
+            $supliers_recommended = User::where('id','!=',Auth::user()->id)->whereNotExists(function($query) use($id){
+                $query->select('vacancy_users.*')->from('vacancy_users')
+                    ->where('vacancy_id', $id)->whereRaw('vg_vacancy_users.supplier_user_id = vg_users.id');
+            })->whereHas('company_user', function($q) use($company_id){
+                $q->where('company_id', '!=', $company_id);
+            })->limit(3)->get();
+            return view('dashboard_user.post.post_detail', compact('supliers_recommended', 'vacancy'));
         }
     }
 
@@ -597,11 +613,146 @@ class VacancyController extends Controller
 
         event(new NotificationEvent(['element_id' => $vacancy->id,
            'user_id'=>$request->supplier, 'type' => 'rejected_supplier_vacancy', 'name'=>$vacancy->name]));
-        Notification::destroy($request->notification);
+        if(isset($request->notification)){
+            Notification::destroy($request->notification);
+        }
 
         return redirect()->back()
             ->withSuccess(trans('app.reject_application'));
     }
+
+    public function invitedSupplierExternal(Request $request, InvitationMailer $mailer, RoleRepository $roles, $id)
+    {
+        // Determine user status. User's status will be set to UNCONFIRMED
+        // if he has to confirm his email or to ACTIVE if email confirmation is not required
+        $status = settings('reg_email_confirmation')
+            ? UserStatus::UNCONFIRMED
+            : UserStatus::ACTIVE;
+
+        // Add the user to database
+        $user = $this->users->create(
+            ['email' => $request->email,
+            'password' => rand(0000, 9999),
+            'status' => $status
+            ]);
+
+        $this->users->updateSocialNetworks($user->id, []);
+
+        //change register user with consultant unverified role
+        $role = $roles->findByName('ConsultantUnverified');
+        $this->users->setRole($user->id, $role->id);
+
+        // Check if email confirmation is required,
+        // and if it does, send confirmation email to the user.
+        if (settings('reg_email_confirmation')) {
+            $this->sendEmailSupplier($mailer, $user, $request->message);
+            $message = trans('app.account_create_confirm_email');
+        } else {
+            $message = trans('app.account_created_login');
+        }
+
+        event(new Registered($user));
+
+        return redirect()->back()
+            ->withSuccess(trans('app.invited_supplier'));
+    }
+
+    private function sendEmailSupplier(InvitationMailer $mailer, $user, $message)
+    {
+        $token = str_random(60);
+        $this->users->update($user->id, ['confirmation_token' => $token]);
+        $mailer->sendEmailSupplier($user, $token, $message);
+    }
+
+    public function invitedSupplier(Request $request, $id)
+    {
+        $vacancy = $this->vacancies->find($id);
+
+        if($vacancy->countApplicationByStatus(GeneralStatus::ACTIVE) >= 3)
+            return redirect()->back()
+                ->withErrors(trans('app.full_vacancy'));
+
+        $data = [ 'status'      => GeneralStatus::UNCONFIRMED,
+            'is_active'   => true,
+            'comment'     => '',
+            'created_at'  => \Carbon\Carbon::now(),
+            'updated_at'  => \Carbon\Carbon::now() ];
+
+        //To Apply
+        $this->vacancies->supplier($id)->attach($request->supplier, $data);
+
+        event(new NotificationEvent(['element_id' => $vacancy->id,
+            'user_id'=>$request->supplier, 'type' => 'invited_supplier_vacancy', 'name'=>$vacancy->name]));
+
+        return redirect()->back()
+            ->withSuccess(trans('app.invited_supplier'));
+    }
+
+
+    public function approbateInvitedSupplier(Request $request, $id)
+    {
+        //id => vacancy
+        $vacancy = $this->vacancies->find($id);
+
+        $vacancy_users = VacancyUser::where('vacancy_id', $vacancy->id)
+            ->where('supplier_user_id', $request->supplier)->get()->first();
+        if ($vacancy_users) {
+            $this->vacancies_users->updateStatusSupplier($id,$vacancy_users->supplier_user_id,1);
+        }
+        event(new NotificationEvent(['element_id' => $vacancy->id,
+            'user_id'=>$vacancy->poster_user_id, 'type' => 'approved_supplier_invited_vacancy', 'name'=>$vacancy->name]));
+        Notification::destroy($request->notification);
+        Conversation::create(['sender_user_id' =>  $vacancy->poster_user_id, 'destinatary_user_id' => $vacancy_users->supplier_user_id,
+            'vacancy_id' => $vacancy->id]);
+        return redirect()->back()
+            ->withSuccess(trans('app.approved_application_invited'));
+    }
+
+    /**
+     * Reject supplier in specified vacancy with provided data.
+     *
+     * @param int $id
+     * @return mixed
+     */
+    public function rejectInvitedSupplier(Request $request, $id)
+    {
+        $vacancy = $this->vacancies->find($id);
+
+        $vacancy->updateStatusSupplier($request->supplier, GeneralStatus::REJECTED);
+
+        event(new NotificationEvent(['element_id' => $vacancy->id,
+            'user_id'=>$vacancy->poster_user_id, 'type' => 'rejected_supplier_invited_vacancy', 'name'=>$vacancy->name]));
+        if(isset($request->notification)){
+            Notification::destroy($request->notification);
+        }
+
+        return redirect()->back()
+            ->withSuccess(trans('app.reject_application_invited'));
+    }
+
+    public function qualifySupplier(Request $request, $id)
+    {
+        $vacancy = $this->vacancies->find($id);
+
+        $data = [
+            'recommended_user_id' => $request->supplier,
+            'recommended_by_user_id' => Auth::user()->id,
+            'testimony'             => $request->opinion,
+            'type'                  => 'supplier',
+            'vacancy_id'            => $vacancy->id,
+            'point'                 => $request->rating,
+            'is_active'             => 1
+        ];
+
+        Testimonial::create($data);
+
+        event(new NotificationEvent(['element_id' => $vacancy->id,
+            'user_id'=>$request->supplier, 'type' => 'qualify_supplier_vacancy', 'name'=>$vacancy->name]));
+
+        return redirect()->back()
+            ->withSuccess(trans('app.qualify_supplier'));
+    }
+
 
     /**
      * Approbate candidate in specified vacancy with provided data.
@@ -765,6 +916,10 @@ class VacancyController extends Controller
     //** Detail Opportunity Available
     public function show_post_user(Request $request, $id, User $users){
         $vacancy = $this->vacancies->find($id);
+        $company_id = CompanyUser::where(['user_id' => Auth::user()->id])->get()->first()->company_id;
+        if(CompanyUser::where(['user_id' => $vacancy->poster_user_id])->get()->first()->company_id == $company_id){
+            return redirect()->route('vacancies.show', $vacancy->id);
+        }
         $userVacancy = [];
         $userSupplierPost = false;
         foreach(Auth::user()->vacancy as $vacancy){
@@ -869,14 +1024,18 @@ class VacancyController extends Controller
 
     public function postContractCandidate(Request $request, $id)
     {
+        $data_admission = explode('/',$request->date_admision);
         $vacancy  = $this->vacancies->find($id);
         $candidate = $this->candidates->find($request->candidate);
 
         if($vacancy->isApprobateCandidate($candidate->id)){
             $data =['vacancy_id'       => $vacancy->id,
                 'number'           => substr (microtime(), 12, 20),
-                'name'             => 'Invoice test',
-                //'amount' => ($vacancy->condition->approximate_total_billing)/$vacancy->positions_number,
+                'name'             => $request->position,
+                'date_of_admission' => $data_admission[2].'-'.$data_admission[1].'-'.$data_admission[0],
+                'offer'             => $request->details,
+                'candidate_id'      => $candidate->id,
+                'amount' => $request->salario,
                 //'tax'              => ($vacancy->condition->comission)/$vacancy->positions_number,
                 'supplier_user_id' => $candidate->supplier_user_id,
                 'poster_user_id'   => $vacancy->poster_user_id,
@@ -887,6 +1046,22 @@ class VacancyController extends Controller
             //Vacancy Log
             //event(new Logged($vacancy, $candidate));
         }
+
+        $data = [
+            'recommended_user_id' => $candidate->supplier_user_id,
+            'recommended_by_user_id' => Auth::user()->id,
+            'testimony'             => $request->comments_supplier,
+            'type'                  => 'supplier',
+            'vacancy_id'            => $vacancy->id,
+            'point'                 => $request->rating,
+            'is_active'             => 1
+        ];
+
+        Testimonial::create($data);
+        $vacancy_user = VacancyCandidate::where('vacancy_id', $vacancy->id)
+            ->where('candidate_id', $candidate->id)->get()->first();
+        event(new NotificationEvent(['element_id' => $vacancy_user->id,
+            'user_id'=>$candidate->supplier_user_id, 'type' => 'qualify_supplier_vacancy_contract', 'name'=>$vacancy->name]));
 
         return redirect()->route('vacancies.show', $vacancy->id)
             ->withSuccess(trans('app.has_contract_candidate'));

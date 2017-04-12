@@ -2,6 +2,9 @@
 
 return [
     //NEW DASHBOARD
+    'confirm_invitation' => 'Confirmar Invitación',
+    'confirm_subscription' => 'Confirmar Suscripción',
+    'you_have_been_invited' => 'Has sido invitado a la plataforma',
     'success'           => 'Bien!',
     'opportunities'     => 'Oportunidades',    
     'post'              => 'Post',
@@ -43,7 +46,10 @@ return [
     'available'          => 'Disponibles',
     'no_notifications'   =>'No tiene notificaciones',
     'you_want_to_participate_in' =>'Quiere participar en',
-    'approved_application' => 'approved_application',
+    'approved_application' => 'Solicitud Aprobada',
+    'reject_application'    => 'Solicitud Rechazada',
+    'approved_application_invited' => 'Invitación Aceptada',
+    'reject_application_invited'    => 'Invitación Rechazada',
     'error'                 => 'Error',
     'team'                  => 'Colaboradores',
 
@@ -143,6 +149,7 @@ return [
 
     'candidate_validate'            => [
         'first_name_required'    => 'El nombre es requerido',
+        'name_required'    => 'El nombre es requerido',
         'first_name_length'    => 'El nombre debe tener minimo 6 caracteres',
         'last_name_required'     => 'El apellido es requerido',
         'last_name_length'     => 'El apellido debe tener minimo 6 caracteres',
@@ -161,6 +168,7 @@ return [
         'details'  => 'El detalle de la oferta es requerido',
         'comments'  => 'El comentario a gtalents es requerido',
         'comments_supplier'  => 'El comentario al supplier es requerido',
+        'comments_supplier'  => 'El comentario al poster es requerido',
     ],
 
     'collaborator_validate' => [
@@ -277,11 +285,13 @@ return [
     'candidate_historical'        => 'Historico del Candidato',
     'contract'                    => 'Contratar',
     'you_want_contract'           => 'Nos complace saber que quieras contratar',
+    'we_are_glad'                 => 'Nos complace saber completaste esta oportunidad',
     'annual_salary'               => 'Salario Anual',
     'date_of_admission'           => 'Fecha de admision',
     'details_offert'              => 'Detalles de Oferta  y Compensaciones adicionales',
     'comments_to'                 => 'Comentario a',
     'calificate_supplier'         => '¡Califica a tu Supplier!',
+    'calificate_poster'         => '¡Califica a tu Poster!',
     'attach_job_offer'            => 'Adjuntar Oferta de Empleo',
     'contract_process'            => 'Procesar Contrato',
     'positions'                   => 'Posiciones',
@@ -309,6 +319,7 @@ return [
     'to_apply'                    => 'Postularse',
     'has_applied_for_vacancy'     => 'Se ha postulado a una vacante satisfactoriamente.',
     'has_contract_candidate'      => 'Se ha contratado al candidato.',
+    'rating_submitted'              => 'Calificación enviada',
     'languages_required'          => 'Idiomas requeridos',
     'postulation_is_not_allowed'  => 'La postulación no es pertimita',
     'already_been_postulated'     => 'Ya se ha postulado anteriormente',
@@ -335,6 +346,16 @@ return [
     'supplier_cant'               => 'Cantidad Supplier',
     'positions_state'             => 'Estado posiciones',
     'approximate_billing'         => 'Facturación Aproximada',
+    'supplier_profile'            => 'Perfil del Supplier',
+    'has_particitate_in'          => 'Ha participado en',
+    'jobs_opportunities'          => 'Oportunidades laborales',
+    'percentaje_candidates'       => 'Porcentaje de aceptación de candidatos',
+    'invited_supplier'            => 'Supplier invitado',
+    'candidate_profile'           => 'Perfil Candidato',
+    'tell'                        => 'dice',
+    'your_answer'                 => 'Tu Respuesta',
+    'what_search'                 => '¿Qué buscas?',
+    'qualify_supplier'            => 'Supplier calificado',
 
     //Conditions
     'conditions'                => 'Condiciones',
@@ -1003,18 +1024,26 @@ return [
 
     //notifications
     'title_supplier'          => 'Supplier',
+    'title_invited_supplier' => '¡Invitado!',
     'title_approved_supplier' => '¡Aprobado!',
     'title_rejected_supplier' => '¡Rechazado!',
     'title_candidates' => '¡Candidatos recibidos!',
     'title_approved_candidates' => '¡Candidato aprobado!',
     'title_rejected_candidates' => '¡Candidato rechazado!',
     'title_message_received'            => '¡Mensaje recibido!',
+    'title_qualify_supplier_vacancy' => '¡Calificación recibida!',
+    'title_qualify_supplier_vacancy_contract' => '¡Candidato contratado!',
 
     'request_supplier_vacancy'  => 'Quiere participar en',
+    'invited_supplier_vacancy' => 'Has sido invitado a',
     'approved_supplier_vacancy' => 'Has sido aprobado a',
     'rejected_supplier_vacancy' => 'Has sido rechazado a',
     'request_supplier_candidates' => 'Te han enviado candidatos a',
     'approbate_supplier_candidate' => 'Han aprovado al candidato',
     'rejected_supplier_candidate' => 'Han rechazado al candidato',
-    'message_received'            => 'Mensaje recibido de'
+    'message_received'            => 'Mensaje recibido de',
+    'approved_supplier_invited_vacancy' => 'Ha aceptado la invitación a',
+    'rejected_supplier_invited_vacancy' => 'Ha rechazado la invitación a',
+    'qualify_supplier_vacancy'      => 'Has sido calificado',
+    'qualify_supplier_vacancy_contract' => 'Un candidato ha sido contratado en el post'
 ];

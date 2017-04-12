@@ -900,6 +900,30 @@ Route::post('vacancies/{id}/reject/supplier', [
     'middleware' => 'permission:vacancies.view'
 ]);
 
+Route::post('vacancies/{id}/supplier/external', [
+    'as' => 'vacancies.invited.supplier.external',
+    'uses' => 'VacancyController@invitedSupplierExternal',
+    'middleware' => 'permission:vacancies.view'
+]);
+
+Route::post('vacancies/{id}/supplier/invited', [
+    'as' => 'vacancies.invited.supplier',
+    'uses' => 'VacancyController@invitedSupplier',
+    'middleware' => 'permission:vacancies.view'
+]);
+
+Route::post('vacancies/{id}/approbate/invited', [
+    'as' => 'vacancies.approbate.supplier.invited',
+    'uses' => 'VacancyController@approbateInvitedSupplier',
+    'middleware' => 'permission:vacancies.view'
+]);
+
+Route::post('vacancies/{id}/reject/supplier/invited', [
+    'as' => 'vacancies.reject.supplier.invited',
+    'uses' => 'VacancyController@rejectInvitedSupplier',
+    'middleware' => 'permission:vacancies.view'
+]);
+
 Route::post('vacancies/{id}/approbate/candidate', [
     'as' => 'vacancies.approbate.candidate',
     'uses' => 'VacancyController@approbateCandidate',
@@ -939,6 +963,12 @@ Route::get('vacancies/{id}/contract/candidate', [
 Route::post('vacancies/{id}/contract/candidate/save', [
     'as' => 'vacancies.contract.candidate.post',
     'uses' => 'VacancyController@postContractCandidate',
+    'middleware' => 'permission:vacancies.view'
+]);
+
+Route::post('vacancies/{id}/qualify/supplier', [
+    'as' => 'vacancies.qualify.supplier',
+    'uses' => 'VacancyController@qualifySupplier',
     'middleware' => 'permission:vacancies.view'
 ]);
 
@@ -1011,10 +1041,15 @@ Route::get('supplier/list', [
     'uses' => 'SupplierController@index'
 ]);
 
-Route::get('calification_supplier', function()
-{
- return View::make('dashboard_user.supplier.calification_supplier');
-});
+Route::get('supplier/{id}/calification_supplier', [
+    'as' => 'supplier.calification_supplier',
+    'uses' => 'SupplierController@calificationSupplier'
+]);
+
+Route::post('supplier/{id}/calification_supplier', [
+    'as' => 'supplier.calification_supplier.store',
+    'uses' => 'SupplierController@calificationSupplierStore'
+]);
 
 // ======Candidatos============
 /*Route::get('candidate', function()

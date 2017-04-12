@@ -20,7 +20,10 @@ class Invoice extends Model
     						'supplier_user_id', 
     						'poster_user_id', 
     						'status',  
-    						'payment_due'
+    						'payment_due',
+                            'offer',
+                            'candidate_id',
+                            'date_of_admission'
     					];
 
     public function vacancy()

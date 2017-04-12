@@ -12,7 +12,7 @@ class Point extends Model
 
     public $timestamps = true;
 
-    protected $fillable = ['user_id', 'sum'];
+    protected $fillable = ['user_id', 'sum', 'company_id'];
 
     public function user()
     {

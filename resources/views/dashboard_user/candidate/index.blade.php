@@ -108,13 +108,13 @@
                     <!--POSICION-->
                     <div class="item">
                         <h4>@lang('app.my_position')</h4>
-                        <p><strong>{{ Auth::user()->category->name }}</strong></p>
+                        <p><strong><?php echo Auth::user()->company[0]->category->name; ?></strong></p>
                     </div>
 
                     <!--PUNTAJE-->
                     <div class="item">
                         <h4>@lang('app.i_lack')</h4>
-                        <p><strong>{{ Auth::user()->category->nextLevel() }}pts</strong> @lang('app.next_level')</p>
+                        <p><strong>{{ Auth::user()->company[0]->category->nextLevel() }}pts</strong> @lang('app.next_level')</p>
                     </div>
                 </section>
             </div>

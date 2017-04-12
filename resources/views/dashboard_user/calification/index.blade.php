@@ -14,7 +14,83 @@
 
         <!--CALIFICACIONES-->
         <ul class="collapsible" data-collapsible="accordion">
+            @foreach($poster as $sup)
+                <li>
+                    <div class="collapsible-header">
+                        <!-- RESUMEN OPORTUNIDAD-->
+                        <section class="opportunity-admin">
+                            <!--DATOS DEL POST-->
+                            <div class="item-activity">
+                                <h5>@lang('app.active')</h5>
+                                <h2>{{$sup->vacancy->name}}</h2>
+                                <h3>{{$sup->vacancy->location}}</h3>
+                                <p>@lang('app.published') | {{ $sup->vacancy->created_at->diffForHumans() }}</p>
+                            </div>
 
+                            <!--RESUMEN DEL POST-->
+                            <div class="item">
+                                <!--VISITAS-->
+                                <div class="item-option">
+                                    <h4><?php echo $viewed->search(['vacancy_id' => $sup->vacancy->id])->count() ?></h4>
+                                    <span>@lang('app.visits')</span>
+                                </div>
+
+                                <!--CANDIDATOS-->
+                                <div class="item-option">
+                                    <h4>{{$sup->vacancy->countCandidatesByStatus('Active')}}</h4>
+                                    <span>@lang('app.candidates')</span>
+                                </div>
+
+                                <!--POR ACEPTAR-->
+                                <div class="item-option">
+                                    <h4>{{$sup->vacancy->countCandidatesByStatus('Unconfirmed')}}</h4>
+                                    <span>@lang('app.to_be_accepted')</span>
+                                </div>
+
+                            </div>
+                        </section>
+                    </div>
+
+                    <div class="collapsible-body">
+                        <!--COMENTARIO 1-->
+                        <section class="comment">
+                            <!--USUARIO-->
+                            <div class="comment-user">
+                                <figure>
+                                    <span class="icon-gTalents_rango-1"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span><span class="path5"></span><span class="path6"></span></span>
+                                </figure>
+                                <div class="comment-user-datos">
+                                    <h3>{{$sup->recommended_by_user->code}}</h3>
+                                    <h4>Newbie</h4>
+                                </div>
+                            </div>
+
+                            <!--CALIFICACIONES Y COMENTARIO-->
+                            <div class="comment-detail">
+                                <!--CALIFICACION-->
+                                <div class="qualification">
+                                    <figure>
+                                        <span class="icon-gTalents_stars-3 "></span>
+                                        <span class="icon-gTalents_stars-3 @if($sup->point<2) star-null @endif"></span>
+                                        <span class="icon-gTalents_stars-3 @if($sup->point<3) star-null @endif"></span>
+                                        <span class="icon-gTalents_stars-3 @if($sup->point<4) star-null @endif"></span>
+                                        <span class="icon-gTalents_stars-3 @if($sup->point<5) star-null @endif"></span>
+                                    </figure>
+                                    <p>{{$sup->created_at->diffForHumans()}}</p>
+                                </div>
+
+                                <!--RESUMEN DE LA CALIFICACION-->
+                                <div class="comment-detail-resum">
+                                    <p>
+                                        {{$sup->testimony}}
+                                    </p>
+                                </div>
+
+                            </div>
+                        </section>
+                    </div>
+                </li>
+            @endforeach
         </ul>
     </article>
 
@@ -28,7 +104,83 @@
 
         <!--CALIFICACIONES-->
         <ul class="collapsible" data-collapsible="accordion">
+            @foreach($supplier as $sup)
+            <li>
+                <div class="collapsible-header">
+                    <!-- RESUMEN OPORTUNIDAD-->
+                    <section class="opportunity-admin">
+                        <!--DATOS DEL POST-->
+                        <div class="item-activity">
+                            <h5>@lang('app.active')</h5>
+                            <h2>{{$sup->vacancy->name}}</h2>
+                            <h3>{{$sup->vacancy->location}}</h3>
+                            <p>@lang('app.published') | {{ $sup->vacancy->created_at->diffForHumans() }}</p>
+                        </div>
 
+                        <!--RESUMEN DEL POST-->
+                        <div class="item">
+                            <!--VISITAS-->
+                            <div class="item-option">
+                                <h4><?php echo $viewed->search(['vacancy_id' => $sup->vacancy->id])->count() ?></h4>
+                                <span>@lang('app.visits')</span>
+                            </div>
+
+                            <!--CANDIDATOS-->
+                            <div class="item-option">
+                                <h4>{{$sup->vacancy->countCandidatesByStatus('Active')}}</h4>
+                                <span>@lang('app.candidates')</span>
+                            </div>
+
+                            <!--POR ACEPTAR-->
+                            <div class="item-option">
+                                <h4>{{$sup->vacancy->countCandidatesByStatus('Unconfirmed')}}</h4>
+                                <span>@lang('app.to_be_accepted')</span>
+                            </div>
+
+                        </div>
+                    </section>
+                </div>
+
+                <div class="collapsible-body">
+                    <!--COMENTARIO 1-->
+                    <section class="comment">
+                        <!--USUARIO-->
+                        <div class="comment-user">
+                            <figure>
+                                <span class="icon-gTalents_rango-1"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span><span class="path5"></span><span class="path6"></span></span>
+                            </figure>
+                            <div class="comment-user-datos">
+                                <h3>{{$sup->recommended_by_user->code}}</h3>
+                                <h4>Newbie</h4>
+                            </div>
+                        </div>
+
+                        <!--CALIFICACIONES Y COMENTARIO-->
+                        <div class="comment-detail">
+                            <!--CALIFICACION-->
+                            <div class="qualification">
+                                <figure>
+                                    <span class="icon-gTalents_stars-3 "></span>
+                                    <span class="icon-gTalents_stars-3 @if($sup->point<2) star-null @endif"></span>
+                                    <span class="icon-gTalents_stars-3 @if($sup->point<3) star-null @endif"></span>
+                                    <span class="icon-gTalents_stars-3 @if($sup->point<4) star-null @endif"></span>
+                                    <span class="icon-gTalents_stars-3 @if($sup->point<5) star-null @endif"></span>
+                                </figure>
+                                <p>{{$sup->created_at->diffForHumans()}}</p>
+                            </div>
+
+                            <!--RESUMEN DE LA CALIFICACION-->
+                            <div class="comment-detail-resum">
+                                <p>
+                                    {{$sup->testimony}}
+                                </p>
+                            </div>
+
+                        </div>
+                    </section>
+                </div>
+            </li>
+            @endforeach
         </ul>
     </article>
 

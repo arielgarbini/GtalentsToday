@@ -25,10 +25,21 @@ class Company extends Model
                             'address_id',
     						'website',
                             'quantity_employees_id',
-    						'is_active'];
+    						'is_active',
+                            'category_id'];
 
     public function users(){
         return $this->belongsToMany(User::class,'companies_users', 'company_id', 'user_id')->withPivot('is_active', 'position', 'created_at', 'updated_at');
+    }
+
+    public function category()
+    {
+        return $this->belongsTo(Category::class, 'category_id');
+    }
+
+    public function points()
+    {
+        return $this->hasOne(Point::class, 'company_id');
     }
 
     public function balance()

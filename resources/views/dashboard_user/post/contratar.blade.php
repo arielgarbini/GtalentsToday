@@ -114,7 +114,8 @@
 	<script>
 		$(document).ready(function(){
             $('.datepicker').pickadate({
-                lang: 'es'
+                lang: 'es',
+                format: 'dd/mm/yyyy',
 			});
         });
 

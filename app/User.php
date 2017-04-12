@@ -177,6 +177,39 @@ class User extends Model implements AuthenticatableContract,
 
     public function notifications()
     {
-        return $this->hasMany(Notification::class);
+        return $this->hasMany(Notification::class)->orderBy('created_at', 'desc');
+    }
+
+    public function vacancy_users()
+    {
+        return $this->hasMany(VacancyUser::class, 'supplier_user_id');
+    }
+
+    public function candidates_offer($vacancy_id)
+    {
+        $applied = Candidate::where('supplier_user_id', $this->id)->whereHas('vacancy', function($query) use($vacancy_id){
+            $query->where('vacancy_id', $vacancy_id);
+        })->count();
+        return $applied;
+    }
+
+    public function candidates_applied()
+    {
+        $applied = Candidate::where('supplier_user_id', $this->id)->whereHas('vacancy', function($query){
+            $query->where('status', '!=', null);
+        })->count();
+        return $applied;
+    }
+
+    public function candidates_accepted()
+    {
+        $applied = $this->candidates_applied();
+        if($applied == 0){
+            return 0;
+        }
+        $accepted = Candidate::where('supplier_user_id', $this->id)->whereHas('vacancy', function($query){
+            $query->where('status', 'Active');
+        })->count();
+        return ($accepted * 100) / $applied;
     }
 }
