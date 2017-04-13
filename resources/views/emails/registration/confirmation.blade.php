@@ -67,7 +67,7 @@
                 <tr>
                     <td style="padding: 28px 0 0 0; text-align: center;">
                         <a href="http://www.globaltalentshift.com/" target="_blank">
-                            <img src="/assets/img/logotipo.png" alt="gTalents logotipo" class="responsive-logo" width="120px">
+                            <img src="{{URL::to('/assets/img/logotipo.png')}}" alt="gTalents logotipo" class="responsive-logo" width="120px">
                         </a>
                     </td>
                 </tr>
