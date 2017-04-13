@@ -31,6 +31,9 @@ class EventServiceProvider extends ServiceProvider
         'Vanguard\Events\NotificationEvent' => [
             'Vanguard\Listeners\NotificationEventsSuscriber',
         ],
+        'Vanguard\Events\RankingEvent' => [
+            'Vanguard\Listeners\RankingEventsSubscriber',
+        ],
         //Registered::class => [UserWasRegisteredListener::class]
     ];
 

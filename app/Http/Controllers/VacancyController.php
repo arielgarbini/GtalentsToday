@@ -15,6 +15,7 @@ use Vanguard\Events\Vacancy\Viewed;
 use Vanguard\Events\Vacancy\Logged;
 use Vanguard\Events\Vacancy\Applied;
 use Vanguard\Events\NotificationEvent;
+use Vanguard\Events\RankingEvent;
 use Vanguard\ExperienceYear;
 use Vanguard\FunctionalArea;
 use Vanguard\VacancyViewed;
@@ -350,7 +351,7 @@ class VacancyController extends Controller
     }
    $vacancy_id= $request->session()->get('id');
    $this->vacancies->update($vacancy_id,$data);
-
+    event(new RankingEvent(['user_id' => Auth::user()->id, 'points' => 25]));
    return view('dashboard_user.post.post_step2' , compact('vacancy_id'), ['vacancies' => $request->session()->get('vacancies')]);
 
     }
@@ -733,7 +734,6 @@ class VacancyController extends Controller
     public function qualifySupplier(Request $request, $id)
     {
         $vacancy = $this->vacancies->find($id);
-
         $data = [
             'recommended_user_id' => $request->supplier,
             'recommended_by_user_id' => Auth::user()->id,
@@ -748,7 +748,8 @@ class VacancyController extends Controller
 
         event(new NotificationEvent(['element_id' => $vacancy->id,
             'user_id'=>$request->supplier, 'type' => 'qualify_supplier_vacancy', 'name'=>$vacancy->name]));
-
+        $rating = ['1' => -10, '2' => 0, '3' => 5, '4' => 10, '5' => 20];
+        event(new RankingEvent(['user_id' => $request->supplier, 'points' => $rating[$request->rating.'']]));
         return redirect()->back()
             ->withSuccess(trans('app.qualify_supplier'));
     }
@@ -800,6 +801,7 @@ class VacancyController extends Controller
             'name'=>$candidate->first_name.' '.$candidate->last_name]));
         $this->vacancy_candidates_status->create(['candidate_id' =>$id,
             'vacancy_id'=>$vacancy->id, 'status'=>GeneralStatus::ACTIVE]);
+        event(new RankingEvent(['user_id' => $candidate->supplier_user_id, 'points' => 5]));
         return redirect()->back()
             ->withSuccess(trans('app.approved_candidate'));
     }
@@ -1063,6 +1065,8 @@ class VacancyController extends Controller
         event(new NotificationEvent(['element_id' => $vacancy_user->id,
             'user_id'=>$candidate->supplier_user_id, 'type' => 'qualify_supplier_vacancy_contract', 'name'=>$vacancy->name]));
 
+        $rating = ['1' => -10, '2' => 0, '3' => 5, '4' => 10, '5' => 20];
+        event(new RankingEvent(['user_id' => $candidate->supplier_user_id, 'points' => $rating[$request->rating.'']]));
         return redirect()->route('vacancies.show', $vacancy->id)
             ->withSuccess(trans('app.has_contract_candidate'));
     }

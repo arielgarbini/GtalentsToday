@@ -260,7 +260,7 @@
 
                         <!-- SECCION DE BUSQUEDA -->
                         <form class="active-two">
-                            <input type="text" placeholder="Nombre del Colaborador">
+                            <input type="text" placeholder="{{trans('app.supplier_name')}}" id="search-supplier">
                             <!--CERRAR SEGMENTO-->
                             <div class="close btn-closeInput">
                                 <span class="icon-gTalents_close"></span>
@@ -269,7 +269,7 @@
                     </section>
                     
                     <!--LISTADO DE EQUIPO-->
-                    <ul class="team">
+                    <ul class="team" id="list-supplier">
 
                         <!-- SUPPLIERS -->
                         @foreach($suppliers as $supplier)
@@ -279,12 +279,12 @@
                                     <section class="supplierContain1">
                                         <!--ICONO RANGO-->
                                         <figure class="supplierContain1-ranking">
-                                            <span class="icon-gTalents_rango-1"><span class="path1"></span><span class="path2"></span></span>
+                                            <span class="icon-gTalents_rango-{{$supplier->supplier->company[0]->category_id}}"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span><span class="path5"></span></span>
                                         </figure>
 
                                         <div class="datos">
                                             <h4>{{$supplier->supplier->code}}</h4>
-                                            <p>Newbie</p>
+                                            <p>{{$supplier->supplier->company[0]->category->name}}</p>
                                         </div>
                                     </section>
 
@@ -329,7 +329,7 @@
 
                         <!-- SECCION DE BUSQUEDA -->
                         <form class="active-two">
-                            <input type="text" placeholder="{{trans('app.name_candidates')}}">
+                            <input type="text" placeholder="{{trans('app.name_candidates')}}" id="search-candidates">
                             <!--CERRAR SEGMENTO-->
                             <div class="close btn-closeInput">
                                 <span class="icon-gTalents_close"></span>
@@ -338,7 +338,7 @@
                     </section>
                     
                     <!--LISTADO DE CANDIDATOS-->
-                    <ul class="team">
+                    <ul class="team" id="list-candidates">
                         <!-- CANDIDATO 1 -->
                         @foreach($candidatesApproved as $candidate)
                             <li>
@@ -393,7 +393,7 @@
 
                         <!-- SECCION DE BUSQUEDA -->
                         <form class="active-two">
-                            <input type="text" placeholder="{{trans('app.name_candidates')}}">
+                            <input type="text" placeholder="{{trans('app.name_candidates')}}" id="search-candidates-unread">
                             <!--CERRAR SEGMENTO-->
                             <div class="close btn-closeInput">
                                 <span class="icon-gTalents_close"></span>
@@ -402,7 +402,7 @@
                     </section>
                     
                     <!--LISTADO DE CANDIDATOS-->
-                    <ul class="team">
+                    <ul class="team" id="list-candidates-unread">
                         <!-- CANDIDATO 1 -->
                         @foreach($candidatesUnRead as $candidate)
                         <li>
@@ -448,6 +448,7 @@
                                             </li>
                                         </form>
                                     </ul>
+                                    <?php $modal = $candidate['id']; ?>
                                     @include('dashboard_user.post.partials.modalnote')
                                 </div>
                             </section>
@@ -477,12 +478,12 @@
                             <section class="supplierContain1">
 
                                 <figure class="supplierContain1-ranking">
-                                    <span class="icon-gTalents_rango-1"><span class="path1"></span><span class="path2"></span></span>
+                                    <span class="icon-gTalents_rango-{{$supplier->company[0]->category_id}}"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span><span class="path5"></span></span>
                                 </figure>
 
                                 <div class="datos">
                                     <h4>{{$supplier->code}}</h4>
-                                    <p>Newbie</p>
+                                    <p>{{$supplier->company[0]->category->name}}</p>
                                 </div>
                             </section>
 
@@ -614,14 +615,14 @@
 
                     <!--BUSQUEDA-->
                     <div class="itemForm">
-                        <input type="text" placeholder="{{trans('app.what_search')}}" class="input-search">
+                        <input type="text" placeholder="{{trans('app.what_search')}}" class="input-search" id="search-can">
                     </div>
                     
                 </form>
             </article>
 
             <!--LISTADO DE CANDIDATOS-->
-            <ul class="supplier-container supplier-list">
+            <ul class="supplier-container supplier-list" id="list-can">
                 <!-- CANDIDATO 1 -->
                 @foreach($candidatesUnRead as $candidate)
                     <li>
@@ -640,18 +641,17 @@
                             <!--OPCIONES-->
                             <div class="options">
                                 <!-- Dropdown Trigger -->
-                                <a class='dropdown-button' href='#' data-activates='option-noleido{{$candidate['id']}}'>
+                                <a class='dropdown-button' href='#' data-activates='option-nole{{$candidate['id']}}'>
                                     <span class="icon-gTalents_submenu"></span>
                                 </a>
 
                                 <!-- Dropdown Structure -->
-                                <ul id='option-noleido{{$candidate['id']}}' class='dropdown-content'>
+                                <ul id='option-nole{{$candidate['id']}}' class='dropdown-content'>
                                     @if($candidate['file']!='')
                                         <li class="read_candidate" value="{{$candidate['id']}}"><a href="/upload/docs/{{$candidate['file']}}" class="cv_candidate" target="_blank">@lang('app.view_cv')</a></li>
                                     @else
                                         <li><a href="#">@lang('app.view_cv')</a></li>
                                     @endif
-                                    <li><a href="#modalNota{{$candidate['id']}}" class="modal-trigger waves-effect waves-light">@lang('app.view_note')</a></li>
                                     <form method="POST" action="{{route('vacancies.approbate.candidate',$candidate['id'])}}">
                                         {{csrf_field()}}
                                         <li class="send_form">
@@ -667,6 +667,7 @@
                                         </li>
                                     </form>
                                 </ul>
+                                <?php $modal = $candidate['id'].'external'; ?>
                                 @include('dashboard_user.post.partials.modalnote')
                             </div>
                         </section>
@@ -768,6 +769,70 @@
 @section('scripts')
    <script>
        $(document).ready(function(){
+           $('#search-supplier').keyup(function(){
+              if($(this).val().length>=2){
+                  $('#list-supplier > li').show();
+                  value = $(this).val().toLowerCase();
+                  $('#list-supplier > li').each(function() {
+                      var title = $(this).find('.datos h4').html().toLowerCase();
+                      var subtitle = $(this).find('.datos p').html().toLowerCase();
+                      if(title.indexOf(value)==-1 && subtitle.indexOf(value)==-1){
+                          $(this).hide();
+                      }
+                  });
+              } else {
+                  $('#list-supplier > li').show();
+              }
+           });
+
+           $('#search-candidates').keyup(function(){
+               if($(this).val().length>=2){
+                   $('#list-candidates > li').show();
+                   value = $(this).val().toLowerCase();
+                   $('#list-candidates > li').each(function() {
+                       var title = $(this).find('.datos h3').html().toLowerCase();
+                       var subtitle = $(this).find('.datos p').html().toLowerCase();
+                       if(title.indexOf(value)==-1 && subtitle.indexOf(value)==-1){
+                           $(this).hide();
+                       }
+                   });
+               } else {
+                   $('#list-candidates > li').show();
+               }
+           });
+
+           $('#search-candidates-unread').keyup(function(){
+               if($(this).val().length>=2){
+                   $('#list-candidates-unread > li').show();
+                   value = $(this).val().toLowerCase();
+                   $('#list-candidates-unread > li').each(function() {
+                       var title = $(this).find('.datos h3').html().toLowerCase();
+                       var subtitle = $(this).find('.datos p').html().toLowerCase();
+                       if(title.indexOf(value)==-1 && subtitle.indexOf(value)==-1){
+                           $(this).hide();
+                       }
+                   });
+               } else {
+                   $('#list-candidates-unread > li').show();
+               }
+           });
+
+           $('#search-can').keyup(function(){
+               if($(this).val().length>=2){
+                   $('#list-can > li').show();
+                   value = $(this).val().toLowerCase();
+                   $('#list-can > li').each(function() {
+                       var title = $(this).find('.datos h3').html().toLowerCase();
+                       var subtitle = $(this).find('.datos p').html().toLowerCase();
+                       if(title.indexOf(value)==-1 && subtitle.indexOf(value)==-1){
+                           $(this).hide();
+                       }
+                   });
+               } else {
+                   $('#list-can > li').show();
+               }
+           });
+
            $("#formCreate").validate({
                rules: {
                    name: {

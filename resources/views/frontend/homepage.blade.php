@@ -274,8 +274,8 @@
 					<select class="browser-default">
 						<option value="" disabled selected>{{ trans('home.Select a country')}} </option>
 						@foreach($countries as $country)
-							@if($country['full_name']!='')
-							<option value="<?= $country['id'] ?>"><?= $country['full_name'] ?></option>
+							@if($country['name']!='')
+							<option value="<?= $country['id'] ?>"><?= $country['name'] ?></option>
 							@endif
 						@endforeach
 					</select>
@@ -949,18 +949,22 @@
 @section('scripts')
   	<script>
 	    $(document).ready(function() {
-				  $('a[href*="#"]:not([href="#"])').click(function() {
-				    if (location.pathname.replace(/^\//,'') == this.pathname.replace(/^\//,'') && location.hostname == this.hostname) {
-				      var target = $(this.hash);
-				      target = target.length ? target : $('[name=' + this.hash.slice(1) +']');
-				      if (target.length) {
-				        $('html, body').animate({
-				          scrollTop: target.offset().top
-				        }, 1000);
-				        return false;
-				      }
-				    }
-				  });
-				});
+            $('body').scroll(function() {
+               console.log('ad');
+            });
+
+		  $('a[href*="#"]:not([href="#"])').click(function() {
+			if (location.pathname.replace(/^\//,'') == this.pathname.replace(/^\//,'') && location.hostname == this.hostname) {
+			  var target = $(this.hash);
+			  target = target.length ? target : $('[name=' + this.hash.slice(1) +']');
+			  if (target.length) {
+				$('html, body').animate({
+				  scrollTop: target.offset().top
+				}, 1000);
+				return false;
+			  }
+			}
+		  });
+		});
 	</script>
 @stop	

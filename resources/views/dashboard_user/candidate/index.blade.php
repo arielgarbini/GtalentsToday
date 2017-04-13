@@ -84,23 +84,17 @@
                 <!--RANGO-->
                 <section class="ranking">
                     <figure class="ranking-active">
-                        <span class="icon-gTalents_rango-1"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span><span class="path5"></span></span>
+                        <span class="icon-gTalents_rango-{{Auth::user()->company[0]->category_id}}"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span><span class="path5"></span></span>
                     </figure>
 
-                    <!--RANGO B -->
-                    <figure>
-                        <span class="icon-gTalents_rango-2"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span><span class="path5"></span><span class="path6"></span><span class="path7"></span></span>
-                    </figure>
-
-                    <!--RANGO C -->
-                    <figure>
-                        <span class="icon-gTalents_rango-3"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span><span class="path5"></span><span class="path6"></span></span>
-                    </figure>
-
-                    <!--RANGO A-->
-                    <figure>
-                        <span class="icon-gTalents_rango-4"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span><span class="path5"></span></span>
-                    </figure>
+                @for($i=1; $i<=3; $i++)
+                    @if(Auth::user()->company[0]->category_id+$i <= 8)
+                        <!--RANGO B -->
+                            <figure>
+                                <span class="icon-gTalents_rango-{{Auth::user()->company[0]->category_id+$i}}"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span><span class="path5"></span><span class="path6"></span><span class="path7"></span></span>
+                            </figure>
+                        @endif
+                    @endfor
                 </section>
 
                 <!--RESUMEN-->

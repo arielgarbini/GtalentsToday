@@ -17,13 +17,14 @@
         <div class="profile-colab profile-supplier">
             <section class="supplierContain1">
                 <!--ICONO RANGO-->
+
                 <figure class="supplierContain1-ranking">
-                    <span class="icon-gTalents_rango-1"><span class="path1"></span><span class="path2"></span></span>
+                    <span class="icon-gTalents_rango-{{$supplier->company[0]->category_id}}"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span><span class="path5"></span></span>
                 </figure>
 
                 <div class="datos">
                     <h4>{{$supplier->code}}</h4>
-                    <p>Newbie</p>
+                    <p>{{$supplier->company[0]->category->name}}</p>
                 </div>
             </section>
 

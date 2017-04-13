@@ -10,6 +10,7 @@ use Vanguard\Invoice;
 use Vanguard\Testimonial;
 use Vanguard\Events\NotificationEvent;
 use Vanguard\Notification;
+use Vanguard\Events\RankingEvent;
 
 class SupplierController extends Controller
 {
@@ -50,7 +51,8 @@ class SupplierController extends Controller
 
         event(new NotificationEvent(['element_id' => $vacancy_user->id,
             'user_id'=>$vacancy_user->vacacy->poster_user_id, 'type' => 'qualify_supplier_vacancy', 'name'=>$vacancy_user->vacacy->name]));
-
+        $rating = ['1' => -10, '2' => 0, '3' => 5, '4' => 10, '5' => 20];
+        event(new RankingEvent(['user_id' => $vacancy_user->vacacy->poster_user_id, 'points' => $rating[$request->rating.'']]));
         return redirect()->route('dashboard')
             ->withSuccess(trans('app.rating_submitted'));
     }

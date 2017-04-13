@@ -37,7 +37,12 @@
 			   
 			   //INICIALIZAR MODALES
 			   $('.modal-trigger').leanModal();
-			   $('.modal').modal();
+                try {
+                    $('.modal').modal();
+                }
+                catch(err) {
+					console.log('che');
+                }
 
 			   //MENU HAMBURGUESA
 			    $("#btn-menuHamburguer").click(function(){

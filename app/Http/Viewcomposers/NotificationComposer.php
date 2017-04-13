@@ -21,6 +21,9 @@ class NotificationComposer
                 if(isset($title[1])){
                     $data[$i]['title_traduccion'].= ' '.$title[1];
                 }
+                if(isset($message[2])){
+                    $data[$i]['message_traduccion'] .= ' '.trans('app.'.$message[2]);
+                }
                 if($notification->type=='request_supplier_vacancy'){
                     $vacancyUser = VacancyUser::find($notification->element_id);
                     $data[$i]['post_id'] = $vacancyUser->vacancy_id;

@@ -297,7 +297,7 @@
                 </ul>
                 <section class="view-more">
                     <a href="{{route('vacancies.list')}}">
-                        <p>ver más</p>
+                        <p>@lang('app.see_more')</p>
                     </a>
                 </section>
             </div>
@@ -498,6 +498,26 @@
                                         <span class="icon-gTalents_close close-alert send_form"></span>
                                     </form>
                                 </li>
+                                @elseif($notification->type=='get_points' || $notification->type=='promotion_received')
+                                    <li class="alert-participar">
+                                        <div class="motivo">
+                                            <a href="{{route('dashboard')}}">
+                                                <figure>
+                                                    <span class="icon-gTalents_point"></span>
+                                                </figure>
+                                                <div class="datos">
+                                                    <h4>{{$notification->title_traduccion}}</h4>
+                                                    <p>{{$notification->message_traduccion}}</p>
+                                                </div>
+                                            </a>
+                                        </div>
+
+                                        <!--BTN ELIMINAR -->
+                                        <form action="{{route('notifications.delete',$notification->id)}}" method="POST">
+                                            {{csrf_field()}}
+                                            <span class="icon-gTalents_close close-alert send_form"></span>
+                                        </form>
+                                    </li>
                                 @endif
                         @endforeach
                     @else
@@ -532,7 +552,7 @@
 
                         <!-- SECCION DE BUSQUEDA -->
                         <form class="active-two">
-                            <input type="text" placeholder="{{trans('app.collaborator_name')}}">
+                            <input type="text" placeholder="{{trans('app.collaborator_name')}}" id="search-supplier">
                             <!--CERRAR SEGMENTO-->
                             <div class="close btn-closeInput">
                                 <span class="icon-gTalents_close"></span>
@@ -541,7 +561,7 @@
                     </section>
                     
                     <!--LISTADO DE EQUIPO-->
-                    <ul class="team">
+                    <ul class="team" id="list-supplier">
                         <!-- COLABORADOR 1 -->
                         @foreach($team as $te)
                             <li>
@@ -612,7 +632,7 @@
 
                         <!-- SECCION DE BUSQUEDA -->
                         <form class="active-two">
-                            <input type="text" placeholder="{{trans('app.candidate_name')}}">
+                            <input type="text" placeholder="{{trans('app.candidate_name')}}" id="search-candidates">
                             <!--CERRAR SEGMENTO-->
                             <div class="close btn-closeInput">
                                 <span class="icon-gTalents_close"></span>
@@ -621,7 +641,7 @@
                     </section>
                     
                     <!--LISTADO DE CANDIDATOS-->
-                    <ul class="team">
+                    <ul class="team" id="list-candidates">
                         <!-- CANDIDATO 1 -->
                         @foreach($candidates as $candidate)
                         <li>
@@ -682,24 +702,17 @@
                 <!--RANGO-->
                 <section class="ranking">
                     <figure class="ranking-active">
-                        <span class="icon-gTalents_rango-1"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span><span class="path5"></span></span>
+                        <span class="icon-gTalents_rango-{{Auth::user()->company[0]->category_id}}"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span><span class="path5"></span></span>
                     </figure>
 
-                    <!--RANGO B -->
-                    <figure>
-                        <span class="icon-gTalents_rango-2"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span><span class="path5"></span><span class="path6"></span><span class="path7"></span></span>
-                    </figure>
-
-                    <!--RANGO C -->
-                    <figure>
-                        <span class="icon-gTalents_rango-3"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span><span class="path5"></span><span class="path6"></span></span>
-                    </figure>
-
-                    <!--RANGO A-->
-                    <figure>
-                        <span class="icon-gTalents_rango-4"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span><span class="path5"></span></span>
-                    </figure>
-
+                    @for($i=1; $i<=3; $i++)
+                        @if(Auth::user()->company[0]->category_id+$i <= 8)
+                        <!--RANGO B -->
+                            <figure>
+                                <span class="icon-gTalents_rango-{{Auth::user()->company[0]->category_id+$i}}"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span><span class="path5"></span><span class="path6"></span><span class="path7"></span></span>
+                            </figure>
+                        @endif
+                    @endfor
                 </section>
 
                 <!--RESUMEN-->
@@ -755,7 +768,7 @@
 
                         <!-- SECCION DE BUSQUEDA -->
                         <form class="active-two">
-                            <input type="text" placeholder="{{trans('app.collaborator_name')}}">
+                            <input type="text" placeholder="{{trans('app.collaborator_name')}}" id="search-supplier-m">
                             <!--CERRAR SEGMENTO-->
                             <div class="close" id="btn-closeInput2">
                                 <span class="icon-gTalents_close"></span>
@@ -764,7 +777,7 @@
                     </section>
                     
                     <!--LISTADO DE EQUIPO-->
-                    <ul class="team">
+                    <ul class="team" id="list-supplier-m">
                         <!-- COLABORADOR 1 -->
                         @foreach($team as $te)
                         <li>
@@ -836,7 +849,7 @@
 
                         <!-- SECCION DE BUSQUEDA -->
                         <form class="active-two">
-                            <input type="text" placeholder="{{trans('app.candidate_name')}}">
+                            <input type="text" placeholder="{{trans('app.candidate_name')}}" id="search-candidates-m">
                             <!--CERRAR SEGMENTO-->
                             <div class="close btn-closeInput">
                                 <span class="icon-gTalents_close"></span>
@@ -845,7 +858,7 @@
                     </section>
 
                     <!--LISTADO DE CANDIDATOS-->
-                    <ul class="team">
+                    <ul class="team" id="list-candidates-m">
                         <!-- CANDIDATO 1 -->
                         @foreach($candidates as $candidate)
                             <li>
@@ -919,6 +932,72 @@
     {!! HTML::script('assets/js/as/dashboard-default.js') !!}-->
 
     <script>
+        $(document).ready(function(){
+            $('#search-supplier').keyup(function(){
+                if($(this).val().length>=2){
+                    $('#list-supplier > li').show();
+                    value = $(this).val().toLowerCase();
+                    $('#list-supplier > li').each(function() {
+                        var title = $(this).find('.datos h4').html().toLowerCase();
+                        var subtitle = $(this).find('.datos p').html().toLowerCase();
+                        if(title.indexOf(value)==-1 && subtitle.indexOf(value)==-1){
+                            $(this).hide();
+                        }
+                    });
+                } else {
+                    $('#list-supplier > li').show();
+                }
+            });
+
+            $('#search-candidates').keyup(function(){
+                if($(this).val().length>=2){
+                    $('#list-candidates > li').show();
+                    value = $(this).val().toLowerCase();
+                    $('#list-candidates > li').each(function() {
+                        var title = $(this).find('.datos h3').html().toLowerCase();
+                        var subtitle = $(this).find('.datos p').html().toLowerCase();
+                        if(title.indexOf(value)==-1 && subtitle.indexOf(value)==-1){
+                            $(this).hide();
+                        }
+                    });
+                } else {
+                    $('#list-candidates > li').show();
+                }
+            });
+
+            $('#search-supplier-m').keyup(function(){
+                if($(this).val().length>=2){
+                    $('#list-supplier-m > li').show();
+                    value = $(this).val().toLowerCase();
+                    $('#list-supplier-m > li').each(function() {
+                        var title = $(this).find('.datos h3').html().toLowerCase();
+                        var subtitle = $(this).find('.datos p').html().toLowerCase();
+                        if(title.indexOf(value)==-1 && subtitle.indexOf(value)==-1){
+                            $(this).hide();
+                        }
+                    });
+                } else {
+                    $('#list-supplier-m > li').show();
+                }
+            });
+
+            $('#search-candidates-m').keyup(function(){
+                if($(this).val().length>=2){
+                    $('#list-candidates-m > li').show();
+                    value = $(this).val().toLowerCase();
+                    $('#list-candidates-m > li').each(function() {
+                        var title = $(this).find('.datos h3').html().toLowerCase();
+                        var subtitle = $(this).find('.datos p').html().toLowerCase();
+                        if(title.indexOf(value)==-1 && subtitle.indexOf(value)==-1){
+                            $(this).hide();
+                        }
+                    });
+                } else {
+                    $('#list-candidates-m > li').show();
+                }
+            });
+        });
+
         $("#formCreateCollaborator").validate({
             rules: {
                 first_name: {

@@ -243,6 +243,26 @@
 										<span class="icon-gTalents_close close-alert send_form"></span>
 									</form>
 								</li>
+							@elseif($notification->type=='get_points' || $notification->type=='promotion_received')
+								<li class="alert-participar">
+									<div class="motivo">
+										<a href="{{route('dashboard')}}">
+											<figure>
+												<span class="icon-gTalents_point"></span>
+											</figure>
+											<div class="datos">
+												<h4>{{$notification->title_traduccion}}</h4>
+												<p>{{$notification->message_traduccion}}</p>
+											</div>
+										</a>
+									</div>
+
+									<!--BTN ELIMINAR -->
+									<form action="{{route('notifications.delete',$notification->id)}}" method="POST">
+										{{csrf_field()}}
+										<span class="icon-gTalents_close close-alert send_form"></span>
+									</form>
+								</li>
 							@endif
                         @endforeach
                     </ul>

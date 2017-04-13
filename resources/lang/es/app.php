@@ -190,6 +190,7 @@ return [
     'collaborator_updated'     => 'Colaborador actualizado satisfactoriamente.',
     'collaborator_deleted'     => 'Colaborador borrado satisfactoriamente.',
     'collaborator_name'        => 'Nombre del Colaborador',
+    'supplier_name'            => 'Nombre del Supplier',
 
     //Oportunities
     'filter_your_search'            => 'Filtra tu búsqueda',
@@ -1033,6 +1034,8 @@ return [
     'title_message_received'            => '¡Mensaje recibido!',
     'title_qualify_supplier_vacancy' => '¡Calificación recibida!',
     'title_qualify_supplier_vacancy_contract' => '¡Candidato contratado!',
+    'title_get_points'          => '¡Has obtenido puntos!',
+    'title_promotion_received'  => '¡Has sido promovido!',
 
     'request_supplier_vacancy'  => 'Quiere participar en',
     'invited_supplier_vacancy' => 'Has sido invitado a',
@@ -1045,5 +1048,7 @@ return [
     'approved_supplier_invited_vacancy' => 'Ha aceptado la invitación a',
     'rejected_supplier_invited_vacancy' => 'Ha rechazado la invitación a',
     'qualify_supplier_vacancy'      => 'Has sido calificado',
-    'qualify_supplier_vacancy_contract' => 'Un candidato ha sido contratado en el post'
+    'qualify_supplier_vacancy_contract' => 'Un candidato ha sido contratado en el post',
+    'get_points'                    => 'Has recibido',
+    'promotion_received'  => 'Has recibido una promoción a',
 ];

@@ -247,7 +247,7 @@
 
                         <!-- SECCION DE BUSQUEDA -->
                         <form class="active-two">
-                            <input type="text" placeholder="Nombre del Colaborador">
+                            <input type="text" placeholder="{{trans('app.name_candidates')}}" id="search-candi">
                             <!--CERRAR SEGMENTO-->
                             <div class="close btn-closeInput">
                                 <span class="icon-gTalents_close"></span>
@@ -257,7 +257,7 @@
                     
                     <!--LISTADO DE EQUIPO-->
                     <form action="" class="formLogin select-colab">
-                        <ul class="team">
+                        <ul class="team" id="list-candi">
                             <!-- SUPPLIER 1 -->
                             @foreach($userCandidatesAvailable as $candidate)
                                 <li>
@@ -326,7 +326,7 @@
 
                         <!-- SECCION DE BUSQUEDA -->
                         <form class="active-two">
-                            <input type="text" placeholder="{{trans('app.name_candidates')}}">
+                            <input type="text" placeholder="{{trans('app.name_candidates')}}" id="search-candidates">
                             <!--CERRAR SEGMENTO-->
                             <div class="close btn-closeInput">
                                 <span class="icon-gTalents_close"></span>
@@ -335,7 +335,7 @@
                     </section>
                     
                     <!--LISTADO DE CANDIDATOS-->
-                    <ul class="team">
+                    <ul class="team" id="list-candidates">
                         <!-- CANDIDATO 1 -->
                         @foreach($userCandidatesProgress as $candidate)
                         <li>
@@ -346,7 +346,7 @@
                                         <span class="icon-gTalents_team-48"></span>
                                     </figure>
                                     <div class="datos">
-                                        <h3>{{$candidate['first_name']}} {{$candidate['last_name']}}</h3>
+                                        <h3>{{substr($candidate['first_name'].' '.$candidate['last_name'], 0, 20)}}</h3>
                                         <p>{{substr($candidate['actual_position'], 0, 20)}}</p>
                                     </div>
                                 </div>
@@ -391,7 +391,7 @@
 
                         <!-- SECCION DE BUSQUEDA -->
                         <form class="active-two">
-                            <input type="text" placeholder="{{trans('app.name_candidates')}}">
+                            <input type="text" placeholder="{{trans('app.name_candidates')}}" id="search-candidates-unread">
                             <!--CERRAR SEGMENTO-->
                             <div class="close btn-closeInput">
                                 <span class="icon-gTalents_close"></span>
@@ -400,7 +400,7 @@
                     </section>
                     
                     <!--LISTADO DE CANDIDATOS-->
-                    <ul class="team">
+                    <ul class="team" id="list-candidates-unread">
                         <!-- CANDIDATO 1 -->
                         @foreach($userCandidatesRejected as $candidate)
                         <li>
@@ -411,7 +411,7 @@
                                         <span class="icon-gTalents_team-48"></span>
                                     </figure>
                                     <div class="datos">
-                                        <h3>{{$candidate['first_name']}} {{$candidate['last_name']}}</h3>
+                                        <h3>{{substr($candidate['first_name'].' '.$candidate['last_name'], 0, 20)}}</h3>
                                         <p>{{substr($candidate['actual_position'], 0, 20)}}</p>
                                     </div>
                                 </div>
@@ -583,53 +583,101 @@
 
 @section('scripts')
    <script>
-   $("#formCreate").validate({
-       rules: {
-           first_name: {
-               required: true,
-               minlength: 3
-           },
-           last_name: {
-               required: true,
-               minlength: 3
-           },
-           email: {
-               required: true,
-               email: true
-           },
-           telf: {
-               required: true,
-           },
-       },
-       messages: {
-           first_name: {
-               required: "{{trans('app.candidate_validate.first_name_required')}}",
-               minlength: "{{trans('app.candidate_validate.first_name_length')}}"
-           },
-           last_name: {
-               required: "{{trans('app.candidate_validate.last_name_required')}}",
-               minlength: "{{trans('app.candidate_validate.last_name_length')}}"
-           },
-           email: {
-               required: "{{trans('app.candidate_validate.email_required')}}",
-               email: "{{trans('app.candidate_validate.email_valid')}}"
-           },
-           telf: {
-               required: "{{trans('app.candidate_validate.telf_required')}}",
-           },
-       },
-       errorElement : 'div',
-       errorPlacement: function(error, element) {
-           var placement = $(element).data('error');
-           if (placement) {
-               $(placement).append(error)
-           } else {
-               error.insertAfter(element);
-           }
-       }
-   });
-
    $(document).ready(function(){
+
+       $('#search-candi').keyup(function(){
+           if($(this).val().length>=2){
+               $('#list-candi > li').show();
+               value = $(this).val().toLowerCase();
+               $('#list-candi > li').each(function() {
+                   var title = $(this).find('.datos h3').html().toLowerCase();
+                   var subtitle = $(this).find('.datos p').html().toLowerCase();
+                   if(title.indexOf(value)==-1 && subtitle.indexOf(value)==-1){
+                       $(this).hide();
+                   }
+               });
+           } else {
+               $('#list-candi > li').show();
+           }
+       });
+
+       $('#search-candidates').keyup(function(){
+           if($(this).val().length>=2){
+               $('#list-candidates > li').show();
+               value = $(this).val().toLowerCase();
+               $('#list-candidates > li').each(function() {
+                   var title = $(this).find('.datos h3').html().toLowerCase();
+                   var subtitle = $(this).find('.datos p').html().toLowerCase();
+                   if(title.indexOf(value)==-1 && subtitle.indexOf(value)==-1){
+                       $(this).hide();
+                   }
+               });
+           } else {
+               $('#list-candidates > li').show();
+           }
+       });
+
+       $('#search-candidates-unread').keyup(function(){
+           if($(this).val().length>=2){
+               $('#list-candidates-unread > li').show();
+               value = $(this).val().toLowerCase();
+               $('#list-candidates-unread > li').each(function() {
+                   var title = $(this).find('.datos h3').html().toLowerCase();
+                   var subtitle = $(this).find('.datos p').html().toLowerCase();
+                   if(title.indexOf(value)==-1 && subtitle.indexOf(value)==-1){
+                       $(this).hide();
+                   }
+               });
+           } else {
+               $('#list-candidates-unread > li').show();
+           }
+       });
+
+       $("#formCreate").validate({
+           rules: {
+               first_name: {
+                   required: true,
+                   minlength: 3
+               },
+               last_name: {
+                   required: true,
+                   minlength: 3
+               },
+               email: {
+                   required: true,
+                   email: true
+               },
+               telf: {
+                   required: true,
+               },
+           },
+           messages: {
+               first_name: {
+                   required: "{{trans('app.candidate_validate.first_name_required')}}",
+                   minlength: "{{trans('app.candidate_validate.first_name_length')}}"
+               },
+               last_name: {
+                   required: "{{trans('app.candidate_validate.last_name_required')}}",
+                   minlength: "{{trans('app.candidate_validate.last_name_length')}}"
+               },
+               email: {
+                   required: "{{trans('app.candidate_validate.email_required')}}",
+                   email: "{{trans('app.candidate_validate.email_valid')}}"
+               },
+               telf: {
+                   required: "{{trans('app.candidate_validate.telf_required')}}",
+               },
+           },
+           errorElement : 'div',
+           errorPlacement: function(error, element) {
+               var placement = $(element).data('error');
+               if (placement) {
+                   $(placement).append(error)
+               } else {
+                   error.insertAfter(element);
+               }
+           }
+       });
 
        $('.open-modal-history').click(function(){
            var candidates = [];

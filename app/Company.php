@@ -28,6 +28,11 @@ class Company extends Model
     						'is_active',
                             'category_id'];
 
+    public function company_users()
+    {
+        return $this->hasMany(CompanyUser::class);
+    }
+
     public function users(){
         return $this->belongsToMany(User::class,'companies_users', 'company_id', 'user_id')->withPivot('is_active', 'position', 'created_at', 'updated_at');
     }
@@ -39,7 +44,7 @@ class Company extends Model
 
     public function points()
     {
-        return $this->hasOne(Point::class, 'company_id');
+        return $this->hasMany(Point::class, 'company_id');
     }
 
     public function balance()

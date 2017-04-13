@@ -1,5 +1,5 @@
 <!--MODAL VER NOTAS DE CANDIDATOS-->
-<div id="modalNota{{$candidate['id']}}" class="modal modal-userRegistered">
+<div id="modalNota{{$modal}}" class="modal modal-userRegistered">
 
     <div class="modal-header">
         <!--CERRAR MODAL-->
