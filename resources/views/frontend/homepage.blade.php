@@ -17,7 +17,7 @@
 		<!-- MENSAJE PRINCIPAL-->
 		<section class="message">
 			<h3>{{ trans('home.How to connect Executive Recruiters around the world') }}
-			<p style="font-size: medium;">{{ trans('home.Present candidates, post positions confidentially.') }}
+			<p style="font-size: medium;">{{ trans('home.Present candidates, post positions confidentially.') }}<br>
 			{{ trans('home.gTalents, the platform that connects Executive Recruiters around the globe.') }}</p></h3><br>
 			<div class="message-link">
 				<a href="{{URL('loginuser')}}" class="btn-main2">{{ trans('home.Start') }}</a>
