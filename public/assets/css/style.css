@@ -1055,7 +1055,7 @@ textarea:focus {
 .header-index header {
   position: relative;
   z-index: 3;
-  background: #fff;
+  background: rgba(255, 255, 255, 0.43);
   -webkit-transition: all 0.2s ease-in-out;
   -moz-transition: all 0.2s ease-in-out;
   -o-transition: all 0.2s ease-in-out;
@@ -1067,7 +1067,7 @@ textarea:focus {
   border: 1px solid #3a6097;
 }
 .sticky {
-  background: rgba(246, 246, 246, 0.72) !important;
+  background: #fff !important;
   border-bottom: 1px solid #f6f6f6 !important;
   position: fixed !important;
   left: 0;

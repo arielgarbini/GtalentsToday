@@ -237,7 +237,7 @@
 
 		<!-- CTA CONTACTO-->
 		<div class="link-contact">
-			<a href="#!" class="btn-main2" id="btn-contact">{{ trans('home.Contact us')}}!  </a>
+			<a href="#!" class="btn-main2" id="btn-contact">{{ trans('home.Contact us')}}!</a>
 		</div>		
 	</article>
 

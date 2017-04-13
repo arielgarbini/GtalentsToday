@@ -31,12 +31,12 @@
 						<span class="icon-gTalents_twitter"></span>
 					</a>
 				</li>
-				<!--INSTAGRAM-->
+				<!--INSTAGRAM
 				<li>
 					<a href="#!" target="_blank">
 						<span class="icon-gTalents_instagram"></span>
 					</a>
-				</li>
+				</li> -->
 			</ul>
 		</section>
 
