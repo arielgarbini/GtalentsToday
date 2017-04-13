@@ -227,7 +227,7 @@
 	<article class="generic grid contact-index bloque" id="contacto">
 		<!--TITULO DE LA SECCION-->
 		<section class="generic-title">
-			<h2> {{ trans('home.Contact us')}}!</h2>
+			<h2> </h2>
 		</section>
 
 		<!--TEXTO DE LA SECCION
@@ -237,7 +237,7 @@
 
 		<!-- CTA CONTACTO-->
 		<div class="link-contact">
-			<a href="#!" class="btn-main2" id="btn-contact">{{ trans('home.I have a doubt')}}  </a>
+			<a href="#!" class="btn-main2" id="btn-contact">{{ trans('home.Contact us')}}!  </a>
 		</div>		
 	</article>
 
