@@ -90,7 +90,7 @@ return [
     'recruitment_dashboard' => 'Contratación',
 
     //Language 
-    'english' => 'Ingles',
+    'english' => 'English',
     'spanish' => 'Español',
 
     //Categories
@@ -116,6 +116,7 @@ return [
     'poster_percent'               => 'Porcentaje Poster',
     'supplier_percent'             => 'Porcentaje Supplier',
     'gtalents_percent'             => 'Porcentaje gTalents',
+    
 
     //Candidates
     'candidates'                    => 'Candidatos',
