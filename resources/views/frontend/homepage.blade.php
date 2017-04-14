@@ -948,15 +948,31 @@
 
 @section('scripts')
   	<script>
-	    $(document).ready(
-	    	function() { 	    		
-				//ANIMACION ENTRE ANCLAS
-				$(function() {
-					//CERRAR MODAL AL PRESIONAR OPCIONES
-					$('.header-container nav ul li.item a').click(function(){
-						 jQuery('.icon-gTalents_close-simple.hamburguer-2').click()
-						})
+  		//NIMACION ENTRE ANCLAS < 1298
+  		function menu_resize() {
+		    var ancho_patron = $(window).width();
+		    if(ancho_patron>1297) {
+		        $('.header-container nav ul').removeAttr('style')
+		    } 
+		    else {
+			    //CERRAR MODAL AL PRESIONAR OPCIONES
+			    $('.header-container nav ul li.item a').click(function(){
+			        $('.icon-gTalents_close-simple.hamburguer-2').click()
+			    })
+		   }
+		}
 
+		$(window).resize(function(){
+		    menu_resize();
+		})
+
+  		//ANIMACION ENTRE ANCLAS > 1298
+	    $(document).ready(
+	    	function() { 
+	    		menu_resize();
+
+				//ANIMACION ENTRE ANCLAS
+				$(function(){
 					//DESPLAZAMIENTO
 				  $('a[href*="#"]:not([href="#"])').click(function() {
 				    if (location.pathname.replace(/^\//,'') == this.pathname.replace(/^\//,'') && location.hostname == this.hostname) {
