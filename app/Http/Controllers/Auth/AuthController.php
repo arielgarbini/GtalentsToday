@@ -8,6 +8,7 @@ use Vanguard\Events\User\Registered;
 use Vanguard\Http\Requests\Auth\LoginRequest;
 use Vanguard\Http\Requests\Auth\RegisterRequest;
 use Vanguard\Http\Requests\User\ConfirmRegisterRequest;
+use Vanguard\Mailers\CollaboratorMailer;
 use Vanguard\Mailers\UserMailer;
 use Vanguard\Repositories\Address\AddressRepository;
 use Vanguard\Repositories\Country\CountryRepository;
@@ -22,6 +23,8 @@ use Vanguard\Repositories\EducationLevel\EducationLevelRepository;
 use Vanguard\Repositories\SecurityQuestion\SecurityQuestionRepository;
 use Vanguard\Repositories\SourcingNetwork\SourcingNetworkRepository;
 use Vanguard\Repositories\Contact\ContactRepository;
+use Vanguard\Repositories\FunctionalArea\FunctionalAreaRepository;
+use Vanguard\Repositories\Industry\IndustryRepository;
 use Vanguard\Services\Auth\TwoFactor\Contracts\Authenticatable;
 use Vanguard\Support\Enum\UserStatus;
 use Vanguard\Company;
@@ -40,6 +43,7 @@ use Vanguard\Http\Controllers\Controller;
 use Lang;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Validator;
+use Vanguard\User;
 
 class AuthController extends Controller
 {
@@ -198,13 +202,17 @@ class AuthController extends Controller
                 ->withErrors(trans('app.please_confirm_your_email_first'));
         }
 
+        if ($user->isUnverified()) {
+            return redirect()->back()
+                ->withErrors(trans('app.your_account_has_not_yet_been_verified'));
+        }
+
         if ($user->isBanned()) {
             return redirect()->back()
                 ->withErrors(trans('app.your_account_is_banned'));
         }
-
         Auth::login($user, settings('remember_me') && $request->get('remember'));
-
+        session(['lang' => \App::getLocale()]);
         return $this->handleUserWasAuthenticated($request, $throttles, $user);
     }
 
@@ -475,10 +483,12 @@ class AuthController extends Controller
             ? UserStatus::UNCONFIRMED
             : UserStatus::ACTIVE;
 
+        $code = $this->generateCode();
+
         // Add the user to database
         $user = $this->users->create(array_merge(
             $request->only('email', 'username', 'password', 'country_id'),
-            ['status' => $status]
+            ['status' => $status, 'code'=>$code]
         ));
 
         $this->users->updateSocialNetworks($user->id, []);
@@ -499,6 +509,24 @@ class AuthController extends Controller
         event(new Registered($user));
 
         return redirect('loginuser')->with('success', $message);
+    }
+
+    public function generateCode()
+    {
+        $letras = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M',
+        'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'W', 'X', 'Y', 'Z'];
+
+        $rand = '';
+        for($i = 0; $i<4; $i++){
+            $rand .= $letras[rand(0, count($letras)-1)];
+        }
+        while(User::where('code', $rand)->get()->first()){
+            $rand = '';
+            for($i = 0; $i<4; $i++){
+                $rand .= $letras[rand(0, count($letras)-1)];
+            }
+        }
+        return $rand;
     }
 
     /**
@@ -534,15 +562,16 @@ class AuthController extends Controller
                                         EducationLevelRepository $educationLevels,
                                         SecurityQuestionRepository $securityQuestions,
                                         SourcingNetworkRepository $sourcingNetworks,
-                                        ContactRepository $contacts)
+                                        ContactRepository $contacts,
+                                        FunctionalAreaRepository $functionalArea,
+                                        IndustryRepository $industries)
     {
         if ($user = $this->users->findByConfirmationToken($token)) {
+            session(['lang' => \App::getLocale()]);
             if (session('lang') =='en')
                 $language = 2;
             else
-               $language = 1; 
-            
-
+               $language = 1;
             $countries = $this->countries->lists()->toArray();
             $quantityEmployees = $quantityEmployees->lists($language);
             $experienceYears = $experienceYears->lists($language);
@@ -551,6 +580,8 @@ class AuthController extends Controller
             $currencies = $this->countries->lists('currency_code', 'id')->toArray();
             $sourcingNetworks = $sourcingNetworks->lists($language);
             $contacts = $contacts->lists($language);
+            $functionalArea = $functionalArea->lists($language);
+            $industries = $industries->lists($language);
 
             return view('frontend.confirm', compact('user',
                                                     'token',
@@ -561,7 +592,9 @@ class AuthController extends Controller
                                                     'securityQuestions',
                                                     'currencies',
                                                     'sourcingNetworks',
-                                                    'contacts'));
+                                                    'contacts',
+                                                    'functionalArea',
+                                                    'industries'));
         }
 
         return redirect()->to('loginuser')
@@ -578,14 +611,16 @@ class AuthController extends Controller
     {
         $user = $this->users->findByConfirmationToken($token);
 
-        $dataAddress1 = ['state_id'  => $request->state,
-                        'city'       => $request->city,
-                        'address'    => $request->address,
-                        'complement' => $request->complement,
-                        'zip_code'   => $request->zip_code,
-                        'is_active'  => 1];
+        if(isset($request->state) && $request->state!=''){
+            $dataAddress1 = ['state_id'  => $request->state,
+                'city'       => $request->city,
+                'address'    => $request->address,
+                'complement' => $request->complement,
+                'zip_code'   => $request->zip_code,
+                'is_active'  => 1];
 
-        $address1 = $this->address->create($dataAddress1);
+            $address1 = $this->address->create($dataAddress1);
+        }
 
         $dataUser = ['prefix'              => $request->prefix,                        
                     'first_name'           => $request->first_name,
@@ -593,14 +628,23 @@ class AuthController extends Controller
                     'email'                => $request->email,
                     'phone'                => $request->phone,
                     'secundary_phone'      => $request->secundary_phone,
-                    'address_id'           => $address1->id,
-                    'years_recruitment_id' => $request->years_recruitment_id,
-                    'education_level_id'   => $request->education_level_id,
                     'school_assisted'      => $request->school_assisted,
                     'memberships'          => $request->memberships,
                     'status'               => UserStatus::UNVERIFIED,
                     'confirmation_token'   => null
                     ];
+
+        if(isset($address1)){
+            $dataUser['address_id'] = $address1->id;
+        }
+
+        if(isset($request->years_recruitment_id)){
+            $dataUser['years_recruitment_id'] = $request->years_recruitment_id;
+        }
+
+        if(isset($request->education_level_id)){
+            $dataUser['education_level_id'] = $request->education_level_id;
+        }
 
         $this->users->update($user->id, $dataUser);
 
@@ -625,7 +669,8 @@ class AuthController extends Controller
                   'user_id'    => $user->id,
                   'is_active'  => true,
                   'created_at' => \Carbon\Carbon::now(),
-                  'updated_at' => \Carbon\Carbon::now() ];
+                  'updated_at' => \Carbon\Carbon::now(),
+                  'position' => 1];
 
         CompanyUser::create($data);
         Point::create(['user_id' => $user->id, 'sum' => 25, 'company_id'=>$company->id]);
@@ -637,12 +682,21 @@ class AuthController extends Controller
                             'answer2'              => $request->answer1,
                             'receive_messages'     => $request->receive_messages,
                             'promotional_code'     => $request->promotional_code,
-                            'contact_id'           => $request->contact_id,
-                            'organization_role_id' => $request->organization_role_id,
-                            'sourcing_network_id'  => $request->sourcing_network_id, 
                             'created_at'           => \Carbon\Carbon::now(),
                             'updated_at'           => \Carbon\Carbon::now()
                             ];
+
+        if(isset($request->contact_id) && $request->contact_id!=''){
+            $dataPreference['contact_id'] = $request->contact_id;
+        }
+
+        if(isset($request->contact_id) && $request->organization_role_id!=''){
+            $dataPreference['organization_role_id'] = $request->organization_role_id;
+        }
+
+        if(isset($request->contact_id) && $request->sourcing_network_id!=''){
+            $dataPreference['sourcing_network_id'] = $request->sourcing_network_id;
+        }
 
         Preference::create($dataPreference);
 
@@ -669,6 +723,133 @@ class AuthController extends Controller
                         ];
 
         LegalInformation::create($dataLegal);
+
+        return redirect()->to('loginuser')
+            ->withSuccess(trans('app.registration_completed_wait_data_validation'));
+    }
+
+    public function confirmDataCollaborator($token, QuantityEmployeesRepository $quantityEmployees,
+                                ExperienceYearRepository $experienceYears,
+                                EducationLevelRepository $educationLevels,
+                                SecurityQuestionRepository $securityQuestions,
+                                SourcingNetworkRepository $sourcingNetworks,
+                                ContactRepository $contacts)
+    {
+        if ($user = $this->users->findByConfirmationToken($token)) {
+            session(['lang' => \App::getLocale()]);
+            if (session('lang') =='en')
+                $language = 2;
+            else
+                $language = 1;
+            $countries = $this->countries->lists()->toArray();
+            $quantityEmployees = $quantityEmployees->lists($language);
+            $experienceYears = $experienceYears->lists($language);
+            $educationLevels = $educationLevels->lists($language);
+            $securityQuestions = $securityQuestions->lists($language);
+            $currencies = $this->countries->lists('currency_code', 'id')->toArray();
+            $sourcingNetworks = $sourcingNetworks->lists($language);
+            $contacts = $contacts->lists($language);
+
+            return view('frontend.confirmcollaborator', compact('user',
+                'token',
+                'countries',
+                'quantityEmployees',
+                'experienceYears',
+                'educationLevels',
+                'securityQuestions',
+                'currencies',
+                'sourcingNetworks',
+                'contacts'));
+        }
+
+        return redirect()->to('loginuser')
+            ->withErrors(trans('app.wrong_confirmation_token'));
+    }
+
+    /**
+     * Store newly created vacancy to database.
+     *
+     * @param CreateVacancyRequest $request
+     * @return mixed
+     */
+    public function confirmRegisterCollaborator ($token, ConfirmRegisterRequest $request, CollaboratorMailer $mailer)
+    {
+        $user = $this->users->findByConfirmationToken($token);
+        if(isset($request->state) && $request->state!=''){
+            $dataAddress1 = ['state_id'  => $request->state,
+                'city'       => $request->city,
+                'address'    => $request->address,
+                'complement' => $request->complement,
+                'zip_code'   => $request->zip_code,
+                'is_active'  => 1];
+
+            $address1 = $this->address->create($dataAddress1);
+        }
+
+        $dataUser = ['prefix'              => $request->prefix,
+            'first_name'           => $request->first_name,
+            'last_name'            => $request->last_name,
+            'email'                => $request->email,
+            'phone'                => $request->phone,
+            'secundary_phone'      => $request->secundary_phone,
+            'school_assisted'      => $request->school_assisted,
+            'memberships'          => $request->memberships,
+            'country_id'           => $request->country_id,
+            'status'               => UserStatus::UNVERIFIED,
+            'confirmation_token'   => null,
+            'password'              => $request->password
+        ];
+
+        if(isset($address1)){
+            $dataUser['address_id'] = $address1->id;
+        }
+
+        if(isset($request->years_recruitment_id)){
+            $dataUser['years_recruitment_id'] = $request->years_recruitment_id;
+        }
+
+        if(isset($request->education_level_id)){
+            $dataUser['education_level_id'] = $request->education_level_id;
+        }
+
+        $this->users->update($user->id, $dataUser);
+
+        $dataPreference = [ 'user_id'              => $user->id,
+            'security_question1'   => $request->security_question1,
+            'answer1'              => $request->answer1,
+            'security_question2'   => $request->security_question1,
+            'answer2'              => $request->answer1,
+            'receive_messages'     => $request->receive_messages,
+            'promotional_code'     => $request->promotional_code,
+            'created_at'           => \Carbon\Carbon::now(),
+            'updated_at'           => \Carbon\Carbon::now()
+        ];
+
+        if(isset($request->contact_id) && $request->contact_id!=''){
+            $dataPreference['contact_id'] = $request->contact_id;
+        }
+
+        if(isset($request->contact_id) && $request->organization_role_id!=''){
+            $dataPreference['organization_role_id'] = $request->organization_role_id;
+        }
+
+        if(isset($request->contact_id) && $request->sourcing_network_id!=''){
+            $dataPreference['sourcing_network_id'] = $request->sourcing_network_id;
+        }
+
+        Preference::create($dataPreference);
+
+        if(isset($request->state2) && $request->state2!=''){
+            $dataAddress2 = ['state_id'  => $request->state2,
+                'city'       => $request->city2,
+                'address'    => $request->address2,
+                'complement' => $request->complement2,
+                'zip_code'   => $request->zip_code2,
+                'is_active'  => 1
+            ];
+
+            $address2 = $this->address->create($dataAddress2);
+        }
 
         return redirect()->to('loginuser')
             ->withSuccess(trans('app.registration_completed_wait_data_validation'));

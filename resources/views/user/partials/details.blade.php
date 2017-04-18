@@ -45,7 +45,7 @@
                 <div class="form-group">
                     <label for="address">@lang('app.address')</label>
                     <input type="text" class="form-control" id="address"
-                           name="address" placeholder="@lang('app.address')" value="{{ $edit ? $user->address : '' }}">
+                           name="address" placeholder="@lang('app.address')" value="{{ $edit ? $user->address->address : '' }}">
                 </div>
                 <div class="form-group">
                     <label for="address">@lang('app.country')</label>

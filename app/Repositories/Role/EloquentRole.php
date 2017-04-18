@@ -96,7 +96,7 @@ class EloquentRole implements RoleRepository
     /**
      * {@inheritdoc}
      */
-    public function lists($column = 'name', $key = 'id')
+    public function lists($column = 'display_name', $key = 'id')
     {
         //Verify Role user
         if(Auth::user()->hasRole('AdminConsultant')){

@@ -1,4 +1,4 @@
-<div id="modalEditar{{$te->id}}" class="modal modal-userRegistered modal-fixed-footer"">
+<div id="modalEditar<?php if(isset($modal)){ echo $modal; }else{ echo $te->id; } ?>" class="modal modal-userRegistered modal-fixed-footer"">
 
     <div class="modal-header">
         <!--CERRAR MODAL-->

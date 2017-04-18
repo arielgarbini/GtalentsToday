@@ -62,6 +62,10 @@ class Vacancy extends Model
                             'company_id'
                         ];                   
 
+    public function locat()
+    {
+        return $this->belongsTo(State::class, 'location');
+    }
 
     public function asSupplier()
     {

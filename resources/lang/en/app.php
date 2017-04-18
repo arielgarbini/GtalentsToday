@@ -2,9 +2,11 @@
 
 return [
     //NEW DASHBOARD
+    'confirm_collaborate' => 'Confirm Register',
     'confirm_invitation' => 'Confirm Invitation',
     'confirm_subscription' => 'Confirm Subscription',
     'you_have_been_invited' => 'You have been invited to the platform',
+    'You_have_been_registered_contributor' => 'You have been registered as a contributor',
     'success'           => 'Good!',
     'opportunities'     => 'Opportunities',
     'post'              => 'Post',
@@ -728,6 +730,7 @@ return [
     'phone_without_country_code' => 'Phone without country code',
 
     'please_confirm_your_email_first' => 'Please confirm your email address first.',
+    'your_account_has_not_yet_been_verified' => 'Your account has not yet been verified',
     'your_account_is_banned' => 'Your account is banned by administrator.',
     '2fa_token_invalid' => '2FA Token is invalid!',
     'account_create_confirm_email' => 'You account is created successfully! Please confirm your email in order to log in.',
@@ -767,7 +770,8 @@ return [
     'Active' => 'Active',
     'Banned' => 'Banned',
     'Unconfirmed' => 'Unconfirmed',
-    'Unverified' => 'Rejected',
+    'Unverified' => 'Unverified',
+    'Rejected' => 'Rejected',
 
     'Approved' => 'Approved',
     'Pending' => 'Pending',
@@ -803,7 +807,7 @@ return [
     'level_positions' => 'Level positions',
     'select' => 'Select',
     'no_consultants_were_found' => 'No Associate Consultants were found',
-
+    'you_must_select_a_specialization' => 'You must select a specialization',
     //MultiSelect
     'non_selected_text' => 'None selected',
     'n_selected_text'   => 'selected',
@@ -848,6 +852,7 @@ return [
     'legal_company_name'  => 'Legal company name',
     'company_type' => 'Company type',
     'choose_type' => 'Choose a type',
+    'principal_coin' => 'Principal coin',
     'principal_currency' => 'Principal currency',
     'terms_of_use' => 'Terms of Use',
     'accept_terms_of_use' => 'Accept the gTalents terms of use',
@@ -860,7 +865,7 @@ return [
     'recruitment' => 'Recruitment',
     'business' => 'Business',
     'both' => 'Both',
-    'principal_sourcing' => '¿Cuales son sus principales medios de abastecimiento?',
+    'principal_sourcing' => 'What are your main means of supply?',
     'sourcing_networks' => 'Sourcing networks',
     'thanks_for_choosing_us' => 'Thanks for choosing us!',
     'pending_validate' => 'We will validate your information and we will contact you as soon as possible',
@@ -926,6 +931,27 @@ return [
 
     //califications
     'activity_records'      => 'Activity Records',
+
+    //register
+    'first_name_required'    => 'The first name is required',
+    'last_name_required'     => 'The last name is required',
+    'email_required'     => 'The email is required',
+    'confirm_email_required'  => 'You need confirm the email',
+    'telf_required'        => 'The phone is required',
+    'country_required'               => 'The country is required',
+    'state_required'       => 'The state is required',
+    'city_required'         => 'The city is required',
+    'address_required'      => 'The address is required',
+    'zipcode_required'      => 'The zipcode is required',
+    'company_required'        => 'The company is required',
+    'quantity_employees_required'  => 'The quantity employees is required',
+    'description_required'  => 'The description is required',
+    'years_recruitment_required'  => 'The years recruitment is required',
+    'education_level_required'  => 'The education level is required',
+    'company_type_required'   => 'The company type is required',
+    'principal_coin_required' => 'The principal coin is required',
+    'password_required'    => 'The password is required',
+    'password_confirm_required' => 'The password confirm is required',
 
     //notifications
     'title_supplier'          => 'Supplier',

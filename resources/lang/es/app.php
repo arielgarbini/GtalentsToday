@@ -2,9 +2,11 @@
 
 return [
     //NEW DASHBOARD
+    'confirm_collaborate' => 'Confirmar Registro',
     'confirm_invitation' => 'Confirmar Invitación',
     'confirm_subscription' => 'Confirmar Suscripción',
     'you_have_been_invited' => 'Has sido invitado a la plataforma',
+    'You_have_been_registered_contributor' => 'Has sido registrado como colaborador',
     'success'           => 'Bien!',
     'opportunities'     => 'Oportunidades',    
     'post'              => 'Post',
@@ -822,6 +824,7 @@ return [
     'phone_without_country_code' => 'Teléfono sin código de país',
 
     'please_confirm_your_email_first' => 'Por favor confirme su dirección de correo electrónico primero.',
+    'your_account_has_not_yet_been_verified' => 'Su cuenta aun no ha sido verificada',
     'your_account_is_banned' => 'Su cuenta está prohibido por el administrador.',
     '2fa_token_invalid' => '2FA Token es invalida!',
     'account_create_confirm_email' => 'Su cuenta se creo con éxito! Por favor confirme su correo electrónico con el fin de conectarse.',
@@ -899,6 +902,7 @@ return [
     'level_positions' => 'Nivel de posiciones',
     'select' => 'Seleccione',
     'no_consultants_were_found' => 'No se encontraron Consultores Asociados',
+    'you_must_select_a_specialization' => 'Debe seleccionar una especialización',
 
     //Confirm
 
@@ -1022,6 +1026,27 @@ return [
 
     //califications
     'activity_records'      => 'Registros de Actividades',
+
+    //register
+    'first_name_required'    => 'El nombre es requerido',
+    'last_name_required'     => 'El apellido es requerido',
+    'email_required'     => 'El correo electrónico es requerido',
+    'confirm_email_required'  => 'Debe confirmar el correo electrónico',
+    'telf_required'        => 'El teléfono es requerido',
+    'country_required'     => 'El país es requerido',
+    'state_required'       => 'El estado es requerido',
+    'city_required'         => 'La ciudad es requerida',
+    'address_required'      => 'La dirección es requerida',
+    'zipcode_required'      => 'El zipcode es requerido',
+    'company_required'        => 'La compañia es requerida',
+    'quantity_employees_required'  => 'Cantidad de empleados requerida',
+    'description_required'  => 'La descripción es requerida',
+    'years_recruitment_required'  => 'Los años reclutado son requeridos',
+    'education_level_required'  => 'El nivel de educación es requerido',
+    'company_type_required'   => 'El tipo de compañia es requerido',
+    'principal_coin_required' => 'La moneda es requerida',
+    'password_required'    => 'La contraseña es requerida',
+    'password_confirm_required' => 'Debe confirmar la contraseña',
 
     //notifications
     'title_supplier'          => 'Supplier',

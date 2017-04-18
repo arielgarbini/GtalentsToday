@@ -111,7 +111,7 @@
                               <!--  <h5>{{ $vacancy->vacancy_status->getNameLang($vacancy->vacancy_status_id)->name }}</h5>-->
                               <h5>@lang('app.active')</h5>
                                 <h2>{{$vacancy->name}}</h2>
-                                <h3>{{$vacancy->location}} </h3>
+                                <h3>{{$vacancy->locat->country->name.' | '.$vacancy->locat->name}} </h3>
                                 <p>@lang('app.published') |  {{ $vacancy->created_at->diffForHumans() }}</p>
                                 <!--SECCIONES TOOLTIPS-->
                                 <div class="item-activity-leyend">

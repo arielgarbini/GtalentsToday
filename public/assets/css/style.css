@@ -2362,7 +2362,7 @@ input
 .body-confirm .register .formLogin .formContainer-confirm .categoria-container-item .subopciones li a:hover p {
   color: #f4511e;
 }
-.body-confirm .register .formLogin .formContainer-confirm .categoria-container-item .subopciones li .subopciones-select {
+.body-confirm .register .formLogin .formContainer-confirm .categoria-container-item .subopciones-select {
   margin: 0 0 0 1.5em;
   border-left: 2px solid #f4511e;
   -webkit-box-pack: start;
@@ -2373,18 +2373,18 @@ input
   justify-content: flex-start;
   display: none;
 }
-.body-confirm .register .formLogin .formContainer-confirm .categoria-container-item .subopciones li .subopciones-select li {
+.body-confirm .register .formLogin .formContainer-confirm .categoria-container-item .subopciones-select li {
   margin: 0 0 0.5em 0.6em;
   padding: 0;
 }
-.body-confirm .register .formLogin .formContainer-confirm .categoria-container-item .subopciones li .subopciones-select li a {
+.body-confirm .register .formLogin .formContainer-confirm .categoria-container-item .subopciones-select li a {
   text-align: left;
 }
-.body-confirm .register .formLogin .formContainer-confirm .categoria-container-item .subopciones li .subopciones-select li a p {
+.body-confirm .register .formLogin .formContainer-confirm .categoria-container-item .subopciones-select li a p {
   padding: 0.5em;
   border-radius: 3px;
 }
-.body-confirm .register .formLogin .formContainer-confirm .categoria-container-item .subopciones li .subopciones-select li .active-option p {
+.body-confirm .register .formLogin .formContainer-confirm .categoria-container-item .subopciones-select li .active-option p {
   color: #fff;
   background: #3a6097;
 }
@@ -2471,6 +2471,7 @@ input
 #paso2-1,
 #paso2-2,
 #paso3,
+#paso3-1,
 #paso4-1,
 #paso4-2,
 #paso4-3,
@@ -2487,7 +2488,21 @@ input
 #btn-next-confirm5,
 #btn-next-confirm6,
 #btn-next-confirm7,
-#btn-next-confirm8 {
+#btn-next-confirm8,
+#btn-return-confirm-collaborator1,
+#btn-return-confirm-collaborator2,
+#btn-return-confirm-collaborator3,
+#btn-return-confirm-collaborator4,
+#btn-return-confirm-collaborator5,
+#btn-return-confirm-collaborator6,
+#btn-return-confirm-collaborator7,
+#btn-next-confirm-collaborator2,
+#btn-next-confirm-collaborator3,
+#btn-next-confirm-collaborator4,
+#btn-next-confirm-collaborator5,
+#btn-next-confirm-collaborator6,
+#btn-next-confirm-collaborator7,
+#btn-next-confirm-collaborator8{
   display: none;
 }
 /*

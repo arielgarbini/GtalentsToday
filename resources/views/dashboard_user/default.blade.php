@@ -41,7 +41,7 @@
                                             </select>
                                             @endif
                                             <h2>{{$vacancy->name}}</h2>
-                                            <h3>{{$vacancy->location}}</h3>
+                                            <h3>{{$vacancy->locat->country->name.' | '.$vacancy->locat->name}}</h3>
                                              <p>@lang('app.published') | {{ $vacancy->created_at->diffForHumans() }}</p>
                                         </div>
 
@@ -129,7 +129,7 @@
                                         <div class="item-activity">
                                             <h5>@lang('app.active')</h5>
                                             <h2>{{$vacancy_opportunity->name}}</h2>
-                                            <h3>{{$vacancy_opportunity->location}}</h3>
+                                            <h3>{{$vacancy_opportunity->locat->country->name.' | '.$vacancy_opportunity->locat->name}}</h3>
                                            <p>@lang('app.published') | {{ $vacancy_opportunity->created_at->diffForHumans() }}</p>
                                            
                                             <!--SECCIONES TOOLTIPS-->
@@ -238,7 +238,7 @@
                                     <div class="item-activity">
                                         <h5>@lang('app.active')</h5>
                                         <h2>{{$vacancy_opportunity->name}}</h2>
-                                        <h3>{{$vacancy_opportunity->location}}</h3>
+                                        <h3>{{$vacancy_opportunity->locat->country->name.' | '.$vacancy_opportunity->locat->name}}</h3>
                                         <p>@lang('app.published') | {{ $vacancy_opportunity->created_at->diffForHumans() }}</p>
 
                                         <!--SECCIONES TOOLTIPS-->
@@ -592,15 +592,17 @@
                                     <!--OPCIONES-->
                                     <div class="options">
                                         <!-- Dropdown Trigger -->
-                                        <a class='dropdown-button' href='#' data-activates='{{$te->id}}'>
+                                        <a class='dropdown-button' href='#' data-activates='collaborator{{$te->id}}'>
                                             <span class="icon-gTalents_submenu"></span>
                                         </a>
 
                                         <!-- Dropdown Structure -->
-                                        <ul id='{{$te->id}}' class='dropdown-content'>
-                                            <li><a href="#modalEditar{{$te->id}}">@lang('app.edit')</a></li>
-                                            <li><a href="#modalEliminar{{$te->id}}">@lang('app.delete')</a></li>
+                                        <ul id='collaborator{{$te->id}}' class='dropdown-content'>
+                                            <li><a href="#modalEditarcollaborator{{$te->id}}">@lang('app.edit')</a></li>
+                                            <li><a href="#modalEliminarcollaborator{{$te->id}}">@lang('app.delete')</a></li>
                                         </ul>
+                                        <?php
+                                        $modal = 'collaborator'.$te->id ?>
                                         @include('dashboard_user.team.partials.modaldelete')
                                         @include('dashboard_user.team.partials.modaledit')
                                     </div>
@@ -814,10 +816,11 @@
 
                                     <!-- Dropdown Structure -->
                                     <ul id='{{$te->id}}' class='dropdown-content'>
-                                        <li><a href="#modalEditar{{$te->id}}">@lang('app.edit')</a></li>
-                                        <li><a href="#modalEliminar{{$te->id}}">@lang('app.delete')</a></li>
+                                        <li><a href="#modalEditarmobil{{$te->id}}">@lang('app.edit')</a></li>
+                                        <li><a href="#modalEliminarmobil{{$te->id}}">@lang('app.delete')</a></li>
                                     </ul>
-                                    <?php $te->id = $te->id+'mobil'; ?>
+                                    <?php
+                                    $modal = 'mobil'.$te->id ?>
                                     @include('dashboard_user.team.partials.modaldelete')
                                     @include('dashboard_user.team.partials.modaledit')
                                 </div>

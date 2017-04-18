@@ -62,7 +62,7 @@
                     <!--UBICACION-->
                     <div class="itemForm">
                         <label for="location">@lang('app.location')</label>
-                        {!! Form::text('location', null, ['id' => 'location','class' => 'form-control','placeholder' => trans('app.location') ]) !!} 
+                        {!! Form::select('location', $states , null, ['message' => trans('app.state_required'), 'class' => 'browser-default', 'id' => 'location', 'placeholder' => trans('app.choose_province')]) !!}
                           @if($errors->has('location'))
                           <p class="text-darger" style="color:red;"> {{ $errors->first('location') }}</p>
                          @endif

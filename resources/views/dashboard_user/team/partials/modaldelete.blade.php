@@ -1,5 +1,5 @@
 <!--MODAL ELIMINAR-->
-<div id="modalEliminar{{$te->id}}" class="modal modal-userRegistered modal-fixed-footer">
+<div id="modalEliminar<?php if(isset($modal)){ echo $modal; }else{ echo $te->id; } ?>" class="modal modal-userRegistered modal-fixed-footer">
 
     <div class="modal-header">
         <!--CERRAR MODAL-->

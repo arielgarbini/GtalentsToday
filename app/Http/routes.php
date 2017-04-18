@@ -29,6 +29,16 @@ if (settings('reg_enabled')) {
         'as' => 'completeData',
         'uses' => 'Auth\AuthController@confirmRegister'
     ]);
+
+    Route::get('register/confirm/collaborator/{token}', [
+        'as' => 'register.confirm-data.collaborator',
+        'uses' => 'Auth\AuthController@confirmDataCollaborator'
+    ]);
+
+    Route::post('completeData/collaborator/{token}', [
+        'as' => 'completeData.collaborator',
+        'uses' => 'Auth\AuthController@confirmRegisterCollaborator'
+    ]);
 }
 
 // Register password reset routes only if it is enabled inside website settings.

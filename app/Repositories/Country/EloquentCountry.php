@@ -22,7 +22,7 @@ class EloquentCountry implements CountryRepository
     public function lists($column = 'name', $key = 'id')
     {
         if($column == 'currency_code')
-            return Country::orderBy($column)->groupBy($column)->lists($column, $key);
+            return Country::where($column,'!=', null)->where($column,'!=', '')->orderBy($column)->groupBy($column)->lists($column, $key);
 
         return Country::orderBy($column)->lists($column, $key);
     }

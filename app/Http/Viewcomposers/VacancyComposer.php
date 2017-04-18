@@ -62,7 +62,7 @@ class VacancyComposer
         $factura = number_format($factura, 2, '.', ',');
 
         $viewed = $this->vacancy_viewed->search(['vacancy_id' => $vacancy->id])->count();
-
+        $vacancy->location = $vacancy->locat->country->name.' / '.$vacancy->locat->name;
         $view->with('viewed', $viewed);
         $view->with('candidatesUnReadCount', $candidatesUnReadCount);
         $view->with('candidatesUnRead', $candidatesUnRead);

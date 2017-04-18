@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Input;
 use Vanguard\ActualPosition;
 use Vanguard\Candidate;
+use Vanguard\State;
 use Vanguard\ContractType;
 use Vanguard\Conversation;
 use Vanguard\Events\Vacancy\Viewed;
@@ -198,6 +199,7 @@ class VacancyController extends Controller
         }else{
            $language = 1; 
         }
+        $states = State::where('country_id', Auth::user()->country_id)->lists('name', 'id');
 
       // 	$edit = false;
       //  $schemeWorks = $schemeWorks->lists($language);
@@ -215,7 +217,7 @@ class VacancyController extends Controller
                                                 'addressTypes',
                                                 'languages'
                                                 ));	*/
-        return view('dashboard_user.post.add_post'); 
+        return view('dashboard_user.post.add_post', compact('states'));
 
     }
 
@@ -634,7 +636,8 @@ class VacancyController extends Controller
         $user = $this->users->create(
             ['email' => $request->email,
             'password' => rand(0000, 9999),
-            'status' => $status
+            'status' => $status,
+            'code'   => $this->generateCode()
             ]);
 
         $this->users->updateSocialNetworks($user->id, []);
@@ -656,6 +659,24 @@ class VacancyController extends Controller
 
         return redirect()->back()
             ->withSuccess(trans('app.invited_supplier'));
+    }
+
+    public function generateCode()
+    {
+        $letras = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M',
+            'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'W', 'X', 'Y', 'Z'];
+
+        $rand = '';
+        for($i = 0; $i<4; $i++){
+            $rand .= $letras[rand(0, count($letras)-1)];
+        }
+        while(User::where('code', $rand)->get()->first()){
+            $rand = '';
+            for($i = 0; $i<4; $i++){
+                $rand .= $letras[rand(0, count($letras)-1)];
+            }
+        }
+        return $rand;
     }
 
     private function sendEmailSupplier(InvitationMailer $mailer, $user, $message)
