@@ -52,12 +52,12 @@
 			<li><img src="assets/img/slider-4-mobile.png" alt=""></li>
 			<li><img src="assets/img/slider-5-mobile.png" alt=""></li>
 		</ul>
-	</article>
+</article>
 
 	<!-- PORQUE GTALENTS-->
 	<article class="generic grid" id="pqGtalents">
 		<!--TITULO DE LA SECCION-->
-		<section class="generic-title bloque">
+		<section class="generic-title first-padding bloque">
 			<h2> {{ trans('home.Why join') }} <strong>gTalents</strong>?</h2>
 		</section>
 
@@ -93,7 +93,7 @@
 				</figure>
 				<h3> {{ trans('home.HIGH VOLUME OF SEARCHES BUT LOW DELIVERY FORCE') }} </h3>
 				<p>{{ trans('home.If you have strong business skills and a strong network of contacts but not enough resources to execute the searches, you share a publication and receive qualified candidates within the first week.') }}
-</p>
+				</p>
 			</div>
 
 			<!--SOLIDA FUERZA DE ENTREGA-->
@@ -108,7 +108,7 @@
 	</article>
 
 	<!--VENTAJAS-->
-	<article class="titleWin ventajas bloque" id="ventajas">
+	<article class="titleWin ventajas first-margin bloque" id="ventajas">
 
 		<section class="titleWin-container">
 			<h2> {{ trans('home.The advantages of gTalents') }}</h2>
@@ -123,7 +123,7 @@
 	<!-- PASOS SENCILLOS PARA COMENZAR-->
 	<article class="generic grid" id="comoComenzar">
 		<!--TITULO DE LA SECCION-->
-		<section class="generic-title bloque">
+		<section class="generic-title first-padding bloque">
 			<h2>  {{ trans('home.The advantages of gTalents Simple steps for')}}  <strong>{{ trans('home.Start') }}</strong>?</h2>
 		</section>
 		
@@ -186,7 +186,7 @@
 	</article>
 
 	<!--MEMBRESIAS-->
-	<article class="titleWin membresias bloque" id="membresias">
+	<article class="titleWin membresias first-margin bloque" id="membresias">
 
 		<section class="titleWin-container">
 			<h2> {{ trans('home.Memberships')}}!</h2>
@@ -215,7 +215,7 @@
 
 		<section class="titleWin-container">
 			<h2> {{ trans('home.Our Guarantees')}} </h2>
-<!--			<p> {{ trans('home.We care to offer you the best experience in our 24/7 technology platform. That is why we invite you to read our guarantees')}}</p>-->
+			<!--			<p> {{ trans('home.We care to offer you the best experience in our 24/7 technology platform. That is why we invite you to read our guarantees')}}</p>-->
 			<div class="titleWin-container-link">
 				<a href="#modalGarantias" class=" modal-trigger waves-effect waves-light btn-main2">{{ trans('home.Read more') }}</a>
 			</div>
@@ -948,23 +948,46 @@
 
 @section('scripts')
   	<script>
-	    $(document).ready(function() {
-            $('body').scroll(function() {
-               console.log('ad');
-            });
+  		//NIMACION ENTRE ANCLAS < 1298
+  		function menu_resize() {
+		    var ancho_patron = $(window).width();
+		    if(ancho_patron>1297) {
+		        $('.header-container nav ul').removeAttr('style')
+		    } 
+		    else {
+			    //CERRAR MODAL AL PRESIONAR OPCIONES
+			    $('.header-container nav ul li.item a').click(function(){
+			        $('.icon-gTalents_close-simple.hamburguer-2').click()
+			    })
+		   }
+		}
 
-		  $('a[href*="#"]:not([href="#"])').click(function() {
-			if (location.pathname.replace(/^\//,'') == this.pathname.replace(/^\//,'') && location.hostname == this.hostname) {
-			  var target = $(this.hash);
-			  target = target.length ? target : $('[name=' + this.hash.slice(1) +']');
-			  if (target.length) {
-				$('html, body').animate({
-				  scrollTop: target.offset().top
-				}, 1000);
-				return false;
-			  }
-			}
-		  });
-		});
+		$(window).resize(function(){
+		    menu_resize();
+		})
+
+  		//ANIMACION ENTRE ANCLAS > 1298
+	    $(document).ready(
+	    	function() { 
+	    		menu_resize();
+
+				//ANIMACION ENTRE ANCLAS
+				$(function(){
+					//DESPLAZAMIENTO
+				  $('a[href*="#"]:not([href="#"])').click(function() {
+				    if (location.pathname.replace(/^\//,'') == this.pathname.replace(/^\//,'') && location.hostname == this.hostname) {
+				      var target = $(this.hash);
+				      target = target.length ? target : $('[name=' + this.hash.slice(1) +']');
+				      if (target.length) {
+				        $('html, body').animate({
+				          scrollTop: target.offset().top
+				        }, 1000);
+				        return false;
+				      }
+				    }
+				  });
+				});
+	    	}
+	    );
 	</script>
 @stop	

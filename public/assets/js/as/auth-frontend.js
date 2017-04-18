@@ -33,6 +33,7 @@
 			    //MAPA DE CONTACTO
 			    $("#btn-contact").click(function(){
 					$(".contact").fadeToggle('medium');
+					$("html, body").animate({ scrollTop: $('#contacto').offset().top-70 }, 1000);
 				})
 			   
 			   //INICIALIZAR MODALES
