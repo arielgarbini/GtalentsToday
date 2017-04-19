@@ -836,7 +836,7 @@ return [
     'years_industry' => 'How many years in the industry?',
     'education_level'  => 'Education Level',
     'assisted_schools'  => 'Assisted schools',
-    'memberships'     => 'Membresías',
+    'memberships'     => 'Memberships',
     'certification'   => 'Certification',
     'add_certification' => 'Add new certification',
     'especialization'   => 'Especialization',

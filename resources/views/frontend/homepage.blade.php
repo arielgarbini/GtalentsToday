@@ -417,6 +417,12 @@
 						<span class="icon-gTalents_point"></span>
 						<p> {{ trans('home.Registration and free membership. Increase your income' ) }} </p>
 					</div>
+
+ <div style="text-align: center;">
+					  <a class=" modal-action modal-close waves-effect waves-green btn-main2">
+									{{ trans('home.closeButton' ) }}
+					  </a>
+					</div>
 				</section>			
 			</article>
 

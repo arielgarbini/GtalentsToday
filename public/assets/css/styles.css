@@ -1,1055 +1,1055 @@
-@charset "utf-8";
-/* CSS Document */
-
-/* ========================================================================
-	TABLE OF CONTENTS
-	6. Forms
-		8.1 Bootstrap Forms 
-		8.2 ORB Forms	
-		
-/* ========================================================================
- * 6.2 ORB Forms
- * ======================================================================== */
-
-.orb-form {
-	outline: none;
-}
-.orb-form header {
-	display: block;
-	letter-spacing: -1px;
-	padding: 0 10px 10px;
-	margin: 0 -10px;
-	border-bottom: 5px solid rgba(0,0,0,.1);
-	font-size: 1.7em;
-	font-weight: 400;
-}
-.orb-form fieldset {
-	display: block;
-	padding: 10px 0;
-	border: none;
-}
-.orb-form fieldset + fieldset {
-	border-top: 5px solid rgba(0,0,0,.1);
-}
-.orb-form section {
-	margin-bottom: 10px;
-}
-.orb-form footer {
-	display: block;
-	padding: 10px;
-	border-top: 5px solid rgba(0,0,0,.1);
-	margin: 0 -10px;
-}
-.orb-form footer a {
-	color: #fff;
-}
-footer.footer {
-	display: block;
-	padding: 10px;
-	border-top: 5px solid rgba(0,0,0,.1);
-	margin: 10px;
-}
-footer.footer a {
-	color: #fff;
-}
-/*Small Hack For Inner Widgets Forms*/
-.inner-spacer .orb-form footer {
-	padding-bottom: 0;
-}
-.orb-form footer:after {
-	content: '';
-	display: table;
-	clear: both;
-}
-.orb-form a {
-	color: #969fa1;
-}
-.orb-form .label {
-	display: block;
-	margin-bottom: 6px;
-	line-height: 19px;
-	font-weight: 400;
-}
-.orb-form .label.col {
-	margin: 0;
-	padding-top: 10px;
-}
-.orb-form .note .help-block{
-	margin-top: 6px;
-	padding: 0 1px;
-	font-size: 11px;
-	line-height: 15px;
-	color: #999;
-}
-.orb-form .input,
-.orb-form .select,
-.orb-form .textarea,
-.orb-form .radio,
-.orb-form .checkbox,
-.orb-form .toggle,
-.orb-form .button {
-	position: relative;
-	display: block;
-}
-.orb-form .input input,
-.orb-form .select select,
-.orb-form .textarea textarea {
-	display: block;
-	box-sizing: border-box;
-	-moz-box-sizing: border-box;
-	width: 100%;
-	font-weight: 300;
-	height: 38px;
-	padding: 8px 10px;
-	outline: none;
-	border-width: 1px;
-	border-radius: 3px;
-	border-style: solid;
-	background: #fff;
-	appearance: normal;
-	-moz-appearance: none;
-	-webkit-appearance: none;
-}
-.orb-form .progress {
-	float: right;
-	height: 36px;
-	font-weight: 300;
-	font-size: 2em;
-	color: #82b964;
-	background-color: transparent;
-	-webkit-box-shadow: none;
-	box-shadow: none;
-}
-/* file inputs */
-
-
-
-.orb-form .input-file .button {
-	position: absolute;
-	top: 4px;
-	right: 4px;
-	border-radius: 3px;
-	font-weight: 600;
-	float: none;
-	height: 30px;
-	margin: 0;
-	padding: 0 20px;
-	font-size: 13px;
-	line-height: 31px;
-}
-.orb-form .input-file .button:hover {
-	box-shadow: none;
-}
-.orb-form .input-file .button input {
-	position: absolute;
-	top: 0;
-	right: 0;
-	padding: 0;
-	font-size: 29px;
-	cursor: pointer;
-	opacity: 0;
-}
-/* selects */
-
-
-
-.orb-form .select i {
-	position: absolute;
-	top: 15px;
-	right: 15px;
-	width: 6px;
-	height: 9px;
-	background: #fff;
-	box-shadow: 0 0 0 12px #fff;
-	pointer-events: none;
-}
-.orb-form .select i:after,
-.orb-form .select i:before {
-	content: '';
-	position: absolute;
-	right: 0;
-	border-right: 4px solid transparent;
-	border-left: 4px solid transparent;
-}
-.orb-form .select i:after {
-	bottom: 0;
-	border-top: 4px solid #555;
-}
-.orb-form .select i:before {
-	top: 0;
-	border-bottom: 4px solid #555;
-}
-.orb-form .select-multiple select {
-	height: auto;
-}
-/* textareas */
-
-
-
-.orb-form .textarea textarea {
-	height: auto;
-	resize: none;
-}
-.orb-form .textarea-resizable textarea {
-	resize: vertical;
-}
-.orb-form .textarea-expandable textarea {
-	height: 38px;
-}
-.orb-form .textarea-expandable textarea:focus {
-	height: auto;
-}
-/* radios and checkboxes */
-
-
-
-
-.orb-form .radio,
-.orb-form .checkbox {
-	margin-bottom: 4px;
-	padding-left: 27px;
-	line-height: 27px;
-	color: #404040;
-	cursor: pointer;
-}
-.orb-form .radio:last-child,
-.orb-form .checkbox:last-child {
-	margin-bottom: 0;
-}
-.orb-form .radio input,
-.orb-form .checkbox input {
-	position: absolute;
-	left: -9999px;
-}
-.orb-form .radio i,
-.orb-form .checkbox i {
-	position: absolute;
-	top: 5px;
-	left: 0;
-	display: block;
-	width: 13px;
-	height: 13px;
-	outline: none;
-	border-width: 2px;
-	border-style: solid;
-	background: #fff;
-}
-.orb-form .radio i {
-	border-radius: 50%;
-}
-.orb-form .radio input + i:after,
-.orb-form .checkbox input + i:after {
-	position: absolute;
-	opacity: 0;
-	-ms-transition: opacity .1s;
-	-moz-transition: opacity .1s;
-	-webkit-transition: opacity .1s;
-}
-.orb-form .radio input + i:after {
-	content: '';
-	top: 4px;
-	left: 4px;
-	width: 5px;
-	height: 5px;
-	border-radius: 50%;
-}
-.orb-form .checkbox input + i:after {
-	content: '\f00c';
-	top: -1px;
-	left: -1px;
-	width: 15px;
-	height: 15px;
-	font: normal 12px/16px FontAwesome;
-	text-align: center;
-}
-.orb-form .radio input:checked + i:after,
-.orb-form .checkbox input:checked + i:after {
-	opacity: 1;
-}
-.orb-form .inline-group {
-	margin: 0 -30px -4px 0;
-}
-.orb-form .inline-group:after {
-	content: '';
-	display: table;
-	clear: both;
-}
-.orb-form .inline-group .radio,
-.orb-form .inline-group .checkbox {
-	float: left;
-	margin-right: 30px;
-}
-.orb-form .inline-group .radio:last-child,
-.orb-form .inline-group .checkbox:last-child {
-	margin-bottom: 4px;
-}
-/* toggles */
-
-
-
-.orb-form .toggle {
-	margin-bottom: 4px;
-	padding-right: 61px;
-	line-height: 27px;
-	font-weight: 400;
-	cursor: pointer;
-}
-.orb-form .toggle:last-child {
-	margin-bottom: 0;
-}
-.orb-form .toggle input {
-	position: absolute;
-	left: -9999px;
-}
-.orb-form .toggle i {
-	content: '';
-	position: absolute;
-	top: 4px;
-	right: 1px;
-	display: block;
-	width: 49px;
-	height: 17px;
-	border-width: 2px;
-	border-style: solid;
-	border-radius: 12px;
-	background: #fff;
-}
-.orb-form .toggle i:after {
-	content: 'OFF';
-	position: absolute;
-	top: 2px;
-	right: 8px;
-	left: 8px;
-	font-style: normal;
-	font-size: 9px;
-	line-height: 13px;
-	font-weight: 700;
-	text-align: left;
-	color: #5f5f5f;
-}
-.orb-form .toggle i:before {
-	content: '';
-	position: absolute;
-	z-index: 1;
-	top: 4px;
-	right: 4px;
-	display: block;
-	width: 9px;
-	height: 9px;
-	border-radius: 50%;
-	opacity: 1;
-	-ms-transition: right .2s;
-	-moz-transition: right .2s;
-	-webkit-transition: right .2s;
-}
-.orb-form .toggle input:checked + i:after {
-	content: 'ON';
-	text-align: right;
-}
-.orb-form .toggle input:checked + i:before {
-	right: 36px;
-}
-/* ratings */
-
-
-
-.orb-form .rating {
-	margin-bottom: 4px;
-	line-height: 27px;
-	color: #404040;
-}
-.orb-form .rating:last-child {
-	margin-bottom: 0;
-}
-.orb-form .rating input {
-	position: absolute;
-	left: -9999px;
-}
-.orb-form .rating label {
-	display: block;
-	float: right;
-	height: 17px;
-	margin-top: 5px;
-	padding: 0 2px;
-	font-size: 17px;
-	line-height: 17px;
-	cursor: pointer;
-}
-/* buttons */
-
-
-
-.orb-form .button {
-	float: right;
-	height: 39px;
-	overflow: hidden;
-	margin: 10px 0 0 20px;
-	padding: 0 25px;
-	outline: none;
-	border: 0;
-	font: 300 15px/39px 'Open Sans', Helvetica, Arial, sans-serif;
-	text-decoration: none;
-	color: #fff;
-	cursor: pointer;
-}
-.orb-form .button-uploading {
-	position: relative;
-	color: transparent;
-	cursor: default;
-}
-.orb-form .button-uploading:after {
-	content: 'Uploading...';
-	position: absolute;
-	top: 10px;
-	left: 5px;
-	width: 100px;
-	height: 100%;
-	color: #fff;
-	-o-animation: blink 1s linear infinite;
-	-ms-animation: blink 1s linear infinite;
-	-moz-animation: blink 1s linear infinite;
-	-webkit-animation: blink 1s linear infinite;
-}
-@-o-keyframes blink {
-0% {
-opacity: 1
-}
- 50% {
-opacity: 0.3
-}
- 100% {
-opacity: 1
-}
-}
-@-ms-keyframes blink {
-0% {
-opacity: 1
-}
- 50% {
-opacity: 0.3
-}
- 100% {
-opacity: 1
-}
-}
-@-moz-keyframes blink {
-0% {
-opacity: 1
-}
- 50% {
-opacity: 0.3
-}
- 100% {
-opacity: 1
-}
-}
-@-webkit-keyframes blink {
-0% {
-opacity: 1
-}
- 50% {
-opacity: 0.3
-}
- 100% {
-opacity: 1
-}
-}
-/* icons */
-
-
-
-.orb-form .icon-append,
-.orb-form .icon-prepend {
-	position: absolute;
-	top: 2px;
-	width: 29px;
-	height: 34px;
-	font-size: 1.3em;
-	line-height: 29px;
-	text-align: center;
-}
-.orb-form .icon-append {
-	right: 5px;
-	padding-left: 3px;
-	border-left-width: 2px;
-	border-left-style: solid;
-}
-.orb-form .icon-prepend {
-	left: 5px;
-	padding-right: 3px;
-	border-right-width: 2px;
-	border-right-style: solid;
-}
-.orb-form .input .icon-prepend + input,
-.orb-form .textarea .icon-prepend + textarea {
-	padding-left: 46px;
-}
-.orb-form .input .icon-append + input,
-.orb-form .textarea .icon-append + textarea {
-	padding-right: 46px;
-}
-.orb-form .input .icon-prepend + .icon-append + input,
-.orb-form .textarea .icon-prepend + .icon-append + textarea {
-	padding-left: 46px;
-}
-/* grid */
-
-
-
-.orb-form .row {
-	margin: 0 -15px;
-}
-.orb-form .row:after {
-	content: '';
-	display: table;
-	clear: both;
-}
-.orb-form .col {
-	float: left;
-	min-height: 1px;
-	padding-right: 15px;
-	padding-left: 15px;
-	box-sizing: border-box;
-	-moz-box-sizing: border-box;
-}
-.orb-form .col-1 {
-	width: 8.33%;
-}
-.orb-form .col-2 {
-	width: 16.66%;
-}
-.orb-form .col-3 {
-	width: 25%;
-}
-.orb-form .col-4 {
-	width: 33.33%;
-}
-.orb-form .col-5 {
-	width: 41.66%;
-}
-.orb-form .col-6 {
-	width: 50%;
-}
-.orb-form .col-7 {
-	width: 58.33%;
-}
-.orb-form .col-8 {
-	width: 66.67%;
-}
-.orb-form .col-9 {
-	width: 75%;
-}
-.orb-form .col-10 {
-	width: 83.33%;
-}
-.orb-form .col-11 {
-	width: 91.66%;
-}
-@media screen and (max-width: 600px) {
-.orb-form .col {
-	float: none;
-	width: 100%;
-}
-}
-/* tooltips */
-
-
-
-.orb-form .tooltip {
-	position: absolute;
-	z-index: 1;
-	left: -9999px;
-	padding: 6px 8px 6px;
-	border-radius: 3px;
-	font-size: 11px;
-	line-height: 16px;
-	font-weight: 400;
-	background: rgba(0,0,0,0.9);
-	color: #fff;
-	opacity: 0;
-	-ms-transition: margin .3s, opacity .3s;
-	-moz-transition: margin .3s, opacity .3s;
-	-webkit-transition: margin .3s, opacity .3s;
-}
-.orb-form .tooltip:after {
-	content: '';
-	position: absolute;
-}
-.orb-form .input input:focus + .tooltip,
-.orb-form .textarea textarea:focus + .tooltip {
-	opacity: 1;
-}
-.orb-form .tooltip-top-right {
-	bottom: 100%;
-	margin-bottom: 15px;
-}
-.orb-form .tooltip-top-right:after {
-	top: 100%;
-	right: 16px;
-	border-top: 4px solid rgba(0,0,0,.9);
-	border-right: 4px solid transparent;
-	border-left: 4px solid transparent;
-}
-.orb-form .input input:focus + .tooltip-top-right,
-.orb-form .textarea textarea:focus + .tooltip-top-right {
-	right: 0;
-	left: auto;
-	margin-bottom: 5px;
-}
-.orb-form .tooltip-top-left {
-	bottom: 100%;
-	margin-bottom: 15px;
-}
-.orb-form .tooltip-top-left:after {
-	top: 100%;
-	left: 16px;
-	border-top: 4px solid rgba(0,0,0,0.9);
-	border-right: 4px solid transparent;
-	border-left: 4px solid transparent;
-}
-.orb-form .input input:focus + .tooltip-top-left,
-.orb-form .textarea textarea:focus + .tooltip-top-left {
-	right: auto;
-	left: 0;
-	margin-bottom: 5px;
-}
-.orb-form .tooltip-right {
-	top: 9px;
-	white-space: nowrap;
-	margin-left: 15px;
-}
-.orb-form .tooltip-right:after {
-	top: 6px;
-	right: 100%;
-	border-top: 4px solid transparent;
-	border-right: 4px solid rgba(0,0,0,0.9);
-	border-bottom: 4px solid transparent;
-}
-.orb-form .input input:focus + .tooltip-right,
-.orb-form .textarea textarea:focus + .tooltip-right {
-	left: 100%;
-	margin-left: 5px;
-}
-.orb-form .tooltip-left {
-	top: 9px;
-	white-space: nowrap;
-	margin-right: 15px;
-}
-.orb-form .tooltip-left:after {
-	top: 6px;
-	left: 100%;
-	border-top: 4px solid transparent;
-	border-bottom: 4px solid transparent;
-	border-left: 4px solid rgba(0,0,0,0.9);
-}
-.orb-form .input input:focus + .tooltip-left,
-.orb-form .textarea textarea:focus + .tooltip-left {
-	right: 100%;
-	left: auto;
-	margin-right: 5px;
-}
-.orb-form .tooltip-bottom-right {
-	top: 100%;
-	margin-top: 15px;
-}
-.orb-form .tooltip-bottom-right:after {
-	bottom: 100%;
-	right: 16px;
-	border-right: 4px solid transparent;
-	border-bottom: 4px solid rgba(0,0,0,.9);
-	border-left: 4px solid transparent;
-}
-.orb-form .input input:focus + .tooltip-bottom-right,
-.orb-form .textarea textarea:focus + .tooltip-bottom-right {
-	right: 0;
-	left: auto;
-	margin-top: 5px;
-}
-.orb-form .tooltip-bottom-left {
-	top: 100%;
-	margin-top: 15px;
-}
-.orb-form .tooltip-bottom-left:after {
-	bottom: 100%;
-	left: 16px;
-	border-right: 4px solid transparent;
-	border-bottom: 4px solid rgba(0,0,0,0.9);
-	border-left: 4px solid transparent;
-}
-.orb-form .input input:focus + .tooltip-bottom-left,
-.orb-form .textarea textarea:focus + .tooltip-bottom-left {
-	right: auto;
-	left: 0;
-	margin-top: 5px;
-}
-/* normal state */
-
-
-
-.orb-form .input input,
-.orb-form .select select,
-.orb-form .textarea textarea,
-.orb-form .radio i,
-.orb-form .checkbox i,
-.orb-form .toggle i,
-.orb-form .icon-append,
-.orb-form .icon-prepend {
-	border-color: #c0c2c7;
-	-ms-transition: border-color 0.3s;
-	-moz-transition: border-color 0.3s;
-	-webkit-transition: border-color 0.3s;
-}
-.orb-form .toggle i:before {
-	background-color: #969fa1;
-}
-.orb-form .rating label {
-	color: #c0c2c7;
-	-ms-transition: color 0.3s;
-	-moz-transition: color 0.3s;
-	-webkit-transition: color 0.3s;
-}
-.orb-form .button {
-	background-color: #969fa1;
-	opacity: 0.8;
-	-ms-transition: opacity 0.2s;
-	-moz-transition: opacity 0.2s;
-	-webkit-transition: opacity 0.2s;
-}
-.orb-form .button.button-secondary {
-	background-color: #b3b3b3;
-}
-.orb-form .icon-append,
-.orb-form .icon-prepend {
-	color: #c0c2c7;
-}
-/* hover state */
-
-
-
-textarea:hover,
-input:hover {
-	background: #fffbdb;
-}
-.orb-form .input:hover input,
-.orb-form .select:hover select,
-.orb-form .textarea:hover textarea,
-.orb-form .radio:hover i,
-.orb-form .checkbox:hover i,
-.orb-form .toggle:hover i,
-.orb-form .ui-slider-handle:hover {
-	background: #fffbdb;
-}
-.orb-form .rating input + label:hover,
-.orb-form .rating input + label:hover ~ label {
-	color: #969fa1;
-}
-.orb-form .button:hover {
-	opacity: 1;
-}
-/* focus state */
-
-
-
-.orb-form .input input:focus,
-.orb-form .select select:focus,
-.orb-form .textarea textarea:focus,
-.orb-form .radio input:focus + i,
-.orb-form .checkbox input:focus + i,
-.orb-form .toggle input:focus + i {
-	border-color: #969fa1;
-}
-/* checked state */
-
-
-
-.orb-form .radio input + i:after {
-	background-color: #969fa1;
-}
-.orb-form .checkbox input + i:after {
-	color: #969fa1;
-}
-.orb-form .radio input:checked + i,
-.orb-form .checkbox input:checked + i,
-.orb-form .toggle input:checked + i {
-	border-color: #969fa1;
-}
-.orb-form .rating input:checked ~ label {
-	color: #f4cc13;
-}
-/* error state */
-
-
-.help-block {
-	color: #ee9393;
-}
-
-.orb-form .has-error input,
-.orb-form .has-error select,
-.orb-form .has-error textarea,
-.orb-form .radio.has-error i,
-.orb-form .checkbox.has-error i,
-.orb-form .toggle.has-error i {
-	border-color: #e9a89a;
-	background: #f0c6bd;
-}
-.orb-form .has-error .icon-append,
-.orb-form .has-error .icon-prepend {
-	border-color: #e9a89a;
-	color: #e9a89a
-}
-.orb-form .has-error select + i {
-	background: #f0c6bd !important;
-	box-shadow: 0 0 0 12px #f0c6bd;
-}
-.orb-form .toggle.has-error input:checked + i {
-	background: #f0c6bd;
-}
-.orb-form .has-error + em {
-	display: block;
-	margin-top: 6px;
-	padding: 0 1px;
-	font-style: normal;
-	font-weight: 400;
-	font-size: 0.9em;
-	line-height: 15px;
-	color: #ee9393;
-}
-.orb-form .rating.has-error + em {
-	margin-top: -4px;
-	margin-bottom: 4px;
-}
-/* success state */
-
-
-
-
-.orb-form .has-success input,
-.orb-form .has-success select,
-.orb-form .has-success textarea,
-.orb-form .radio.has-success i,
-.orb-form .checkbox.has-success i,
-.orb-form .toggle.has-success i {
-	border-color: #82b964;
-	background: #cae1bd;
-}
-.orb-form .has-success .icon-append,
-.orb-form .has-success .icon-prepend {
-	border-color: #82b964;
-	color: #82b964
-}
-.orb-form .has-success select + i {
-	background: #cae1bd;
-	box-shadow: 0 0 0 12px #cae1bd;
-}
-.orb-form .toggle.state-success input:checked + i {
-	background: #cae1bd;
-}
-.orb-form .state-success + em {
-	display: block;
-	margin-top: 6px;
-	padding: 0 1px;
-	font-style: normal;
-	font-size: 11px;
-	line-height: 15px;
-	color: #ee9393;
-}
-.orb-form .note-success {
-	color: #6fb679;
-}
-/* disabled state */
-
-
-
-.orb-form .input.state-disabled input,
-.orb-form .select.state-disabled,
-.orb-form .textarea.state-disabled {
-	background: #eee;
-	opacity: 0.5;
-}
-.orb-form .radio.state-disabled,
-.orb-form .checkbox.state-disabled,
-.orb-form .toggle.state-disabled,
-.orb-form .button.state-disabled {
-	opacity: 0.5;
-	cursor: default;
-}
-.orb-form .input.state-disabled:hover input,
-.orb-form .select.state-disabled:hover select,
-.orb-form .textarea.state-disabled:hover textarea,
-.orb-form .radio.state-disabled:hover i,
-.orb-form .checkbox.state-disabled:hover i,
-.orb-form .toggle.state-disabled:hover i {
-	border-color: #e5e5e5;
-}
-/* submited state */
-
-
-.orb-form .message {
-	display: none;
-	color: #6fb679;
-}
-.orb-form .message i {
-	display: block;
-	margin: 0 auto 20px;
-	width: 81px;
-	height: 81px;
-	background: #82b964;
-	color: #fff;
-	border-radius: 50%;
-	font-size: 30px;
-	line-height: 81px;
-}
-.orb-form.submited fieldset,
-.orb-form.submited footer {
-	display: none;
-}
-.orb-form.submited .message {
-	display: block;
-	padding: 25px 30px;
-	background: rgba(255,255,255,.9);
-	font: 300 18px/27px 'Open Sans', Helvetica, Arial, sans-serif;
-	text-align: center;
-}
-/* Datepicker */
-
-
-
-.ui-datepicker {
-	display: none;
-	padding: 10px 12px;
-	background: rgba(255,255,255,0.9);
-	box-shadow: 0 0 10px rgba(0,0,0,.3);
-	font: 13px/1.55 'Open Sans', Helvetica, Arial, sans-serif;
-	text-align: center;
-	color: #666;
-}
-.ui-datepicker a {
-	color: #404040;
-}
-.ui-datepicker-header {
-	position: relative;
-	margin: -10px -12px 10px;
-	padding: 10px;
-	border-bottom: 1px solid rgba(0,0,0,.1);
-	font-size: 15px;
-	line-height: 27px;
-}
-.ui-datepicker-prev,
-.ui-datepicker-next {
-	position: absolute;
-	top: 0;
-	display: block;
-	width: 47px;
-	height: 47px;
-	font-size: 15px;
-	line-height: 47px;
-	text-decoration: none;
-	cursor: pointer;
-}
-.ui-datepicker-prev {
-	left: 0;
-}
-.ui-datepicker-next {
-	right: 0;
-}
-.ui-datepicker-calendar {
-	border-collapse: collapse;
-	font-size: 13px;
-	line-height: 27px;
-}
-.ui-datepicker-calendar th {
-	color: #999;
-}
-.ui-datepicker-calendar a,
-.ui-datepicker-calendar span {
-	display: block;
-	width: 26px;
-	margin: auto;
-	text-decoration: none;
-	color: #404040;
-}
-.ui-datepicker-calendar a:hover {
-	background: rgba(0,0,0,.05);
-}
-.ui-datepicker-calendar span {
-	color: #bfbfbf;
-}
-.ui-datepicker-today a {
-	font-weight: 700;
-}
-.ui-datepicker-calendar .ui-state-active {
-	background: rgba(0,0,0,.05);
-	cursor: default;
-}
-.ui-datepicker-inline {
-	border: 2px solid #e5e5e5;
-	background: #fff;
-	box-shadow: none;
-}
-.ui-datepicker-inline .ui-datepicker-header {
-	line-height: 47px;
-}
-.ui-datepicker-inline .ui-datepicker-calendar {
-	width: 100%;
-}
-/* Slider */
-
-
-
-
-.orb-form .ui-slider {
-	position: relative;
-	height: 3px;
-	border-radius: 4px;
-	border: 2px solid #abb2b4;
-	background: #c0c2c7;
-	margin: 12px 6px 26px;
-}
-.orb-form .ui-slider-handle {
-	position: absolute;
-	width: 16px;
-	height: 16px;
-	border-radius: 50%;
-	margin: -8px 0 0 -8px;
-	border: 2px solid #abb2b4;
-	outline: none;
-	background: #fff;
-	transition: border-color 0.3s;
-	-moz-transition: border-color 0.3s;
-	-webkit-transition: border-color 0.3s;
-}
-.orb-form .ui-slider-handle:before {
-	content: "";
-	position: absolute;
-	width: 10px;
-	height: 10px;
-	border-radius: 50%;
-	background: #abb2b4;
-	top: 3px;
-	left: 3px;
-	z-index: 2
-}
-/* bootstrap compatibility */
-
-.orb-form *,
-.orb-form *:after,
-.orb-form *:before {
-	margin: 0;
-	box-sizing: content-box;
-	-moz-box-sizing: content-box;
-}
-.orb-form .label {
-	border-radius: 0;
-	font-size: 100%;
-	text-align: left;
-	white-space: normal;
-	color: inherit;
-}
-.orb-form .radio,
-.orb-form .checkbox {
-	font-weight: 400;
-}
-.orb-form .radio + .radio,
-.orb-form .checkbox + .checkbox {
-	margin-top: 0;
+@charset "utf-8";
+/* CSS Document */
+
+/* ========================================================================
+	TABLE OF CONTENTS
+	6. Forms
+		8.1 Bootstrap Forms 
+		8.2 ORB Forms	
+		
+/* ========================================================================
+ * 6.2 ORB Forms
+ * ======================================================================== */
+
+.orb-form {
+	outline: none;
+}
+.orb-form header {
+	display: block;
+	letter-spacing: -1px;
+	padding: 0 10px 10px;
+	margin: 0 -10px;
+	border-bottom: 5px solid rgba(0,0,0,.1);
+	font-size: 1.7em;
+	font-weight: 400;
+}
+.orb-form fieldset {
+	display: block;
+	padding: 10px 0;
+	border: none;
+}
+.orb-form fieldset + fieldset {
+	border-top: 5px solid rgba(0,0,0,.1);
+}
+.orb-form section {
+	margin-bottom: 10px;
+}
+.orb-form footer {
+	display: block;
+	padding: 10px;
+	border-top: 5px solid rgba(0,0,0,.1);
+	margin: 0 -10px;
+}
+.orb-form footer a {
+	color: #fff;
+}
+footer.footer {
+	display: block;
+	padding: 10px;
+	border-top: 5px solid rgba(0,0,0,.1);
+	margin: 10px;
+}
+footer.footer a {
+	color: #fff;
+}
+/*Small Hack For Inner Widgets Forms*/
+.inner-spacer .orb-form footer {
+	padding-bottom: 0;
+}
+.orb-form footer:after {
+	content: '';
+	display: table;
+	clear: both;
+}
+.orb-form a {
+	color: #969fa1;
+}
+.orb-form .label {
+	display: block;
+	margin-bottom: 6px;
+	line-height: 19px;
+	font-weight: 400;
+}
+.orb-form .label.col {
+	margin: 0;
+	padding-top: 10px;
+}
+.orb-form .note .help-block{
+	margin-top: 6px;
+	padding: 0 1px;
+	font-size: 11px;
+	line-height: 15px;
+	color: #999;
+}
+.orb-form .input,
+.orb-form .select,
+.orb-form .textarea,
+.orb-form .radio,
+.orb-form .checkbox,
+.orb-form .toggle,
+.orb-form .button {
+	position: relative;
+	display: block;
+}
+.orb-form .input input,
+.orb-form .select select,
+.orb-form .textarea textarea {
+	display: block;
+	box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	width: 100%;
+	font-weight: 300;
+	height: 38px;
+	padding: 8px 10px;
+	outline: none;
+	border-width: 1px;
+	border-radius: 3px;
+	border-style: solid;
+	background: #fff;
+	appearance: normal;
+	-moz-appearance: none;
+	-webkit-appearance: none;
+}
+.orb-form .progress {
+	float: right;
+	height: 36px;
+	font-weight: 300;
+	font-size: 2em;
+	color: #82b964;
+	background-color: transparent;
+	-webkit-box-shadow: none;
+	box-shadow: none;
+}
+/* file inputs */
+
+
+
+.orb-form .input-file .button {
+	position: absolute;
+	top: 4px;
+	right: 4px;
+	border-radius: 3px;
+	font-weight: 600;
+	float: none;
+	height: 30px;
+	margin: 0;
+	padding: 0 20px;
+	font-size: 13px;
+	line-height: 31px;
+}
+.orb-form .input-file .button:hover {
+	box-shadow: none;
+}
+.orb-form .input-file .button input {
+	position: absolute;
+	top: 0;
+	right: 0;
+	padding: 0;
+	font-size: 29px;
+	cursor: pointer;
+	opacity: 0;
+}
+/* selects */
+
+
+
+.orb-form .select i {
+	position: absolute;
+	top: 15px;
+	right: 15px;
+	width: 6px;
+	height: 9px;
+	background: #fff;
+	box-shadow: 0 0 0 12px #fff;
+	pointer-events: none;
+}
+.orb-form .select i:after,
+.orb-form .select i:before {
+	content: '';
+	position: absolute;
+	right: 0;
+	border-right: 4px solid transparent;
+	border-left: 4px solid transparent;
+}
+.orb-form .select i:after {
+	bottom: 0;
+	border-top: 4px solid #555;
+}
+.orb-form .select i:before {
+	top: 0;
+	border-bottom: 4px solid #555;
+}
+.orb-form .select-multiple select {
+	height: auto;
+}
+/* textareas */
+
+
+
+.orb-form .textarea textarea {
+	height: auto;
+	resize: none;
+}
+.orb-form .textarea-resizable textarea {
+	resize: vertical;
+}
+.orb-form .textarea-expandable textarea {
+	height: 38px;
+}
+.orb-form .textarea-expandable textarea:focus {
+	height: auto;
+}
+/* radios and checkboxes */
+
+
+
+
+.orb-form .radio,
+.orb-form .checkbox {
+	margin-bottom: 4px;
+	padding-left: 27px;
+	line-height: 27px;
+	color: #404040;
+	cursor: pointer;
+}
+.orb-form .radio:last-child,
+.orb-form .checkbox:last-child {
+	margin-bottom: 0;
+}
+.orb-form .radio input,
+.orb-form .checkbox input {
+	position: absolute;
+	left: -9999px;
+}
+.orb-form .radio i,
+.orb-form .checkbox i {
+	position: absolute;
+	top: 5px;
+	left: 0;
+	display: block;
+	width: 13px;
+	height: 13px;
+	outline: none;
+	border-width: 2px;
+	border-style: solid;
+	background: #fff;
+}
+.orb-form .radio i {
+	border-radius: 50%;
+}
+.orb-form .radio input + i:after,
+.orb-form .checkbox input + i:after {
+	position: absolute;
+	opacity: 0;
+	-ms-transition: opacity .1s;
+	-moz-transition: opacity .1s;
+	-webkit-transition: opacity .1s;
+}
+.orb-form .radio input + i:after {
+	content: '';
+	top: 4px;
+	left: 4px;
+	width: 5px;
+	height: 5px;
+	border-radius: 50%;
+}
+.orb-form .checkbox input + i:after {
+	content: '\f00c';
+	top: -1px;
+	left: -1px;
+	width: 15px;
+	height: 15px;
+	font: normal 12px/16px FontAwesome;
+	text-align: center;
+}
+.orb-form .radio input:checked + i:after,
+.orb-form .checkbox input:checked + i:after {
+	opacity: 1;
+}
+.orb-form .inline-group {
+	margin: 0 -30px -4px 0;
+}
+.orb-form .inline-group:after {
+	content: '';
+	display: table;
+	clear: both;
+}
+.orb-form .inline-group .radio,
+.orb-form .inline-group .checkbox {
+	float: left;
+	margin-right: 30px;
+}
+.orb-form .inline-group .radio:last-child,
+.orb-form .inline-group .checkbox:last-child {
+	margin-bottom: 4px;
+}
+/* toggles */
+
+
+
+.orb-form .toggle {
+	margin-bottom: 4px;
+	padding-right: 61px;
+	line-height: 27px;
+	font-weight: 400;
+	cursor: pointer;
+}
+.orb-form .toggle:last-child {
+	margin-bottom: 0;
+}
+.orb-form .toggle input {
+	position: absolute;
+	left: -9999px;
+}
+.orb-form .toggle i {
+	content: '';
+	position: absolute;
+	top: 4px;
+	right: 1px;
+	display: block;
+	width: 49px;
+	height: 17px;
+	border-width: 2px;
+	border-style: solid;
+	border-radius: 12px;
+	background: #fff;
+}
+.orb-form .toggle i:after {
+	content: 'OFF';
+	position: absolute;
+	top: 2px;
+	right: 8px;
+	left: 8px;
+	font-style: normal;
+	font-size: 9px;
+	line-height: 13px;
+	font-weight: 700;
+	text-align: left;
+	color: #5f5f5f;
+}
+.orb-form .toggle i:before {
+	content: '';
+	position: absolute;
+	z-index: 1;
+	top: 4px;
+	right: 4px;
+	display: block;
+	width: 9px;
+	height: 9px;
+	border-radius: 50%;
+	opacity: 1;
+	-ms-transition: right .2s;
+	-moz-transition: right .2s;
+	-webkit-transition: right .2s;
+}
+.orb-form .toggle input:checked + i:after {
+	content: 'ON';
+	text-align: right;
+}
+.orb-form .toggle input:checked + i:before {
+	right: 36px;
+}
+/* ratings */
+
+
+
+.orb-form .rating {
+	margin-bottom: 4px;
+	line-height: 27px;
+	color: #404040;
+}
+.orb-form .rating:last-child {
+	margin-bottom: 0;
+}
+.orb-form .rating input {
+	position: absolute;
+	left: -9999px;
+}
+.orb-form .rating label {
+	display: block;
+	float: right;
+	height: 17px;
+	margin-top: 5px;
+	padding: 0 2px;
+	font-size: 17px;
+	line-height: 17px;
+	cursor: pointer;
+}
+/* buttons */
+
+
+
+.orb-form .button {
+	float: right;
+	height: 39px;
+	overflow: hidden;
+	margin: 10px 0 0 20px;
+	padding: 0 25px;
+	outline: none;
+	border: 0;
+	font: 300 15px/39px 'Open Sans', Helvetica, Arial, sans-serif;
+	text-decoration: none;
+	color: #fff;
+	cursor: pointer;
+}
+.orb-form .button-uploading {
+	position: relative;
+	color: transparent;
+	cursor: default;
+}
+.orb-form .button-uploading:after {
+	content: 'Uploading...';
+	position: absolute;
+	top: 10px;
+	left: 5px;
+	width: 100px;
+	height: 100%;
+	color: #fff;
+	-o-animation: blink 1s linear infinite;
+	-ms-animation: blink 1s linear infinite;
+	-moz-animation: blink 1s linear infinite;
+	-webkit-animation: blink 1s linear infinite;
+}
+@-o-keyframes blink {
+0% {
+opacity: 1
+}
+ 50% {
+opacity: 0.3
+}
+ 100% {
+opacity: 1
+}
+}
+@-ms-keyframes blink {
+0% {
+opacity: 1
+}
+ 50% {
+opacity: 0.3
+}
+ 100% {
+opacity: 1
+}
+}
+@-moz-keyframes blink {
+0% {
+opacity: 1
+}
+ 50% {
+opacity: 0.3
+}
+ 100% {
+opacity: 1
+}
+}
+@-webkit-keyframes blink {
+0% {
+opacity: 1
+}
+ 50% {
+opacity: 0.3
+}
+ 100% {
+opacity: 1
+}
+}
+/* icons */
+
+
+
+.orb-form .icon-append,
+.orb-form .icon-prepend {
+	position: absolute;
+	top: 2px;
+	width: 29px;
+	height: 34px;
+	font-size: 1.3em;
+	line-height: 29px;
+	text-align: center;
+}
+.orb-form .icon-append {
+	right: 5px;
+	padding-left: 3px;
+	border-left-width: 2px;
+	border-left-style: solid;
+}
+.orb-form .icon-prepend {
+	left: 5px;
+	padding-right: 3px;
+	border-right-width: 2px;
+	border-right-style: solid;
+}
+.orb-form .input .icon-prepend + input,
+.orb-form .textarea .icon-prepend + textarea {
+	padding-left: 46px;
+}
+.orb-form .input .icon-append + input,
+.orb-form .textarea .icon-append + textarea {
+	padding-right: 46px;
+}
+.orb-form .input .icon-prepend + .icon-append + input,
+.orb-form .textarea .icon-prepend + .icon-append + textarea {
+	padding-left: 46px;
+}
+/* grid */
+
+
+
+.orb-form .row {
+	margin: 0 -15px;
+}
+.orb-form .row:after {
+	content: '';
+	display: table;
+	clear: both;
+}
+.orb-form .col {
+	float: left;
+	min-height: 1px;
+	padding-right: 15px;
+	padding-left: 15px;
+	box-sizing: border-box;
+	-moz-box-sizing: border-box;
+}
+.orb-form .col-1 {
+	width: 8.33%;
+}
+.orb-form .col-2 {
+	width: 16.66%;
+}
+.orb-form .col-3 {
+	width: 25%;
+}
+.orb-form .col-4 {
+	width: 33.33%;
+}
+.orb-form .col-5 {
+	width: 41.66%;
+}
+.orb-form .col-6 {
+	width: 50%;
+}
+.orb-form .col-7 {
+	width: 58.33%;
+}
+.orb-form .col-8 {
+	width: 66.67%;
+}
+.orb-form .col-9 {
+	width: 75%;
+}
+.orb-form .col-10 {
+	width: 83.33%;
+}
+.orb-form .col-11 {
+	width: 91.66%;
+}
+@media screen and (max-width: 600px) {
+.orb-form .col {
+	float: none;
+	width: 100%;
+}
+}
+/* tooltips */
+
+
+
+.orb-form .tooltip {
+	position: absolute;
+	z-index: 1;
+	left: -9999px;
+	padding: 6px 8px 6px;
+	border-radius: 3px;
+	font-size: 11px;
+	line-height: 16px;
+	font-weight: 400;
+	background: rgba(0,0,0,0.9);
+	color: #fff;
+	opacity: 0;
+	-ms-transition: margin .3s, opacity .3s;
+	-moz-transition: margin .3s, opacity .3s;
+	-webkit-transition: margin .3s, opacity .3s;
+}
+.orb-form .tooltip:after {
+	content: '';
+	position: absolute;
+}
+.orb-form .input input:focus + .tooltip,
+.orb-form .textarea textarea:focus + .tooltip {
+	opacity: 1;
+}
+.orb-form .tooltip-top-right {
+	bottom: 100%;
+	margin-bottom: 15px;
+}
+.orb-form .tooltip-top-right:after {
+	top: 100%;
+	right: 16px;
+	border-top: 4px solid rgba(0,0,0,.9);
+	border-right: 4px solid transparent;
+	border-left: 4px solid transparent;
+}
+.orb-form .input input:focus + .tooltip-top-right,
+.orb-form .textarea textarea:focus + .tooltip-top-right {
+	right: 0;
+	left: auto;
+	margin-bottom: 5px;
+}
+.orb-form .tooltip-top-left {
+	bottom: 100%;
+	margin-bottom: 15px;
+}
+.orb-form .tooltip-top-left:after {
+	top: 100%;
+	left: 16px;
+	border-top: 4px solid rgba(0,0,0,0.9);
+	border-right: 4px solid transparent;
+	border-left: 4px solid transparent;
+}
+.orb-form .input input:focus + .tooltip-top-left,
+.orb-form .textarea textarea:focus + .tooltip-top-left {
+	right: auto;
+	left: 0;
+	margin-bottom: 5px;
+}
+.orb-form .tooltip-right {
+	top: 9px;
+	white-space: nowrap;
+	margin-left: 15px;
+}
+.orb-form .tooltip-right:after {
+	top: 6px;
+	right: 100%;
+	border-top: 4px solid transparent;
+	border-right: 4px solid rgba(0,0,0,0.9);
+	border-bottom: 4px solid transparent;
+}
+.orb-form .input input:focus + .tooltip-right,
+.orb-form .textarea textarea:focus + .tooltip-right {
+	left: 100%;
+	margin-left: 5px;
+}
+.orb-form .tooltip-left {
+	top: 9px;
+	white-space: nowrap;
+	margin-right: 15px;
+}
+.orb-form .tooltip-left:after {
+	top: 6px;
+	left: 100%;
+	border-top: 4px solid transparent;
+	border-bottom: 4px solid transparent;
+	border-left: 4px solid rgba(0,0,0,0.9);
+}
+.orb-form .input input:focus + .tooltip-left,
+.orb-form .textarea textarea:focus + .tooltip-left {
+	right: 100%;
+	left: auto;
+	margin-right: 5px;
+}
+.orb-form .tooltip-bottom-right {
+	top: 100%;
+	margin-top: 15px;
+}
+.orb-form .tooltip-bottom-right:after {
+	bottom: 100%;
+	right: 16px;
+	border-right: 4px solid transparent;
+	border-bottom: 4px solid rgba(0,0,0,.9);
+	border-left: 4px solid transparent;
+}
+.orb-form .input input:focus + .tooltip-bottom-right,
+.orb-form .textarea textarea:focus + .tooltip-bottom-right {
+	right: 0;
+	left: auto;
+	margin-top: 5px;
+}
+.orb-form .tooltip-bottom-left {
+	top: 100%;
+	margin-top: 15px;
+}
+.orb-form .tooltip-bottom-left:after {
+	bottom: 100%;
+	left: 16px;
+	border-right: 4px solid transparent;
+	border-bottom: 4px solid rgba(0,0,0,0.9);
+	border-left: 4px solid transparent;
+}
+.orb-form .input input:focus + .tooltip-bottom-left,
+.orb-form .textarea textarea:focus + .tooltip-bottom-left {
+	right: auto;
+	left: 0;
+	margin-top: 5px;
+}
+/* normal state */
+
+
+
+.orb-form .input input,
+.orb-form .select select,
+.orb-form .textarea textarea,
+.orb-form .radio i,
+.orb-form .checkbox i,
+.orb-form .toggle i,
+.orb-form .icon-append,
+.orb-form .icon-prepend {
+	border-color: #c0c2c7;
+	-ms-transition: border-color 0.3s;
+	-moz-transition: border-color 0.3s;
+	-webkit-transition: border-color 0.3s;
+}
+.orb-form .toggle i:before {
+	background-color: #969fa1;
+}
+.orb-form .rating label {
+	color: #c0c2c7;
+	-ms-transition: color 0.3s;
+	-moz-transition: color 0.3s;
+	-webkit-transition: color 0.3s;
+}
+.orb-form .button {
+	background-color: #969fa1;
+	opacity: 0.8;
+	-ms-transition: opacity 0.2s;
+	-moz-transition: opacity 0.2s;
+	-webkit-transition: opacity 0.2s;
+}
+.orb-form .button.button-secondary {
+	background-color: #b3b3b3;
+}
+.orb-form .icon-append,
+.orb-form .icon-prepend {
+	color: #c0c2c7;
+}
+/* hover state */
+
+
+
+textarea:hover,
+input:hover {
+	background: #fffbdb;
+}
+.orb-form .input:hover input,
+.orb-form .select:hover select,
+.orb-form .textarea:hover textarea,
+.orb-form .radio:hover i,
+.orb-form .checkbox:hover i,
+.orb-form .toggle:hover i,
+.orb-form .ui-slider-handle:hover {
+	background: #fffbdb;
+}
+.orb-form .rating input + label:hover,
+.orb-form .rating input + label:hover ~ label {
+	color: #969fa1;
+}
+.orb-form .button:hover {
+	opacity: 1;
+}
+/* focus state */
+
+
+
+.orb-form .input input:focus,
+.orb-form .select select:focus,
+.orb-form .textarea textarea:focus,
+.orb-form .radio input:focus + i,
+.orb-form .checkbox input:focus + i,
+.orb-form .toggle input:focus + i {
+	border-color: #969fa1;
+}
+/* checked state */
+
+
+
+.orb-form .radio input + i:after {
+	background-color: #969fa1;
+}
+.orb-form .checkbox input + i:after {
+	color: #969fa1;
+}
+.orb-form .radio input:checked + i,
+.orb-form .checkbox input:checked + i,
+.orb-form .toggle input:checked + i {
+	border-color: #969fa1;
+}
+.orb-form .rating input:checked ~ label {
+	color: #f4cc13;
+}
+/* error state */
+
+
+.help-block {
+	color: #ee9393;
+}
+
+.orb-form .has-error input,
+.orb-form .has-error select,
+.orb-form .has-error textarea,
+.orb-form .radio.has-error i,
+.orb-form .checkbox.has-error i,
+.orb-form .toggle.has-error i {
+	border-color: #e9a89a;
+	background: #f0c6bd;
+}
+.orb-form .has-error .icon-append,
+.orb-form .has-error .icon-prepend {
+	border-color: #e9a89a;
+	color: #e9a89a
+}
+.orb-form .has-error select + i {
+	background: #f0c6bd !important;
+	box-shadow: 0 0 0 12px #f0c6bd;
+}
+.orb-form .toggle.has-error input:checked + i {
+	background: #f0c6bd;
+}
+.orb-form .has-error + em {
+	display: block;
+	margin-top: 6px;
+	padding: 0 1px;
+	font-style: normal;
+	font-weight: 400;
+	font-size: 0.9em;
+	line-height: 15px;
+	color: #ee9393;
+}
+.orb-form .rating.has-error + em {
+	margin-top: -4px;
+	margin-bottom: 4px;
+}
+/* success state */
+
+
+
+
+.orb-form .has-success input,
+.orb-form .has-success select,
+.orb-form .has-success textarea,
+.orb-form .radio.has-success i,
+.orb-form .checkbox.has-success i,
+.orb-form .toggle.has-success i {
+	border-color: #82b964;
+	background: #cae1bd;
+}
+.orb-form .has-success .icon-append,
+.orb-form .has-success .icon-prepend {
+	border-color: #82b964;
+	color: #82b964
+}
+.orb-form .has-success select + i {
+	background: #cae1bd;
+	box-shadow: 0 0 0 12px #cae1bd;
+}
+.orb-form .toggle.state-success input:checked + i {
+	background: #cae1bd;
+}
+.orb-form .state-success + em {
+	display: block;
+	margin-top: 6px;
+	padding: 0 1px;
+	font-style: normal;
+	font-size: 11px;
+	line-height: 15px;
+	color: #ee9393;
+}
+.orb-form .note-success {
+	color: #6fb679;
+}
+/* disabled state */
+
+
+
+.orb-form .input.state-disabled input,
+.orb-form .select.state-disabled,
+.orb-form .textarea.state-disabled {
+	background: #eee;
+	opacity: 0.5;
+}
+.orb-form .radio.state-disabled,
+.orb-form .checkbox.state-disabled,
+.orb-form .toggle.state-disabled,
+.orb-form .button.state-disabled {
+	opacity: 0.5;
+	cursor: default;
+}
+.orb-form .input.state-disabled:hover input,
+.orb-form .select.state-disabled:hover select,
+.orb-form .textarea.state-disabled:hover textarea,
+.orb-form .radio.state-disabled:hover i,
+.orb-form .checkbox.state-disabled:hover i,
+.orb-form .toggle.state-disabled:hover i {
+	border-color: #e5e5e5;
+}
+/* submited state */
+
+
+.orb-form .message {
+	display: none;
+	color: #6fb679;
+}
+.orb-form .message i {
+	display: block;
+	margin: 0 auto 20px;
+	width: 81px;
+	height: 81px;
+	background: #82b964;
+	color: #fff;
+	border-radius: 50%;
+	font-size: 30px;
+	line-height: 81px;
+}
+.orb-form.submited fieldset,
+.orb-form.submited footer {
+	display: none;
+}
+.orb-form.submited .message {
+	display: block;
+	padding: 25px 30px;
+	background: rgba(255,255,255,.9);
+	font: 300 18px/27px 'Open Sans', Helvetica, Arial, sans-serif;
+	text-align: center;
+}
+/* Datepicker */
+
+
+
+.ui-datepicker {
+	display: none;
+	padding: 10px 12px;
+	background: rgba(255,255,255,0.9);
+	box-shadow: 0 0 10px rgba(0,0,0,.3);
+	font: 13px/1.55 'Open Sans', Helvetica, Arial, sans-serif;
+	text-align: center;
+	color: #666;
+}
+.ui-datepicker a {
+	color: #404040;
+}
+.ui-datepicker-header {
+	position: relative;
+	margin: -10px -12px 10px;
+	padding: 10px;
+	border-bottom: 1px solid rgba(0,0,0,.1);
+	font-size: 15px;
+	line-height: 27px;
+}
+.ui-datepicker-prev,
+.ui-datepicker-next {
+	position: absolute;
+	top: 0;
+	display: block;
+	width: 47px;
+	height: 47px;
+	font-size: 15px;
+	line-height: 47px;
+	text-decoration: none;
+	cursor: pointer;
+}
+.ui-datepicker-prev {
+	left: 0;
+}
+.ui-datepicker-next {
+	right: 0;
+}
+.ui-datepicker-calendar {
+	border-collapse: collapse;
+	font-size: 13px;
+	line-height: 27px;
+}
+.ui-datepicker-calendar th {
+	color: #999;
+}
+.ui-datepicker-calendar a,
+.ui-datepicker-calendar span {
+	display: block;
+	width: 26px;
+	margin: auto;
+	text-decoration: none;
+	color: #404040;
+}
+.ui-datepicker-calendar a:hover {
+	background: rgba(0,0,0,.05);
+}
+.ui-datepicker-calendar span {
+	color: #bfbfbf;
+}
+.ui-datepicker-today a {
+	font-weight: 700;
+}
+.ui-datepicker-calendar .ui-state-active {
+	background: rgba(0,0,0,.05);
+	cursor: default;
+}
+.ui-datepicker-inline {
+	border: 2px solid #e5e5e5;
+	background: #fff;
+	box-shadow: none;
+}
+.ui-datepicker-inline .ui-datepicker-header {
+	line-height: 47px;
+}
+.ui-datepicker-inline .ui-datepicker-calendar {
+	width: 100%;
+}
+/* Slider */
+
+
+
+
+.orb-form .ui-slider {
+	position: relative;
+	height: 3px;
+	border-radius: 4px;
+	border: 2px solid #abb2b4;
+	background: #c0c2c7;
+	margin: 12px 6px 26px;
+}
+.orb-form .ui-slider-handle {
+	position: absolute;
+	width: 16px;
+	height: 16px;
+	border-radius: 50%;
+	margin: -8px 0 0 -8px;
+	border: 2px solid #abb2b4;
+	outline: none;
+	background: #fff;
+	transition: border-color 0.3s;
+	-moz-transition: border-color 0.3s;
+	-webkit-transition: border-color 0.3s;
+}
+.orb-form .ui-slider-handle:before {
+	content: "";
+	position: absolute;
+	width: 10px;
+	height: 10px;
+	border-radius: 50%;
+	background: #abb2b4;
+	top: 3px;
+	left: 3px;
+	z-index: 2
+}
+/* bootstrap compatibility */
+
+.orb-form *,
+.orb-form *:after,
+.orb-form *:before {
+	margin: 0;
+	box-sizing: content-box;
+	-moz-box-sizing: content-box;
+}
+.orb-form .label {
+	border-radius: 0;
+	font-size: 100%;
+	text-align: left;
+	white-space: normal;
+	color: inherit;
+}
+.orb-form .radio,
+.orb-form .checkbox {
+	font-weight: 400;
+}
+.orb-form .radio + .radio,
+.orb-form .checkbox + .checkbox {
+	margin-top: 0;
 }

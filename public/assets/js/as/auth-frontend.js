@@ -94,14 +94,14 @@
 				//PASO 1-2 a 1-3
 				$("#btn-next-confirm2").click(function(){
 					$("#paso1-3, #btn-return-confirm2, #btn-next-confirm3").show("slow");
-					$("#paso1-2, #btn-return-confirm1, #btn-next-confirm2").hide("slow");
+					$("#paso1-2, #btn-return-confirm1, #btn-next-confirm2").hide("slow");					
 				})
 
 					//REGRESAR
 				$("#btn-return-confirm2").click(function(){
 					$("#paso1-2, #btn-return-confirm1, #btn-next-confirm2").show("slow");
 					$("#paso1-3, #btn-return-confirm2, #btn-next-confirm3").hide("slow");
-				})
+				})		
 
 				//PASO 1-3 a 2-1
 				$("#btn-next-confirm3").click(function(){
