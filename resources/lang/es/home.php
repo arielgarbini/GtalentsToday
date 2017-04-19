@@ -10,6 +10,7 @@ return [
 	'Guarantee'					=>  'Garantías',
 	'Contact'					=>  'Contacto',
 	'Login'						=> 	'Acceder',
+	'closeButton'				=>  'Cerrar',
 	'Sign up'					=>  'Registrarme',
 	'Why join'					=>  '¿Por qué unirse a',
 	'members' => 'miembros',

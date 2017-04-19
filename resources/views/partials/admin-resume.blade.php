@@ -76,7 +76,7 @@
 				<figure>
 					<span class="icon-gTalents_supplier-26"></span>
 				</figure>
-				<p>@lang('app.poster')</p>
+				<p>@lang('app.supplier')</p>
 			</div>
 
 			<!--ACTIVO-->

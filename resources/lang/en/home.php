@@ -11,6 +11,7 @@ return [
 	'Contact'				=>  'Contact',
 	'Login'					=> 	'Login',
 	'Sign up'				=>  'Sign up',
+	'closeButton'				=>  'Close',
 	'Why join'				=>  'Why join',
 	'How to connect Executive Recruiters around the world'  =>  'Exchanging the right talent between recruiting experts',
 	'Present candidates, post positions confidentially.'  =>  'Present candidates, post positions confidentially.',
