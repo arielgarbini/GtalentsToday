@@ -641,6 +641,9 @@
 @section('scripts')
     <script type="text/javascript">
 		$(document).ready(function(){
+		    $('.subopciones-select li').click(function(){
+				$('#validate-especialization').remove();
+			});
 		    $('#validate-select').click(function(e){
 		        var validate = false;
 				$('.categoria-container-item ul li a').each(function(){
@@ -651,7 +654,9 @@
 				if(!validate){
                     e.preventDefault();
                     e.stopPropagation();
-                    $('.categoria-container-item').parent().append('<p class="text-darger" style="color:red; text-align: right; font-style: italic;">{{trans("app.you_must_select_a_specialization")}}</p>');
+                    if(!document.getElementById('validate-especialization')){
+                        $('.categoria-container-item').parent().append('<p id="validate-especialization" class="text-darger" style="color:red; text-align: right; font-style: italic;">{{trans("app.you_must_select_a_specialization")}}</p>');
+					}
 				}
 			});
 
@@ -689,6 +694,13 @@
             $('#legal_company_name').val($('#company_name').val());
 			$('#legal_first_name').val($('#first_name').val());
 			$('#legal_last_name').val($('#last_name').val());
+            $('#country_id2').val($('#country_id').val());
+            $('#state2').val($('#state').val());
+            $('#city2').val($('#city').val());
+            $('#address2').val($('#address').val());
+            $('#complement2').val($('#complement').val());
+            $('#zip_code2').val($('#zip_code').val());
+
 
 		   $('#first_name').keyup(function(){
                $('#legal_first_name').val($(this).val());
@@ -700,6 +712,28 @@
 
             $('#company_name').keyup(function(){
                 $('#legal_company_name').val($(this).val());
+            });
+
+
+
+            $('#city').keyup(function(){
+                $('#city2').val($(this).val());
+            });
+
+            $('#address').keyup(function(){
+                $('#address2').val($(this).val());
+            });
+
+            $('#complement').keyup(function(){
+                $('#complement2').val($(this).val());
+            });
+
+            $('#zip_code').keyup(function(){
+                $('#zip_code2').val($(this).val());
+            });
+
+            $('#state').change(function(){
+                $('#state2').val($(this).val());
             });
 		});
 
@@ -732,7 +766,10 @@
 
         $('#country_id').change(function (e) {
             var country = $('#country_id').find(':selected').val();
+            $('#country_id2').val(country);
             var state = 'state';
+            getStates(country, state);
+            var state = 'state2';
             getStates(country, state);
         });
 
