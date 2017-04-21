@@ -74,6 +74,7 @@ return [
     'experience' => 'Experiencia',
     'profile_position' => 'Posiciones del perfil',
     'update_profile' => 'Actualizar Perfil',
+    'update_profile_success' => 'Perfil actualizado correctamente',
     'update_experience' => 'Actualizar Experiencia',
     'register_not_found' => 'Registro no encontrado',
     'no_entry_permission' => 'No tiene permisos sobre el registro',
@@ -1024,6 +1025,12 @@ return [
     'buy'                   => 'Comprar',
     'send_you_the_invoice'  => 'En breve le enviaremos la factura <br> e instrucción de pago',
     'cr_my_credits'         => 'Mis Creditos',
+    'payment_description'   => 'Descripción de pago',
+    'there_was_error_paypal' => 'Ocurrio un error con el servicio de paypal vuelva a intentarlo',
+    'you_must_select_credits' => 'Debe seleccionar la candidad de creditos a comprar',
+    'credits_purchase_successfully' => 'Creditos comprados correctamente',
+    'credits_purchase_cancel'  => 'Compra de creditos cancelada',
+    'credits_purchase_error'  => 'Error en la compra de creditos intente de nuevo',
 
     //califications
     'activity_records'      => 'Registros de Actividades',

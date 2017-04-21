@@ -71,6 +71,7 @@ return [
     'experience' => 'Experience',
     'profile_position' => 'Profile Positions',
     'update_profile' => 'Updated Profile',
+    'update_profile_success' => 'Profile updated successfully',
     'update_experience' => 'Updated Experience',
     'register_not_found' => 'Register not Found',
     'no_entry_permission' => 'No entry permission',
@@ -928,6 +929,12 @@ return [
     'buy'                   => 'Buy',
     'send_you_the_invoice'  => 'We will send you the invoice shortly <br> and payment instruction',
     'cr_my_credits'         => 'My Credits',
+    'payment_description'   => 'Payment description',
+    'there_was_error_paypal' => 'There was an error with the paypal service try again',
+    'you_must_select_credits' => 'You must select the number of credits to buy',
+    'credits_purchase_successfully' => 'Credits purchased successfully',
+    'credits_purchase_cancel'  => 'Credits purchase canceled',
+    'credits_purchase_error' => 'Credits purchase error try again',
 
     //califications
     'activity_records'      => 'Activity Records',

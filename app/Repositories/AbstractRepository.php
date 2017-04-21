@@ -42,6 +42,11 @@ class AbstractRepository {
     {
         return $this->model->first();
     }
+
+    function last()
+    {
+        return $this->model->orderBy('created_at','desc')->first();
+    }
     /**
      * @param array $attributes
      *

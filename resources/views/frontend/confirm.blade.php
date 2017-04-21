@@ -281,7 +281,7 @@
 						</a>
 
 						<!--CONTENEDOR DE SUB-OPCIONES-->
-						<ul class="subopciones subopciones-select">
+						<ul class="subopciones subopciones-select industries">
 							<!--ITEM 1-->
 							@foreach($industries as $key => $ind)
 							<li value="{{$key}}">
@@ -290,6 +290,7 @@
 								</a>
 							</li>
 							@endforeach
+							<input type="hidden" name="industries" id="industries">
 						</ul>
 					</div>
 
@@ -303,7 +304,7 @@
 
 						<!--CONTENEDOR DE SUB-OPCIONES-->
 						<!--CONTENEDOR DE SUB-OPCIONES-->
-						<ul class="subopciones subopciones-select">
+						<ul class="subopciones subopciones-select funcala">
 							<!--ITEM 1-->
 							@foreach($functionalArea as $key => $fun)
 								<li value="{{$key}}">
@@ -312,6 +313,7 @@
 									</a>
 								</li>
 							@endforeach
+							<input type="hidden" name="funcala" id="funcala">
 						</ul>
 					</div>
 				</div>
@@ -641,9 +643,47 @@
 @section('scripts')
     <script type="text/javascript">
 		$(document).ready(function(){
-		    $('.subopciones-select li').click(function(){
-				$('#validate-especialization').remove();
-			});
+            $('body').keypress(function(e){
+                if(e.keyCode==13){
+                    $('.move-link .btn-main').each(function(){
+                        if($(this).parent().css('display') == 'block'){
+                            $(this).click();
+                            e.preventDefault();
+                            e.stopPropagation();
+                            return false;
+                        }
+                    });
+                }
+            });
+			industries = new Array();
+			funcala = new Array();
+            $('.subopciones-select li').click(function(){
+                $('#validate-especialization').remove();
+                if($(this).parent().hasClass('industries')){
+                    if($(this).find('a').hasClass('active-option')){
+                        industries.push($(this).attr('value'));
+                    } else {
+                        industries = industries.toString();
+                        industries = industries.replace(','+$(this).attr('value'), '');
+                        industries = industries.replace($(this).attr('value')+',', '');
+                        industries = industries.split(',');
+                    }
+                    console.log(industries);
+                    $('#industries').val(industries.toString());
+                }
+                if($(this).parent().hasClass('funcala')){
+                    if($(this).find('a').hasClass('active-option')){
+                        funcala.push($(this).attr('value'));
+                    } else {
+                        funcala = industries.toString();
+                        funcala = industries.replace(','+$(this).attr('value'), '');
+                        funcala = industries.replace($(this).attr('value')+',', '');
+                        funcala = industries.split(',');
+                    }
+                    console.log(funcala);
+                    $('#funcala').val(funcala.toString());
+                }
+            });
 		    $('#validate-select').click(function(e){
 		        var validate = false;
 				$('.categoria-container-item ul li a').each(function(){

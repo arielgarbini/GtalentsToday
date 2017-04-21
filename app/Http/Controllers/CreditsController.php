@@ -3,12 +3,27 @@
 namespace Vanguard\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Vanguard\Balance;
 use Vanguard\Http\Requests;
+use Vanguard\Repositories\CreditRepository;
+use Vanguard\Services\Paypal\PaypalService;
 
 use Vanguard\Vacancy;
 
+
 class CreditsController extends Controller
 {
+
+    protected $paypalService;
+
+    protected $credit;
+
+    public function __construct(PaypalService $paypalService, CreditRepository $credit)
+    {
+        $this->paypalService = $paypalService;
+        $this->credit = $credit;
+    }
+
     public function index()
     {
         $user_id =  \Auth::user()->id;
@@ -29,6 +44,45 @@ class CreditsController extends Controller
             $factur = (intval($matches[0][0].'000')+intval($matches[0][1].'000'))/2;
             $potentialSupplier += $factur;
         }
-        return view('dashboard_user.credit.index', compact('latestVacanciesSupplier','latestVacanciesPoster','potentialSupplier','potentialPoster'));
+        $credits = Balance::where('company_id', \Auth::user()->company_user->company_id)->get();
+        return view('dashboard_user.credit.index', compact('credits', 'latestVacanciesSupplier','latestVacanciesPoster','potentialSupplier','potentialPoster'));
     }
+
+    public function getDetailsPayment(Request $request)
+    {
+        $credits = $this->credit->last()->value;
+        $value_credits = floatval($credits) * $request->credits;
+        return response()->json(['value' => $value_credits]);
+    }
+
+    public function getDetailsPaymentPaypal(Request $request)
+    {
+        $credits = $this->credit->last()->value;
+        if($payment = $this->paypalService->initPay($request->credits, $credits)){
+            return response()->json(['link' => $payment->getApprovalLink()]);
+        } else {
+            return response()->json(['error' => 'error'], 500);
+        }
+
+    }
+
+    public function getPaymentSuccess(Request $request, $amount)
+    {
+        $credits = $this->credit->last()->value;
+        if($payment = $this->paypalService->pay($request->paymentId, $amount)){
+            $balance = New Balance();
+            $balance->company_id = \Auth::user()->company_user->company_id;
+            $balance->credit = $amount / $credits;
+            $balance->save();
+            return view('dashboard_user.credit.success', compact('balance'));
+        } else {
+            return view('dashboard_user.credit.error');
+        }
+    }
+
+    public function getPaymentCancel(Request $request)
+    {
+        return view('dashboard_user.credit.cancel');
+    }
+
 }

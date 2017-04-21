@@ -18,7 +18,9 @@
         "illuminate/support": "~5.0",
         "phine/country": "~1.0",
         "dougsisk/laravel-country-state": "^1.2",
-        "laracasts/utilities": "^2.1"
+        "laracasts/utilities": "^2.1",
+        "netshell/paypal": "dev-master",
+        "paypal/rest-api-sdk-php": "*"
 
     },
     "require-dev": {

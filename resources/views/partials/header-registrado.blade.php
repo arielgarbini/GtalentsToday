@@ -277,6 +277,9 @@
 				</a>
 				<ul id="dropdown2" class="dropdown-content">
 					<li>
+						<a href="{{ route('auth.profile') }}">@lang('app.profile')</a>
+					</li>
+					<li>
 						<a href="{{ route('auth.logout') }}">@lang('app.logout')</a>
 					</li>
 				</ul>

@@ -12,6 +12,8 @@ return array(
     'PhpSpec' => array($vendorDir . '/phpspec/phpspec/src'),
     'Phine\\Exception' => array($vendorDir . '/phine/exception/src/lib'),
     'Phine\\Country' => array($vendorDir . '/phine/country/src/lib'),
+    'PayPal' => array($vendorDir . '/paypal/rest-api-sdk-php/lib'),
+    'Netshell\\Paypal' => array($vendorDir . '/netshell/paypal/src'),
     'Mockery' => array($vendorDir . '/mockery/mockery/library'),
     'Laracasts\\Presenter' => array($vendorDir . '/laracasts/presenter/src'),
     'JakubOnderka\\PhpConsoleHighlighter' => array($vendorDir . '/jakub-onderka/php-console-highlighter/src'),

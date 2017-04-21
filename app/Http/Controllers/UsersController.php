@@ -2,16 +2,24 @@
 
 namespace Vanguard\Http\Controllers;
 
+use Vanguard\Address;
+use Vanguard\Company;
+use Vanguard\CompanyUser;
+use Vanguard\Country;
 use Vanguard\Events\User\Banned;
 use Vanguard\Events\User\Deleted;
 use Vanguard\Events\User\TwoFactorDisabledByAdmin;
 use Vanguard\Events\User\TwoFactorEnabledByAdmin;
 use Vanguard\Events\User\UpdatedByAdmin;
+use Vanguard\ExperienceFunctionalArea;
+use Vanguard\ExperienceIndustry;
 use Vanguard\Http\Requests\User\CreateUserRequest;
 use Vanguard\Http\Requests\User\EnableTwoFactorRequest;
 use Vanguard\Http\Requests\User\UpdateDetailsRequest;
 use Vanguard\Http\Requests\User\UpdateLoginDetailsRequest;
 use Vanguard\Http\Requests\User\UpdateUserRequest;
+use Vanguard\LegalInformation;
+use Vanguard\Preference;
 use Vanguard\Repositories\Activity\ActivityRepository;
 use Vanguard\Repositories\Country\CountryRepository;
 use Vanguard\Repositories\Role\RoleRepository;
@@ -26,6 +34,16 @@ use Auth;
 use Authy;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Input;
+
+use Vanguard\Repositories\QuantityEmployees\QuantityEmployeesRepository;
+use Vanguard\Repositories\ExperienceYear\ExperienceYearRepository;
+use Vanguard\Repositories\EducationLevel\EducationLevelRepository;
+use Vanguard\Repositories\SecurityQuestion\SecurityQuestionRepository;
+use Vanguard\Repositories\SourcingNetwork\SourcingNetworkRepository;
+use Vanguard\Repositories\Contact\ContactRepository;
+use Vanguard\Repositories\FunctionalArea\FunctionalAreaRepository;
+use Vanguard\Repositories\Industry\IndustryRepository;
+use Vanguard\Repositories\Address\AddressRepository;
 
 /**
  * Class UsersController
@@ -42,16 +60,24 @@ class UsersController extends Controller
      */
     private $users;
 
+    private $countries;
+
+    private $address;
+
     /**
      * UsersController constructor.
      * @param UserRepository $users
      */
-    public function __construct(UserRepository $users)
+    public function __construct(UserRepository $users,
+                                CountryRepository $countries,
+                                AddressRepository $address)
     {
         $this->middleware('auth');
         $this->middleware('session.database', ['only' => ['sessions', 'invalidateSession']]);
-        $this->middleware('permission:users.manage');
+        $this->middleware('permission:users.manage', ['except' => ['profile', 'profileUpdate', 'updateProfileAdmin']]);
         $this->users = $users;
+        $this->countries = $countries;
+        $this->address = $address;
         $this->theUser = Auth::user();
     }
 
@@ -393,5 +419,312 @@ class UsersController extends Controller
 
         return redirect()->route('user.sessions', $user->id)
             ->withSuccess(trans('app.session_invalidated'));
+    }
+
+    public function profile(QuantityEmployeesRepository $quantityEmployees,
+                            ExperienceYearRepository $experienceYears,
+                            EducationLevelRepository $educationLevels,
+                            SecurityQuestionRepository $securityQuestions,
+                            SourcingNetworkRepository $sourcingNetworks,
+                            ContactRepository $contacts,
+                            FunctionalAreaRepository $functionalArea,
+                            IndustryRepository $industries)
+    {
+        $user = Auth::user();
+        session(['lang' => \App::getLocale()]);
+        if (session('lang') =='en')
+            $language = 2;
+        else
+            $language = 1;
+        $countries = $this->countries->lists()->toArray();
+        $quantityEmployees = $quantityEmployees->lists($language);
+        $experienceYears = $experienceYears->lists($language);
+        $educationLevels = $educationLevels->lists($language);
+        $securityQuestions = $securityQuestions->lists($language);
+        $currencies = $this->countries->lists('currency_code', 'id')->toArray();
+        $sourcingNetworks = $sourcingNetworks->lists($language);
+        $contacts = $contacts->lists($language);
+        $functionalArea = $functionalArea->lists($language);
+        $industries = $industries->lists($language);
+
+        try{
+            $address = Address::find($user->address_id);
+        } catch (\Exception $e){
+            $address = '';
+        }
+        try{
+            $preferences = Preference::where('user_id', $user->id)->get()->first();
+        } catch (\Exception $e){
+            $preferences = '';
+        }
+
+        if($user->company_user->position==1){
+            try{
+                $company = Company::find($user->company_user->company_id);
+            } catch(\Exception $e){
+                $company = '';
+            }
+            try{
+                $legal = LegalInformation::where('user_id', $user->id)->get()->first();
+            } catch(\Exception $e){
+                $legal = '';
+            }
+            if($legal!=''){
+                $address2 = Address::find($legal->address_id);
+                $country_id2 = Country::find($address2->state->country_id)->id;
+            } else {
+                $address2 = '';
+                $country_id2 = '';
+            }
+            $expe = Experience::where('company_id', $user->company_user->company_id)->get()->first();
+            $industries_id = [];
+            $industries_name = [];
+            $indus = ExperienceIndustry::where('experience_id', $expe->id)->get();
+            foreach($indus as $na){
+                $industries_id[] = $na->industry_id;
+                $industries_name[] = $na->industry($language)->name;
+            }
+            $funcala_id = [];
+            $funcala_name = [];
+            $funca = ExperienceFunctionalArea::where('experience_id', $expe->id)->get();
+            foreach($funca as $na){
+                $funcala_id[] = $na->functional_area_id;
+                $funcala_name[] = $na->functional($language)->name;
+            }
+            return view('dashboard_user.profile.confirm', compact('user',
+                'address',
+                'address2',
+                'country_id2',
+                'legal',
+                'preferences',
+                'token',
+                'industries_name',
+                'industries_id',
+                'funcala_name',
+                'funcala_id',
+                'company',
+                'countries',
+                'quantityEmployees',
+                'experienceYears',
+                'educationLevels',
+                'securityQuestions',
+                'currencies',
+                'sourcingNetworks',
+                'contacts',
+                'functionalArea',
+                'industries'));
+        } else {
+            return view('dashboard_user.profile.confirmcollaborator', compact('user',
+                'address',
+                'preferences',
+                'token',
+                'countries',
+                'quantityEmployees',
+                'experienceYears',
+                'educationLevels',
+                'securityQuestions',
+                'currencies',
+                'sourcingNetworks',
+                'contacts',
+                'functionalArea',
+                'industries'));
+        }
+    }
+
+    public function profileUpdate(Request $request)
+    {
+        $user = Auth::user();
+        if(isset($request->state) && $request->state!=''){
+            $dataAddress1 = ['state_id'  => $request->state,
+                'city'       => $request->city,
+                'address'    => $request->address,
+                'complement' => $request->complement,
+                'zip_code'   => $request->zip_code,
+                'is_active'  => 1];
+
+            $address1 = $this->address->create($dataAddress1);
+        }
+
+        $dataUser = ['prefix'              => $request->prefix,
+            'first_name'           => $request->first_name,
+            'last_name'            => $request->last_name,
+            'phone'                => $request->phone,
+            'secundary_phone'      => $request->secundary_phone,
+            //'school_assisted'      => $request->school_assisted,
+            //'memberships'          => $request->memberships,
+            'country_id'           => $request->country_id,
+            'confirmation_token'   => null
+        ];
+
+        if(isset($address1)){
+            $dataUser['address_id'] = $address1->id;
+        }
+
+        if(isset($request->years_recruitment_id)){
+            $dataUser['years_recruitment_id'] = $request->years_recruitment_id;
+        }
+
+        if(isset($request->education_level_id)){
+            $dataUser['education_level_id'] = $request->education_level_id;
+        }
+
+        $this->users->update($user->id, $dataUser);
+
+        $dataPreference = [ 'user_id'              => $user->id,
+            'security_question1_id'   => $request->security_question1,
+            'answer1'              => $request->answer1,
+            'security_question2_id'   => $request->security_question2,
+            'answer2'              => $request->answer1,
+            'receive_messages'     => $request->receive_messages
+        ];
+
+        if(isset($request->contact_id) && $request->contact_id!=''){
+            $dataPreference['contact_id'] = $request->contact_id;
+        }
+
+        if(isset($request->contact_id) && $request->organization_role_id!=''){
+            $dataPreference['organization_role_id'] = $request->organization_role_id;
+        }
+
+        if(isset($request->contact_id) && $request->sourcing_network_id!=''){
+            $dataPreference['sourcing_network_id'] = $request->sourcing_network_id;
+        }
+
+        if($preference = Preference::where('user_id', $user->id)->get()->first()){
+            $preference->update($dataPreference);
+        } else {
+            Preference::create($dataPreference);
+        }
+
+        if(isset($request->state2) && $request->state2!=''){
+            $dataAddress2 = ['state_id'  => $request->state2,
+                'city'       => $request->city2,
+                'address'    => $request->address2,
+                'complement' => $request->complement2,
+                'zip_code'   => $request->zip_code2,
+                'is_active'  => 1
+            ];
+
+            $address2 = $this->address->create($dataAddress2);
+        }
+
+        return redirect()->back()
+            ->withSuccess(trans('app.update_profile_success'));
+    }
+
+    public function updateProfileAdmin(Request $request)
+    {
+        $user = Auth::user();
+
+        if(isset($request->state) && $request->state!=''){
+            $dataAddress1 = ['state_id'  => $request->state,
+                'city'       => $request->city,
+                'address'    => $request->address,
+                'complement' => $request->complement,
+                'zip_code'   => $request->zip_code,
+                'is_active'  => 1];
+
+            $address1 = $this->address->create($dataAddress1);
+        }
+
+        $dataUser = ['prefix'              => $request->prefix,
+            'first_name'           => $request->first_name,
+            'last_name'            => $request->last_name,
+            'phone'                => $request->phone,
+            'secundary_phone'      => $request->secundary_phone,
+            'school_assisted'      => $request->school_assisted,
+            'memberships'          => $request->memberships,
+            'confirmation_token'   => null
+        ];
+
+        if(isset($address1)){
+            $dataUser['address_id'] = $address1->id;
+        }
+
+        if(isset($request->years_recruitment_id)){
+            $dataUser['years_recruitment_id'] = $request->years_recruitment_id;
+        }
+
+        if(isset($request->education_level_id)){
+            $dataUser['education_level_id'] = $request->education_level_id;
+        }
+
+        $this->users->update($user->id, $dataUser);
+
+        $dataCompany = ['name'                  => $request->company_name,
+            'comercial_name'        => $request->company_name,
+            'website'               => $request->website,
+            'address_id'            => $address1->id,
+            'quantity_employees_id' => $request->quantity_employees_id,
+            'description'           => $request->description,
+            'is_active'             => 1
+        ];
+
+        Company::find($user->company_user->company_id)->update($dataCompany);
+
+        $industries = explode(',', $request->industries);
+        $funcala = explode(',', $request->funcala);
+        $expe = Experience::where('company_id', $user->company_user->company_id)->get()->first();
+        //ExperienceIndustry::delete(['experience_id' => $expe->id]);
+        foreach($industries as $in){
+            ExperienceIndustry::create(['experience_id' => $expe->id, 'industry_id' => $in]);
+        }
+        foreach($funcala as $fu){
+            ExperienceFunctionalArea::create(['experience_id' => $expe->id, 'functional_area_id' => $fu]);
+        }
+
+        $dataPreference = [ 'user_id' => $user->id,
+            'security_question1_id' => $request->security_question1,
+            'answer1' => $request->answer1,
+            'security_question2_id' => $request->security_question2,
+            'answer2' => $request->answer1,
+            'receive_messages' => $request->receive_messages
+        ];
+
+        if(isset($request->contact_id) && $request->contact_id!=''){
+            $dataPreference['contact_id'] = $request->contact_id;
+        }
+
+        if(isset($request->organization_role) && $request->organization_role!=''){
+            $dataPreference['organization_role_id'] = $request->organization_role;
+        }
+
+        if(isset($request->sourcing_networks_id) && $request->sourcing_networks_id!=''){
+            $dataPreference['sourcing_network_id'] = $request->sourcing_networks_id;
+        }
+
+        if($preference = Preference::where('user_id', $user->id)->get()->first()){
+            $preference->update($dataPreference);
+        } else {
+            Preference::create($dataPreference);
+        }
+
+        $dataAddress2 = ['state_id'  => $request->state2,
+            'city'       => $request->city2,
+            'address'    => $request->address2,
+            'complement' => $request->complement2,
+            'zip_code'   => $request->zip_code2,
+            'is_active'  => 1
+        ];
+
+        $address2 = $this->address->create($dataAddress2);
+
+        $dataLegal = [ 'user_id' => $user->id,
+            'legal_first_name'   => $request->legal_first_name,
+            'legal_last_name'    => $request->legal_last_name,
+            'legal_company_name' => $request->legal_company_name,
+            'company_type'       => $request->company_type,
+            'principal_coin'     => $request->principal_coin,
+            'accept_terms_cond'  => $request->accept_terms_cond,
+            'address_id'         => $address2->id
+        ];
+        if($le = LegalInformation::where('user_id', $user->id)->get()->first()){
+            $le->update($dataLegal);
+        } else {
+            LegalInformation::create($dataLegal);
+        }
+
+        return redirect()->back()
+            ->withSuccess(trans('app.update_profile_success'));
     }
 }

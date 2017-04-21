@@ -12,6 +12,21 @@ Route::get('logout', [
     'uses' => 'Auth\AuthController@getLogout'
 ]);
 
+Route::get('profile', [
+    'as' => 'auth.profile',
+    'uses' => 'UsersController@profile'
+]);
+
+Route::post('profile', [
+    'as' => 'update.profile',
+    'uses' => 'UsersController@profileUpdate'
+]);
+
+Route::post('profile/admin', [
+   'as' => 'update.profile.admin',
+    'uses' => 'UsersController@updateProfileAdmin'
+]);
+
 // Allow registration routes only if registration is enabled.
 if (settings('reg_enabled')) {
     Route::get('register', 'Auth\AuthController@getRegister');
@@ -810,6 +825,31 @@ Route::get('califications', [
 Route::get('credits', [
     'as' => 'credits.index',
     'uses' => 'CreditsController@index'
+]);
+
+Route::get('credits/getpay', [
+    'as' => 'credits.getpay',
+    'uses' => 'CreditsController@getDetailsPayment'
+]);
+
+Route::get('credits/getpay/paypal', [
+    'as' => 'credits.getpay.paypal',
+    'uses' => 'CreditsController@getDetailsPaymentPaypal'
+]);
+
+Route::get('credits/getpay/{amount}/success', [
+    'as' => 'credits.getpay.success',
+    'uses' => 'CreditsController@getPaymentSuccess'
+]);
+
+Route::get('credits/getpay/cancel', [
+    'as' => 'credits.getpay.cancel',
+    'uses' => 'CreditsController@getPaymentCancel'
+]);
+
+Route::post('credits/pay', [
+    'as' => 'credits.pay',
+    'uses' => 'CreditsController@pay'
 ]);
 
 // ======Facturas============

@@ -280,6 +280,18 @@
     @section('scripts')
         <script type="text/javascript">
             $(document).ready(function(){
+                $('body').keypress(function(e){
+                    if(e.keyCode==13){
+                        $('.move-link .btn-main').each(function(){
+                            if($(this).parent().css('display') == 'block'){
+                                $(this).click();
+                                e.preventDefault();
+                                e.stopPropagation();
+                                return false;
+                            }
+                        });
+                    }
+                });
                 $('.validate').click(function(e){
                     var validate = false;
                     var vala = $(this).attr('id');

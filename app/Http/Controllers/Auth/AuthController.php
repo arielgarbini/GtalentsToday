@@ -5,6 +5,8 @@ namespace Vanguard\Http\Controllers\Auth;
 use Vanguard\Events\User\LoggedIn;
 use Vanguard\Events\User\LoggedOut;
 use Vanguard\Events\User\Registered;
+use Vanguard\ExperienceFunctionalArea;
+use Vanguard\ExperienceIndustry;
 use Vanguard\Http\Requests\Auth\LoginRequest;
 use Vanguard\Http\Requests\Auth\RegisterRequest;
 use Vanguard\Http\Requests\User\ConfirmRegisterRequest;
@@ -665,6 +667,16 @@ class AuthController extends Controller
         $experience = Experience::create(['company_id' => $company->id]);
         $profile    = Profile::create(['company_id' => $company->id]);
 
+        $industries = explode(',', $request->industries);
+        $funcala = explode(',', $request->funcala);
+        $expe = Experience::where('company_id', $user->company_user->company_id)->get()->first();
+        foreach($industries as $in){
+            ExperienceIndustry::create(['experience_id' => $experience->id, 'industry_id' => $in]);
+        }
+        foreach($funcala as $fu){
+            ExperienceFunctionalArea::create(['experience_id' => $experience->id, 'functional_area_id' => $fu]);
+        }
+
         $data = [ 'company_id' => $company->id,
                   'user_id'    => $user->id,
                   'is_active'  => true,
@@ -676,9 +688,9 @@ class AuthController extends Controller
         Point::create(['user_id' => $user->id, 'sum' => 25, 'company_id'=>$company->id]);
 
         $dataPreference = [ 'user_id'              => $user->id,
-                            'security_question1'   => $request->security_question1,
+                            'security_question1_id'   => $request->security_question1,
                             'answer1'              => $request->answer1,
-                            'security_question2'   => $request->security_question1,
+                            'security_question2_id'   => $request->security_question2,
                             'answer2'              => $request->answer1,
                             'receive_messages'     => $request->receive_messages,
                             'promotional_code'     => $request->promotional_code,
@@ -815,9 +827,9 @@ class AuthController extends Controller
         $this->users->update($user->id, $dataUser);
 
         $dataPreference = [ 'user_id'              => $user->id,
-            'security_question1'   => $request->security_question1,
+            'security_question1_id'   => $request->security_question1,
             'answer1'              => $request->answer1,
-            'security_question2'   => $request->security_question1,
+            'security_question2_id'   => $request->security_question2,
             'answer2'              => $request->answer1,
             'receive_messages'     => $request->receive_messages,
             'promotional_code'     => $request->promotional_code,

@@ -29,7 +29,9 @@
      <!--ESTILOS TOOLTIP-->
     {!! HTML::style('assets/css/hint.css') !!}
     <!-- FIN DE ESTILOS -->
+    {!! HTML::style('assets/css/app.css') !!}
 
+    {!! HTML::style("assets/css/bootstrap-social.css") !!}
     <!-- ESTILOS SWEATALERT -->
     {!! HTML::style('assets/css/sweetalert.css') !!}
 
@@ -42,6 +44,12 @@
         <div class="container-fluid">
             {{-- container section --}}  
             @yield('content')
+        </div>
+        <div id="loading">
+            <div id="loading-content">
+                <img id="loading-image" src="/assets/img/waiting.gif" alt="waiting..." />
+                <div id="loading-text"></div>
+            </div>
         </div>
    
     {{-- js section --}}
@@ -82,6 +90,7 @@
     <!-- SCRIPT SWEATALERT -->
     {!! HTML::script('assets/js/sweetalert.min.js') !!}
     {!! HTML::script('assets/js/jquery.validate.min.js') !!}
+
     <script>
         $(document).ready(function(){
             $(".btn-viewMore").click(function(){
