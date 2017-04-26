@@ -48,12 +48,6 @@
 			<span class="icon-gTalents_preferencias"></span>
 			<p>@lang('app.preferences')</p>
 		</li>
-
-		<!--INFORMACION LEGAL-->
-		<li id="btn-infoLegalConfirm">
-			<span class="icon-gTalents_legal"></span>
-			<p>@lang('app.legal_information')</p>
-		</li>
 	</ul>
 
 	<!--CONTENEDOR PADRE PARA LOGIN-->
@@ -67,18 +61,8 @@
 			<div class="formContainer-confirm validate-one-input" id="paso1-1">
 				<!--TITULO DE LA SECCION-->
 				<div class="formLogin-title">
-					<h4>@lang('app.legal_information')</h4>
+					<h4>@lang('app.contact_informations')</h4>
 					<p>@lang('app.correct_your_personal_data')</p>
-				</div>
-
-				<!--PREFIJO-->
-				<div class="itemForm">
-					<label>@lang('app.prefix')</label>
-					<select class="browser-default">
-						<option value="" disabled selected>@lang('app.choose_prefix')</option>
-						<option value="1">@lang('app.mr')</option>
-						<option value="2">@lang('app.mrs')</option>
-					</select>
 				</div>
 
 				<!--NOMBRE-->
@@ -96,18 +80,13 @@
 				<!--CORREO ELECTRONICO-->
 				<div class="itemForm">
                     <label for="email">@lang('app.email')</label>
-                    {!! Form::text('email', $user->email, ['message' => trans('app.email_required'), 'class' => 'validate-one', 'id' => 'email', 'placeholder' => trans('app.email')]) !!}
-				</div>
-
-				<!--CORREO ELECTRONICO-->
-				<div class="itemForm">
-                    <label for="confirm_email">@lang('app.confirm_email')</label>
-                    {!! Form::text('confirm_email', $user->email, ['message' => trans('app.confirm_email_required'), 'class' => 'validate-one', 'id' => 'confirm_email', 'placeholder' => trans('app.confirm_email')]) !!}
+                    {!! Form::text('email', $user->email, ['readonly' => 'readonly', 'message' => trans('app.email_required'), 'class' => 'validate-one', 'id' => 'email', 'placeholder' => trans('app.email')]) !!}
 				</div>
 
 				<!--TELEFONO PRINCIPAL-->
 				<div class="itemForm">
                     <label for="phone">@lang('app.principal_phone')</label>
+
                     {!! Form::text('phone', $user->phone, ['message' => trans('app.telf_required'),'class' => 'validate-one', 'id' => 'phone', 'placeholder' => trans('app.principal_phone')]) !!}
 				</div>
 
@@ -123,57 +102,6 @@
 					<div class="leyend-point"></div>
 					<div class="leyend-point"></div>
 				</div>		
-			</div>
-
-			<!--PASO 1-2 | DIRECCION-->
-			<div class="formContainer-confirm validate-two-input" id="paso1-2">
-				<!--TITULO DE LA SECCION-->
-				<div class="formLogin-title">
-					<h4>@lang('app.address')</h4>
-				</div>
-
-				<!--PAIS-->
-	            <div class="itemForm">
-					<label>@lang('app.country')</label>
-	                {!! Form::select('country_id', $countries, $user->country_id ? $user->country_id: '', ['message' => trans('app.country_required'), 'class' => 'validate-two browser-default', 'id' => 'country_id', 'placeholder' => trans('app.choose_country')]) !!}
-	            </div>
-
-				<!--PROVINCIA-->
-				<div class="itemForm">
-                    <label for="state">@lang('app.state_province')</label>
-                    {!! Form::select('state', [] , Input::old('state'), ['message' => trans('app.state_required'), 'class' => 'browser-default validate-two', 'id' => 'state', 'placeholder' => trans('app.choose_province')]) !!}
-				</div>
-
-				<!--CIUDAD-->
-				<div class="itemForm">
-                    <label for="city">@lang('app.city')</label>
-                    {!! Form::text('city', '', ['message' => trans('app.city_required'), 'class' => 'validate-two', 'id' => 'city', 'placeholder' => trans('app.city')]) !!}
-				</div>
-
-				<!--DIRECCION-->
-				<div class="itemForm">
-					<label>@lang('app.address')</label>
-                    {!! Form::textarea('address', '', ['message' => trans('app.address_required'), 'class' => 'validate-two', 'id' => 'address', 'placeholder' => trans('app.address'), 'cols' => '30', 'rows' => '10']) !!}
-				</div>
-
-				<!--CORREO ELECTRONICO-->
-				<div class="itemForm">
-					<label>@lang('app.address') 2</label>
-                    {!! Form::text('complement', '', ['id' => 'complement', 'placeholder' => trans('app.complement')]) !!}
-				</div>
-
-				<!--CODIGO POSTAL-->
-				<div class="itemForm">
-					<label>@lang('app.zip_code')</label>
-                    {!! Form::text('zip_code', '', ['message' => trans('app.zipcode_required'), 'class' => 'validate-two', 'id' => 'zip_code', 'placeholder' => trans('app.zip_code')]) !!}
-				</div>
-
-				<!--LEYENDA PUNTOS-->
-				<div class="leyend">
-					<div class="leyend-point"></div>
-					<div class="leyend-point active"></div>
-					<div class="leyend-point"></div>
-				</div>				
 			</div>
 
 			<!--PASO 1-3 | INFO. COMPAÑIA-->
@@ -195,12 +123,129 @@
                     {!! Form::text('website', '', ['id' => 'website', 'placeholder' => trans('app.website')]) !!}
 				</div>
 
+				<!--PAIS-->
+				<div class="itemForm">
+					<label>@lang('app.country')</label>
+					{!! Form::select('country_id2', $countries, '', ['message' => trans('app.country_required'), 'class' => 'validate-tres browser-default', 'id' => 'country_id2', 'placeholder' => trans('app.choose_country')]) !!}
+				</div>
+
+				<div class="itemForm">
+					<label>@lang('app.state_province')</label>
+					{!! Form::text('state2', '', ['message' => trans('app.state_required'), 'id' => 'state2', 'placeholder' => trans('app.state_province'), 'class' => 'validate-tres']) !!}
+				</div>
+
 				<!--TAMAÑO DE LA EMPRESA-->
 				<div class="itemForm">
                     <label for="quantity_employees_id">@lang('app.size_company')</label>
                     {!! Form::select('quantity_employees_id', $quantityEmployees , '', ['message' => trans('app.quantity_employees_required'), 'class' => 'validate-tres browser-default', 'id' => 'quantity_employees_id', 'placeholder' => trans('app.choose_quantity_employees')]) !!}
 				</div>
 
+
+				<!--TAMAÑO DE LA EMPRESA-->
+				<div class="itemForm">
+					<label for="quantity_employees_id">@lang('app.current_job_title')</label>
+					{!! Form::select('actual_position_id', $positions , '', ['message' => trans('app.current_job_required'), 'class' => 'validate-tres browser-default', 'id' => 'actual_position_id', 'placeholder' => trans('app.choose_actual_position')]) !!}
+				</div>
+
+				<div class="categoria-container">
+					<!--CATEGORIA 1-->
+					<div class="categoria-container-item">
+						<!--TITULO CATEGORIA-->
+						<a href="#!" class="option subopciones-tag">
+							<span class="icon-gTalents_point"></span>
+							<h3>@lang('app.search_type_share')</h3>
+							<span class="hint--right hint--large hint--bounce" aria-label="Campo Importante!">
+								<i class="icon-gTalents_help "></i>
+							</span>
+						</a>
+
+						<!--CONTENEDOR DE SUB-OPCIONES-->
+						<ul class="subopciones subopciones-select searchType">
+							<!--ITEM 1-->
+								@foreach($searchTypeShared as $key => $se)
+								<li value="{{$key}}">
+									<a href="#!">
+										<p>{{$se}}</p>
+									</a>
+								</li>
+								@endforeach
+
+							<input type="hidden" name="searchType" id="searchType">
+						</ul>
+					</div>
+					<div class="categoria-container-item">
+						<!--TITULO CATEGORIA-->
+						<a href="#!" class="option subopciones-tag">
+							<span class="icon-gTalents_point"></span>
+							<h3>@lang('app.search_type_work')</h3>
+							<span class="hint--right hint--large hint--bounce" aria-label="Campo Importante!">
+								<i class="icon-gTalents_help "></i>
+							</span>
+						</a>
+
+						<!--CONTENEDOR DE SUB-OPCIONES-->
+						<ul class="subopciones subopciones-select searchTypeWork">
+							<!--ITEM 1-->
+							@foreach($searchTypeInvolved as $key => $se)
+								<li value="{{$key}}">
+									<a href="#!">
+										<p>{{$se}}</p>
+									</a>
+								</li>
+							@endforeach
+
+							<input type="hidden" name="searchTypeWork" id="searchTypeWork">
+						</ul>
+					</div>
+					<div class="categoria-container-item">
+						<!--TITULO CATEGORIA-->
+						<a href="#!" class="option subopciones-tag">
+							<span class="icon-gTalents_point"></span>
+							<h3>@lang('app.opportunity_share')</h3>
+							<span class="hint--right hint--large hint--bounce" aria-label="Campo Importante!">
+								<i class="icon-gTalents_help "></i>
+							</span>
+						</a>
+
+						<!--CONTENEDOR DE SUB-OPCIONES-->
+						<ul class="subopciones subopciones-select opportunityShare">
+							<!--ITEM 1-->
+							@foreach($opportunityShared as $key => $se)
+								<li value="{{$key}}">
+									<a href="#!">
+										<p>{{$se}}</p>
+									</a>
+								</li>
+							@endforeach
+
+							<input type="hidden" name="opportunityShare" id="opportunityShare">
+						</ul>
+					</div>
+					<div class="categoria-container-item">
+						<!--TITULO CATEGORIA-->
+						<a href="#!" class="option subopciones-tag">
+							<span class="icon-gTalents_point"></span>
+							<h3>@lang('app.opportunity_work')</h3>
+							<span class="hint--right hint--large hint--bounce" aria-label="Campo Importante!">
+								<i class="icon-gTalents_help "></i>
+							</span>
+						</a>
+
+						<!--CONTENEDOR DE SUB-OPCIONES-->
+						<ul class="subopciones subopciones-select opportunityInvolved">
+							<!--ITEM 1-->
+							@foreach($opportunityInvolved as $key => $se)
+								<li value="{{$key}}">
+									<a href="#!">
+										<p>{{$se}}</p>
+									</a>
+								</li>
+							@endforeach
+
+							<input type="hidden" name="opportunityInvolved" id="opportunityInvolved">
+						</ul>
+					</div>
+				</div>
 				<!--LEYENDA PUNTOS-->
 				<div class="leyend">
 					<div class="leyend-point"></div>
@@ -211,60 +256,9 @@
 
 			<!--PASO 2 | INFORMACION DE CONTAINER-->
 			<!--PASO 2-1 | DETALLES PERSONALES-->
-			<div class="formContainer-confirm validate-four-input" id="paso2-1">
-				<!--TITULO DE LA SECCION-->
-				<div class="formLogin-title">
-					<h4>@lang('app.personal_details')</h4>
-				</div>
-				
-				<!--DESCRIPCION PERSONAL/COMPAÑIA-->
-				<div class="itemForm">
-					<label>@lang('app.description_p_c')</label>
-                    {!! Form::textarea('description', '', ['message' => trans('app.description_required'), 'class' => 'validate-four', 'id' => 'description', 'placeholder' => trans('app.description'), 'cols' => '30', 'rows' => '10']) !!}
-				</div>
-
-				<!--AÑOS DE RECLUTAMIENTO-->
-				<div class="itemForm">
-					<label for="years_recruitment_id">@lang('app.years_recruitment')</label>
-                    {!! Form::select('years_recruitment_id', $experienceYears , '', ['message' => trans('app.years_recruitment_required'), 'class' => 'validate-four browser-default', 'id' => 'years_recruitment_id', 'placeholder' => trans('app.years_industry')]) !!}
-				</div>
-
-				<!--NIVEL DE EDUCACIÓN-->
-				<div class="itemForm">
-					<label for="education_level_id">@lang('app.education_level')</label>
-					{!! Form::select('education_level_id', $educationLevels , '', ['message' => trans('app.education_level_required'), 'class' => 'validate-four browser-default', 'id' => 'education_level_id', 'placeholder' => trans('app.education_level')]) !!}
-				</div>
-
-				<!--ESCUELAS ASISTIDAS-->
-				<div class="itemForm">
-					<label>@lang('app.assisted_schools')</label>
-					{!! Form::text('assisted_schools', '', ['id' => 'assisted_schools', 'placeholder' => trans('app.assisted_schools')]) !!}
-				</div>
-
-				<!--MEMBRESIAS-->
-				<div class="itemForm">
-					<label>@lang('app.memberships')</label>
-					{!! Form::text('memberships', '', ['id' => 'memberships', 'placeholder' => trans('app.memberships')]) !!}
-				</div>
-
-				<!--CERTIFICACION-->
-				<div class="itemForm">
-					<label>@lang('app.certification')</label>
-					{!! Form::select('select-certificado', $educationLevels , '', ['class' => 'browser-default', 'id' => 'select-certificado', 'placeholder' => trans('app.select')]) !!}
-					<div id="new-certify"></div>
-					<!--AGREGAR OTRA CERTIFICACION-->
-					<p><a href="#!" id="btn-certificado">@lang('app.add_certification')</a></p>
-				</div>
-
-				<!--LEYENDA PUNTOS-->
-				<div class="leyend">
-					<div class="leyend-point active"></div>
-					<div class="leyend-point"></div>
-				</div>	
-			</div>
 
 			<!--PASO 2-2 | ESPECIALIZACION-->
-			<div class="formContainer-confirm" id="paso2-2">
+			<div class="formContainer-confirm validate-select-input" id="paso2-2">
 				<!--TITULO DE LA SECCION-->
 				<div class="formLogin-title">
 					<h4>@lang('app.especialization')</h4>
@@ -294,6 +288,94 @@
 						</ul>
 					</div>
 
+					<div class="categoria-container-item">
+						<!--TITULO CATEGORIA-->
+						<a href="#!" class="option subopciones-tag">
+							<span class="icon-gTalents_point"></span>
+							<h3>@lang('app.ubication_region')</h3>
+						</a>
+
+						<!--CONTENEDOR DE SUB-OPCIONES-->
+						<ul class="subopciones subopciones-select location">
+							<!--ITEM 1-->
+							@foreach($regions as $key => $ind)
+								<li value="{{$key}}">
+									<a href="#!">
+										<p>{{$ind}}</p>
+									</a>
+								</li>
+							@endforeach
+							<input type="hidden" name="location" id="location">
+						</ul>
+					</div>
+
+					<div class="categoria-container-item">
+						<!--TITULO CATEGORIA-->
+						<a href="#!" class="option subopciones-tag">
+							<span class="icon-gTalents_point"></span>
+							<h3>@lang('app.roles')</h3>
+						</a>
+
+						<!--CONTENEDOR DE SUB-OPCIONES-->
+						<ul class="subopciones subopciones-select rol">
+							<!--ITEM 1-->
+							<li value="1">
+								<a href="#!">
+									<p>Acct Mgmnt</p>
+								</a>
+							</li>
+							<li value="2">
+								<a href="#!">
+									<p>Researcher</p>
+								</a>
+							</li>
+							<li value="3">
+								<a href="#!">
+									<p>Sourcer</p>
+								</a>
+							</li>
+							<li value="4">
+								<a href="#!">
+									<p>Líder de área</p>
+								</a>
+							</li>
+							<li value="5">
+								<a href="#!">
+									<p>Cold-Calling</p>
+								</a>
+							</li>
+							<input type="hidden" name="rol" id="rol">
+						</ul>
+					</div>
+
+					<div class="itemForm">
+						<label for="cases_numbers_id">@lang('app.cases_numbers')</label>
+						{!! Form::select('cases_numbers_id', $cases_numbers , '', ['message' => trans('app.cases_numbers_required'), 'class' => 'validate-select browser-default', 'id' => 'cases_numbers_id', 'placeholder' => trans('app.cases_numbers')]) !!}
+					</div>
+
+					<!--CATEGORIA 2-->
+					<div class="categoria-container-item">
+						<!--TITULO CATEGORIA-->
+						<a href="#!" class="option subopciones-tag">
+							<span class="icon-gTalents_point"></span>
+							<h3>@lang('app.level_positions')</h3>
+						</a>
+
+						<!--CONTENEDOR DE SUB-OPCIONES-->
+						<!--CONTENEDOR DE SUB-OPCIONES-->
+						<ul class="subopciones subopciones-select positi">
+							<!--ITEM 1-->
+							@foreach($level_positions as $key => $fun)
+								<li value="{{$key}}">
+									<a href="#!">
+										<p style="text-transform: capitalize;">{{strtolower($fun)}}</p>
+									</a>
+								</li>
+							@endforeach
+							<input type="hidden" name="positi" id="positi">
+						</ul>
+					</div>
+
 					<!--CATEGORIA 2-->
 					<div class="categoria-container-item">
 						<!--TITULO CATEGORIA-->
@@ -318,7 +400,17 @@
 					</div>
 				</div>
 
-				<!--LEYENDA PUNTOS-->
+				<div class="itemForm">
+					<label for="years_experience_id">@lang('app.years_of_experience')</label>
+					{!! Form::select('years_experience_id', $experienceYears , '', ['message' => trans('app.years_experience_required'), 'class' => 'validate-select browser-default', 'id' => 'years_experience_id', 'placeholder' => trans('app.years_of_experience')]) !!}
+				</div>
+
+                <div class="itemForm">
+                    <label for="sourcing_networks_id">@lang('app.principal_sourcing')</label>
+                    {!! Form::select('sourcing_networks_id', $sourcingNetworks , '', ['message' => trans('app.sourcing_required'), 'class' => 'validate-select browser-default', 'id' => 'sourcing_networks_id', 'placeholder' => trans('app.sourcing_networks')]) !!}
+                </div>
+
+                <!--LEYENDA PUNTOS-->
 				<div class="leyend">
 					<div class="leyend-point"></div>
 					<div class="leyend-point active"></div>
@@ -330,32 +422,19 @@
 			<div class="formContainer-confirm" id="paso3">
 				<!--TITULO DE LA SECCION-->
 				<div class="formLogin-title">
-					<h4>@lang('app.security')</h4>
-					<p>@lang('app.security_comment1')</p>
+					<h4>@lang('app.notifications')</h4>
+					<p>@lang('app.norifications_comment1')</p>
+				</div>
+				<!--PASSWORD-->
+				<div class="itemForm">
+					<label>@lang('app.password')</label>
+					<input type="password" name="password" id="password" placeholder="@lang('app.password')">
 				</div>
 
-				<!--PREGUNTA DE SEGURIDAD-->
+				<!--CONFIRM PASSWORD-->
 				<div class="itemForm">
-					<label>@lang('app.security_question') 1</label>
-					{!! Form::select('security_question1', $securityQuestions , '', ['class' => 'browser-default', 'id' => 'security_question1', 'placeholder' => trans('app.security_question')]) !!}
-				</div>
-
-				<!--RESPUESTA 1 A PREGUNTA DE SEGURIDAD-->
-				<div class="itemForm">
-					<label>@lang('app.answer') 1</label>
-					{!! Form::text('answer1', '', ['id' => 'answer1', 'placeholder' => trans('app.answer')]) !!}
-				</div>
-
-				<!--PREGUNTA DE SEGURIDAD 2-->
-				<div class="itemForm">
-					<label>@lang('app.security_question') 2</label>
-					{!! Form::select('security_question2', $securityQuestions , '', ['class' => 'browser-default', 'id' => 'security_question2', 'placeholder' => trans('app.security_question')]) !!}
-				</div>
-
-				<!--RESPUESTA 2 A PREGUNTA DE SEGURIDAD-->
-				<div class="itemForm">
-					<label>@lang('app.answer') 2</label>
-					{!! Form::text('answer2', '', ['id' => 'answer2', 'placeholder' => trans('app.answer')]) !!}
+					<label>@lang('app.confirm_password')</label>
+					<input type="password" name="password_confirmation" id="password_confirmation" placeholder="@lang('app.confirm_password')">
 				</div>
 
 				<!--CHECKBOX DE TERMINOS-->
@@ -365,109 +444,15 @@
 				      <label for="receive_messages">@lang('app.confirm_send_emails')</label>
 				    </p>
 				</div>
+				<div class="itemCheck">
+					<p>
+						<input type="checkbox" class="filled-in" id="receive_messages" checked="checked" />
+						<label for="receive_messages">@lang('app.confirm_send_vacancies')</label>
+					</p>
+				</div>
 			</div>
 
 			<!--PASO 4 | INFORMACION LEGAL-->
-			<!--PASO 4-1 | INFORMACION LEGAL-->
-			<div class="formContainer-confirm validate-six-input" id="paso4-1">
-				<!--TITULO DE LA SECCION-->
-				<div class="formLogin-title">
-					<h4>@lang('app.legal_information')</h4>
-				</div>
-
-				<!--PRIMER NOMBRE LEGAL-->
-				<div class="itemForm">
-					<label>@lang('app.legal_first_name')</label>
-					{!! Form::text('legal_first_name', '', ['message' => trans('app.first_name_required'), 'class' => 'validate-six', 'id' => 'legal_first_name', 'placeholder' => trans('app.legal_first_name')]) !!}
-				</div>
-
-				<!--APELLIDO LEGAL-->
-				<div class="itemForm">
-					<label>@lang('app.legal_last_name')</label>
-					{!! Form::text('legal_last_name', '', ['message' => trans('app.last_name_required'), 'class' => 'validate-six', 'id' => 'legal_last_name', 'placeholder' => trans('app.legal_last_name')]) !!}
-				</div>
-
-				<!--NOMBRE LEGAL-->
-				<div class="itemForm">
-					<label>@lang('app.legal_company_name')</label>
-					{!! Form::text('legal_company_name', '', ['message' => trans('app.company_required'), 'class' => 'validate-six', 'id' => 'legal_company_name', 'placeholder' => trans('app.legal_company_name')]) !!}
-				</div>
-
-				<!--TIPO DE COMPAÑIA-->
-				<div class="itemForm">
-					<label>@lang('app.company_type')</label>
-	                {!! Form::select('company_type', $contacts, '', ['message' => trans('app.company_type_required'), 'class' => 'validate-six browser-default', 'id' => 'company_type', 'placeholder' => trans('app.choose_type')]) !!}
-				</div>
-
-				<!--DIVISA PRINCIPAL-->
-				<div class="itemForm">
-					<label>@lang('app.principal_coin')</label>
-					{!! Form::select('principal_coin', $currencies , '', ['message' => trans('app.principal_coin_required'), 'class' => 'validate-six browser-default', 'id' => 'principal_coin', 'placeholder' => trans('app.principal_coin')]) !!}
-				</div>
-
-				<!--PAIS-->
-	            <div class="itemForm">
-					<label>@lang('app.country')</label>
-	                {!! Form::select('country_id2', $countries, '', ['message' => trans('app.country_required'), 'class' => 'validate-six browser-default', 'id' => 'country_id2', 'placeholder' => trans('app.choose_country')]) !!}
-	            </div>
-
-				<!--PROVINCIA-->
-				<div class="itemForm">
-                    <label for="state2">@lang('app.state_province')</label>
-                    {!! Form::select('state2', [] , Input::old('state2'), ['message' => trans('app.state_required'), 'class' => 'validate-six browser-default', 'id' => 'state2', 'placeholder' => trans('app.choose_province')]) !!}
-				</div>
-
-				<!--CIUDAD-->
-				<div class="itemForm">
-                    <label for="city2">@lang('app.city')</label>
-                    {!! Form::text('city2', '', ['message' => trans('app.city_required'), 'class' => 'validate-six', 'id' => 'city2', 'placeholder' => trans('app.city')]) !!}
-				</div>
-
-				<!--DIRECCION-->
-				<div class="itemForm">
-					<label>@lang('app.address')</label>
-                    {!! Form::textarea('address2', '', ['message' => trans('app.address_required'), 'class' => 'validate-six', 'id' => 'address2', 'placeholder' => trans('app.address'), 'cols' => '30', 'rows' => '10']) !!}
-				</div>
-
-				<!--DIRECCION 2-->
-				<div class="itemForm">
-					<label>@lang('app.complement')</label>
-                    {!! Form::text('complement2', '', ['id' => 'complement2', 'placeholder' => trans('app.complement')]) !!}
-				</div>
-
-				<!--CODIGO POSTAL-->
-				<div class="itemForm">
-					<label>@lang('app.zip_code')</label>
-                    {!! Form::text('zip_code2', '', ['message' => trans('app.zipcode_required'), 'class' => 'validate-six', 'id' => 'zip_code2', 'placeholder' => trans('app.zip_code')]) !!}
-				</div>
-
-				<!--CONDICIONES DE USO-->
-				<div class="condiciones-uso">
-					<h4>@lang('app.terms_of_use')</h4>
-					<div class="condiciones-uso-container">
-						<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Minus veritatis quisquam, dignissimos distinctio, eos repellendus dolore ab quasi repellat voluptates ex vitae minima tempore commodi non repudiandae earum. Rem, molestiae!</p>
-
-						<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Facere enim, voluptas impedit culpa ut debitis dolorem. Suscipit dolore, tempore architecto id ipsam sequi, sint ab earum ullam libero ducimus vel.</p>
-
-						<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Facere enim, voluptas impedit culpa ut debitis dolorem. Suscipit dolore, tempore architecto id ipsam sequi, sint ab earum ullam libero ducimus vel.</p>
-					</div>
-				</div>
-
-				<!--CHECKBOX DE TERMINOS-->
-				<div class="itemCheck">
-					<p>
-				      <input type="checkbox" class="filled-in" id="accept_terms_cond" checked="checked" />
-				      <label for="accept_terms_cond">* @lang('app.accept_terms_of_use')</label>
-				    </p>
-				</div>
-
-				<!--LEYENDA PUNTOS-->
-				<div class="leyend">
-					<div class="leyend-point active"></div>
-					<div class="leyend-point"></div>
-				</div>
-			</div>
-
 			<!--PASO 4-2 | ULTIMO PASO-->
 			<div class="formContainer-confirm" id="paso4-2">
 				<!--TITULO DE LA SECCION-->
@@ -502,32 +487,38 @@
 	                {!! Form::select('contact_id', $contacts, '', ['class' => 'browser-default', 'id' => 'contact_id', 'placeholder' => trans('app.how_did_you_hear_about_us')]) !!}
 				</div>
 
+                <!--CODIGO PROMOCIONAL-->
+                <div class="itemForm" id="reference_item">
+                    <label>@lang('app.reference')</label>
+                    {!! Form::text('reference', '', ['id' => 'reference', 'placeholder' => trans('app.reference')]) !!}
+                </div>
+
 				<!--PAPEL EN LA ORGANIZACION-->
-				<div class="itemRadio">
-					<h4>@lang('app.your_organization_role')</h4>
-					<div class="itemRadio-radio target_r">
-						<p>
-							<input name="group2" type="radio" id="test3" value="recruitment" />
-							<label for="test3">@lang('app.recruitment')</label>
-						</p>
-						<p>
-							<input name="group2" type="radio" id="test4" value="business" />
-							<label for="test4">@lang('app.business')</label>
-						</p>
-						<p>
-							<input name="group2" type="radio" id="test5" value="both" />
-							<label for="test5">@lang('app.both')</label>
-						</p>
-					</div>
+                {!! Form::hidden('organization_role', 'both', ['id' => 'organization_role']) !!}
 
-                    {!! Form::hidden('organization_role', null, ['id' => 'organization_role']) !!}
-				</div>
+                <div class="itemForm">
+                    <label for="sourcing_networks_id">@lang('app.principal_sourcing_candidates')</label>
+                    {!! Form::select('sourcing_networks_candidates_id', $sourcingNetworks , '', ['class' => 'browser-default', 'id' => 'sourcing_networks_candidates_id', 'placeholder' => trans('app.principal_sourcing_candidates')]) !!}
+                </div>
+                <!--CONDICIONES DE USO-->
+                <div class="condiciones-uso">
+                    <h4>@lang('app.terms_of_use')</h4>
+                    <div class="condiciones-uso-container">
+                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Minus veritatis quisquam, dignissimos distinctio, eos repellendus dolore ab quasi repellat voluptates ex vitae minima tempore commodi non repudiandae earum. Rem, molestiae!</p>
 
-				<!--PRINCIPALES MEDIOS DE ABASTECIMIENTO-->
-				<div class="itemForm">
-					<label for="sourcing_networks_id">@lang('app.principal_sourcing')</label>					
-					{!! Form::select('sourcing_networks_id', $sourcingNetworks , '', ['class' => 'browser-default', 'id' => 'sourcing_networks_id', 'placeholder' => trans('app.sourcing_networks')]) !!}
-				</div>	
+                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Facere enim, voluptas impedit culpa ut debitis dolorem. Suscipit dolore, tempore architecto id ipsam sequi, sint ab earum ullam libero ducimus vel.</p>
+
+                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Facere enim, voluptas impedit culpa ut debitis dolorem. Suscipit dolore, tempore architecto id ipsam sequi, sint ab earum ullam libero ducimus vel.</p>
+                    </div>
+                </div>
+
+                <!--CHECKBOX DE TERMINOS-->
+                <div class="itemCheck">
+                    <p>
+                        <input type="checkbox" class="filled-in" id="accept_terms_cond" checked="checked" />
+                        <label for="accept_terms_cond">* @lang('app.accept_terms_of_use')</label>
+                    </p>
+                </div>
 
 				<!--LEYENDA PUNTOS-->
 				<div class="leyend">
@@ -605,7 +596,7 @@
 
 			<!--next-->
 			<div class="move-link" id="btn-next-confirm5">
-				<a href="#!" class="btn-main" id="validate-select">@lang('app.next_step_s')</a>
+				<a href="#!" class="btn-main validate" id="validate-select">@lang('app.next_step_s')</a>
 			</div>
 
 			<!-- PASO 3 a 4-1 -->
@@ -655,8 +646,12 @@
                     });
                 }
             });
+
 			industries = new Array();
 			funcala = new Array();
+            rol = new Array();
+            positi = new Array();
+            locat = new Array();
             $('.subopciones-select li').click(function(){
                 $('#validate-especialization').remove();
                 if($(this).parent().hasClass('industries')){
@@ -675,15 +670,52 @@
                     if($(this).find('a').hasClass('active-option')){
                         funcala.push($(this).attr('value'));
                     } else {
-                        funcala = industries.toString();
-                        funcala = industries.replace(','+$(this).attr('value'), '');
-                        funcala = industries.replace($(this).attr('value')+',', '');
-                        funcala = industries.split(',');
+                        funcala = funcala.toString();
+                        funcala = funcala.replace(','+$(this).attr('value'), '');
+                        funcala = funcala.replace($(this).attr('value')+',', '');
+                        funcala = funcala.split(',');
                     }
                     console.log(funcala);
                     $('#funcala').val(funcala.toString());
                 }
+                if($(this).parent().hasClass('rol')){
+                    if($(this).find('a').hasClass('active-option')){
+                        rol.push($(this).attr('value'));
+                    } else {
+                        rol = rol.toString();
+                        rol = rol.replace(','+$(this).attr('value'), '');
+                        rol = rol.replace($(this).attr('value')+',', '');
+                        rol = rol.split(',');
+                    }
+                    console.log(rol);
+                    $('#rol').val(rol.toString());
+                }
+                if($(this).parent().hasClass('positi')){
+                    if($(this).find('a').hasClass('active-option')){
+                        positi.push($(this).attr('value'));
+                    } else {
+                        positi = positi.toString();
+                        positi = positi.replace(','+$(this).attr('value'), '');
+                        positi = positi.replace($(this).attr('value')+',', '');
+                        positi = positi.split(',');
+                    }
+                    console.log(positi);
+                    $('#funcala').val(positi.toString());
+                }
+                if($(this).parent().hasClass('location')){
+                    if($(this).find('a').hasClass('active-option')){
+                        locat.push($(this).attr('value'));
+                    } else {
+                        locat = locat.toString();
+                        locat = locat.replace(','+$(this).attr('value'), '');
+                        locat = locat.replace($(this).attr('value')+',', '');
+                        locat = locat.split(',');
+                    }
+                    console.log(locat);
+                    $('#location').val(locat.toString());
+                }
             });
+            /*
 		    $('#validate-select').click(function(e){
 		        var validate = false;
 				$('.categoria-container-item ul li a').each(function(){
@@ -698,8 +730,8 @@
                         $('.categoria-container-item').parent().append('<p id="validate-especialization" class="text-darger" style="color:red; text-align: right; font-style: italic;">{{trans("app.you_must_select_a_specialization")}}</p>');
 					}
 				}
-			});
-
+			});*/
+/*
 		    $('.validate').click(function(e){
                 var validate = false;
                 var vala = $(this).attr('id');
@@ -729,7 +761,7 @@
                     e.preventDefault();
                     e.stopPropagation();
                 };
-            });
+            });*/
 
             $('#legal_company_name').val($('#company_name').val());
 			$('#legal_first_name').val($('#first_name').val());
@@ -778,6 +810,7 @@
 		});
 
     	$('#promotional_code_item').hide();
+        $('#reference_item').hide();
 		
 		$("#test1").on( "click", function() {
     		$('#promotional_code_item').show("slow");
@@ -787,6 +820,14 @@
     		$('#promotional_code_item').hide("slow");
     		$('#promotional_code').val("");
 		});
+
+		$('#contact_id').change(function () {
+		    if($(this).val() == 3){
+                $('#reference_item').show("slow");
+            } else {
+                $('#reference_item').hide("slow");
+            }
+        });
 		
 		$(".target_r").on( "click", function() {
     		$('#organization_role').val( $('input[name="group2"]:checked').val() );

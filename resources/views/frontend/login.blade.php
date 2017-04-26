@@ -16,7 +16,7 @@
 		<section class="login-title">
 			<figure>
 				<a href="{{ URL('/') }}">
-					<img src="assets/img/logotipo.png" alt="gtalents logotipo">
+					<img src="{{URL::to('/assets/img/logotipo.png')}}" alt="gtalents logotipo">
 				</a>
 			</figure>
 			<p>@lang('app.one_account_many_benefits')</p>

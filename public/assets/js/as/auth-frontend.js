@@ -81,14 +81,14 @@
 				//CONFIRMACION DE REGISTRO
 					//PASO 1-1 a 1-2
 				$("#btn-next-confirm1").click(function(){
-					$("#paso1-2, #btn-return-confirm1, #btn-next-confirm2").show("slow");
+					$("#paso1-3, #btn-return-confirm1, #btn-next-confirm3").show("slow");
 					$("#paso1-1 , #btn-next-confirm1").hide("slow");					
 				})
 
 					//REGRESAR
 				$("#btn-return-confirm1").click(function(){
 					$("#paso1-1, #btn-next-confirm1").show("slow");
-					$("#paso1-2 , #btn-return-confirm1, #btn-next-confirm2").hide("slow");
+					$("#paso1-3 , #btn-return-confirm1, #btn-next-confirm3").hide("slow");
 				})
 
 				//PASO 1-2 a 1-3
@@ -105,8 +105,8 @@
 
 				//PASO 1-3 a 2-1
 				$("#btn-next-confirm3").click(function(){
-					$("#paso2-1, #btn-return-confirm3, #btn-next-confirm4").show("slow");
-					$("#paso1-3, #btn-return-confirm2, #btn-next-confirm3").hide("slow");
+					$("#paso2-2, #btn-return-confirm3, #btn-next-confirm5").show("slow");
+					$("#paso1-3, #btn-return-confirm1, #btn-next-confirm3").hide("slow");
 
 					//CAMBIAR LEYENDA
 					$("#btn-antecentesConfirm").addClass("active");
@@ -115,8 +115,8 @@
 
 					//REGRESAR
 				$("#btn-return-confirm3").click(function(){
-					$("#paso1-3, #btn-return-confirm2, #btn-next-confirm3").show("slow");
-					$("#paso2-1, #btn-return-confirm3, #btn-next-confirm4").hide("slow");
+					$("#paso1-3, #btn-return-confirm1, #btn-next-confirm3").show("slow");
+					$("#paso2-2, #btn-return-confirm3, #btn-next-confirm5").hide("slow");
 
 					//CAMBIAR LEYENDA
 					$("#btn-infoContactoConfirm").addClass("active");
@@ -138,7 +138,7 @@
 				//PASO 2-2 a 3
 				$("#btn-next-confirm5").click(function(){
 					$("#paso3, #btn-return-confirm5, #btn-next-confirm6").show("slow");
-					$("#paso2-2, #btn-return-confirm4, #btn-next-confirm5").hide("slow");
+					$("#paso2-2, #btn-return-confirm3, #btn-next-confirm5").hide("slow");
 
 					//CAMBIAR LEYENDA
 					$("#btn-preferenciasConfirm").addClass("active");
@@ -147,7 +147,7 @@
 
 					//REGRESAR
 				$("#btn-return-confirm5").click(function(){
-					$("#paso2-2, #btn-return-confirm4, #btn-next-confirm5").show("slow");
+					$("#paso2-2, #btn-return-confirm3, #btn-next-confirm5").show("slow");
 					$("#paso3, #btn-return-confirm5, #btn-next-confirm6").hide("slow");
 
 					//CAMBIAR LEYENDA
@@ -157,22 +157,22 @@
 
 				//PASO 3 a 4-1
 				$("#btn-next-confirm6").click(function(){
-					$("#paso4-1, #btn-return-confirm6, #btn-next-confirm7").show("slow");
+					$("#paso4-2, #btn-return-confirm6, #btn-next-confirm8").show("slow");
 					$("#paso3, #btn-return-confirm5, #btn-next-confirm6").hide("slow");
 
-					//CAMBIAR LEYENDA
-					$("#btn-infoLegalConfirm").addClass("active");
-					$("#btn-preferenciasConfirm,#btn-antecentesConfirm, #btn-infoContactoConfirm").removeClass("active");
+                    //CAMBIAR LEYENDA
+                    $("#btn-preferenciasConfirm").addClass("active");
+                    $("#btn-infoContactoConfirm, #btn-antecentesConfirm, #btn-infoLegalConfirm").removeClass("active");
 				})
 
 					//REGRESAR
 				$("#btn-return-confirm6").click(function(){
 					$("#paso3, #btn-return-confirm5, #btn-next-confirm6").show("slow");
-					$("#paso4-1, #btn-return-confirm6, #btn-next-confirm7").hide("slow");
+					$("#paso4-2, #btn-return-confirm6, #btn-next-confirm8").hide("slow");
 
 					//CAMBIAR LEYENDA
-					$("#btn-preferenciasConfirm").addClass("active");
-					$("#btn-antecentesConfirm, #btn-infoContactoConfirm, #btn-infoLegalConfirm").removeClass("active");
+                    $("#btn-preferenciasConfirm").addClass("active");
+                    $("#btn-infoContactoConfirm, #btn-antecentesConfirm, #btn-infoLegalConfirm").removeClass("active");
 				})
 
 				//PASO 4-1 a 4-2
@@ -190,7 +190,7 @@
 				//PASO 4-2 a 4-3
 				$("#btn-next-confirm8").click(function(){
 					$("#paso4-3").show("slow");
-					$("#paso4-2, #btn-return-confirm7, #btn-next-confirm8").hide("slow");
+					$("#paso4-2, #btn-return-confirm6, #btn-next-confirm8").hide("slow");
 				})
 
 				//EFECTO HEADER

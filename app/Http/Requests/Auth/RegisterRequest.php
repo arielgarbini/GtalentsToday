@@ -15,7 +15,7 @@ class RegisterRequest extends Request
     {
         $rules = [
             'email'      => 'required|email|unique:users,email',
-            'username'   => 'required|unique:users,username',
+            //'username'   => 'required|unique:users,username',
             'country_id' => 'required',
             'password'   => 'required|confirmed|min:6',
             'tos'        => 'required',

@@ -24,6 +24,8 @@
 	    {!! HTML::style('assets/css/app.css') !!}
 	    {!! HTML::style("assets/css/bootstrap-social.css") !!}
 
+		<!--ESTILOS TOOLTIP-->
+			{!! HTML::style('assets/css/hint.css') !!}
     @yield('header-scripts')
 </head>
 

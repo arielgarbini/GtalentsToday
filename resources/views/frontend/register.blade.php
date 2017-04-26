@@ -35,12 +35,6 @@
                 <input type="email" name="email" id="email" placeholder="@lang('app.example_email')" value="{{ old('email') }}">
             </div>
 
-			<!--USERNAME-->
-            <div class="itemForm">
-				<label>@lang('app.username')</label>
-                <input type="text" name="username" id="username" placeholder="@lang('app.username')" value="{{ old('username') }}">
-            </div>
-
 			<!--COUNTRY-->
             <div class="itemForm">
 				<label>@lang('app.country')</label>
@@ -97,15 +91,37 @@
 
 		<!-- MENSAJE FINAL-->
 		<section class="password-send">
-			<h3>¡Gracias por registrarte!
-				<br> Te contactaremos en breve
+			<h3>@lang('app.thanks_for_register')
 			</h3>
 			<div class="link">
-				<a href="{{URL('/')}}" class="btn-main2">Continuar</a>
+				<a href="{{URL('/')}}" class="btn-main2">@lang('app.continue')</a>
 			</div>
 		</section>
 
 	</article>
+
+	<div id="tos-modal" class="modal modalText">
+		<!--CERRAR-->
+		<div class="modal-footer">
+			<a class=" modal-action modal-close waves-effect waves-green btn-flat">
+				<span class="icon-gTalents_close"></span>
+			</a>
+		</div>
+
+		<!--CONTENIDO-->
+		<div class="modal-content">
+			<!--GARANTIAS-->
+			<article class="generic grid">
+				<!--TITULO DE LA SECCION-->
+				<section class="generic-title">
+					<span class="icon-gTalents_garantia"></span>
+					<h2> {{ trans('app.terms_of_service' ) }} </h2>
+				</section>
+
+				<embed src="{{URL::to('/GTALENTSAGREEMENT.docx.pdf')}}" width="600" height="500" alt="pdf" pluginspage="http://www.adobe.com/products/acrobat/readstep2.html">
+			</article>
+		</div>
+	</div>
 </body>
 @stop
 

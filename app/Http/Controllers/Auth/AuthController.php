@@ -2,6 +2,8 @@
 
 namespace Vanguard\Http\Controllers\Auth;
 
+use Vanguard\ActualPosition;
+use Vanguard\CasesNumber;
 use Vanguard\Events\User\LoggedIn;
 use Vanguard\Events\User\LoggedOut;
 use Vanguard\Events\User\Registered;
@@ -10,8 +12,10 @@ use Vanguard\ExperienceIndustry;
 use Vanguard\Http\Requests\Auth\LoginRequest;
 use Vanguard\Http\Requests\Auth\RegisterRequest;
 use Vanguard\Http\Requests\User\ConfirmRegisterRequest;
+use Vanguard\LevelPosition;
 use Vanguard\Mailers\CollaboratorMailer;
 use Vanguard\Mailers\UserMailer;
+use Vanguard\Region;
 use Vanguard\Repositories\Address\AddressRepository;
 use Vanguard\Repositories\Country\CountryRepository;
 use Vanguard\Repositories\Company\CompanyRepository;
@@ -45,6 +49,10 @@ use Vanguard\Http\Controllers\Controller;
 use Lang;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Validator;
+use Vanguard\TypeInvolvedOpportunity;
+use Vanguard\TypeInvolvedSearch;
+use Vanguard\TypeSharedOpportunity;
+use Vanguard\TypeSharedSearch;
 use Vanguard\User;
 
 class AuthController extends Controller
@@ -489,7 +497,7 @@ class AuthController extends Controller
 
         // Add the user to database
         $user = $this->users->create(array_merge(
-            $request->only('email', 'username', 'password', 'country_id'),
+            $request->only('email', 'password', 'country_id'),
             ['status' => $status, 'code'=>$code]
         ));
 
@@ -570,10 +578,15 @@ class AuthController extends Controller
     {
         if ($user = $this->users->findByConfirmationToken($token)) {
             session(['lang' => \App::getLocale()]);
-            if (session('lang') =='en')
+            if (session('lang') =='en'){
                 $language = 2;
-            else
-               $language = 1;
+            }else{
+                $language = 1;
+            }
+            $searchTypeShared = TypeSharedSearch::where('language_id', $language)->orderBy('id', 'asc')->lists('name', 'value_id')->all();
+            $opportunityShared = TypeInvolvedSearch::where('language_id', $language)->orderBy('id', 'asc')->lists('name', 'value_id')->all();
+            $searchTypeInvolved = TypeSharedOpportunity::where('language_id', $language)->orderBy('id', 'asc')->lists('name', 'value_id')->all();
+            $opportunityInvolved = TypeInvolvedOpportunity::where('language_id', $language)->orderBy('id', 'asc')->lists('name', 'value_id')->all();
             $countries = $this->countries->lists()->toArray();
             $quantityEmployees = $quantityEmployees->lists($language);
             $experienceYears = $experienceYears->lists($language);
@@ -584,12 +597,23 @@ class AuthController extends Controller
             $contacts = $contacts->lists($language);
             $functionalArea = $functionalArea->lists($language);
             $industries = $industries->lists($language);
-
+            $positions = ActualPosition::where('language_id', $language)->orderBy('id', 'asc')->lists('name', 'value_id')->all();
+            $regions = Region::where('language_id', $language)->orderBy('name', 'asc')->lists('name', 'value_id')->all();
+            $cases_numbers = CasesNumber::where('language_id', $language)->orderBy('id', 'asc')->lists('name', 'value_id')->all();
+            $level_positions = LevelPosition::where('language_id', $language)->orderBy('id', 'asc')->lists('name', 'value_id')->all();
             return view('frontend.confirm', compact('user',
+                                                    'regions',
                                                     'token',
+                                                    'cases_numbers',
+                                                    'level_positions',
+                                                    'positions',
                                                     'countries', 
                                                     'quantityEmployees',
                                                     'experienceYears',
+                                                    'searchTypeShared',
+                                                    'searchTypeInvolved',
+                                                    'opportunityInvolved',
+                                                    'opportunityShared',
                                                     'educationLevels',
                                                     'securityQuestions',
                                                     'currencies',
