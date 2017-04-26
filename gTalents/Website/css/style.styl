@@ -1,0 +1,2743 @@
+/*
+
+	Proyecto: gTalents
+
+	Maquetado por: @01Comandos
+
+	Fecha: 04/11/2016;
+
+-------------------------------------------------------------------------
+-------------------------------------------------------------------------*/
+
+/*
+	IMPORTACIONES
+-------------------------------------------------------------------------
+-------------------------------------------------------------------------*/
+@import 'nib'
+@import 'style-icon.styl'
+@import 'rslider.styl'
+@import 'rating.styl'
+
+@font-face 
+    font-family 'BalooTamma-Regular'
+    src url('../fonts/BalooTamma-Regular.ttf')
+    
+@font-face 
+    font-family 'OpenSans-Regular'
+    src url('../fonts/OpenSans-Regular.ttf')
+    
+@font-face 
+    font-family 'OpenSans-Semibold'
+    src url('../fonts/OpenSans-Semibold.ttf')
+
+/*
+	VARIABLES
+-------------------------------------------------------------------------*/
+gris-claro = #f6f6f6
+gris-texto = #969798
+gris-texto2 = #4d4d4d
+gris-texto3 = #484848
+
+gris-new = #bdccd4
+
+linkedin = #0077b5
+linkedin2 = #4c84c5
+facebook = #3B5998
+twitter = #76a9ea
+youtube = #C4302B
+instagram = #C536A4
+
+
+azul-corporativo = #3A6097
+azul-corporativo2 = #2196f3
+azul-corporativo3 = #5c6bc0
+
+
+verde-corporativo = #7AC943
+verde-planes = #7fc719
+
+naranja = #F4511E
+
+/*
+	MIXINS
+-------------------------------------------------------------------------
+-------------------------------------------------------------------------*/
+flex-center()
+	display flex
+	flex-wrap wrap
+	justify-content center
+	
+flex-around()
+	display flex
+	flex-wrap wrap
+	justify-content space-around
+	
+flex-between()
+	display flex
+	flex-wrap wrap
+	justify-content space-between
+	
+flex-flexStart()
+	display flex
+	flex-wrap wrap
+	justify-content flex-start
+	
+flex-end()
+	display flex
+	flex-wrap wrap
+	justify-content flex-end
+	
+
+
+/*
+	CLASES MADRES
+-------------------------------------------------------------------------
+-------------------------------------------------------------------------*/		
+body
+	font-size 16px
+	margin 0
+	position relative
+	
+.body-registered
+	background #EDEFF5
+	
+.btn-main
+	color white
+	font-size 0.9em
+	font-family 'OpenSans-Regular',sans-serif
+	background azul-corporativo !important
+	border 0	
+	padding 0.5em 0.8em
+	border-radius 5px
+	transition .2s linear
+	display inline-block
+	&:hover
+		background naranja !important
+		color white
+		
+.btn-main2
+	color white
+	font-size 1em
+	font-family 'OpenSans-Regular',sans-serif
+	background naranja !important
+	border 0	
+	padding 0.5em 2em
+	border-radius 5px
+	transition .2s linear
+	display inline-block
+	&:hover
+		background verde-corporativo !important
+		color white
+		
+	
+.btn-return
+	color black
+	font-size 0.9em
+	font-family 'OpenSans-Regular',sans-serif
+	background gris-new !important
+	border 0
+	padding 0.5em 0.8em
+	border-radius 5px
+	transition .2s linear
+	display inline-block
+	&:hover
+		background #d7dadd !important
+	
+h1
+h2
+h3
+h4
+h5
+h6
+	margin 0
+	padding 0
+	/*font-family 'Cabin-Bold',sans-serif*/
+
+h1
+	font-size 3em
+	font-family 'BalooTamma-Regular',sans-serif
+
+h2
+	font-family 'OpenSans-Regular',sans-serif
+	
+h3
+	font-size 2em
+	font-family 'OpenSans-Regular',sans-serif
+	
+h5
+	font-size 0.9em
+	font-family 'OpenSans-Regular',sans-serif
+
+h6
+	font-size 0.8em
+	font-family 'OpenSans-Regular',sans-serif
+			
+p
+	margin 0
+	padding 0
+	font-size 1em
+	font-family 'OpenSans-Regular',sans-serif
+	
+figure
+	margin 0
+
+ul
+	margin 0
+	padding 0
+	li
+		list-style none
+
+a
+	text-decoration none
+
+input
+	width 100% !important
+	font-size 1em !important
+	height 2.9em !important
+	background rgba(white,0.8) !important
+	border-radius 7px !important
+	margin-bottom 0 !important
+	text-indent 1em
+	transition .3s linear
+	&:active
+	&:focus
+		background white !important
+
+select
+	height 2.9em !important
+		
+textarea
+	background rgba(white,0.8) !important
+	height 6.5em !important
+	resize none
+	border 0
+	border-radius 7px
+	padding 1em 0.3em !important
+	text-indent 1em
+	transition .3s linear
+	&:active
+	&:focus
+		background white !important
+	
+/**** ESTILOS PLACEHOLDER ****/
+*::-webkit-input-placeholder {
+    /* Google Chrome y Safari */
+    color: gris-texto;
+    font-family 'OpenSans-Regular'
+}
+*:-moz-placeholder {
+    /* Firefox anterior a 19 */
+    color: gris-texto;
+    font-family 'OpenSans-Regular'
+}
+*::-moz-placeholder {
+    /* Firefox 19 y superior */
+    color: gris-texto;
+    font-family 'OpenSans-Regular'
+}
+*:-ms-input-placeholder {
+    /* Internet Explorer 10 y superior */
+    color: gris-texto;
+    font-family 'OpenSans-Regular'
+}	
+
+.input-search
+	padding 0em 2em 0em 0em !important
+	background-image url("../img/search-icon.png") !important
+	background-position right top !important
+	background-repeat no-repeat !important
+	width 14em !important
+
+.grid
+	width 60em
+	margin 0 auto
+	
+.inputfile
+	display none !important
+	
+.dropdown-content
+	overflow-x hidden
+
+
+/*
+	HEADER
+-------------------------------------------------------------------------
+-------------------------------------------------------------------------*/
+.header
+	padding 0 2em
+	&-container
+		flex-between()
+		padding-top 0.8em
+		.item
+			a
+				display inline-block
+				figure
+					width 10em
+					position relative
+					top -0.5em
+					img
+						width 100%
+						
+		nav
+			background none
+			box-shadow none
+			color black
+			height initial
+			line-height initial
+			width auto
+			width 75em
+			flex-end()
+			.language
+				width 8em
+				font-size 0.9em
+			
+			.nav-mobile
+				display none
+				&-item
+					position relative
+					a
+						display inline-block
+						font-size 2em
+						color naranja
+						span
+							position absolute
+						.hamburguer-2
+							display none
+			ul
+				li
+					select
+						height 2.5em !important
+						background none
+						border 1px solid white
+						color white
+						option
+							color black
+							
+					&.item
+						a
+							color black
+							padding 0.8em
+					&:nth-child(2)
+						margin 0 0.5em 0 0.7em
+						border-left 1px solid azul-corporativo2
+						padding-left 0.7em
+						
+					&:nth-last-child(2)
+					&:nth-last-child(1)
+						padding-top 0.15em
+						
+					&:nth-last-child(2)
+						margin 0 0.6em
+
+.header-index
+	height 100vh
+	position relative
+	overflow hidden
+	header
+		position relative
+		z-index 3
+		background white
+		transition all .2s ease-in-out
+		nav
+			ul
+				li					
+					select
+						color azul-corporativo
+						border 1px solid azul-corporativo
+						
+		/.sticky 
+			background #fff !important
+			border-bottom 1px solid gris-claro !important
+			position fixed !important
+			left 0
+			top 0
+			right 0
+			z-index 5 !important
+		
+	.message
+		position absolute
+		z-index 2
+		top 50% 
+		left 50%
+		transform translate(-50%, -50%)
+		text-align center
+		color white
+		h1
+			font-family 'BalooTamma-Regular'
+			font-size 8em
+			text-shadow 1px 1px 3px rgba(0, 0, 0, 0.19)
+			z-index 5
+			position relative
+		h3
+			font-size 1.6em
+			font-family 'OpenSans-Semibold'
+			text-shadow 1px 1px 3px rgba(0, 0, 0, 0.19)
+			width 22em
+			margin -1.2em auto 0.5em auto
+			z-index 5
+			position relative
+		&-link
+			position relative
+			z-index 5
+	.rslides
+		position absolute
+		z-index 1
+		left 0
+		top 0
+		right 0
+		
+	.vineta1
+		background-color transparent
+		background-image url("../img/vineta-1.png")
+		background-position top
+		background-repeat no-repeat
+		background-size cover
+		height 138%
+		width 121%
+		position absolute
+		z-index 4
+		top -2em
+		left -3.5em
+		
+.header-registered
+	margin-bottom 2em
+	background white
+	position relative
+	z-index 8
+	&-container
+		padding 0.8em 0
+		flex-between()
+		.item-logo
+			a
+				display inline-block
+				figure
+					width 8em
+					img
+						width 100%
+						
+		.item
+			flex-end()
+			li
+				margin-right 1.1em
+				position relative
+				&:nth-child(2)
+					padding-top 0.7em
+					a
+						color gris-texto3
+						&:hover
+							color naranja
+							
+							
+				&:nth-child(4)
+				&:nth-child(5)
+					padding-top 0.4em
+					a
+						display inline-block
+						position relative
+						.icon-message
+							font-size 1.8em
+							color rgba(gris-texto .5)
+							transition .2s linear
+							&:hover
+								color verde-corporativo
+						.icon-alert
+							color naranja
+							font-size 0.9em
+							position absolute
+							top 0
+							right 0
+							
+					.bills
+						position absolute
+						top 2.5em
+						right -8em
+						width 17em
+						padding 1em 0.5em
+						box-shadow 1px 1px 2px rgba(0, 0, 0, 0.23)
+						z-index 12
+						.alerts-div
+							li
+								margin-right 0
+								a
+									flex-flexStart()
+							
+				
+				&:last-child
+					padding-top 0.2em
+					margin-right 0
+					.dropdown-button
+						background none !important
+						box-shadow none !important
+						padding 0 0.7em
+						flex-center()
+						span
+							color azul-corporativo2
+							font-size 1.5em
+							padding 0.2em 0.2em 0 0
+						p
+							text-transform capitalize
+							color gris-texto3
+					&:hover
+						p
+							color naranja
+							
+			&-newPost
+				a
+					padding 0.5em 0.8em
+					border 1px solid azul-corporativo2
+					color azul-corporativo2
+					border-radius 4px
+					display inline-block
+					transition .2s linear
+					&:hover
+						background azul-corporativo2
+						color white
+		
+	nav
+		background azul-corporativo
+		.nav-mobile
+			display none
+			&-item
+				position relative
+				a
+					display inline-block
+					font-size 2em
+					color naranja
+					span
+						position absolute
+					.hamburguer-2
+						display none
+		ul
+			.option-mobile
+				display none
+			li
+				a
+					&:hover
+						p
+							color white
+		a
+			padding 0 0.8em
+			
+#alertNavContain
+	display none
+	
+/*
+	INDEX
+-------------------------------------------------------------------------
+-------------------------------------------------------------------------*/
+.mobile
+.tablet
+	display none
+	
+.generic
+	margin-top 3.5em
+	text-align center
+	&-title
+		figure
+			span
+				font-size 2.5em !important
+			
+		span
+			font-size 7em
+			color gris-new
+		h2
+			font-size 1.8em
+			font-family 'OpenSans-Regular'
+			margin-bottom 0.7em
+			strong
+				color azul-corporativo
+				
+	.paragraph
+		p
+			line-height 1.6em
+			
+		.text-left
+			text-align left
+			margin-bottom 0.9em
+			
+	&-skill
+		margin 4em auto 3em auto
+		width 70%
+		flex-between()
+		.item
+			width 48%
+			text-align center
+			margin-bottom 3.5em
+			figure
+				font-size 6em
+				color gris-new
+				transition .2s linear
+			h3
+				width 90%
+				color azul-corporativo
+				font-size 1.2em
+				text-transform uppercase
+				font-family 'BalooTamma-Regular'
+				margin 0 auto
+			p
+				opacity 0
+				transition 0.3s linear
+				
+			img
+				width 110%
+			&:hover
+				cursor pointer
+				figure
+					color naranja
+				p
+					opacity 1
+					
+	.skill-A
+		margin 2em 0
+		flex-between()
+		.item
+			width 48%
+			margin-bottom 1em
+			flex-flexStart()
+			span
+				color azul-corporativo2
+				font-size 1em
+			p
+				text-align left
+				width 85%
+				padding-left 0.5em
+				
+	.skill-B
+		margin 2em 0
+		.example
+			text-align center
+			margin-bottom 1.2em
+			h4
+				font-size 1.1em
+				font-family 'OpenSans-Semibold'
+				
+		.item
+			margin-bottom 1.3em
+			flex-flexStart()
+			span
+				color azul-corporativo2
+				font-size 1em
+			p
+				text-align left
+				width 90%
+				padding-left 0.5em
+				
+	.skill-rangos
+		margin-top 1.5em
+		flex-center()
+		.item
+			width 35%
+			&-options
+				margin-bottom 2em
+				flex-flexStart()
+				.number
+					font-size 2em
+					color gris-new
+				.rango
+					padding-left 1.3em
+					flex-flexStart()
+					figure
+						font-size 2.1em
+					.special
+						font-size 2.7em
+					p
+						padding 0.2em 0 0 0.3em
+						
+	.partner
+		.item
+			width 30%
+			p
+				opacity 1
+				
+	.collapsible
+		margin 2em 0
+		box-shadow none
+		border 0
+		&-header
+			padding 0.9em
+			border 0
+			background none
+			flex-flexStart()
+			span
+				color azul-corporativo2
+				font-size 1em
+			h5
+				font-size 1.2em
+				margin -0.2em 0 0 1em
+		&-body
+			border 0
+			border-bottom 1px solid naranja
+			text-align left
+			p
+				padding 0 0 1.8em 0
+				line-height 1.6em
+					
+	&.contact-index
+		.generic-title
+			h2
+			 	margin-bottom 0
+		.link-contact
+			margin-top 0.7em
+					
+.titleWin
+	height 34em
+	background-color gris-claro
+	background-position top
+	background-repeat no-repeat
+	background-size cover
+	width 100vw
+	position relative
+	&-container
+		position absolute
+		z-index 4
+		top 50% 
+		left 50%
+		transform translate(-50%, -50%)
+		text-align center
+		color white
+		width 40em
+		height 14em
+		padding-top 1em
+		h2
+			font-family 'OpenSans-Semibold'
+			font-size 2em
+			text-shadow 1px 1px 3px rgba(0, 0, 0, 0.19)
+			margin-bottom 0.5em
+			z-index 5
+			position relative
+			
+		p
+			z-index 5
+			position relative
+
+		&-link
+			position relative
+			z-index 5
+			margin-top 0.4em
+		
+		.vineta1
+			background-color transparent
+			background-image url("../img/vineta-1.png")
+			background-position top
+			background-repeat no-repeat
+			background-size cover
+			height 138%
+			width 121%
+			position absolute
+			z-index 4
+			top -2em
+			left -3.5em
+			
+		.vineta2
+			background-color transparent
+			background-image url("../img/vineta-2.png")
+			background-position top
+			background-repeat no-repeat
+			background-size cover
+			height 138%
+			width 121%
+			position absolute
+			z-index 4
+			top -2em
+			left -3.5em
+	
+.ventajas
+	background-image url("../img/ventajas-pc.png")
+			
+.garantias
+	background-image url("../img/garantias-pc.png")
+	
+.membresias
+	background-image url("../img/membresias-pc.png")
+	
+.question
+	background-image url("../img/question-pc.png")
+	
+.contact
+	margin-top 2.5em
+	position relative
+	display none
+	.mapa
+		height 35em
+		
+	&-formulario
+		background azul-corporativo2
+		width 27em
+		padding 2em 1.5em
+		border-radius 5px
+		position absolute
+		top 2em
+		right 10%
+		.title
+			color white
+			text-align center
+			margin-bottom 1em
+			h3
+				font-size 1.65em
+				font-family 'OpenSans-Regular'
+				
+		form
+			.itemForm
+				margin-bottom 0.7em
+			.submit
+				text-align center
+	
+	
+/**** MODALES INDEX ****/
+.modalText
+	width 100%
+	max-height 100% !important
+	height 100vh
+	top 0 !important
+	.modal-footer
+		padding-top 0.3em
+		a
+			color naranja
+			font-size 2.3em
+			
+	.modal-content
+		.generic
+			border-bottom 1px solid naranja
+			padding-bottom 3em
+			&:nth-child(1)
+				margin-top 0
+				
+			&:last-child
+				border-bottom 0
+				
+
+/*
+	LOGIN
+-------------------------------------------------------------------------
+-------------------------------------------------------------------------*/
+.body-login
+	background-color gris-login
+	background-image url("../img/background-login.png")
+	background-position top
+	background-repeat no-repeat
+	background-size cover
+	height 100vh
+	width 100vw
+	position relative
+
+.login
+	width 28em
+	background white
+	margin 4em auto 0 auto
+	padding 2em 1.5em
+	border-radius 8px
+	box-shadow 0px -2px 9px -1px rgba(0,0,0,0.41)
+	
+	&.register
+		margin-bottom 3em
+
+	&-title
+		text-align center
+		margin-bottom 1.5em
+		figure
+			width 10em
+			margin 0 auto
+			a
+				display inline-block
+				img
+					width 100%
+		p
+			font-size 0.8em
+			font-style italic
+			
+				
+	/.formLogin
+		margin-top 2em
+		
+		&-title
+			text-align center
+			margin-bottom 0.7em
+			h4
+				font-size 1.3em
+			p
+				text-align center
+				font-size 0.9em
+			
+			
+		.itemForm
+			margin-bottom 1em
+			position relative
+			label
+				font-size 1em
+				color gris-texto2 !important
+				font-family 'OpenSans-Regular'
+				width 100%
+				display block
+							
+			input
+			textarea
+			select
+				border 1px solid gris-new !important
+				margin-top 0.35em
+				&:active
+					border 1px solid azul-corporativo2 !important
+				&:focus
+					border 1px solid azul-corporativo2 !important
+					box-shadow none !important
+			span
+				font-size 0.8em
+				font-family 'OpenSans-Regular'
+				color red
+				display none
+			p
+				text-align right
+				font-size 0.8em
+				font-style italic
+				a
+					transition .2s linear
+					&:hover
+						color naranja
+			&.icon-help
+				flex-flexStart()
+				label
+					width auto
+					padding-right 0.5em
+					
+				input					
+				select
+					width 100%
+					color black
+					font-family 'OpenSans-Regular' !important
+					
+				i
+					color azul-corporativo2
+					cursor pointer
+					
+		.dual
+			flex-between()
+			.itemForm
+				width 48%
+				
+		.itemRadio
+			flex-flexStart()
+			label
+				width 100%
+			.radio
+				width 60%
+				padding-top 0.8em
+				flex-flexStart()
+				p
+					margin-right 4em
+					&:last-child
+						margin-right 0
+			
+			input
+				width 39% !important
+						
+		.itemCheck
+			p
+				label
+					font-size 0.9em
+					color black
+					font-family 'OpenSans-Regular'
+					line-height 1.4em
+					font-style italic
+					height 100%
+					
+		.condiciones-uso
+			h4
+				font-size 1.1em
+				font-family 'OpenSans-Regular'
+				text-align center
+				font-style italic
+			&-container
+				margin 1.1em 0
+				height 10em
+				border 1px solid gris-claro
+				padding 0.5em
+				overflow-x auto
+				p
+					font-size 0.9em
+					margin-bottom 1.2em
+					
+		.itemRadio
+			margin-bottom 1em
+			h4
+				font-size 1em
+				color gris-texto2 !important
+				font-family 'OpenSans-Regular'
+			&-radio
+				margin-top 1em
+				flex-flexStart()
+				p
+					margin-right 0.5em
+					label
+						font-size 1em
+					&:last-child
+						margin-right 0
+				
+		.recover
+			margin-bottom 1.5em
+			p
+				font-size 0.8em
+				text-align right
+				a
+					color naranja
+					transition .2s linear
+					&:hover
+						color azul-corporativo
+				
+		.submit
+			text-align center
+			p
+				text-align center
+				font-size 0.9em
+				padding-top 1.2em
+				letter-spacing -0.37px
+				a
+					color azul-corporativo
+					transition .2s linear
+					font-family 'OpenSans-Semibold'
+					&:hover
+						color naranja					
+
+	/.password-send
+		display none
+		h3
+			font-size 1em
+			text-align center
+			
+		.link
+			text-align center
+			padding-top 1.3em
+			
+
+#recover-container
+	display none
+
+
+
+/*
+	REGISTER
+-------------------------------------------------------------------------
+-------------------------------------------------------------------------*/
+.body-register
+	background-color gris-login
+	background-image url("../img/background-register.png")
+	background-position top
+	background-repeat no-repeat
+	background-size cover
+	height 100vh
+	width 100vw
+	position relative
+
+
+/*
+	CONFIRM
+-------------------------------------------------------------------------
+-------------------------------------------------------------------------*/
+.body-confirm
+	background-color gris-login
+	background-image url("../img/background-confirm.png")
+	background-position top
+	background-repeat no-repeat
+	background-size cover
+	height 100vh
+	width 100vw
+	position relative
+	
+	header
+		position relative
+		padding 1.5em 0
+		border-bottom 1px solid naranja
+		figure
+			width 9em
+			margin 0 auto
+			a
+				display inline-block
+				img
+					width 100%
+					
+		.language
+			width 9em
+			position absolute
+			top 1.6em
+			right 0
+			select
+				border 1px solid gris-texto
+				background none
+				border-radius 4px
+				
+	ul
+		margin-top 2.5em
+		flex-center()
+		li			
+			margin-right 1em
+			display inline-block
+			color rgba(gris-texto .7)
+			text-align center
+			span
+				font-size 2.3em
+			p
+				font-size 0.8em
+			
+			&:last-child
+				margin-right 0
+				
+		.active
+			span
+				color naranja
+			p
+				color azul-corporativo
+				font-family 'OpenSans-Semibold'
+	.register
+		.formLogin
+			.formContainer-confirm
+				
+				.categoria-container
+					padding-top 1em
+					&-item
+						.option
+							display inline-block
+							color gris-texto
+							padding 0.5em
+							
+							flex-flexStart()
+							span
+								font-size 1em
+								color azul-corporativo2
+							h3
+								font-size 1em
+								padding-left 0.3em
+							&:hover
+								span
+								h3
+									color naranja
+						.subopciones
+							margin 0 0 0 1em
+							border-left 2px solid azul-corporativo2
+							justify-content flex-start
+							display none
+							li
+								margin 0 0 0.5em 1em
+								display block
+								width 100%
+								a
+									display inline-block
+									
+									p
+										color black
+										font-size 1em
+									span
+										font-size 0.9em
+										padding-top 0.3em
+										color azul-corporativo2
+									flex-flexStart()
+									&:hover
+										span
+										p
+											color naranja
+																			
+								.subopciones-select
+									margin 0 0 0 1.5em
+									border-left 2px solid naranja
+									justify-content flex-start
+									display none
+									li										
+										margin 0 0 0.5em 0.6em
+										padding 0
+										a
+											text-align left											
+											p
+												padding 0.5em
+												border-radius 3px
+										.active-option											
+											p 
+												color white
+												background azul-corporativo
+				
+				.message-finish
+					text-align center
+					h3
+						font-size 1.1em
+						font-family 'OpenSans-Regular'
+						margin-bottom 0.2em
+						
+					p
+						text-align center
+						margin-bottom 1.2em
+						
+					.link
+						text-align center
+
+				.leyend
+					margin-top 1.5em
+					flex-center()
+					&-point
+						width 1em
+						height 1em
+						border-radius 50%
+						background rgba(gris-texto .6)
+						margin-right 0.4em
+						&.active
+							width 3em
+							border-radius 6px
+							background azul-corporativo
+						&:last-child
+							margin-right 0
+							
+		.move
+			flex-center()
+			margin 2em 0 4em 0
+			&-link
+				margin-right 0.8em
+				&:last-child
+					margin-right 0
+
+#paso1-2
+#paso1-3
+#paso2-1
+#paso2-2
+#paso3
+#paso4-1
+#paso4-2
+#paso4-3
+#btn-return-confirm1
+#btn-return-confirm2
+#btn-return-confirm3
+#btn-return-confirm4
+#btn-return-confirm5
+#btn-return-confirm6
+#btn-return-confirm7
+#btn-next-confirm2
+#btn-next-confirm3
+#btn-next-confirm4
+#btn-next-confirm5
+#btn-next-confirm6
+#btn-next-confirm7
+#btn-next-confirm8
+	display none
+					
+/*
+	ALERTS-MESSAGE
+-------------------------------------------------------------------------
+-------------------------------------------------------------------------*/
+.messageNull
+	background white
+	border-radius 10px
+	margin-bottom 2em
+	padding 3.5em 1.5em
+	text-align center
+	h3
+		font-size 2.5em
+		color gris-texto
+		font-family 'BalooTamma-Regular'
+		text-transform uppercase
+	figure
+		font-size 4em
+		color gris-texto
+		
+	p
+		a
+			margin-top 0.7em
+			&:hover
+				color naranja
+
+			
+/*
+	MIS-FACTURAS
+-------------------------------------------------------------------------
+-------------------------------------------------------------------------*/
+.bills
+	padding 2em
+	background white
+	margin-bottom 1.5em
+	&-title
+		margin-bottom 0.7em
+		h3
+			font-size 1em
+			font-family 'OpenSans-Semibold'
+		p
+			font-size 0.85em
+			
+		.buy-credits
+			float right
+			margin-top -1em
+			
+	table
+		thead
+			tr
+				th
+					font-size 0.9em
+					font-family 'OpenSans-Regular'
+					color gris-texto
+					font-weight normal
+		tbody
+			tr
+				transition .2s linear
+				cursor pointer
+				td
+					font-size 0.9em
+					font-family 'OpenSans-Regular'
+					font-weight normal
+					border-radius 0
+					a
+						color azul-corporativo2
+						transition .2s linear
+						&:hover
+							color naranja
+					&.positive
+						color verde-corporativo
+					&.negative
+						color red
+				&:hover
+					background gris-claro
+					
+	.collapsible
+		box-shadow none
+		li
+			.collapsible-header
+				padding 0
+
+
+/**** TARJETA OPORTUNIDAD ****/
+.opportunity-admin
+	padding 1em
+	width 100%
+	flex-between()
+	/.item-activity
+		h5
+			color azul-corporativo2
+			&.suspendido
+				color naranja !important
+		h2
+			font-size 1em
+			font-family 'OpenSans-Semibold'
+			padding 0.1em 0
+			transition .2s linear
+		h3 
+			font-size 0.9em
+		p
+			font-size 0.9em
+			line-height 1em
+			
+		select
+			border 0
+			width 7em
+			padding 0
+			height 1.3em !important
+			font-size 0.9em
+
+		&-leyend
+			margin-top 0.3em
+			flex-flexStart()
+			.item
+				margin-right 0.5em
+				a
+					display inline-block
+					color gris-new
+					font-size 1.4em
+					transition .2s linear
+					&:hover
+						color naranja
+				&:last-child
+					margin-right 0
+				
+	.item
+		flex-end()
+		.item-option
+			text-align center
+			position relative
+			top 1em
+			padding-right 0.8em
+			h4
+				font-size 1.3em
+				font-family 'OpenSans-Semibold'
+			span
+				text-transform uppercase
+				font-size 0.75em
+				color gris-texto
+				position relative
+				top -1em
+			.opt-sm
+				top 0
+			&:last-child
+				padding-right 0
+					
+	&:hover
+		h2
+			color naranja
+			
+/**** FIN TARJETA OPORTUNIDAD ****/
+
+/**** CALIFICACIONES ****/
+.comment
+	padding 1.5em
+	flex-flexStart()
+	&-user
+		width 18%
+		flex-flexStart()
+		figure
+			font-size 2.4em
+			
+		&-datos
+			h3
+				font-size 1.1em
+			h4
+				font-size 0.9em
+				font-family 'OpenSans-Regular'
+				font-weight normal
+		
+	&-detail
+		width 81%
+		/.qualification
+			flex-flexStart()
+			figure
+				flex-flexStart()
+				font-size 1.3em
+				color #EFC75E
+				.star-null
+					color gris-new
+					
+			p
+				padding 0.1em 0 0 0.8em !important
+				font-size 0.8em
+		
+		&-resum
+			margin-top 0.7em
+			p
+				padding 0 !important
+				font-size 0.9em
+									
+
+
+
+/*
+	MIS-CREDITOS
+-------------------------------------------------------------------------
+-------------------------------------------------------------------------*/
+/**** RESUMEN DE INDICADORES ****/
+.admin-resum
+	background white
+	margin-bottom 1.5em
+	padding 1.5em 1.5em 1em 1.5em
+	flex-flexStart()
+	&-user
+		padding-top 0.3em
+		flex-flexStart()
+		figure
+			font-size 2.4em
+			
+		&-datos
+			padding-left 0.3em
+			p
+				font-size 0.9em
+			h4
+				font-size 0.9em
+				font-family 'OpenSans-Semibold'
+	
+	&-item
+		padding-left 1em
+		flex-flexStart()
+		.item
+			border-left 1px solid gris-new
+			flex-flexStart()
+			p
+				padding 0.3em 0.5em 0 0.6em
+				font-size 0.9em
+				letter-spacing -1px
+				strong
+					font-family 'OpenSans-Semibold'
+			&-leyend
+				text-align center
+				figure
+					font-size 1.8em
+					color gris-new
+				p
+					color azul-corporativo2
+					text-transform uppercase
+					font-family 'OpenSans-Semibold'
+					font-size 0.8em
+					padding-top 0
+					
+			
+					
+.item-mobile
+	display none
+
+/**** FIN RESUMEN DE INDICADORES ****/
+
+.credits
+	background white
+	padding 1.5em
+	margin-bottom 5em
+	&-title
+		text-align center
+		margin 1em 0 2em 0
+		h3
+			font-size 1.2em
+			font-family 'OpenSans-Semibold'
+			
+	&-container
+		li
+			margin-bottom 1em
+			padding 0.8em 1em
+			border 1px solid gris-new
+			flex-flexStart()
+			.points
+				background rgba(azul-corporativo 0.6)
+				color white
+				width 4em
+				height 4em
+				border-radius 50%
+				text-align center
+				padding-top 0.8em
+				margin 0em 1.5em 0 0.7em
+				h4
+					font-size 1.1em
+					font-family 'OpenSans-Semibold'
+				span
+					font-size 0.7em
+					text-transform uppercase
+					font-family 'OpenSans-Regular'
+					position relative
+					top -0.1em
+			.activity-cards
+				width 35%
+					
+			/.activity-cards
+				padding-top 0.3em
+				flex-flexStart()
+				figure
+					color naranja
+					font-size 2.3em
+					padding-top 0.2em
+					
+			.motivo
+				width 53%
+				text-align right
+				padding-top 0.3em
+				p
+					font-size 0.9em
+					strong
+						font-family 'OpenSans-Semibold'
+				.qualification
+					flex-end()
+			
+	/.pagination
+		text-align center
+		margin-top 2em
+		.active
+			background naranja
+
+/*
+	POST (LISTADO)
+-------------------------------------------------------------------------
+-------------------------------------------------------------------------*/
+.post-list
+	li
+		padding 0
+		transition .2s linear
+		.link-listado
+			display inline-block
+			color gris-texto3
+			width 100%
+			.opportunity-admin
+				.item
+					&-option
+						span
+							top 0
+							
+		&:hover
+			border 1px solid naranja
+			
+
+			
+
+.postList-contain
+	flex-between()
+	&-filter
+		width 32%
+		background white
+		padding 2em 1.5em
+		height 42em
+		form
+			margin-top 0
+			h3
+				font-size 1.1em
+				padding 0 0 0.8em 0
+		
+	.credits
+		width 65%
+		&-title
+			text-align left
+			margin-bottom 1.5em
+			h3
+				font-size 1em
+				font-family 'OpenSans-Regular'
+				strong
+					color verde-corporativo
+					
+			.orderFilter
+				float right
+				margin-top -1.4em
+				flex-flexStart()
+				label
+					padding 0.5em 0.8em 0 0
+				select
+					width 6em
+					height 2em !important
+					font-size 0.9em !important
+					
+.filter-supplier
+	height 52.5em
+	
+
+/*
+	SUPPLIER-LIST
+-------------------------------------------------------------------------
+-------------------------------------------------------------------------*/
+.supplier-list
+	flex-between()
+	li
+		width 49%
+		margin-bottom 0.8em
+		border-radius 9px
+		padding 0 !important
+		border 1px solid rgba(gris-new .3)
+		transition .2s linear
+		position relative
+		a
+			display inline-block
+			width 100%
+			/.supplierContain1
+				padding 1.3em 1em
+				
+				&-ranking
+					font-size 2.2em
+					display inline-block
+					
+				.datos
+					padding-left 0.8em
+					color black
+					display inline-block
+					h4
+						font-size 1em
+						font-family 'OpenSans-Semibold'
+					p
+						font-size 0.9em
+						color azul-corporativo2
+						
+		.add-supplier
+			opacity 1
+			transition .2s linear
+			font-size 1.5em
+			position absolute
+			top 1em
+			right 1em
+		&:hover
+			border 1px solid azul-corporativo2
+			.add-supplier
+				opacity 1
+
+
+
+/*
+	INDEX-REGISTRADO
+-------------------------------------------------------------------------
+-------------------------------------------------------------------------*/
+.user-main
+	flex-between()
+	&-create
+		width 65%
+		.bills
+			margin-bottom 1em
+			
+			.messageGO
+				text-align center
+				padding 1.5em 0
+				h3
+					font-size 1.1em
+					a
+						color naranja
+						transition .2s linear
+						&:hover
+							color verde-corporativo
+			
+			.pagination
+				text-align center
+				margin 1.5em 0
+				display none
+				.active
+					background naranja !important
+					
+			.view-more
+				text-align center
+				margin-top 0.9em
+				a
+					display inline-block
+					color verde-corporativo
+					cursor pointer
+					&:hover
+						color naranja
+			&:nth-child(1)
+				.credits-container
+					height 14em
+					overflow hidden
+					
+			&:nth-child(2)
+				.credits-container
+					height 18em
+					overflow hidden
+					
+			&:last-child
+				border-top 8px solid naranja
+				
+		.credits-title
+			text-align left
+			margin-bottom 1.5em
+			h3
+				font-size 1em
+				font-family 'OpenSans-Regular'
+				strong
+					color verde-corporativo
+					
+		/.supplier-list
+			li
+				width 48%
+				margin-bottom 1em
+				padding 1.3em 1em
+				flex-between()
+				/.colab
+					flex-flexStart()
+					figure
+						font-size 1.8em
+					.icon-candd
+						color naranja
+						
+					.datos
+						padding-left 0.8em
+						h4
+							font-size 1em
+						span
+							display block
+							font-size 0.9em
+							font-family 'OpenSans-Semibold'
+						p
+							color azul-corporativo
+							font-size 0.9em
+				.options
+					ul
+						li
+							padding 0 !important
+							border-radius 0
+							margin 0 !important
+							width 100%
+		
+	&-contain
+		width 33%
+		.bills
+			padding 1.5em 0
+			margin-bottom 1em
+			&-title
+				padding 0 1.5em 1em 1.5em
+				margin-bottom 0
+				
+			/.alerts-div
+				max-height 9em
+				padding 0 1em
+				overflow auto
+				li
+					margin-bottom 0.9em
+					flex-between()
+					.motivo
+						width 91%
+						a
+							display inline-block
+							color gris-texto
+							flex-flexStart()
+							figure
+								font-size 0.8em
+								color azul-corporativo2
+							.datos
+								padding-left 0.3em
+								h4
+									font-size 1em
+									color gris-texto3
+									transition .2s linear
+								p
+									font-size 0.9em
+							&:hover
+								h4
+									color naranja
+						
+						.addSupplier
+							float right
+							font-size 1.5em
+							margin-top -1.6em
+							padding-right 0.3em
+					.supplierContain1
+						padding 0
+
+					.close-alert
+						color naranja
+						cursor pointer
+						
+					&:last-child
+						margin-bottom 0
+						
+			.supplier-recomend
+				margin-top 1em
+				li
+					.close-alert
+						font-size 1.2em
+						padding-top 0.3em
+						
+			.ranking
+				padding 0.5em 1em
+				flex-center()
+				figure
+					font-size 2.5em
+					opacity .5
+					margin-right 0.3em
+					&:last-child
+						margin-right 0
+				
+				.ranking-active
+					opacity 1
+						
+			.position-resum
+				padding 0 1em
+				.item
+					margin-bottom 0.5em
+					flex-flexStart()
+					h4
+						font-size 1em
+						width 6em
+					p
+						font-size 0.9em
+						width 66%
+						strong
+							color naranja
+							
+			.resum-position
+				.item
+					margin-bottom 1em
+					flex-center()
+					figure
+						font-size 1.7em
+					.datos
+						padding-left 0.5em
+						h4
+							font-size 1em
+						p
+							font-size 0.9em
+					&:nth-child(1)
+						figure
+						h4
+							color verde-corporativo
+					&:last-child
+						margin-bottom 0
+						figure
+						h4
+							color naranja
+						
+			.post-list
+				li							
+					.opportunity-admin
+						padding 0.5em 0.5em 0.8em 1em
+					&:hover
+						background rgba(gris-claro .8)
+						border 0
+						
+			.item-circle
+				figure
+					background rgba(azul-corporativo 0.6)
+					color white
+					width 6em
+					height 6em
+					border-radius 50%
+					text-align center
+					padding-top 1.5em
+					margin -0.3em auto 0.7em auto
+					h4
+						font-size 1.3em
+						font-family 'OpenSans-Semibold'
+					span
+						font-size 0.8em
+						text-transform uppercase
+						font-family 'OpenSans-Regular'
+						position relative
+						top -0.1em
+						
+			.item-resumVisitas
+				margin-bottom 1.2em
+				flex-center()
+				.item-option
+					text-align center
+					position relative
+					top 1em
+					padding-right 0.8em
+					h4
+						font-size 1.3em
+						font-family 'OpenSans-Semibold'
+					span
+						text-transform uppercase
+						font-size 0.75em
+						color gris-texto
+						position relative
+						top -1em
+					.opt-sm
+						top 0
+					&:last-child
+						padding-right 0
+							
+		.btn-section
+			margin-bottom 1em
+			width 100%
+			.btn-main
+				background verde-corporativo !important
+				width 100%
+				padding 1.3em 1em
+				border-radius 11px
+				text-align center
+				&:hover
+					background naranja !important
+
+		/.user-main-contain-resumTeam
+			background white
+			margin-bottom 1em
+			border-radius 10px 10px 0 0
+			.tabs
+				border-radius 10px 10px 0 0
+				li
+					border-radius 10px 10px 0 0
+					a
+						color white
+						background azul-corporativo
+						border-radius 10px 10px 0 0
+						text-transform capitalize
+						font-size 1em
+						font-family 'OpenSans-Regular'
+						letter-spacing -1px
+					.active
+						color azul-corporativo
+						background white
+				.indicator
+					display none
+					
+			/.team-container
+				&-tools
+					padding 0.9em 1em
+					.active-one
+						flex-between()
+						p
+							font-size 0.9em
+						
+						select
+							width 67%
+							padding 0
+							height auto !important
+							border 0
+							
+						.search-opt1
+							span
+								color gris-new
+								transition .2s linear
+								font-size 1.2em
+								cursor pointer
+								&:hover
+									color naranja
+									
+					.active-two
+						display none
+						position relative
+						input
+							border 1px solid rgba(gris-new .8)
+							&:focus
+								border-bottom 0 !important
+								border 1px solid azul-corporativo
+								box-shadow 0 1px 0 0 #3a6097
+						.close
+							position absolute
+							top 0.8em
+							right 0.5em
+							span
+								cursor pointer
+								color naranja
+								font-size 1.2em
+								
+				.team
+					padding 0.9em 1em
+					max-height 14em
+					overflow auto
+					li
+						margin-bottom 1em
+						/.team-card
+							flex-between()
+							&-person
+								flex-flexStart()
+								figure
+									font-size 2em
+									padding-right 0.3em
+								.datos
+									h3
+										font-size 1em
+									p
+										color azul-corporativo
+										font-family 'OpenSans-Semibold'
+										font-size 0.9em
+										
+							.supplierContain1
+								padding 0
+
+							.options
+								.dropdown-button
+									margin-right 0.5em
+									font-size 1.2em
+									color azul-corporativo2
+									
+						&:last-child
+							margin-bottom 0
+							
+				.select-colab
+					margin-top 0 !important
+					.team
+						li
+							flex-flexStart()
+							.team-card
+								width 87%
+								
+					.send-colab
+						padding 0 1.5em
+						margin 1em 0 0.5em 0
+						a
+							display inline-block
+							color white
+							background verde-corporativo
+							padding 0.7em 2em
+							width 100%
+							transition .2s linear
+							border-radius 4px
+							font-size 1em
+							text-align center
+							&:hover
+								background naranja
+							
+				/.new-team
+					text-align right
+					padding 1em
+					a
+						display inline-block
+						color verde-corporativo
+						transition .2s linear
+						font-size 0.9em
+						&:hover
+							color naranja
+							
+				&.g-general
+					padding-bottom 1.5em
+						
+				
+.dropdown-content
+	li
+		margin-bottom 0 !important
+
+.ul-complete
+	height auto !important
+	
+.pagination-on
+	display block !important
+	
+
+/**** SECCION EQUIPO MOBILE ****/
+.team-mobile
+	&-btn
+		background naranja
+		position fixed
+		bottom 1em
+		right 2em
+		z-index 12
+		color white
+		width 2em
+		height 2em
+		border-radius 50%
+		text-align center
+		font-size 1.8em
+		padding-top 0.4em
+		display inline-block
+		box-shadow  0 2px 2px 0 rgba(0,0,0,0.14), 
+					0 1px 5px 0 rgba(0,0,0,0.12), 
+					0 3px 1px -2px rgba(0,0,0,0.2)
+		transition .2s linear
+		display none
+		&:hover
+			background verde-corporativo
+	
+	&-container
+		background rgba(black .7)
+		position fixed
+		z-index 11
+		top 0
+		right 0
+		bottom 0
+		left 0
+		display none
+		.user-main-contain-resumTeam
+			width 27em
+			margin 5em auto 0 auto
+			.team-container
+				.team
+					max-height 20em
+					
+
+/**** MODALES DEL INDEX REGISTRADO ****/
+.modal-userRegistered
+	width 28em
+	background white
+	border-radius 9px
+	overflow auto !important
+	.modal-header
+		text-align center
+		position relative
+		padding-top 2em
+		h4
+			font-size 1.2em
+			font-weight normal
+			
+		.close
+			position absolute
+			top 0.5em
+			right 0.5em
+			a
+				color naranja
+				font-size 2em
+			
+	.modal-content
+		padding-top 0
+		position initial !important
+		form
+			.slider
+				height 7em !important
+				margin-bottom 1.5em
+				.slides
+					height auto !important
+					background none !important
+
+			.intl-tel-input
+				width 86%
+					
+			.buttonsMain
+				flex-center()
+				.item
+					margin-right 0.5em
+					&:last-child
+						margin-right 0
+						
+			.upload
+				margin 1em 0
+						
+			.colab
+				width 75%
+				margin 1.3em auto
+				border 1px solid rgba(gris-new 0.3)
+				padding 1.5em 1em
+				border-radius 9px
+				
+		.form-credits
+			width 65%
+			margin 2em auto 0 auto
+			h3
+				margin-bottom 0.7em
+				text-align center
+				font-size 2.3em
+				color verde-corporativo
+				font-family 'OpenSans-Semibold'
+				strong
+					font-size 0.7em
+					
+		.form-status
+			.historial-status
+				padding-left 2em
+				max-height 13em
+				margin-bottom 1.5em
+				overflow-y auto !important
+				li
+					border-left 3px solid rgba(gris-texto .4)
+					padding 0.8em 0
+					flex-flexStart()
+					span
+						color verde-corporativo
+						font-size 0.8em
+						margin 0 1.5em 0 -0.5em
+						padding-top 0.3em
+						
+					p
+						&:nth-child(2)
+							margin 0 1.5em 0 0
+				
+		.profile-colab
+			.team-card
+			.supplierContain1
+				margin 2em auto
+				width 70%
+				.link
+					a
+						font-size 1.5em
+						&:hover
+							color naranja
+							
+			.supplierContain1
+				padding 0
+				margin 2em auto 0.5em auto !important
+				flex-center()
+				
+			&-message
+				h4
+					font-size 0.9em
+					font-style italic
+					font-family 'OpenSans-Regular'
+					
+				p
+					font-size 0.9em
+					
+		.profile-supplier
+			margin-top 0.8em
+			.qualification
+				margin-bottom 1em
+				padding-bottom 1.1em
+				border-bottom 1px solid gris-claro
+				flex-center()
+				figure
+					font-size 1.7em
+					span
+						margin-right 0.13em
+						&:last-child
+							margin-right 0
+							
+			.profile-colab-message
+				text-align center
+				margin-bottom 0.9em
+				h4
+					font-family 'OpenSans-Semibold'
+					
+		.item-btn
+			text-align center
+			margin-top 1em
+					
+				
+					
+		.calificar-supplier
+			.team-card
+				text-align center
+				.supplierContain1
+				.note					
+					width 100%
+				
+				.note
+					font-style italic
+					
+			/.stars-feedback
+				text-align center
+				.select-wrapper
+					display none
+					
+		.messageModal
+			text-align center
+			margin-top 2em
+			display none
+			figure
+				font-size 5em
+				color gris-new
+			p
+				font-style italic
+				font-weight normal
+				padding-top 0.3em
+				margin-bottom 1em
+				font-size 0.9em
+						
+.modal.modal-fixed-footer
+	min-height 31% !important
+	max-height 70% !important
+	height auto !important
+	
+.modal-noLeido
+	width 40em !important
+	.postList-contain-filter
+		width 100%
+		padding 1.5em 0 1.1em 0
+		height auto
+		input
+			width 94% !important
+			
+	.supplier-container
+		.dropdown-content
+			li
+				border 0
+			
+	.pagination
+		padding-bottom 1em
+		
+	
+/*
+	MESSAGE
+-------------------------------------------------------------------------
+-------------------------------------------------------------------------*/
+.message-main
+	margin-bottom 3em
+	flex-between()
+	&-contact
+		background white
+		padding 1em
+		width 32%
+		height 44em
+		overflow auto
+		.team-container
+			&-tools
+				padding 0.9em 0
+
+		.collapsible
+			box-shadow none
+			li
+				.collapsible-header
+					min-height auto
+					line-height initial
+					padding 1em 0.8em
+					transition .2s linear
+					h3
+						font-size 0.9em
+						
+					&.active
+						background azul-corporativo2
+						color white
+						
+				.collapsible-body
+					.team-card-person
+						border 1px solid gris-claro
+						transition .2s linear
+						margin-bottom 0.5em
+						padding 1.1em 0.5em
+						margin 0 0.5em 0.5em 0.5em
+						cursor pointer
+						&:hover
+							border 1px solid naranja
+						&:nth-child(1)
+							margin-top 0.5em
+						&.active
+							border 1px solid azul-corporativo2
+						
+			p
+				padding 0
+		
+	&-message
+		width 65%
+		background white
+		padding 1.5em
+		height 44em
+		.message-header
+			border-bottom 1px solid gris-new
+			margin-bottom .5em
+			padding-bottom 0.6em
+			flex-between()
+			.item					
+				figure
+					font-size 2em					
+				.datos
+					padding-left 0.6em
+				h4
+					color verde-corporativo
+					font-size 1em
+					a
+						transition .2s linear
+						&:hover
+							color naranja
+				p
+					font-size 0.9em
+				&:nth-child(1)
+					flex-flexStart()
+		
+		.message-body
+			height 31em
+			overflow auto
+			h5
+				text-align center
+				padding 1.5em 0
+			&-general
+				margin-bottom 2em
+				.item
+					padding 1em
+					border-radius 6px
+					p
+						font-size 0.9em
+				span
+					font-size 0.8em
+					display block
+			.received
+				padding-right 3em
+				.item
+					background #F1F3F5
+					
+				span
+					padding 0.5em 0 0 1em
+					
+			.send
+				padding-left 3em
+				.item
+					background #E1F5FE
+					
+				span
+					padding 0.5em 1em 0 0
+					text-align right
+					
+		.message-footer
+			margin-top 0.5em
+			position relative
+			textarea
+				resize none
+				border 1px solid gris-claro
+				transition .2s linear
+				
+			.item
+				position absolute
+				bottom 1em
+				right 0.5em
+				
+
+
+		
+/*
+	ERROR 404
+-------------------------------------------------------------------------
+-------------------------------------------------------------------------*/	
+.body404
+	background-color gris-login
+	background-image url("../img/error404.png")
+	background-position center
+    background-repeat no-repeat
+    background-size cover
+    height 100vh
+    width 100vw
+
+.body404-text
+	text-align center
+	width 60%
+	margin 25vh auto 0 auto
+	color white
+	position relative
+	z-index 3
+	h3
+		font-family 'BalooTamma-Regular',sans-serif
+		font-size 4em
+	h1
+		font-family 'BalooTamma-Regular',sans-serif
+		font-size 7em
+		margin-top -0.2em
+		
+	.p404
+		font-size 1.2em
+		margin-top -0.9em
+	&-button
+		margin-top 1em
+		padding 0.5em
+		a
+			display inline-block !important
+
+.intl-tel-input .country-list .flag-box, .intl-tel-input .country-list .country-name, .intl-tel-input .country-list .dial-code
+	display inline-block !important
+	color black !important
+
+/*
+	NEW-POST
+-------------------------------------------------------------------------
+-------------------------------------------------------------------------*/
+.newPost
+	background white
+	padding 2em 1.5em 1.5em 1.5em
+	margin-bottom 2em
+	&-legend
+		flex-center()
+		.item
+			margin-right 2em
+			text-align center
+			opacity 0.3
+			figure
+				font-size 3em
+			p
+				font-size 0.8em
+				
+			.p-desp
+				color black !important
+				font-size 0.9em
+				
+			&.active
+				opacity 1
+				p
+					color naranja
+				
+			&:last-child
+				margin-right 0
+				
+	&-container
+		.btn-container
+			padding 2em 0
+			flex-center()
+			.item
+				margin-right 1em
+				&:last-child
+					margin-right 0
+					
+		.feedback-contratar
+			text-align center
+			margin 4em 0 1em 0
+			h3
+				font-size 1em
+				
+				
+			.stars-feedback
+				padding-top .5em
+			
+					
+		/.upload
+			margin-top 3em
+			flex-center()
+			.box
+				padding 0
+				background none
+				margin 0 1.2em 0 0 !important
+				&:last-child
+					margin-right 0
+					
+		.messageWin
+			text-align center
+			figure
+				font-size 7em
+				color rgba(gris-new .6)
+			p
+				text-align center
+				
+.supplier-recommended
+	margin 0em auto 4em auto
+	background white
+	padding 2em
+	&-title
+		text-align center
+		margin-bottom 1.5em
+		h3
+			font-size 1.1em
+			
+	&-container
+		flex-between()
+		li
+			width 24%
+			border-radius 5px
+			border 1px solid rgba(gris-new 0.5)
+			padding 1.5em
+			position relative
+			text-align center
+			.link-modal
+				position absolute
+				top 0.5em
+				right 0.5em
+				a
+					display inline-block
+					color rgba(gris-new .7)
+					font-size 1.3em
+					transition .2s linear
+					&:hover
+						color naranja
+
+			figure
+				font-size 3em
+				
+			.datos
+				h3
+					font-size 1em
+				p
+					color azul-corporativo2
+					font-size 0.9em
+					
+			.link
+				margin-top 0.8em
+				.btn-main
+					background azul-corporativo2 !important
+					padding 0.7em 3em
+					transition .2s linear
+					&:hover
+						background naranja !important
+
+
+#detail-container
+#go-container
+	display none
+	
+.inputfile-2 + label
+	color naranja !important
+	font-size 1em !important
+	
+.inputfile + label
+	max-width 100% !important
+
+
+/*
+	FOOTER
+-------------------------------------------------------------------------
+-------------------------------------------------------------------------*/
+.footer
+	margin-top 1.9em
+	padding 2.5em 1em 1.5em 1em
+	&-container
+		border-top 2px solid gris-claro
+		padding-top 2.5em
+		flex-center()
+		
+		.item
+			&-avatar
+				a
+					display inline-block
+					figure
+						width 11em
+						img
+							width 100%
+							
+			.social-media
+				margin-top 0.3em
+				flex-center()
+				li
+					margin-right 0.2em
+					a
+						font-size 2em
+					&:nth-child(1)
+						a
+							color linkedin
+					&:nth-child(2)
+						a
+							color facebook
+					&:nth-child(3)
+						a
+							color twitter
+					&:last-child
+						margin-right 0
+						a
+							color instagram
+							
+			h4
+				text-transform uppercase
+				font-size 1em
+				font-family 'OpenSans-Semibold',sans-serif
+				margin-bottom 0.5em
+				
+			&-links
+				li
+					a
+						display inline-block
+						padding 0.4em 0 0.4em 0
+						color gris-texto
+						transition .2s linear
+						p
+							font-size 0.9em
+						&:hover
+							color naranja
+			
+			&:nth-child(2)
+				margin 0 6em
+		.derechos
+			width 100%
+			text-align center
+			margin-top 2.3em
+			h6
+				a
+					color verde-corporativo
+					font-family 'OpenSans-Semibold'
+					font-size 1em
+					transition .2s linear
+					&:hover
+						color naranja
+
+			
+			
+/*
+	POST-USER
+-------------------------------------------------------------------------
+-------------------------------------------------------------------------*/
+.jobs-detail
+	margin-bottom 2.5em !important
+	&-title
+		padding 1em 0
+		h3
+			font-size 1.1em
+		p
+			font-size 0.9em
+	
+	&-body
+		h4
+			font-size 0.9em
+			font-family 'OpenSans-Semibold'
+		p
+			font-size 0.9em
+			margin-bottom 1.2em
+			
+		&-kills
+			margin 0.8em 0
+			li
+				margin-bottom 0.7em
+				flex-flexStart()
+				span
+					font-size 0.7em
+					padding 0.45em 0.5em 0 0
+					color naranja
+				p
+					margin-bottom 0
+			
+		.link
+			width 14em
+			margin 0 auto
+			a
+				display inline-block
+				padding 0.8em 1em
+				border 1px solid verde-corporativo
+				border-radius 8px
+				color verde-corporativo
+				transition .2s linear
+				flex-center()
+				figure
+					font-size 1.5em
+				p
+					font-size 0.9em
+					padding 0.2em 0 0 0.5em
+					margin-bottom 0
+				&:hover
+					background naranja
+					border 1px solid naranja
+					color white
+					
+		&-resum
+			margin-top 3em
+			flex-between()
+			li
+				width 33%
+				margin-bottom 0.8em
+				flex-flexStart()
+				figure
+					font-size 1.8em
+					&.icon-verde
+						color verde-corporativo
+						
+					&.icon-gris
+						color gris-new
+						
+					&.icon-naranja
+						color naranja
+				.datos
+					padding-left 0.5em
+					width 84%
+					h4
+						font-size 1em
+						color verde-corporativo
+					p
+						font-size 0.8em
+
+
+/*
+	RUEDA DE NEGOCIOS
+-------------------------------------------------------------------------
+-------------------------------------------------------------------------*/
+
+			
+
+		
+@import 'media-queries.styl'    			
