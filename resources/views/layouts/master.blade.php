@@ -25,7 +25,8 @@
 	    {!! HTML::style("assets/css/bootstrap-social.css") !!}
 
 		<!--ESTILOS TOOLTIP-->
-			{!! HTML::style('assets/css/hint.css') !!}
+		{!! HTML::style('assets/css/hint.css') !!}
+	{!! HTML::style('assets/css/intlTelInput.css') !!}
     @yield('header-scripts')
 </head>
 
@@ -53,6 +54,7 @@
 	{!! HTML::script('assets/js/jquery-loader.js') !!}
 
 	<!--SCRIPT PROPIOS-->
+{!! HTML::script('assets/js/intlTelInput.js') !!}
     {!! HTML::script('assets/js/as/auth-frontend.js') !!}
 
   <!--  {!! HTML::script('assets/js/as/app.js') !!}

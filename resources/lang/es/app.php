@@ -1060,6 +1060,8 @@ return [
     'quantity_employees_required'  => 'Cantidad de empleados requerida',
     'current_job_required'  => 'Posición actual requerida',
     'years_experience_required'  => 'Los años de experiencia son requeridos',
+    'job_title_id_required' => 'Título de puesto es requerido',
+    'current_company_required' => 'Compañía actual es requerido',
     'sourcing_required'  => 'Debe especificar su abastecimiento principal',
     'cases_numbers_required'  => 'Debe especificar el numero de caso',
     'actual_position_required'  => 'Posición actual requerida',
@@ -1071,6 +1073,8 @@ return [
     'password_required'    => 'La contraseña es requerida',
     'password_confirm_required' => 'Debe confirmar la contraseña',
     'thanks_for_register'       => '¡Gracias por registrarte!<br> Te contactaremos en breve',
+    'linkedin' => 'Enlace corto LinkedIn',
+    'job_title'                 => 'Título de puesto',
 
     //notifications
     'title_supplier'          => 'Supplier',

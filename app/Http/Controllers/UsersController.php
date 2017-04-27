@@ -2,7 +2,9 @@
 
 namespace Vanguard\Http\Controllers;
 
+use Vanguard\ActualPosition;
 use Vanguard\Address;
+use Vanguard\CasesNumber;
 use Vanguard\Company;
 use Vanguard\CompanyUser;
 use Vanguard\Country;
@@ -13,13 +15,18 @@ use Vanguard\Events\User\TwoFactorEnabledByAdmin;
 use Vanguard\Events\User\UpdatedByAdmin;
 use Vanguard\ExperienceFunctionalArea;
 use Vanguard\ExperienceIndustry;
+use Vanguard\ExperienceRegion;
 use Vanguard\Http\Requests\User\CreateUserRequest;
 use Vanguard\Http\Requests\User\EnableTwoFactorRequest;
 use Vanguard\Http\Requests\User\UpdateDetailsRequest;
 use Vanguard\Http\Requests\User\UpdateLoginDetailsRequest;
 use Vanguard\Http\Requests\User\UpdateUserRequest;
+use Vanguard\Jobtitle;
 use Vanguard\LegalInformation;
+use Vanguard\LevelPosition;
+use Vanguard\Point;
 use Vanguard\Preference;
+use Vanguard\Region;
 use Vanguard\Repositories\Activity\ActivityRepository;
 use Vanguard\Repositories\Country\CountryRepository;
 use Vanguard\Repositories\Role\RoleRepository;
@@ -27,6 +34,14 @@ use Vanguard\Repositories\Session\SessionRepository;
 use Vanguard\Repositories\User\UserRepository;
 use Vanguard\Services\Upload\UserAvatarManager;
 use Vanguard\Support\Enum\UserStatus;
+use Vanguard\TypeInvolvedOpportunity;
+use Vanguard\TypeInvolvedOpportunityProfile;
+use Vanguard\TypeInvolvedSearch;
+use Vanguard\TypeInvolvedSearchProfile;
+use Vanguard\TypeSharedOpportunity;
+use Vanguard\TypeSharedOpportunityProfile;
+use Vanguard\TypeSharedSearch;
+use Vanguard\TypeSharedSearchProfile;
 use Vanguard\User;
 use Vanguard\Experience;
 use Vanguard\Profile;
@@ -432,10 +447,16 @@ class UsersController extends Controller
     {
         $user = Auth::user();
         session(['lang' => \App::getLocale()]);
-        if (session('lang') =='en')
+        if (session('lang') =='en'){
             $language = 2;
-        else
+        }else{
             $language = 1;
+        }
+
+        $searchTypeShared = TypeSharedSearch::where('language_id', $language)->orderBy('id', 'asc')->lists('name', 'value_id')->all();
+        $opportunityShared = TypeInvolvedSearch::where('language_id', $language)->orderBy('id', 'asc')->lists('name', 'value_id')->all();
+        $searchTypeInvolved = TypeSharedOpportunity::where('language_id', $language)->orderBy('id', 'asc')->lists('name', 'value_id')->all();
+        $opportunityInvolved = TypeInvolvedOpportunity::where('language_id', $language)->orderBy('id', 'asc')->lists('name', 'value_id')->all();
         $countries = $this->countries->lists()->toArray();
         $quantityEmployees = $quantityEmployees->lists($language);
         $experienceYears = $experienceYears->lists($language);
@@ -446,11 +467,78 @@ class UsersController extends Controller
         $contacts = $contacts->lists($language);
         $functionalArea = $functionalArea->lists($language);
         $industries = $industries->lists($language);
+        $positions = ActualPosition::where('language_id', $language)->orderBy('id', 'asc')->lists('name', 'value_id')->all();
+        $regions = Region::where('language_id', $language)->orderBy('name', 'asc')->lists('name', 'value_id')->all();
+        $cases_numbers = CasesNumber::where('language_id', $language)->orderBy('id', 'asc')->lists('name', 'value_id')->all();
+        $level_positions = LevelPosition::where('language_id', $language)->orderBy('id', 'asc')->lists('name', 'value_id')->all();
+        $jobTitle = Jobtitle::where('language_id', $language)->orderBy('id', 'asc')->lists('name', 'value_id')->all();
 
         try{
-            $address = Address::find($user->address_id);
-        } catch (\Exception $e){
+            $company = Company::find($user->company_user->company_id);
+        } catch(\Exception $e){
+            $company = '';
+        }
+        try{
+            $legal = LegalInformation::where('user_id', $user->id)->get()->first();
+        } catch(\Exception $e){
+            $legal = '';
+        }
+        if($company!=''){
+            $address = Address::find($company->address_id);
+        } else {
             $address = '';
+        }
+        $expe = Experience::where('company_id', $user->company_user->company_id)->get()->first();
+        $industries_id = [];
+        $industries_name = [];
+        $region_id = [];
+        $region_name = [];
+        $type1_id = [];
+        $type1_name = [];
+        $type2_id = [];
+        $type2_name = [];
+        $type3_id = [];
+        $type3_name = [];
+        $type4_id = [];
+        $type4_name = [];
+        if($expe){
+            $indus = ExperienceIndustry::where('experience_id', $expe->id)->get();
+            foreach($indus as $na){
+                $industries_id[] = $na->industry_id;
+                $industries_name[] = $na->industry($language)->name;
+            }
+            $funca = ExperienceRegion::where('experience_id', $expe->id)->get();
+            foreach($funca as $na){
+                $region_id[] = $na->region_id;
+                $region_name[] = $na->region($language)->name;
+            }
+        }
+
+        if($company!=''){
+            $profile = Profile::where('company_id', $company->id)->get()->first();
+            $funca = TypeSharedSearchProfile::where('profile_id', $profile->id)->get();
+            foreach($funca as $na){
+                $type1_id[] = $na->type_of_shared_search_id;
+                $type1_name[] = $na->name($language)->name;
+            }
+            $funca = TypeSharedOpportunityProfile::where('profile_id', $profile->id)->get();
+            foreach($funca as $na){
+                $type2_id[] = $na->type_of_shared_opportunities_id;
+                $type2_name[] = $na->name($language)->name;
+            }
+
+            $funca = TypeInvolvedSearchProfile::where('profile_id', $profile->id)->get();
+            foreach($funca as $na){
+                $type3_id[] = $na->type_of_involved_search_id;
+                $type3_name[] = $na->name($language)->name;
+            }
+            $funca = TypeInvolvedOpportunityProfile::where('profile_id', $profile->id)->get();
+            foreach($funca as $na){
+                $type4_id[] = $na->type_of_involved_opportunities_id;
+                $type4_name[] = $na->name($language)->name;
+            }
+        } else{
+            $profile = '';
         }
         try{
             $preferences = Preference::where('user_id', $user->id)->get()->first();
@@ -458,50 +546,34 @@ class UsersController extends Controller
             $preferences = '';
         }
 
-        if($user->company_user->position==1){
-            try{
-                $company = Company::find($user->company_user->company_id);
-            } catch(\Exception $e){
-                $company = '';
-            }
-            try{
-                $legal = LegalInformation::where('user_id', $user->id)->get()->first();
-            } catch(\Exception $e){
-                $legal = '';
-            }
-            if($legal!=''){
-                $address2 = Address::find($legal->address_id);
-                $country_id2 = Country::find($address2->state->country_id)->id;
-            } else {
-                $address2 = '';
-                $country_id2 = '';
-            }
-            $expe = Experience::where('company_id', $user->company_user->company_id)->get()->first();
-            $industries_id = [];
-            $industries_name = [];
-            $indus = ExperienceIndustry::where('experience_id', $expe->id)->get();
-            foreach($indus as $na){
-                $industries_id[] = $na->industry_id;
-                $industries_name[] = $na->industry($language)->name;
-            }
-            $funcala_id = [];
-            $funcala_name = [];
-            $funca = ExperienceFunctionalArea::where('experience_id', $expe->id)->get();
-            foreach($funca as $na){
-                $funcala_id[] = $na->functional_area_id;
-                $funcala_name[] = $na->functional($language)->name;
-            }
+        //if($user->company_user->position==1){
             return view('dashboard_user.profile.confirm', compact('user',
+                'jobTitle',
+                'type1_id',
+                'type1_name',
+                'type2_id',
+                'type2_name',
+                'type3_id',
+                'type3_name',
+                'type4_id',
+                'type4_name',
                 'address',
-                'address2',
-                'country_id2',
                 'legal',
+                'profile',
+                'regions',
                 'preferences',
                 'token',
                 'industries_name',
                 'industries_id',
-                'funcala_name',
-                'funcala_id',
+                'region_name',
+                'region_id',
+                'cases_numbers',
+                'level_positions',
+                'positions',
+                'searchTypeShared',
+                'searchTypeInvolved',
+                'opportunityInvolved',
+                'opportunityShared',
                 'company',
                 'countries',
                 'quantityEmployees',
@@ -513,7 +585,7 @@ class UsersController extends Controller
                 'contacts',
                 'functionalArea',
                 'industries'));
-        } else {
+        /*} else {
             return view('dashboard_user.profile.confirmcollaborator', compact('user',
                 'address',
                 'preferences',
@@ -528,7 +600,7 @@ class UsersController extends Controller
                 'contacts',
                 'functionalArea',
                 'industries'));
-        }
+        }*/
     }
 
     public function profileUpdate(Request $request)
@@ -615,82 +687,182 @@ class UsersController extends Controller
     public function updateProfileAdmin(Request $request)
     {
         $user = Auth::user();
-
-        if(isset($request->state) && $request->state!=''){
-            $dataAddress1 = ['state_id'  => $request->state,
-                'city'       => $request->city,
-                'address'    => $request->address,
-                'complement' => $request->complement,
-                'zip_code'   => $request->zip_code,
-                'is_active'  => 1];
-
-            $address1 = $this->address->create($dataAddress1);
-        }
-
-        $dataUser = ['prefix'              => $request->prefix,
-            'first_name'           => $request->first_name,
+        $dataUser = ['first_name'          => $request->first_name,
             'last_name'            => $request->last_name,
+            'email'                => $request->email,
             'phone'                => $request->phone,
             'secundary_phone'      => $request->secundary_phone,
-            'school_assisted'      => $request->school_assisted,
-            'memberships'          => $request->memberships,
-            'confirmation_token'   => null
+            'status'               => UserStatus::UNVERIFIED
         ];
 
+        if(isset($request->password)){
+            $dataUser['password'] = $request->password;
+        }
+
+        if($request->autoSave == 0){
+            $dataUser['confirmation_token'] = null;
+        }
         if(isset($address1)){
             $dataUser['address_id'] = $address1->id;
         }
 
-        if(isset($request->years_recruitment_id)){
-            $dataUser['years_recruitment_id'] = $request->years_recruitment_id;
-        }
-
-        if(isset($request->education_level_id)){
-            $dataUser['education_level_id'] = $request->education_level_id;
-        }
-
         $this->users->update($user->id, $dataUser);
 
-        $dataCompany = ['name'                  => $request->company_name,
-            'comercial_name'        => $request->company_name,
-            'website'               => $request->website,
-            'address_id'            => $address1->id,
-            'quantity_employees_id' => $request->quantity_employees_id,
-            'description'           => $request->description,
-            'is_active'             => 1
-        ];
+        if((isset($request->state2) && $request->state2!='') && (isset($request->country_id2) && $request->country_id2!='')){
+            $dataAddress2 = [
+                'city'       => $request->state2,
+                'address'    => $request->country_id2,
+                'is_active'  => 1];
 
-        Company::find($user->company_user->company_id)->update($dataCompany);
-
-        $industries = explode(',', $request->industries);
-        $funcala = explode(',', $request->funcala);
-        $expe = Experience::where('company_id', $user->company_user->company_id)->get()->first();
-        //ExperienceIndustry::delete(['experience_id' => $expe->id]);
-        foreach($industries as $in){
-            ExperienceIndustry::create(['experience_id' => $expe->id, 'industry_id' => $in]);
-        }
-        foreach($funcala as $fu){
-            ExperienceFunctionalArea::create(['experience_id' => $expe->id, 'functional_area_id' => $fu]);
+            $address2 = $this->address->create($dataAddress2);
         }
 
-        $dataPreference = [ 'user_id' => $user->id,
-            'security_question1_id' => $request->security_question1,
-            'answer1' => $request->answer1,
-            'security_question2_id' => $request->security_question2,
-            'answer2' => $request->answer1,
-            'receive_messages' => $request->receive_messages
+        if(isset($request->company_name) && $request->company_name!=''){
+            $dataCompany = ['name'                  => $request->company_name,
+                'comercial_name'        => $request->company_name,
+                'website'               => $request->website,
+                'quantity_employees_id' => $request->quantity_employees_id,
+                'is_active'             => 1,
+                'created_at'            => \Carbon\Carbon::now(),
+                'updated_at'            => \Carbon\Carbon::now(),
+                'category_id'           => 1
+            ];
+
+            if(isset($address2)){
+                $dataCompany['address_id'] = $address2->id;
+            }
+
+            if($company = CompanyUser::where('user_id', $user->id)->get()->first()){
+                $company = Company::find($company->company_id);
+                $company->update($dataCompany);
+            } else {
+                $company = Company::create($dataCompany);
+            }
+
+            if(!$expe = Experience::where('company_id', $company->id)->get()->first()){
+                $expe = new Experience();
+                $expe->company_id = $company->id;
+                $expe->save();
+            }
+
+            if(!$profile = Profile::where('company_id', $company->id)->get()->first()){
+                $profile = new Profile();
+                $profile->company_id = $company->id;
+                $profile->actual_position_id = $request->actual_position_id;
+                $profile->linkedin_url = $request->linkedin;
+                $profile->years_experience_id = $request->years_experience_id;
+                $profile->jobtitle_id = $request->job_title_id;
+                $profile->current_company = $request->current_company;
+                $profile->user_id = $user->id;
+                $profile->save();
+            } else {
+                $dt = ['linkedin_url' => $request->linkedin,
+                    'current_company' => $request->current_company, 'user_id' => $user->id];
+                if(isset($request->years_experience_id) && $request->years_experience_id!=''){
+                    $dt['years_experience_id'] = $request->years_experience_id;
+                }
+
+                if(isset($request->actual_position_id) && $request->actual_position_id!=''){
+                    $dt['actual_position_id'] = $request->actual_position_id;
+                }
+
+                if(isset($request->jobtitle_id) && $request->jobtitle_id!=''){
+                    $dt['jobtitle_id'] = $request->jobtitle_id;
+                }
+                $profile->update($dt);
+            }
+
+            TypeSharedSearchProfile::where('profile_id', $profile->id)->delete();
+            if(isset($request->searchType) && $request->searchType!=''){
+                $searchType = explode(',', $request->searchType);
+                foreach($searchType as $in){
+                    TypeSharedSearchProfile::create(['profile_id' => $profile->id, 'type_of_shared_search_id' => $in]);
+                }
+            }
+
+            TypeSharedOpportunityProfile::where('profile_id', $profile->id)->delete();
+            if(isset($request->searchTypeWork) && $request->searchTypeWork!=''){
+                $searchTypeWork = explode(',', $request->searchTypeWork);
+                foreach($searchTypeWork as $in){
+                    TypeSharedOpportunityProfile::create(['profile_id' => $profile->id, 'type_of_shared_opportunities_id' => $in]);
+                }
+            }
+
+            TypeInvolvedSearchProfile::where('profile_id', $profile->id)->delete();
+            if(isset($request->opportunityShare) && $request->opportunityShare!=''){
+                $opportunityShare = explode(',', $request->opportunityShare);
+                foreach($opportunityShare as $in){
+                    TypeInvolvedSearchProfile::create(['profile_id' => $profile->id, 'type_of_involved_search_id' => $in]);
+                }
+            }
+
+            TypeInvolvedOpportunityProfile::where('profile_id', $profile->id)->delete();
+            if(isset($request->opportunityInvolved) && $request->opportunityInvolved!=''){
+                $opportunityInvolved = explode(',', $request->opportunityInvolved);
+                foreach($opportunityInvolved as $in){
+                    TypeInvolvedOpportunityProfile::create(['profile_id' => $profile->id, 'type_of_involved_opportunities_id' => $in]);
+                }
+            }
+
+            ExperienceIndustry::where('experience_id', $expe->id)->delete();
+            if(isset($request->industries) && $request->industries!=''){
+                $industries = explode(',', $request->industries);
+                foreach($industries as $in){
+                    ExperienceIndustry::create(['experience_id' => $expe->id, 'industry_id' => $in]);
+                }
+            }
+
+            ExperienceRegion::where('experience_id', $expe->id)->delete();
+            if(isset($request->location) && $request->location!=''){
+                $location = explode(',', $request->location);
+                foreach($location as $in){
+                    ExperienceRegion::create(['experience_id' => $expe->id, 'region_id' => $in]);
+                }
+            }
+            if(!CompanyUser::where('user_id', $user->id)->get()->first()){
+                $data = [ 'company_id' => $company->id,
+                    'user_id'    => $user->id,
+                    'is_active'  => true,
+                    'created_at' => \Carbon\Carbon::now(),
+                    'updated_at' => \Carbon\Carbon::now(),
+                    'position' => 1];
+                CompanyUser::create($data);
+                Point::create(['user_id' => $user->id, 'sum' => 25, 'company_id'=>$company->id]);
+            }
+
+            $dataLegal = [ 'user_id' => $user->id,
+                'legal_first_name'   => $request->first_name,
+                'legal_last_name'    => $request->last_name,
+                'legal_company_name' => $request->company_name,
+                'accept_terms_cond'  => $request->accept_terms_cond,
+                'created_at'         => \Carbon\Carbon::now(),
+                'updated_at'         => \Carbon\Carbon::now()
+            ];
+
+            if($le = LegalInformation::where('user_id', $user->id)->get()->first()){
+                $le->update($dataLegal);
+            } else {
+                LegalInformation::create($dataLegal);
+            }
+        }
+
+        $dataPreference = [ 'user_id'              => $user->id,
+            'receive_messages'     => $request->receive_messages,
+            'promotional_code'     => $request->promotional_code,
+            'created_at'           => \Carbon\Carbon::now(),
+            'updated_at'           => \Carbon\Carbon::now()
         ];
+
 
         if(isset($request->contact_id) && $request->contact_id!=''){
             $dataPreference['contact_id'] = $request->contact_id;
+            if($request->contact_id==3){
+                $dataPreference['reference'] = $request->reference;
+            }
         }
 
-        if(isset($request->organization_role) && $request->organization_role!=''){
-            $dataPreference['organization_role_id'] = $request->organization_role;
-        }
-
-        if(isset($request->sourcing_networks_id) && $request->sourcing_networks_id!=''){
-            $dataPreference['sourcing_network_id'] = $request->sourcing_networks_id;
+        if(isset($request->sourcing_networks_candidates_id) && $request->sourcing_networks_candidates_id!=''){
+            $dataPreference['sourcing_network_id'] = $request->sourcing_networks_candidates_id;
         }
 
         if($preference = Preference::where('user_id', $user->id)->get()->first()){
@@ -699,32 +871,11 @@ class UsersController extends Controller
             Preference::create($dataPreference);
         }
 
-        $dataAddress2 = ['state_id'  => $request->state2,
-            'city'       => $request->city2,
-            'address'    => $request->address2,
-            'complement' => $request->complement2,
-            'zip_code'   => $request->zip_code2,
-            'is_active'  => 1
-        ];
-
-        $address2 = $this->address->create($dataAddress2);
-
-        $dataLegal = [ 'user_id' => $user->id,
-            'legal_first_name'   => $request->legal_first_name,
-            'legal_last_name'    => $request->legal_last_name,
-            'legal_company_name' => $request->legal_company_name,
-            'company_type'       => $request->company_type,
-            'principal_coin'     => $request->principal_coin,
-            'accept_terms_cond'  => $request->accept_terms_cond,
-            'address_id'         => $address2->id
-        ];
-        if($le = LegalInformation::where('user_id', $user->id)->get()->first()){
-            $le->update($dataLegal);
+        if($request->autoSave=='1'){
+            return response()->json(['success' => true], 200);
         } else {
-            LegalInformation::create($dataLegal);
+            return redirect()->back()
+                ->withSuccess(trans('app.update_profile_success'));
         }
-
-        return redirect()->back()
-            ->withSuccess(trans('app.update_profile_success'));
     }
 }

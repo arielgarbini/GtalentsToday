@@ -64,8 +64,20 @@
 
 			   //ACTIVAR SUB-OPCIONES 1 en confirmacion de registro
 			    $(".subopciones-tag, .subopciones-tag2").click(function(){
-					$(this).next().fadeToggle('medium')
+					$(this).parent().find('.search').slideToggle('medium')
+                    $(this).parent().find('.subopciones-select').slideToggle('medium')
 				})
+
+				$('.search').keyup(function() {
+					var texto = $(this).val().toLowerCase();
+                    $(this).parent().next().find('li').show();
+					$(this).parent().next().find('li').each(function () {
+						var data = $(this).find('p').html().toLowerCase();
+						if(texto.length>2 && data.indexOf(texto) == -1){
+							$(this).hide();
+						}
+                    });
+				});
 
 			   //ACTIVAR SUB-OPCIONES 2 en confirmacion de registro
 			    $(".subopciones-select li a").click(function(){
@@ -286,26 +298,24 @@
 
 	    );
 	
-	/*    $("#phone").intlTelInput({
-			// allowDropdown: false,
-			// autoHideDialCode: false,
-			// autoPlaceholder: "off",
-			// dropdownContainer: "body",
-			// excludeCountries: ["us"],
-			// formatOnDisplay: false,
-			// geoIpLookup: function(callback) {
-			//   $.get("http://ipinfo.io", function() {}, "jsonp").always(function(resp) {
-			//     var countryCode = (resp && resp.country) ? resp.country : "";
-			//     callback(countryCode);
-			//   });
-			// },
-			// initialCountry: "auto",
-			// nationalMode: false,
-			// onlyCountries: ['us', 'gb', 'ch', 'ca', 'do'],
-			// placeholderNumberType: "MOBILE",
-			// preferredCountries: ['cn', 'jp'],
-			// separateDialCode: true,
-			utilsScript: "assets/js/utils.js"
+	    $(".phone").intlTelInput({/*
+			 allowDropdown: false,
+			 autoHideDialCode: false,
+			 autoPlaceholder: "off",
+			 dropdownContainer: "body",
+			 excludeCountries: ["us"],
+			 formatOnDisplay: false,
+			 geoIpLookup: function(callback) {
+			   $.get("http://ipinfo.io", function() {}, "jsonp").always(function(resp) {
+			     var countryCode = (resp && resp.country) ? resp.country : "";
+			     callback(countryCode);
+			   });
+			 },
+			 initialCountry: "auto",
+			 nationalMode: false,
+			 onlyCountries: ['us', 'gb', 'ch', 'ca', 'do'],
+			 placeholderNumberType: "MOBILE",
+			 preferredCountries: ['cn', 'jp'],
+			 separateDialCode: true,*/
+			utilsScript: "/assets/js/utils.js"
 	    });
-
-*/

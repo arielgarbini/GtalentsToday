@@ -17,7 +17,8 @@
                 <!--TELEFONO-->
                 <div class="itemForm">
                     {!! Form::label('telf', trans('app.phone'), [ 'title' => trans('app.phone')]) !!}
-                        {!! Form::input('telf', 'telf', null, ['maxlength' => 15, 'id' => 'telf', 'class' => ' validate', 'data-error' => '.errorTxtTelf','placeholder'=>trans('app.phone')]) !!}
+                    {!! Form::input('telf', 'telff', null, ['maxlength' => 15, 'id' => 'telf', 'class' => 'phone validate', 'data-error' => '.errorTxtTelf','placeholder'=>trans('app.phone')]) !!}
+                    <input type="hidden" id="phone3" name="telf">
                         <div class="errorTxtTelf"></div>
                 </div>
 

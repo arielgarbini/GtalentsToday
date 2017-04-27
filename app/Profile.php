@@ -19,10 +19,10 @@ class Profile extends Model
     						'points',
     						'actual_position_id',
     						'profile_position_id',
-    						'type_of_shared_search_id',
-    						'type_of_involved_search_id',
-    						'type_of_shared_opportunity_id',
-    						'type_of_involved_opportunity_id'
+                            'years_experience_id',
+                            'user_id',
+                            'current_company',
+                            'jobtitle_id',
     					];
 
     public function company()
@@ -42,21 +42,21 @@ class Profile extends Model
 
     public function type_of_shared_search()
     {
-        return $this->hasOne(TypeSharedSearch::class, 'id', 'type_of_shared_search_id');
+        return $this->hasOne(TypeSharedSearchProfile::class, 'profile_id');
     }
 
     public function type_of_involved_search()
     {
-        return $this->hasOne(TypeInvolvedSearch::class, 'id', 'type_of_involved_search_id');
+        return $this->hasOne(TypeInvolvedSearchProfile::class, 'profile_id');
     }
 
     public function type_of_shared_opportunity()
     {
-        return $this->hasOne(TypeSharedOpportunity::class, 'id', 'type_of_shared_opportunity_id');
+        return $this->hasOne(TypeSharedOpportunityProfile::class, 'profle_id');
     }
 
     public function type_of_involved_opportunity()
     {
-        return $this->hasOne(TypeInvolvedOpportunity::class, 'id', 'type_of_involved_opportunity_id');
+        return $this->hasOne(TypeInvolvedOpportunityProfile::class, 'profile_id');
     }
 }

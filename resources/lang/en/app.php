@@ -789,6 +789,7 @@ return [
 
     'current_company' => 'Current Company', 
     'linkedin_url' => 'URL LinkedIn',
+    'linkedin' => 'LinkedIn Short Link',
     'availability' => 'Availability',
     'size' => 'Size',
     'points' => 'Points',
@@ -964,6 +965,8 @@ return [
     'quantity_employees_required'  => 'The quantity employees is required',
     'current_job_required'  => 'The current job is required',
     'years_experience_required'  => 'The years of experience is required',
+    'job_title_id_required' => 'The job title is required',
+    'current_company_required' => 'The current company is required',
     'sourcing_required'  => 'The main sourcing is required',
     'cases_numbers_required'  => 'The cases numbers is required',
     'actual_position_required'  => 'The Current Job is required',
@@ -975,6 +978,7 @@ return [
     'password_required'    => 'The password is required',
     'password_confirm_required' => 'The password confirm is required',
     'thanks_for_register'       => '¡Thanks for register!<br> we contact you in short time',
+    'job_title'                 => 'Job Title',
 
     //notifications
     'title_supplier'          => 'Supplier',

@@ -1,5 +1,5 @@
 <!--MODAL ELIMINAR-->
-    <div id="modalEliminar{{$candidate['id']}}" class="modal modal-userRegistered modal-fixed-footer">
+    <div id="modalEliminar{{$cand}}" class="modal modal-userRegistered modal-fixed-footer">
         
         <div class="modal-header">
             <!--CERRAR MODAL-->

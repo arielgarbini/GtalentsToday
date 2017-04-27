@@ -647,7 +647,7 @@
                    required: true,
                    email: true
                },
-               telf: {
+               telff: {
                    required: true,
                },
            },
@@ -664,7 +664,7 @@
                    required: "{{trans('app.candidate_validate.email_required')}}",
                    email: "{{trans('app.candidate_validate.email_valid')}}"
                },
-               telf: {
+               telff: {
                    required: "{{trans('app.candidate_validate.telf_required')}}",
                },
            },

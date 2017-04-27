@@ -18,7 +18,8 @@ class Preference extends Model
     						'answer1', 
     						'security_question2_id', 
     						'answer2', 
-    						'contact_id', 
+    						'contact_id',
+                            'reference',
     						'organization_role_id',
     						'sourcing_network_id', 
     						'receive_messages'

@@ -5,6 +5,14 @@
 @section('content')
 
 <!--CONTENEDOR INDEX REGISTRADO-->
+<style>
+    .country-list{
+        width: 400px !important;
+    }
+    .intl-tel-input{
+        width: 100% !important;
+    }
+</style>
     <article class="user-main grid">
         <!--OPORTUNIDADES-->
         <section class="user-main-create credits">
@@ -137,9 +145,8 @@
                 required: true,
                 email: true
             },
-            telf: {
-                required: true,
-                number: true
+            telff: {
+                required: true
             },
             company: {
                 required: true,
@@ -158,9 +165,8 @@
                 required: "{{trans('app.candidate_validate.email_required')}}",
                 email: "{{trans('app.candidate_validate.email_valid')}}"
             },
-            telf: {
-                required: "{{trans('app.candidate_validate.telf_required')}}",
-                number: "{{trans('app.candidate_validate.telf_number')}}"
+            telff: {
+                required: "{{trans('app.candidate_validate.telf_required')}}"
             },
             company: {
                 required: "{{trans('app.candidate_validate.company_required')}}",
@@ -192,9 +198,8 @@
                     required: true,
                     email: true
                 },
-                telf: {
-                    required: true,
-                    number: true
+                telff: {
+                    required: true
                 },
                 company: {
                     required: true,
@@ -213,9 +218,8 @@
                     required: "{{trans('app.candidate_validate.email_required')}}",
                     email: "{{trans('app.candidate_validate.email_valid')}}"
                 },
-                telf: {
-                    required: "{{trans('app.candidate_validate.telf_required')}}",
-                    number: "{{trans('app.candidate_validate.telf_number')}}"
+                telff: {
+                    required: "{{trans('app.candidate_validate.telf_required')}}"
                 },
                 company: {
                     required: "{{trans('app.candidate_validate.company_required')}}",

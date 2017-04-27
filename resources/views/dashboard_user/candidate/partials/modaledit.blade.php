@@ -1,4 +1,4 @@
-<div id="modalEditar{{$candidate['id']}}" class="modal modal-userRegistered modal-fixed-footer"">
+<div id="modalEditar{{$cand}}" class="modal modal-userRegistered modal-fixed-footer"">
         
         <div class="modal-header">
             <!--CERRAR MODAL-->

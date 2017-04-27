@@ -34,6 +34,7 @@
     {!! HTML::style("assets/css/bootstrap-social.css") !!}
     <!-- ESTILOS SWEATALERT -->
     {!! HTML::style('assets/css/sweetalert.css') !!}
+    {!! HTML::style('assets/css/intlTelInput.css') !!}
 
     @yield('styles')
 </head>
@@ -85,6 +86,7 @@
     {!! HTML::script('assets/js/examples-barrating.js') !!}
 
     <!--SCRIPT PROPIOS-->
+    {!! HTML::script('assets/js/intlTelInput.js') !!}
     {!! HTML::script('assets/js/as/auth-frontend.js') !!}
 
     <!-- SCRIPT SWEATALERT -->
@@ -131,6 +133,12 @@
                     type: "error"
                 });
             @endif
+        });
+
+        $(document).ready(function(){
+            $('#telf').change(function(){
+                $('#phone3').val($('#telf').intlTelInput("getNumber"));
+            });
         });
     </script>
     @yield('scripts')

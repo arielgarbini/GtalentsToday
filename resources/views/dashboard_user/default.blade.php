@@ -6,6 +6,14 @@
 
     @include('partials.admin-resume');
 
+    <style>
+        .country-list{
+            width: 400px !important;
+        }
+        .intl-tel-input{
+            width: 100% !important;
+        }
+    </style>
     <!--CONTENEDOR INDEX REGISTRADO-->
     <article class="user-main grid">
         <!--OPORTUNIDADES-->
@@ -673,10 +681,13 @@
 
                                     <!-- Dropdown Structure -->
                                     <ul id='option-colb{{$candidate['id']}}' class='dropdown-content'>
-                                        <li><a href="#modalEditar{{$candidate['id']}}">@lang('app.edit')</a></li>
-                                        <li><a href="#modalEliminar{{$candidate['id']}}">@lang('app.delete')</a></li>
+                                        <li><a href="#modalEditar{{$candidate['id']}}tt">@lang('app.edit')</a></li>
+                                        <li><a href="#modalEliminar{{$candidate['id']}}tt">@lang('app.delete')</a></li>
                                     </ul>
-                                    <?php $dataFile = 'update-'.$candidate['id'] ?>
+                                    <?php
+                                    $dataFile = 'update-'.$candidate['id'];
+                                    $cand = $candidate['id'].'tt';
+                                    ?>
                                     @include('dashboard_user.candidate.partials.modaldelete')
                                     @include('dashboard_user.candidate.partials.modaledit')
                                 </div>
@@ -885,18 +896,18 @@
                                     <!--OPCIONES-->
                                     <div class="options">
                                         <!-- Dropdown Trigger -->
-                                        <a class='dropdown-button' href='#' data-activates='option-colb{{$candidate['id']}}'>
+                                        <a class='dropdown-button' href='#' data-activates='option-colbb{{$candidate['id']}}'>
                                             <span class="icon-gTalents_submenu"></span>
                                         </a>
 
                                         <!-- Dropdown Structure -->
-                                        <ul id='option-colb{{$candidate['id']}}' class='dropdown-content'>
-                                            <li><a href="#modalEditar{{$candidate['id']}}">@lang('app.edit')</a></li>
-                                            <li><a href="#modalEliminar{{$candidate['id']}}">@lang('app.delete')</a></li>
+                                        <ul id='option-colbb{{$candidate['id']}}' class='dropdown-content'>
+                                            <li><a href="#modalEditar{{$candidate['id']}}mobill">@lang('app.edit')</a></li>
+                                            <li><a href="#modalEliminar{{$candidate['id']}}mobill">@lang('app.delete')</a></li>
                                         </ul>
                                         <?php
                                             $dataFile = 'update-mobil'.$candidate['id'];
-                                            $candidate['id'] = $candidate['id']+'mobil';
+                                            $cand = $candidate['id'].'mobill';
                                         ?>
                                         @include('dashboard_user.candidate.partials.modaldelete')
                                         @include('dashboard_user.candidate.partials.modaledit')
@@ -1109,9 +1120,8 @@
                     required: true,
                     email: true
                 },
-                telf: {
-                    required: true,
-                    number: true
+                telff: {
+                    required: true
                 },
                 company: {
                     required: true,
@@ -1130,9 +1140,8 @@
                     required: "{{trans('app.candidate_validate.email_required')}}",
                     email: "{{trans('app.candidate_validate.email_valid')}}"
                 },
-                telf: {
-                    required: "{{trans('app.candidate_validate.telf_required')}}",
-                    number: "{{trans('app.candidate_validate.telf_number')}}"
+                telff: {
+                    required: "{{trans('app.candidate_validate.telf_required')}}"
                 },
                 company: {
                     required: "{{trans('app.candidate_validate.company_required')}}",
@@ -1164,9 +1173,8 @@
                         required: true,
                         email: true
                     },
-                    telf: {
-                        required: true,
-                        number: true
+                    telff: {
+                        required: true
                     },
                     company: {
                         required: true,
@@ -1185,9 +1193,8 @@
                         required: "{{trans('app.candidate_validate.email_required')}}",
                         email: "{{trans('app.candidate_validate.email_valid')}}"
                     },
-                    telf: {
-                        required: "{{trans('app.candidate_validate.telf_required')}}",
-                        number: "{{trans('app.candidate_validate.telf_number')}}"
+                    telff: {
+                        required: "{{trans('app.candidate_validate.telf_required')}}"
                     },
                     company: {
                         required: "{{trans('app.candidate_validate.company_required')}}",
