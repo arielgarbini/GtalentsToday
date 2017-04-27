@@ -992,5 +992,5 @@
 	    	}
 	    );
 	</script>
-ript>
+
 @stop	
