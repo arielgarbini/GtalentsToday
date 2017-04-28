@@ -687,15 +687,15 @@ class UsersController extends Controller
     public function updateProfileAdmin(Request $request)
     {
         $user = Auth::user();
+
         $dataUser = ['first_name'          => $request->first_name,
             'last_name'            => $request->last_name,
             'email'                => $request->email,
             'phone'                => $request->phone,
-            'secundary_phone'      => $request->secundary_phone,
-            'status'               => UserStatus::UNVERIFIED
+            'secundary_phone'      => $request->secundary_phone
         ];
 
-        if(isset($request->password)){
+        if(isset($request->password) && $request->password!=''){
             $dataUser['password'] = $request->password;
         }
 
@@ -754,6 +754,11 @@ class UsersController extends Controller
                 $profile->jobtitle_id = $request->job_title_id;
                 $profile->current_company = $request->current_company;
                 $profile->user_id = $user->id;
+                if($request->reference_job==8){
+                    $profile->reference_job = $request->reference_job;
+                } else {
+                    $profile->reference_job = '';
+                }
                 $profile->save();
             } else {
                 $dt = ['linkedin_url' => $request->linkedin,
@@ -766,8 +771,14 @@ class UsersController extends Controller
                     $dt['actual_position_id'] = $request->actual_position_id;
                 }
 
-                if(isset($request->jobtitle_id) && $request->jobtitle_id!=''){
-                    $dt['jobtitle_id'] = $request->jobtitle_id;
+                if(isset($request->job_title_id) && $request->job_title_id!=''){
+                    $dt['jobtitle_id'] = $request->job_title_id;
+                }
+
+                if($request->job_title_id==8){
+                    $dt['reference_job'] = $request->reference_job;
+                } else {
+                    $dt['reference_job'] = '';
                 }
                 $profile->update($dt);
             }
@@ -826,6 +837,7 @@ class UsersController extends Controller
                     'created_at' => \Carbon\Carbon::now(),
                     'updated_at' => \Carbon\Carbon::now(),
                     'position' => 1];
+
                 CompanyUser::create($data);
                 Point::create(['user_id' => $user->id, 'sum' => 25, 'company_id'=>$company->id]);
             }
@@ -856,8 +868,10 @@ class UsersController extends Controller
 
         if(isset($request->contact_id) && $request->contact_id!=''){
             $dataPreference['contact_id'] = $request->contact_id;
-            if($request->contact_id==3){
+            if($request->contact_id==1 || $request->contact_id==4 || $request->contact_id==5){
                 $dataPreference['reference'] = $request->reference;
+            } else {
+                $dataPreference['reference'] = '';
             }
         }
 

@@ -970,6 +970,7 @@ return [
     'next_step_s'  => 'Próximo paso',
     'preferences'  => 'Preferencias',
     'reference'     => 'Nombre y apellido de Referencia',
+    'reference_job' => 'Cual es tu título de puesto',
     'background'  => 'Antecedentes',
     'contact_details'  => 'Detalles de Contacto',
     'correct_your_personal_data'  => 'Puedes corregir tus datos personales',

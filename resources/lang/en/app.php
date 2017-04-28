@@ -880,6 +880,7 @@ return [
     'next_step_s'  => 'Next step',
     'preferences'  => 'Preferences',
     'reference'  => 'Reference\'s Name & Last Name  ',
+    'reference_job' => 'What is your job title?',
     'background'  => 'Background',
     'contact_details'  => 'Contact Details',
     'correct_your_personal_data'  => 'You can correct your personal data',

@@ -23,6 +23,7 @@ class Profile extends Model
                             'user_id',
                             'current_company',
                             'jobtitle_id',
+                            'reference_job',
     					];
 
     public function company()

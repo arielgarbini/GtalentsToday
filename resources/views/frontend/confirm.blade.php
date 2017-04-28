@@ -88,14 +88,14 @@
 				<div class="itemForm">
                     <label for="phone">@lang('app.principal_phone')</label>
 
-                    {!! Form::input('text', 'phones', $user->phone, ['message' => trans('app.telf_required'),'class' => 'validate-one phone', 'id' => 'phone', 'placeholder' => trans('app.principal_phone')]) !!}
+                    {!! Form::input('text', 'phones', $user->phone, ['message' => trans('app.telf_required'),'class' => 'solo-numero validate-one phone', 'id' => 'phone', 'placeholder' => trans('app.principal_phone')]) !!}
 					<input type="hidden" name="phone" id="phone1" value="{{$user->phone}}">
 				</div>
 
 				<!--TELEFONO SECUNDARIO-->
 				<div class="itemForm">
                     <label for="secundary_phone">@lang('app.secundary_phone')</label>
-                    {!! Form::input('text', 'secundary_phones', $user->secundary_phone, ['id' => 'secundary_phone', 'placeholder' => trans('app.secundary_phone'), 'class' => 'phone']) !!}
+                    {!! Form::input('text', 'secundary_phones', $user->secundary_phone, ['id' => 'secundary_phone', 'placeholder' => trans('app.secundary_phone'), 'class' => 'solo-numero phone']) !!}
 					<input type="hidden" name="secundary_phone" id="phone2" value="{{$user->secundary_phone}}">
 				</div>
 
@@ -326,6 +326,12 @@
 					{!! Form::select('job_title_id', $jobTitle , ($profile!='') ? $profile->jobtitle_id : '', ['message' => trans('app.job_title_id_required'), 'class' => 'validate-select browser-default', 'id' => 'job_title_id', 'placeholder' => trans('app.job_title')]) !!}
 				</div>
 
+				<!--CODIGO PROMOCIONAL-->
+				<div class="itemForm" id="reference_job_title">
+					<label>@lang('app.reference_job')</label>
+					{!! Form::text('reference_job', ($profile!='') ? $profile->reference_job : '', ['id' => 'reference_job', 'placeholder' => trans('app.reference_job')]) !!}
+				</div>
+
 				<div class="itemForm">
 					<label for="years_experience_id">@lang('app.current_company')</label>
 					{!! Form::text('current_company', ($profile!='') ? $profile->current_company : '' , ['class' => 'validate-select', 'message' => trans('app.current_company_required'), 'id' => 'current_company', 'placeholder' => trans('app.current_company')]) !!}
@@ -339,6 +345,11 @@
 				<div class="itemForm">
 					<label for="years_experience_id">@lang('app.linkedin')</label>
 					{!! Form::text('linkedin', ($profile!='') ? $profile->linkedin_url : '' , ['id' => 'linkedin', 'placeholder' => trans('app.linkedin')]) !!}
+				</div>
+
+				<div class="itemForm">
+					<label for="sourcing_networks_id">@lang('app.principal_sourcing')</label>
+					{!! Form::select('sourcing_networks_candidates_id', $sourcingNetworks , ($preferences!='') ? $preferences->sourcing_network_id : '', ['class' => 'browser-default', 'id' => 'sourcing_networks_candidates_id', 'placeholder' => trans('app.principal_sourcing')]) !!}
 				</div>
 
                 <!--LEYENDA PUNTOS-->
@@ -427,10 +438,6 @@
 				<!--PAPEL EN LA ORGANIZACION-->
                 {!! Form::hidden('organization_role', 'both', ['id' => 'organization_role']) !!}
 
-                <div class="itemForm">
-                    <label for="sourcing_networks_id">@lang('app.principal_sourcing_candidates')</label>
-                    {!! Form::select('sourcing_networks_candidates_id', $sourcingNetworks , ($preferences!='') ? $preferences->sourcing_network_id : '', ['class' => 'browser-default', 'id' => 'sourcing_networks_candidates_id', 'placeholder' => trans('app.principal_sourcing_candidates')]) !!}
-                </div>
                 <!--CONDICIONES DE USO-->
                 <div class="condiciones-uso">
                     <h4>@lang('app.terms_of_use')</h4>
@@ -807,6 +814,13 @@
 		@else
 		    	$('#reference_item').hide();
         @endif
+
+		@if(($profile!='') && $profile->reference_job!='')
+            $('#reference_job_title').show();
+        @else
+            $('#reference_job_title').hide();
+		@endif
+
 		
 		$("#test1").on( "click", function() {
     		$('#promotional_code_item').show("slow");
@@ -818,10 +832,20 @@
 		});
 
 		$('#contact_id').change(function () {
-		    if($(this).val() == 3){
+		    if($(this).val() == 1 || $(this).val() == 4 || $(this).val() == 5){
                 $('#reference_item').show("slow");
             } else {
                 $('#reference_item').hide("slow");
+                $('#reference').val("");
+            }
+        });
+
+        $('#job_title_id').change(function () {
+            if($(this).val() == 8){
+                $('#reference_job_title').show("slow");
+            } else {
+                $('#reference_job_title').hide("slow");
+                $('#reference_job').val("");
             }
         });
 		

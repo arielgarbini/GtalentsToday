@@ -34,7 +34,6 @@
     {!! HTML::style("assets/css/bootstrap-social.css") !!}
     <!-- ESTILOS SWEATALERT -->
     {!! HTML::style('assets/css/sweetalert.css') !!}
-    {!! HTML::style('assets/css/intlTelInput.css') !!}
 
     @yield('styles')
 </head>

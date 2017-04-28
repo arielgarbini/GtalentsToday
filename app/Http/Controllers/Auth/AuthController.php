@@ -511,7 +511,7 @@ class AuthController extends Controller
         $this->users->updateSocialNetworks($user->id, []);
 
         //change register user with consultant unverified role
-        $role = $roles->findByName('ConsultantUnverified');
+        $role = $roles->findByName('Consultant');
         $this->users->setRole($user->id, $role->id);
 
         // Check if email confirmation is required,
@@ -625,7 +625,6 @@ class AuthController extends Controller
             } else {
                 $address = '';
             }
-            $expe = Experience::where('company_id', $user->company_user->company_id)->get()->first();
             $industries_id = [];
             $industries_name = [];
             $region_id = [];
@@ -638,19 +637,21 @@ class AuthController extends Controller
             $type3_name = [];
             $type4_id = [];
             $type4_name = [];
-            if($expe){
-                $indus = ExperienceIndustry::where('experience_id', $expe->id)->get();
-                foreach($indus as $na){
-                    $industries_id[] = $na->industry_id;
-                    $industries_name[] = $na->industry($language)->name;
-                }
-                $funca = ExperienceRegion::where('experience_id', $expe->id)->get();
-                foreach($funca as $na){
-                    $region_id[] = $na->region_id;
-                    $region_name[] = $na->region($language)->name;
-                }
-            }
+
             if($company!=''){
+                $expe = Experience::where('company_id', $user->company_user->company_id)->get()->first();
+                if($expe){
+                    $indus = ExperienceIndustry::where('experience_id', $expe->id)->get();
+                    foreach($indus as $na){
+                        $industries_id[] = $na->industry_id;
+                        $industries_name[] = $na->industry($language)->name;
+                    }
+                    $funca = ExperienceRegion::where('experience_id', $expe->id)->get();
+                    foreach($funca as $na){
+                        $region_id[] = $na->region_id;
+                        $region_name[] = $na->region($language)->name;
+                    }
+                }
                 $profile = Profile::where('company_id', $company->id)->get()->first();
                 $funca = TypeSharedSearchProfile::where('profile_id', $profile->id)->get();
                 foreach($funca as $na){
@@ -743,7 +744,7 @@ class AuthController extends Controller
                     'status'               => UserStatus::UNVERIFIED
                     ];
 
-        if(isset($request->password)){
+        if(isset($request->password) && $request->password!=''){
             $dataUser['password'] = $request->password;
         }
 
@@ -802,6 +803,11 @@ class AuthController extends Controller
                 $profile->jobtitle_id = $request->job_title_id;
                 $profile->current_company = $request->current_company;
                 $profile->user_id = $user->id;
+                if($request->reference_job==8){
+                    $profile->reference_job = $request->reference_job;
+                } else {
+                    $profile->reference_job = '';
+                }
                 $profile->save();
             } else {
                 $dt = ['linkedin_url' => $request->linkedin,
@@ -814,8 +820,14 @@ class AuthController extends Controller
                     $dt['actual_position_id'] = $request->actual_position_id;
                 }
 
-                if(isset($request->jobtitle_id) && $request->jobtitle_id!=''){
-                    $dt['jobtitle_id'] = $request->jobtitle_id;
+                if(isset($request->job_title_id) && $request->job_title_id!=''){
+                    $dt['jobtitle_id'] = $request->job_title_id;
+                }
+
+                if($request->job_title_id==8){
+                    $dt['reference_job'] = $request->reference_job;
+                } else {
+                    $dt['reference_job'] = '';
                 }
                 $profile->update($dt);
             }
@@ -905,8 +917,10 @@ class AuthController extends Controller
 
         if(isset($request->contact_id) && $request->contact_id!=''){
             $dataPreference['contact_id'] = $request->contact_id;
-            if($request->contact_id==3){
+            if($request->contact_id==1 || $request->contact_id==4 || $request->contact_id==5){
                 $dataPreference['reference'] = $request->reference;
+            } else {
+                $dataPreference['reference'] = '';
             }
         }
 

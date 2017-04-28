@@ -1,5 +1,35 @@
-  $(document).ready(
-	    	function() { 
+
+function isValidEmail(mail) {
+    return /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,4})+$/.test(mail);
+}
+
+$(document).ready(
+	    	function() {
+
+                $('body').on('keydown','.solo-numero',function (event){
+                    if (event.keyCode == 13 || event.keyCode == 9) {
+                        return true;
+                    }
+                    if(event.shiftKey)
+                    {
+                        event.preventDefault();
+                    }
+                    if (event.keyCode == 46 || event.keyCode == 8) {
+                    }
+                    else {
+                        if (event.keyCode < 95) {
+                            if (event.keyCode < 48 || event.keyCode > 57) {
+                                event.preventDefault();
+                            }
+                        }
+                        else {
+                            if (event.keyCode < 96 || event.keyCode > 105) {
+                                event.preventDefault();
+                            }
+                        }
+                    }
+                });
+
 	    		//INICIALIZAR NICESCROLL
 	    		$("html").niceScroll({cursorwidth:"12px" , zindex:"9" , cursorborder:"0px", cursorborderradius:"0px"});
 
