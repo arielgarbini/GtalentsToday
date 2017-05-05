@@ -194,6 +194,10 @@ Route::get('user/{user}/edit', [
     'uses' => 'UsersController@edit'
 ]);
 
+Route::put('user/{user}/update', [
+    'as' => 'user.update.all',
+    'uses' => 'UsersController@update'
+]);
 Route::put('user/{user}/update/details', [
     'as' => 'user.update.details',
     'uses' => 'UsersController@updateDetails'
@@ -533,6 +537,12 @@ Route::get('candidates', [
     'middleware' => 'permission:candidates.manage'
 ]);
 
+Route::get('candidates/list', [
+    'as' => 'candidates.index.admin',
+    'uses' => 'CandidateController@indexAdmin',
+    'middleware' => 'permission:candidates.manage'
+]);
+
 Route::get('candidates/create', [
     'as' => 'candidates.create',
     'uses' => 'CandidateController@create',
@@ -678,12 +688,6 @@ Route::delete('vacancies/{vacancy}/delete', [
     'middleware' => 'permission:vacancies.delete'
 ]);
 
-
-Route::get('vacancies/getProvince', [
-    'as' => 'vacancies.getProvince',
-    'uses' => 'VacancyController@getProvinceByCountry',
-    'middleware' => 'permission:vacancies.create'
-]);
 
 Route::get('vacancies/{vacancy}/apply', [
     'as' => 'vacancies.apply',
@@ -870,6 +874,12 @@ Route::get('post', function()
  return View::make('dashboard_user.post.add_post');
 });*/
 
+Route::get('vacancies/getProvince', [
+    'as' => 'vacancies.getProvince',
+    'uses' => 'VacancyController@getProvinceByCountry',
+    'middleware' => 'permission:vacancies.create'
+]);
+
 Route::get('vacancies/create', [
     'as' => 'vacancies.create',
     'uses' => 'VacancyController@create',
@@ -1051,6 +1061,11 @@ Route::get('message/list', [
 Route::get('message_list', [
     'as' => 'message.index',
     'uses' => 'MessageController@index'
+]);
+
+Route::delete('message/{message}/delete', [
+    'as' => 'message.delete',
+    'uses' => 'MessageController@delete'
 ]);
 
 Route::get('conversations/{id}/messages', [

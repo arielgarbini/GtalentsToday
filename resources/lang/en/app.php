@@ -184,6 +184,7 @@ return [
     'choose_an_access_type'    => 'Choose an Access Type',
     'administrator'            => 'Administrator',
     'User'                     => 'User',
+    'user_destinatary'         => 'destinatary',
     'new_contributor_successfully_added' => 'New contributor successfully added',
     'are_you_sure_you_want_to_delete' => 'Are you sure you want to delete?',
     'successfully_deleted_contributor' => 'Successfully deleted contributor',
@@ -396,6 +397,7 @@ return [
     'fixed'                     => 'Fixed',
 
     //Messages
+    'subject'                => 'Subject',
     'messages'               => 'Messages',
     'received'               => 'Received',
     'search_for_messages'    => 'Search for messages',
@@ -676,7 +678,9 @@ return [
     'user_sessions' => 'User Sessions',
     'view_user' => 'View User',
     'delete_user' => 'Delete User',
+    'delete_message' => 'Delete Message',
     'are_you_sure_delete_user' => 'Are you sure that you want to delete this user?',
+    'are_you_sure_delete_message' => 'Are you sure that you want to delete this message?',
     'yes_delete_him' => 'Yes, delete him!',
 
     'edit_user_details' => 'edit user details',
@@ -781,6 +785,7 @@ return [
     'user_updated' => 'User updated successfully.',
     'you_cannot_delete_yourself' => 'You cannot delete yourself.',
     'user_deleted' => 'User deleted successfully.',
+    'message_deleted' => 'Message deleted successfully.',
     '2fa_already_enabled_user' => 'Two-Factor Authentication is already enabled for this user.',
     '2fa_not_enabled_user' => 'Two-Factor Authentication is not enabled for this user.',
     'you_have_to_accept_tos' => 'You have to accept Terms of Service.',

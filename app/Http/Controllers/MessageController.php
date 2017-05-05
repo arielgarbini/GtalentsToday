@@ -13,6 +13,7 @@ use Vanguard\Vacancy;
 use Vanguard\User;
 use Vanguard\VacancyUser;
 use Vanguard\Events\NotificationEvent;
+use Vanguard\Events\Message\Deleted;
 
 class MessageController extends Controller
 {
@@ -35,6 +36,22 @@ class MessageController extends Controller
         $conversations = Vacancy::with('conversations')->whereHas('conversations', function ($query) use($user_id){
             $query->where('destinatary_user_id', $user_id)->orWhere('sender_user_id', $user_id);
         })->get();
+        $messagesAdminSender = Message::where('sender_user_id', $user_id)->groupBy('destinatary_user_id')->get();
+        $messagesAdminDestinatary = Message::where('destinatary_user_id', $user_id)->groupBy('sender_user_id')->get();
+        $messageAdminConversation = [];
+        $ids = [];
+        foreach($messagesAdminSender as $message){
+            if(!in_array($message->destinatary_user_id, $ids)){
+                $ids[] = $message->destinatary_user_id;
+                $messageAdminConversation[] = $message;
+            }
+        }
+        foreach($messagesAdminDestinatary as $message){
+            if(!in_array($message->sender_user_id, $ids)){
+                $ids[] = $message->sender_user_id;
+                $messageAdminConversation[] = $message;
+            }
+        }
         $data = [];
         $i = 0;
         foreach($conversations as $conver){
@@ -60,15 +77,29 @@ class MessageController extends Controller
             }
         }
         $conversations = (object) $data;
-        return view('dashboard_user.message.index', compact('conversations','user_id'));
+        return view('dashboard_user.message.index', compact('conversations','user_id', 'messageAdminConversation'));
     }
 
-    public function getMessages($id)
+    public function getMessages(Request $request, $id)
     {
+        $user_id = Auth::user()->id;
         $data = [];
-        foreach(Message::where('conversation_id', $id)->orderBy('created_at', 'desc')->get() as $messages){
-            $data[] = ['sender_user_id' => $messages->sender_user_id, 'destinatary_user_id' => $messages->destinatary_user_id,
-                'created_at' => $messages->created_at->diffForHumans(), 'message' => $messages->message];
+        if(isset($request->admin)){
+            foreach(Message::where(function($q) use($id, $user_id){
+                $q->where('destinatary_user_id', $user_id);
+                $q->where('sender_user_id', $id);
+            })->orWhere(function($query) use($id, $user_id) {
+                $query->where('sender_user_id', $user_id);
+                $query->where('destinatary_user_id', $id);
+            })->orderBy('created_at', 'desc')->get() as $messages){
+                $data[] = ['sender_user_id' => $messages->sender_user_id, 'destinatary_user_id' => $messages->destinatary_user_id,
+                    'created_at' => $messages->created_at->diffForHumans(), 'message' => $messages->message];
+            }
+        } else {
+            foreach(Message::where('conversation_id', $id)->orderBy('created_at', 'desc')->get() as $messages){
+                $data[] = ['sender_user_id' => $messages->sender_user_id, 'destinatary_user_id' => $messages->destinatary_user_id,
+                    'created_at' => $messages->created_at->diffForHumans(), 'message' => $messages->message];
+            }
         }
         return $data;
     }
@@ -79,10 +110,11 @@ class MessageController extends Controller
             'sender_user_id' => Auth::user()->id,
             'destinatary_user_id' => $request->destinatary,
             'message' => $request->message,
-            'status' => 1,
-            'conversation_id' => $request->conversation
+            'status' => 1
         ];
-
+        if($request->conversation!='admin'){
+            $data['conversation_id'] = $request->conversation;
+        }
         Message::create($data);
 
         $userCode = User::find(Auth::user()->id)->code;
@@ -94,9 +126,26 @@ class MessageController extends Controller
             ->withSuccess(trans('app.message_created'));
     }
 
-    public function index () {
+    public function delete($id){
+        $user = Auth::user();
+
+        $message = Message::find($id);
+
+        event(new Deleted($message));
+
+        $message->delete();
+
+        return redirect()->route('messages.index')
+            ->withSuccess(trans('app.message_deleted'));
+    }
+
+    public function index (Request $request) {
     	$user_id = Auth::user()->id;
-       	$messages = $this->messages->all()->where('destinatary_user_id', $user_id);
+       	if(isset($request->search)){
+            $messages = $this->messages->search($request->search);
+        } else {
+            $messages = $this->messages->all();
+        }
         $users = $this->users->lists();
     	return view('message.index', compact('messages','users'));		
         
@@ -107,6 +156,9 @@ class MessageController extends Controller
         $user_id        = Auth::user()->id;
         $data       = $request->all() ;
         $messages   = $this->messages->create($data);
+
+        event(new NotificationEvent(['element_id' => 'admin',
+            'user_id'=>$request->destinatary_user_id, 'type' => 'message_received', 'name'=>Auth::user()->code]));
 
          return redirect()->route('messages.index')
             ->withSuccess(trans('app.message_created'));

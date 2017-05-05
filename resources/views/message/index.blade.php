@@ -23,12 +23,13 @@
 @include('partials.messages')
 
 <div class="row tab-search">
-     <div class="col-md-2">
+     <div class="col-md-9">
         <a href="" class="open-Modal btn btn-success" id="btn_message" data-id="" data-toggle="modal" data-target="#modal_message" data-whatever="@getbootstrap">
             <i class="fa fa-cogs fa-envelope"></i>
             @lang('app.add_message')
         </a>
     </div>
+    <!--
     <div class="col-md-2">
         {!! Form::select('status',['1' => 'Leídos','2' => 'No Leídos', '3' => 'Todos'],null, ['id' => 'status', 'class' => 'form-control']) !!}  
     </div>
@@ -42,7 +43,7 @@
                 data-confirm-delete="@lang('app.yes_delete_him')">
             <i class="glyphicon glyphicon-trash"></i>
         </a>  
-    </div>
+    </div>-->
     <form method="GET" action="" accept-charset="UTF-8" id="messages-form">
     
         <div class="col-md-3">
@@ -53,9 +54,10 @@
                         <span class="glyphicon glyphicon-search"></span>
                     </button>
                     @if (Input::has('search') && Input::get('search') != '')
-                        <a href="{{ route('message.list') }}" class="btn btn-danger" type="button" >
+                        <a href="{{ route('message.index') }}" class="btn btn-danger" type="button" >
                             <span class="glyphicon glyphicon-remove"></span>
                         </a>
+
                     @endif
                 </span>
             </div>
@@ -66,7 +68,7 @@
 <div class="table-responsive top-border-table" id="messages-table-wrapper">
    <div class="col-md-2">
     <thead>
-            <th>Todos los Mensajes</th>
+            <th>@lang('app.all_messages')</th>
     </thead>        
     <table class="table">
         <tbody>
@@ -82,6 +84,7 @@
         <thead>
             <th>#</th>
             <th>@lang('app.user')</th>
+            <th>@lang('app.user_destinatary')</th>
             <th>@lang('app.subject')</th>
             <th>@lang('app.message')</th>
             <th class="text-center">@lang('app.date')</th>
@@ -93,10 +96,25 @@
                    <tr style="cursor:pointer">
                         <td><input type="checkbox" id="message_id"> </td>
                         <td>{{ $message->sender->first_name }}</td>
+                       <td>{{ $message->destinatary->first_name }}</td>
                         <td>{{ $message->subject }}</td>
                         <td>{{ $message->message }}</td>
                         <td class="text-center">{{strftime("%d/%b/%Y",strtotime($message->created_at)) }}</td>
-                        <td><a href="{{ route ('messages.details', $message->id) }}"> @lang('app.view_details') </a></td>
+                        <td>
+                            <a href="{{ route('messages.details', $message->id) }}" class="btn btn-success btn-circle"
+                               title="@lang('app.view_details')" data-toggle="tooltip" data-placement="top">
+                                <i class="glyphicon glyphicon-eye-open"></i>
+                            </a>
+                            <a href="{{ route('message.delete', $message->id) }}" class="btn btn-danger btn-circle" title="@lang('app.delete_message')"
+                               data-toggle="tooltip"
+                               data-placement="top"
+                               data-method="DELETE"
+                               data-confirm-title="@lang('app.please_confirm')"
+                               data-confirm-text="@lang('app.are_you_sure_delete_user')"
+                               data-confirm-delete="@lang('app.yes_delete_him')">
+                                <i class="glyphicon glyphicon-trash"></i>
+                            </a>
+                        </td>
                     </tr>
                 @endforeach
             @else

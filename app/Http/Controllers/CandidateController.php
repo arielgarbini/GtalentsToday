@@ -66,6 +66,23 @@ class CandidateController extends Controller
         return view('dashboard_user.candidate.index', compact('candidates','users'));
     }
 
+    public function indexAdmin ()
+    {
+        $perPage = 20;
+        $candidates = Candidate::all();
+        //dd($candidates);
+        //dd($perPage);
+        /*if(Auth::user()->hasRole('Consultant') Or Auth::user()->hasRole('Consultant Unverified'))
+
+            $candidates = $this->candidates->paginate($perPage, Input::get('search'), Input::get('status'), $this->theUser->id);
+        else
+       	    $candidates = $this->candidates->paginate($perPage, Input::get('search'), Input::get('status'));*/
+
+        $users = $this->users->lists();
+        //dd($positions);
+        return view('candidate.index', compact('candidates','users'));
+    }
+
     /**
      * Display form for creating new candidate.
      *

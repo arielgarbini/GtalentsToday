@@ -60,6 +60,32 @@
 						</div>
 					</li>
 				@endforeach
+				@if(count($messageAdminConversation)>0)
+					<li>
+						<div class="collapsible-header" value="admin" vacancy="admin">
+							<h3>@lang('app.administrator')</h3>
+						</div>
+						<div class="collapsible-body">
+							<!--PERSONA 1-->
+							@foreach($messageAdminConversation as $conversation)
+								<div class="team-card-person show_messages" value="admin" @if($user_id!=$conversation->sender_user_id) admin="{{$conversation->sender_user_id}}" sender="{{$conversation->sender_user_id}}" @else admin="{{$conversation->destinatary_user_id}}" sender="{{$conversation->destinatary_user_id}}" @endif>
+									<figure>
+										<span class="icon-gTalents_supplier-60"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span><span class="path5"></span><span class="path6"></span><span class="path7"></span></span>
+									</figure>
+									<div class="datos">
+										@if($user_id!=$conversation->sender_user_id)
+											<h3>{{$conversation->sender->code}}</h3>
+											<p>{{$conversation->created_at->diffForHumans()}}</p>
+										@else
+											<h3>{{$conversation->destinatary->code}}</h3>
+											<p>{{$conversation->created_at->diffForHumans()}}</p>
+										@endif
+									</div>
+								</div>
+							@endforeach
+						</div>
+					</li>
+				@endif
 			</ul>
 		</section>
 
@@ -119,18 +145,34 @@
                $('#conversation').val($(this).attr('value'));
                $('#destinatary').val($(this).attr('sender'));
 	           var element = $(this);
+	           vall = $(this).attr('value');
+	           if($(this).attr('value')=='admin'){
+                   url = '/conversations/'+$(this).attr('admin')+'/messages/?admin='+$(this).attr('value');
+			   } else {
+                   url = '/conversations/'+$(this).attr('value')+'/messages/';
+			   }
 	           $.ajax({
-	               url: '/conversations/'+$(this).attr('value')+'/messages/',
+	               url: url,
 				   success: function(result){
                        console.log(result);
                        $('.message-footer').show();
 	                   $('.datos_sender').html('<h4>'+$(element).find('.datos h3').html()+'</h4><p>'+$(element).find('.datos p').html()+'</p>');
 	                   if(user == $(element).parent().parent().find('.collapsible-header').attr('value')){
-                           var html = '<h4><a target="_blank" href="/vacancy/'+$(element).parent().parent().find('.collapsible-header').attr('vacancy')+'/show">'+$(element).parent().parent().find('.collapsible-header h3').html()+'</a></h4>';
-	                       html += '<p>{{trans("app.created_by_you")}}</p>';
+                          if(vall=='admin'){
+                              var html = '<h4>'+$(element).parent().parent().find('.collapsible-header h3').html()+'</h4>';
+                              html += '<p>{{trans("app.created_by_you")}}</p>';
+						  } else {
+                              var html = '<h4><a target="_blank" href="/vacancy/'+$(element).parent().parent().find('.collapsible-header').attr('vacancy')+'/show">'+$(element).parent().parent().find('.collapsible-header h3').html()+'</a></h4>';
+                              html += '<p>{{trans("app.created_by_you")}}</p>';
+						  }
 					   } else {
-                           var html = '<h4><a target="_blank" href="/vacancy/'+$(element).parent().parent().find('.collapsible-header').attr('vacancy')+'/show_post_user">'+$(element).parent().parent().find('.collapsible-header h3').html()+'</a></h4>';
-                           html += '<p></p>';
+                           if(vall=='admin'){
+                               var html = '<h4>'+$(element).parent().parent().find('.collapsible-header h3').html()+'</h4>';
+                               html += '<p></p>';
+                           } else {
+                               var html = '<h4><a target="_blank" href="/vacancy/'+$(element).parent().parent().find('.collapsible-header').attr('vacancy')+'/show_post_user">'+$(element).parent().parent().find('.collapsible-header h3').html()+'</a></h4>';
+                               html += '<p></p>';
+                           }
 					   }
 	                   $('.datos_vacancy').html(html);
 	                   var html = '';

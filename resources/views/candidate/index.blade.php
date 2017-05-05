@@ -97,7 +97,7 @@
             @endif
         </tbody>
     </table>
-    {!! $candidates->render() !!}
+
 
 </div>   
 

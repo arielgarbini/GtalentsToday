@@ -17,7 +17,7 @@
 
             @permission('candidates.manage')
                 <li class="{{ Request::is('candidates*') ? 'active open' : ''  }}">
-                    <a href="{{ route ('candidates.index')}}" class="{{ Request::is('candidates*') ? 'active' : ''  }}">
+                    <a href="{{ route ('candidates.index.admin')}}" class="{{ Request::is('candidates*') ? 'active' : ''  }}">
                         <i class="fa fa-list-alt fa-fw"></i> @lang('app.candidates')
                     </a>
                 </li>

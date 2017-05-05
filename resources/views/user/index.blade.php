@@ -55,7 +55,6 @@
 <div class="table-responsive top-border-table" id="users-table-wrapper">
     <table class="table">
         <thead>
-            <th>@lang('app.username')</th>
             <th>@lang('app.full_name')</th>
             <th>@lang('app.email')</th>
             <th>@lang('app.registration_date')</th>
@@ -66,7 +65,6 @@
             @if (count($users))
                 @foreach ($users as $user)
                     <tr>
-                        <td>{{ $user->username ?: trans('app.n_a') }}</td>
                         <td>{{ $user->first_name . ' ' . $user->last_name }}</td>
                         <td>{{ $user->email }}</td>
                         <td>{{ $user->created_at->format('Y-m-d') }}</td>

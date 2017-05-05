@@ -38,11 +38,11 @@
 
                     @if( !$user->hasRole('Admin'))
 
-                        <img alt="image" class="img-circle" src="{{ $user->category->avatar ? url('assets/img/'.$user->category->avatar) : url('assets/img/profile.png') }}">
+                        <img alt="image" class="img-circle" src="{{url('assets/img/profile.png') }}">
 
-                        <div class="name">@lang('app.category') - <strong>{{ $user->category->name }}</strong></div>
+                        <div class="name">@lang('app.category') - <strong>{{$user->company[0]->category->name}}</strong></div>
                     @else
-                        <img alt="image" class="img-circle" src="{{ $user->present()->avatar }}">
+                        <img alt="image" class="img-circle" src="{{url('assets/img/profile.png') }}">
                     @endif
                 </div>
                 <div class="name"><strong>{{ $user->present()->name }}</strong></div>

@@ -26,6 +26,7 @@
     {!! HTML::style('assets/css/app.css') !!}
     {!! HTML::style('assets/css/bootstrap-multiselect.css') !!}
     {!! HTML::style("assets/css/styles.css") !!}
+    {!! HTML::style('assets/css/intlTelInput.css') !!}
 
     @yield('styles')
 </head>
@@ -107,6 +108,10 @@
     </script>
     {!! HTML::script('vendor/jsvalidation/js/jsvalidation.js') !!}
     {!! HTML::script('assets/js/as/app.js') !!}
+
+    <!--SCRIPT PROPIOS-->
+    {!! HTML::script('assets/js/intlTelInput.js') !!}
+    {!! HTML::script('assets/js/as/auth-frontend.js') !!}
     @yield('scripts')
 </body>
 </html>

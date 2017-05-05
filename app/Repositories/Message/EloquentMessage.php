@@ -16,7 +16,7 @@ class EloquentMessage implements MessageRepository
      */
     public function all()
     {
-        return Message::all();
+        return Message::orderBy('created_at', 'desc')->get();
     }
 
     /**
@@ -35,6 +35,13 @@ class EloquentMessage implements MessageRepository
         $message = Message::create($data);
 
         event(new Created($message));
+
+        return $message;
+    }
+
+    public function search($data)
+    {
+        $message = Message::where('message', 'like', '%'.$data.'%')->get();
 
         return $message;
     }

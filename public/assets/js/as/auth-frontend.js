@@ -31,66 +31,71 @@ $(document).ready(
                 });
 
 	    		//INICIALIZAR NICESCROLL
-	    		$("html").niceScroll({cursorwidth:"12px" , zindex:"9" , cursorborder:"0px", cursorborderradius:"0px"});
+				try{
+                    $("html").niceScroll({cursorwidth:"12px" , zindex:"9" , cursorborder:"0px", cursorborderradius:"0px"});
 
-	    		$(".modalText, .historial-status").niceScroll({cursorwidth:"12px" , zindex:"9999" , cursorborder:"0px", cursorborderradius:"0px"});
+                    $(".modalText, .historial-status").niceScroll({cursorwidth:"12px" , zindex:"9999" , cursorborder:"0px", cursorborderradius:"0px"});
 
-	    		$(".alerts-div, .team, .message-body, .message-main-contact ").niceScroll({cursorwidth:"7px" , zindex:"3" , cursorborder:"0px", cursorborderradius:"0px"});
+                    $(".alerts-div, .team, .message-body, .message-main-contact ").niceScroll({cursorwidth:"7px" , zindex:"3" , cursorborder:"0px", cursorborderradius:"0px"});
 
-	    		//Iniciar selectores
-				$('select').material_select();
+                    //Iniciar selectores
+                    $('select').material_select();
 
-			    //ANIMACION SCROLL
-			    $(".bloque").smoove({
-			    	offset:'10%'
-			    });
+                    //ANIMACION SCROLL
+                    $(".bloque").smoove({
+                        offset:'10%'
+                    });
 
-			    //RSLIDER
-			    $(".rslides").responsiveSlides({
-			    	speed: 600,
-			    	timeout: 10000
-			    });
+                    //RSLIDER
+                    $(".rslides").responsiveSlides({
+                        speed: 600,
+                        timeout: 10000
+                    });
 
-			    //INICIANDO SLIDER MATERIALICE
-			    $('.slider').slider({full_width: true});
+                    //INICIANDO SLIDER MATERIALICE
+                    $('.slider').slider({full_width: true});
 
-			    //INICIADO ACORDEON EN CALIFICACIONES
-				$('.collapsible').collapsible();
+                    //INICIADO ACORDEON EN CALIFICACIONES
+                    $('.collapsible').collapsible();
 
-				//TABS
-				$('ul.tabs').tabs();
+                    //TABS
+                    $('ul.tabs').tabs();
 
-			    //MAPA DE CONTACTO
-			    $("#btn-contact").click(function(){
-					$(".contact").fadeToggle('medium');
-					$("html, body").animate({ scrollTop: $('#contacto').offset().top-70 }, 1000);
-				})
-			   
-			   //INICIALIZAR MODALES
-			   $('.modal-trigger').leanModal();
-                try {
-                    $('.modal').modal();
-                }
-                catch(err) {
-					console.log('che');
-                }
+                    //MAPA DE CONTACTO
+                    $("#btn-contact").click(function(){
+                        $(".contact").fadeToggle('medium');
+                        $("html, body").animate({ scrollTop: $('#contacto').offset().top-70 }, 1000);
+                    })
 
-			   //MENU HAMBURGUESA
-			    $("#btn-menuHamburguer").click(function(){
-					$("nav ul , .hamburguer-1 , .hamburguer-2").fadeToggle('medium');
-				})
+                    //INICIALIZAR MODALES
+                    $('.modal-trigger').leanModal();
+                    try {
+                        $('.modal').modal();
+                    }
+                    catch(err) {
+                        console.log('che');
+                    }
 
-			   //ACTIVAR RECOVER PASSWORD
-			   $('#btn-recover').click(function(){
-			   		$("#login-container").hide("slow");
-			   		$("#recover-container").show("slow");
-			   })
+                    //MENU HAMBURGUESA
+                    $("#btn-menuHamburguer").click(function(){
+                        $("nav ul , .hamburguer-1 , .hamburguer-2").fadeToggle('medium');
+                    })
 
-			   //ACTIVAR LOGIN
-			   $('#btn-returnContainer').click(function(){
-			   		$("#recover-container").hide("slow");
-			   		$("#login-container").show("slow");
-			   })
+                    //ACTIVAR RECOVER PASSWORD
+                    $('#btn-recover').click(function(){
+                        $("#login-container").hide("slow");
+                        $("#recover-container").show("slow");
+                    })
+
+                    //ACTIVAR LOGIN
+                    $('#btn-returnContainer').click(function(){
+                        $("#recover-container").hide("slow");
+                        $("#login-container").show("slow");
+                    })
+				} catch(e) {
+					console.log(e);
+				}
+
 
 			   //ACTIVAR SUB-OPCIONES 1 en confirmacion de registro
 			    $(".subopciones-tag, .subopciones-tag2").click(function(){
