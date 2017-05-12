@@ -107,6 +107,13 @@
 
             @endpermission
 
+
+            <li class="{{ Request::is('invoices*') ? 'active open' : ''  }}">
+                <a href="{{ route ('invoices.list')}}" class="{{ Request::is('invoices*') ? 'active' : ''  }}">
+                    <i class="fa fa-list-alt fa-fw"></i> @lang('app.invoices')
+                </a>
+            </li>
+
             @permission(['settings.general', 'settings.auth', 'settings.notifications'])
             <li class="{{ Request::is('settings*') ? 'active open' : ''  }}">
                 <a href="#">

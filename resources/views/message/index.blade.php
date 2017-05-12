@@ -182,6 +182,7 @@
         function details_message(){
             alert('Para mostrar detalle mensajes');
         }
+        
     </script>
 
     {!! HTML::script('assets/js/modal_message.js') !!}

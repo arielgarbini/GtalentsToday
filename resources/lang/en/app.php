@@ -907,7 +907,9 @@ return [
     'if_you_cant_click' => 'If you can\'t click on that link, just copy and paste following url in your browser\'s address bar:',
     'thank_you_for_registering' => 'Thank you for registering on :app website.',
     'confirm_email_on_link_below' => 'Please confirm your email by clicking on the link below:',
+    'confirm_email_linkedin' => 'Please complete your data by clicking on the link below:',
     'confirm_email' => 'Confirm Email',
+    'confirm_data' => 'Confirm data',
     'check_your_email' => 'Check your email inbox!',
     'continue' => 'Continue',
 
@@ -927,7 +929,14 @@ return [
     ],
 
     //invoices
-
+    'invoices' => 'Invoices',
+    'list_of_registered_invoices' => 'List of registered invoices',
+    'search_for_invoices' => 'Search for invoices',
+    'view_invoice' => 'View invoice',
+    'edit_invoice' => 'Edit invoice',
+    'delete_invoice' => 'Delete invoice',
+    'invoice_deleted' => 'Invoice deleted',
+    'are_you_sure_delete_invoice' => 'Are you sure delete invoice?',
     'invoices_to_charged' => 'My Invoices to Be Charged',
     'in_opportunity'         => 'Opportunity',
     'amount'                => 'Amount',
@@ -957,6 +966,13 @@ return [
     'activity_records'      => 'Activity Records',
 
     //register
+    'login_linkedin' => 'Login with linkedin',
+    'register_linkedin' => 'Register with linkedin',
+    'not_user_register' => 'You have not registered you will be redirected to the registration screen',
+    'not_user_register_verify' => 'You have not been verified, contact the site administrator',
+    'user_register_email' => 'A registered user already exists with the email of your linkedin account, consult the site administrator',
+    'user_register_linkedin' => 'A registered user already exists with this linkedin account, consult the site administrator',
+    'user_register_linkedin_ok' => 'You have successfully registered with linkedin, you will be redirected to complete your data.',
     'first_name_required'    => 'The first name is required',
     'last_name_required'     => 'The last name is required',
     'email_required'     => 'The email is required',

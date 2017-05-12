@@ -44,7 +44,7 @@ class User extends Model implements AuthenticatableContract,
         'secundary_phone', 'avatar', 'prefix', 'address_id', 'country_id', 'birthday',
         'last_login', 'confirmation_token', 'code', 'status', 'is_active', 'group_id',
         'time_connect', 'category_id', 'years_recruitment_id', 'education_level_id',
-        'assisted_schools', 'memberships'
+        'assisted_schools', 'memberships', 'code_linkedin', 'id_linkedin'
     ];
 
     /**

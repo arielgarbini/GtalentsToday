@@ -1,0 +1,9 @@
+<html>
+<head></head>
+<body>
+<script>
+    window.opener.successCancel();
+    window.close();
+</script>
+</body>
+</html>

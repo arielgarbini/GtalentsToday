@@ -7,7 +7,10 @@ use Vanguard\Address;
 use Vanguard\CasesNumber;
 use Vanguard\Company;
 use Vanguard\CompanyUser;
+use Vanguard\Conversation;
 use Vanguard\Country;
+use Vanguard\Events\NotificationEvent;
+use Vanguard\Events\RankingEvent;
 use Vanguard\Events\User\Banned;
 use Vanguard\Events\User\Deleted;
 use Vanguard\Events\User\TwoFactorDisabledByAdmin;
@@ -32,7 +35,10 @@ use Vanguard\Repositories\Country\CountryRepository;
 use Vanguard\Repositories\Role\RoleRepository;
 use Vanguard\Repositories\Session\SessionRepository;
 use Vanguard\Repositories\User\UserRepository;
+use Vanguard\Repositories\Vacancy\VacancyRepository;
+use Vanguard\Repositories\VacancyUser\VacancyUserRepository;
 use Vanguard\Services\Upload\UserAvatarManager;
+use Vanguard\Support\Enum\GeneralStatus;
 use Vanguard\Support\Enum\UserStatus;
 use Vanguard\TypeInvolvedOpportunity;
 use Vanguard\TypeInvolvedOpportunityProfile;
@@ -59,6 +65,9 @@ use Vanguard\Repositories\Contact\ContactRepository;
 use Vanguard\Repositories\FunctionalArea\FunctionalAreaRepository;
 use Vanguard\Repositories\Industry\IndustryRepository;
 use Vanguard\Repositories\Address\AddressRepository;
+use Vanguard\UserInvited;
+use Vanguard\Vacancy;
+use Vanguard\VacancyUser;
 
 /**
  * Class UsersController
@@ -79,14 +88,22 @@ class UsersController extends Controller
 
     private $address;
 
+    private $vacancies_users;
+
+    private $vacancies;
+
     /**
      * UsersController constructor.
      * @param UserRepository $users
      */
     public function __construct(UserRepository $users,
                                 CountryRepository $countries,
-                                AddressRepository $address)
+                                AddressRepository $address,
+                                VacancyUserRepository $vacancies_users,
+                                VacancyRepository $vacancies)
     {
+        $this->vacancies = $vacancies;
+        $this->vacancies_users = $vacancies_users;
         $this->middleware('auth');
         $this->middleware('session.database', ['only' => ['sessions', 'invalidateSession']]);
         $this->middleware('permission:users.manage', ['except' => ['profile', 'profileUpdate', 'updateProfileAdmin']]);
@@ -835,6 +852,30 @@ class UsersController extends Controller
             $preference->update($dataPreference);
         } else {
             Preference::create($dataPreference);
+        }
+
+        $invitation = UserInvited::where('status', 0)->where('user_invited_id', $user->id)->get()->first();
+        if($invitation && $request->status=='Active'){
+            $vacancy = Vacancy::find($invitation->vacancy_id);
+            if($vacancy->countApplicationByStatus(GeneralStatus::ACTIVE) < 3){
+                $data = [ 'status'      => GeneralStatus::UNCONFIRMED,
+                    'is_active'   => true,
+                    'comment'     => '',
+                    'created_at'  => \Carbon\Carbon::now(),
+                    'updated_at'  => \Carbon\Carbon::now() ];
+
+                //To Apply
+                $this->vacancies->supplier($vacancy->id)->attach($invitation->user_invited_id, $data);
+
+                $this->vacancies_users->updateStatusSupplier($vacancy->id,$invitation->user_invited_id,1);
+                event(new NotificationEvent(['element_id' => $invitation->vacancy_id,
+                    'user_id'=>$vacancy->poster_user_id, 'type' => 'approved_supplier_invited_vacancy', 'name'=>$vacancy->name,
+                    'user' => $invitation->user->code]));
+                Conversation::create(['sender_user_id' =>  $vacancy->poster_user_id, 'destinatary_user_id' => $invitation->user_invited_id,
+                    'vacancy_id' => $vacancy->id]);
+                event(new RankingEvent(['user_id' => $invitation->user_id, 'points' => 20]));
+                $invitation->delete();
+            }
         }
 
         return redirect()->route('user.index')

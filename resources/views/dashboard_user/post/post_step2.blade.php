@@ -55,113 +55,45 @@
     <section class="supplier-recommended grid">
         <!--TITULO DE LA SECCION-->
         <div class="supplier-recommended-title">
-            <h3>Te recomendamos estos Suppliers</h3>
+            <h3>@lang('app.we_recommend_you')</h3>
         </div>
 
         <ul class="supplier-recommended-container">
             <!--SUPPLIER 1-->
+            @foreach($supliers_recommended as $supplier)
             <li>
                 <!--MODAL-->
                 <div class="link-modal">
-                    <a href="#modalProfileSupplier" class="modal-trigger waves-effect waves-light">
+                    <a href="#modalProfileSupplier{{$supplier->id}}" class="modal-trigger waves-effect waves-light">
                         <span class="icon-gTalents_profile"></span>
                     </a>
                 </div>
 
                 <!--RANGO-->
                 <figure>
-                    <span class="icon-gTalents_rango-1"><span class="path1"></span><span class="path2"></span></span>
+                    <span class="icon-gTalents_rango-{{$supplier->company[0]->category_id}}"><span class="path1"></span><span class="path2"></span></span>
                 </figure>
 
                 <!--DATOS-->
                 <div class="datos">
-                    <h3>UFA-896</h3>
-                    <p>Newbie</p>
+                    <h3>{{$supplier->code}}</h3>
+                    <p>{{$supplier->company[0]->category->name}}</p>
                 </div>
 
                 <!--LINK INVITAR-->
                 <div class="link">
-                    <a href="" class="btn-main">Invitar</a>
+                    <form method="POST" action="{{route('vacancies.invited.supplier', $vacancy_id)}}">
+                        {{csrf_field()}}
+                        <input type="hidden" value="{{$supplier->id}}" name="supplier">
+                        <input type="hidden" value="1" name="view">
+                        <a href="#" class="send_form">
+                            <span class="icon-gTalent_add-supplier"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span><span class="path5"></span></span>
+                        </a>
+                    </form>
                 </div>
+                @include('dashboard_user.post.partials.modalsupplier')
             </li>
-
-            <!--SUPPLIER 2-->
-            <li>
-                <!--MODAL-->
-                <div class="link-modal">
-                    <a href="#modalProfileSupplier" class="modal-trigger waves-effect waves-light">
-                        <span class="icon-gTalents_profile"></span>
-                    </a>
-                </div>
-
-                <!--RANGO-->
-                <figure>
-                    <span class="icon-gTalents_rango-1"><span class="path1"></span><span class="path2"></span></span>
-                </figure>
-
-                <!--DATOS-->
-                <div class="datos">
-                    <h3>UFA-896</h3>
-                    <p>Newbie</p>
-                </div>
-
-                <!--LINK INVITAR-->
-                <div class="link">
-                    <a href="" class="btn-main">Invitar</a>
-                </div>
-            </li>
-
-            <!--SUPPLIER 3-->
-            <li>
-                <!--MODAL-->
-                <div class="link-modal">
-                    <a href="#modalProfileSupplier" class="modal-trigger waves-effect waves-light">
-                        <span class="icon-gTalents_profile"></span>
-                    </a>
-                </div>
-
-                <!--RANGO-->
-                <figure>
-                    <span class="icon-gTalents_rango-1"><span class="path1"></span><span class="path2"></span></span>
-                </figure>
-
-                <!--DATOS-->
-                <div class="datos">
-                    <h3>UFA-896</h3>
-                    <p>Newbie</p>
-                </div>
-
-                <!--LINK INVITAR-->
-                <div class="link">
-                    <a href="" class="btn-main">Invitar</a>
-                </div>
-            </li>
-
-            <!--SUPPLIER 4-->
-            <li>
-                <!--MODAL-->
-                <div class="link-modal">
-                    <a href="#modalProfileSupplier" class="modal-trigger waves-effect waves-light">
-                        <span class="icon-gTalents_profile"></span>
-                    </a>
-                </div>
-
-                <!--RANGO-->
-                <figure>
-                    <span class="icon-gTalents_rango-1"><span class="path1"></span><span class="path2"></span></span>
-                </figure>
-
-                <!--DATOS-->
-                <div class="datos">
-                    <h3>UFA-896</h3>
-                    <p>Newbie</p>
-                </div>
-
-                <!--LINK INVITAR-->
-                <div class="link">
-                    <a href="" class="btn-main">Invitar</a>
-                </div>
-            </li>
+            @endforeach
         </ul>
     </section>
 

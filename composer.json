@@ -20,7 +20,12 @@
         "dougsisk/laravel-country-state": "^1.2",
         "laracasts/utilities": "^2.1",
         "netshell/paypal": "dev-master",
-        "paypal/rest-api-sdk-php": "*"
+        "paypal/rest-api-sdk-php": "*",
+        "php-http/curl-client": "^1.7",
+        "guzzlehttp/psr7": "^1.4",
+        "php-http/message": "^1.5",
+        "happyr/linkedin-api-client": "^1.0",
+        "guzzlehttp/guzzle": "^6.2"
 
     },
     "require-dev": {

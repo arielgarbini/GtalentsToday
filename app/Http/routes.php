@@ -28,9 +28,29 @@ Route::post('profile/admin', [
 ]);
 
 // Allow registration routes only if registration is enabled.
+Route::get('auth/linkedin', [
+    'as' => 'url.linkedin',
+    'uses' => 'Auth\AuthController@getLinkedinUrl'
+]);
 if (settings('reg_enabled')) {
-    Route::get('register', 'Auth\AuthController@getRegister');
+    Route::get('register', [
+        'as' => 'register.inf',
+        'uses' => 'Auth\AuthController@getRegister'
+    ]);
+
     Route::post('register', 'Auth\AuthController@postRegister');
+    Route::get('register/linkedin/cancel', 'Auth\AuthController@getRegisterLinkedinCancel');
+
+    Route::get('register/linkedin', [
+        'as' => 'register.linkedin',
+        'uses' => 'Auth\AuthController@getRegisterLinkedin'
+    ]);
+
+    Route::get('login/linkedin', [
+        'as' => 'login.linkedin',
+        'uses' => 'Auth\AuthController@getLoginLinkedin'
+    ]);
+
     Route::get('register/confirmation/{token}', [
         'as' => 'register.confirm-email',
         'uses' => 'Auth\AuthController@confirmEmail'
@@ -794,14 +814,14 @@ Route::get('about', function()
 {
  return View::make('frontend.about');
 });
-
+/*
 Route::get('loginuser', function()
 {
     if (Auth::check()){
         return redirect()->route('dashboard');
     } 
  return View::make('frontend.login');
-});
+});*/
 
 Route::get('404', function()
 {
@@ -861,6 +881,30 @@ Route::post('credits/pay', [
 Route::get('invoices', [
     'as' => 'invoices.index',
     'uses' => 'InvoicesController@index'
+]);
+
+Route::get('invoices/list', [
+    'as' => 'invoices.list',
+    'uses' => 'InvoicesController@lists'
+]);
+
+Route::get('invoices/{id}/show', [
+    'as' => 'invoices.show',
+    'uses' => 'InvoicesController@show'
+]);
+
+Route::get('invoices/{id}/edit', [
+    'as' => 'invoices.edit',
+    'uses' => 'InvoicesController@edit'
+]);
+
+Route::put('invoices/{id}/update', [
+    'as' => 'invoices.update',
+    'uses' => 'InvoicesController@update'
+]);
+Route::delete('invoices/{id}/delete', [
+    'as' => 'invoices.delete',
+    'uses' => 'InvoicesController@delete'
 ]);
 
 // ======Post============

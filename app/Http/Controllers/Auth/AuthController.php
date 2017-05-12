@@ -61,6 +61,7 @@ use Vanguard\TypeSharedOpportunityProfile;
 use Vanguard\TypeSharedSearch;
 use Vanguard\TypeSharedSearchProfile;
 use Vanguard\User;
+use Vanguard\UserInvited;
 
 class AuthController extends Controller
 {
@@ -168,9 +169,15 @@ class AuthController extends Controller
      */
     public function getLoginFrontend()
     {
+        if (Auth::check()){
+            return redirect()->route('dashboard');
+        }
+        $linkedIn = new \Happyr\LinkedIn\LinkedIn('78smzb4w4fzq6v', '534YjIafBBG95qIy');
+        $url = $linkedIn->getLoginUrl(['redirect_uri' => route('login.linkedin')]);
+
         $socialProviders = config('auth.social.providers');
 
-        return view('frontend.login', compact('socialProviders'));
+        return view('frontend.login', compact('socialProviders', 'url'));
     }
 
     /**
@@ -478,11 +485,117 @@ class AuthController extends Controller
      */
     public function getRegister()
     {
+        $linkedIn = new \Happyr\LinkedIn\LinkedIn('78smzb4w4fzq6v', '534YjIafBBG95qIy');
+        $url = $linkedIn->getLoginUrl(['redirect_uri' => route('register.linkedin')]);
+
         $countries = $this->countries->lists()->toArray();
 
         $socialProviders = config('auth.social.providers');
 
-        return view('frontend.register', compact('socialProviders', 'countries'));
+        return view('frontend.register', compact('socialProviders', 'countries', 'url'));
+    }
+
+    public function getLinkedinUrl(Request $request)
+    {
+        $linkedIn = new \Happyr\LinkedIn\LinkedIn('78smzb4w4fzq6v', '534YjIafBBG95qIy');
+        if($request->type==1){
+            $url = $linkedIn->getLoginUrl(['redirect_uri' => route('register.linkedin')]);
+        } else if($request->type==2){
+            $url = $linkedIn->getLoginUrl(['redirect_uri' => route('login.linkedin')]);
+        }
+        return response()->json(['url' => $url]);
+    }
+
+    public function getLoginLinkedin(Request $request){
+        if(isset($request->error)){
+            return view('frontend.linkedin.cancel');
+        } else {
+            $linkedIn = new \Happyr\LinkedIn\LinkedIn('78smzb4w4fzq6v', '534YjIafBBG95qIy');
+/*            $client = new \GuzzleHttp\Client(['base_uri' => 'https://www.linkedin.com/']);
+            $response = $client->post('oauth/v2/accessToken?format=json', [
+                'form_params' => [
+                    'grant_type' => 'authorization_code',
+                    'redirect_uri' => route('register.linkedin'),
+                    'client_id' => '78smzb4w4fzq6v',
+                    'client_secret' => '534YjIafBBG95qIy',
+                    'code' => $request->code
+                ]]);
+            $data = $response->getBody();
+            $data = $data->getContents();
+            $data = json_decode($data);
+            $linkedIn->setAccessToken($data->access_token);*/
+            $dataUser = $linkedIn->get('v1/people/~:(id)');
+            if($user = User::where('id_linkedin', $dataUser['id'])->get()->first()){
+                if($user->status=='Active'){
+                    //Logealo menol
+                    Auth::login($user, true);
+                    session(['lang' => \App::getLocale()]);
+                    $dataFinal = ['error' => false, 'message' => '', 'url' => route('dashboard')];
+                } else {
+                    //no estas verificado menol
+                    $dataFinal = ['error' => true, 'message' => Lang::get('app.not_user_register_verify')];
+                }
+            } else {
+                $dataFinal = ['error' => true, 'message' => Lang::get('app.not_user_register'), 'url' => route('register.inf')];
+            }
+            return view('frontend.linkedin.success', compact('dataFinal'));
+        }
+    }
+
+    public function getRegisterLinkedin(Request $request, RoleRepository $roles, UserMailer $mailer)
+    {
+        if(isset($request->error)){
+            return view('frontend.linkedin.cancel');
+        } else {
+            $linkedIn = new \Happyr\LinkedIn\LinkedIn('78smzb4w4fzq6v', '534YjIafBBG95qIy');
+            $client = new \GuzzleHttp\Client(['base_uri' => 'https://www.linkedin.com/']);
+            $response = $client->post('oauth/v2/accessToken?format=json', [
+                'form_params' => [
+                    'grant_type' => 'authorization_code',
+                    'redirect_uri' => route('register.linkedin'),
+                    'client_id' => '78smzb4w4fzq6v',
+                    'client_secret' => '534YjIafBBG95qIy',
+                    'code' => $request->code
+                ]]);
+            $data = $response->getBody();
+            $data = $data->getContents();
+            $data = json_decode($data);
+            $linkedIn->setAccessToken($data->access_token);
+            $dataUser = $linkedIn->get('v1/people/~:(firstName,lastName,id,email-address)');
+            if($user = User::where('email', $dataUser['emailAddress'])->get()->first()){
+                $dataFinal = ['error' => true, 'message' => Lang::get('app.user_register_email')];
+            } else if($user = User::where('id_linkedin', $dataUser['id'])->get()->first()){
+                $dataFinal = ['error' => true, 'message' => Lang::get('app.user_register_linkedin')];
+            } else {
+                $status = settings('reg_email_confirmation')
+                    ? UserStatus::UNCONFIRMED
+                    : UserStatus::ACTIVE;
+
+                $code = $this->generateCode();
+
+                // Add the user to database
+                $user = $this->users->create(['status' => $status,
+                    'code'=>$code, 'first_name' => $dataUser['firstName'], 'last_name' => $dataUser['lastName'],
+                    'email' => $dataUser['emailAddress'], 'id_linkedin' => $dataUser['id'], 'code_linkedin' => $data->access_token]);
+
+                $this->users->updateSocialNetworks($user->id, []);
+
+                //change register user with consultant unverified role
+                $role = $roles->findByName('Consultant');
+                $this->users->setRole($user->id, $role->id);
+
+                // Check if email confirmation is required,
+                // and if it does, send confirmation email to the user.
+                $token = str_random(60);
+                $this->users->update($user->id, ['confirmation_token' => $token]);
+                if (settings('reg_email_confirmation')) {
+                    $mailer->sendConfirmationEmail($user, $token);
+                }
+                event(new Registered($user));
+                $dataFinal = ['error' => false, 'message' => Lang::get('app.user_register_linkedin_ok'), 'url' => route('register.confirm-data', $token)];
+            }
+            return view('frontend.linkedin.success', compact('dataFinal'));
+        }
     }
 
     /**
@@ -937,6 +1050,13 @@ class AuthController extends Controller
         if($request->autoSave==1){
             return response()->json(['success' => true], 200);
         } else {
+            if(isset($request->promotional_code)){
+                $invitation = UserInvited::where('code', $request->promotional_code)->where('status', 1)->get()->first();
+                if($invitation){
+                    $invitation->status = 0;
+                    $invitation->save();
+                }
+            }
             return redirect()->to('loginuser')
                 ->withSuccess(trans('app.registration_completed_wait_data_validation'));
         }
@@ -1093,4 +1213,5 @@ class AuthController extends Controller
         $this->users->update($user->id, ['confirmation_token' => $token]);
         $mailer->sendConfirmationEmail($user, $token);
     }
+
 }

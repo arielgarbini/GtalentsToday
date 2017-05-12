@@ -332,8 +332,9 @@ $(document).ready(
 
 
 	    );
-	
-	    $(".phone").intlTelInput({/*
+
+		try{
+            $(".phone").intlTelInput({/*
 			 allowDropdown: false,
 			 autoHideDialCode: false,
 			 autoPlaceholder: "off",
@@ -341,10 +342,10 @@ $(document).ready(
 			 excludeCountries: ["us"],
 			 formatOnDisplay: false,
 			 geoIpLookup: function(callback) {
-			   $.get("http://ipinfo.io", function() {}, "jsonp").always(function(resp) {
-			     var countryCode = (resp && resp.country) ? resp.country : "";
-			     callback(countryCode);
-			   });
+			 $.get("http://ipinfo.io", function() {}, "jsonp").always(function(resp) {
+			 var countryCode = (resp && resp.country) ? resp.country : "";
+			 callback(countryCode);
+			 });
 			 },
 			 initialCountry: "auto",
 			 nationalMode: false,
@@ -352,5 +353,8 @@ $(document).ready(
 			 placeholderNumberType: "MOBILE",
 			 preferredCountries: ['cn', 'jp'],
 			 separateDialCode: true,*/
-			utilsScript: "/assets/js/utils.js"
-	    });
+                utilsScript: "/assets/js/utils.js"
+            });
+		} catch($e){
+			console.log('che');
+		}

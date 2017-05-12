@@ -61,7 +61,7 @@
                 <div class="col-md-6">
                     <div class="form-group">
                         <label for="country">@lang('app.country')</label>
-                        {!! Form::select('country', $countries ,$edit ? $company->address->state->country->id: '', ['class' => 'form-control', 'id' => 'country', 'placeholder' => trans('app.select')]) !!}
+                        {!! Form::select('country', $countries ,$edit && $company->address->state ? $company->address->state->country->id: '', ['class' => 'form-control', 'id' => 'country', 'placeholder' => trans('app.select')]) !!}
                     </div>
                 </div>
 

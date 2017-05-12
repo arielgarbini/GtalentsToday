@@ -420,7 +420,7 @@
 				<!--CODIGO PROMOCIONAL-->
 				<div class="itemForm" id="promotional_code_item">
 					<label>@lang('app.promotional_code')</label>
-                    {!! Form::text('promotional_code', '', ['id' => 'promotional_code', 'placeholder' => trans('app.promotional_code')]) !!}
+                    {!! Form::text('promotional_code', '', ['maxlength' => 4, 'id' => 'promotional_code', 'placeholder' => trans('app.promotional_code')]) !!}
 				</div>
 
 				<!--COMO SUPISTE DE NOSOTROS-->

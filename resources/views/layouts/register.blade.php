@@ -16,9 +16,13 @@
 
 		{!! HTML::style('assets/css/materialize.min.css') !!}
 		{!! HTML::style('assets/css/style.css') !!}
+		{!! HTML::style('assets/css/font-awesome.min.css') !!}
 	   <!-- {!! HTML::style("assets/css/bootstrap.min.css") !!}
 	    {!! HTML::style('assets/css/app.css') !!}
 	    {!! HTML::style("assets/css/bootstrap-social.css") !!}-->
+
+	<!-- ESTILOS SWEATALERT -->
+	{!! HTML::style('assets/css/sweetalert.css') !!}
 
     @yield('header-scripts')
 </head>
@@ -52,7 +56,10 @@
     {!! HTML::script('assets/js/as/app.js') !!}
     {!! HTML::script('assets/js/as/btn.js') !!}
     {!! HTML::script('assets/js/as/login.js') !!}
-    {!! HTML::script('assets/js/jquery.validate.min.js') !!}
+	<!-- SCRIPT SWEATALERT -->
+	{!! HTML::script('assets/js/sweetalert.min.js') !!}
+	{!! HTML::script('assets/js/jquery.validate.min.js') !!}
+
 
     @yield('scripts')
 @show

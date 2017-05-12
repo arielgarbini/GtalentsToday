@@ -85,7 +85,11 @@
                 <tr>
                     <td class="td-responsive" style="padding: 0 80px;">
                         <p class="parrafo" style="font-size:16px;  line-height:20px; color:#22203B;">
-                            {{$message}}
+                            <p><?php echo $mess ?></p>
+                        </p>
+                        <p class="parrafo" style="font-size:16px;  line-height:20px; color:#22203B;">
+                            <p>@lang('app.promotional_code')</p>
+                            <p>{{$code}}</p>
                         </p>
                         <p class="parrafo" style="font-size:16px;  line-height:20px; color:#22203B;">
                             <p>@lang('app.confirm_email_on_link_below')</p>

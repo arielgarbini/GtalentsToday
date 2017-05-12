@@ -1000,7 +1000,9 @@ return [
     'if_you_cant_click' => 'Si usted no puede Hacer clic en ese enlace, simplemente copia y pega siguiente URL en su navegador en la barra de direcciones:',
     'thank_you_for_registering' => 'Gracias por registrarse.',
     'confirm_email_on_link_below' => 'Se ruega confirmación de correo electrónico haciendo clic en el siguiente enlace:',
+    'confirm_email_linkedin' => 'Se ruega que complete su información haciendo click en el siguiente enlace:',
     'confirm_email' => 'Confirmar correo electrónico',
+    'confirm_data' => 'Confirmar información',
     'check_your_email' => '¡Revisa la bandeja de entrada de tu correo electrónico!',
     'continue' => 'Continuar',
 
@@ -1020,7 +1022,14 @@ return [
     ],
 
     //invoices
-
+    'invoices' => 'Facturas',
+    'list_of_registered_invoices' => 'Lista de facturas registradas',
+    'search_for_invoices' => 'Buscar facturas',
+    'view_invoice' => 'Ver factura',
+    'edit_invoice' => 'Editar factura',
+    'delete_invoice' => 'Eliminar factura',
+    'invoice_deleted' => 'Factura eliminada',
+    'are_you_sure_delete_invoice' => 'Seguro desea eliminar esta factura?',
     'invoices_to_charged' => 'Mis Facturas a Cobrar',
     'in_opportunity'         => 'Oportunidad',
     'amount'                => 'Monto',
@@ -1050,6 +1059,13 @@ return [
     'activity_records'      => 'Registros de Actividades',
 
     //register
+    'login_linkedin' => 'Ingresa con linkedin',
+    'register_linkedin' => 'Registrate con linkedin',
+    'not_user_register' => 'No te has registrado serás redirigido a la pantalla de registro',
+    'not_user_register_verify' => 'No has sido verificado, contacta al administrador del sitio',
+    'user_register_email' => 'Ya existe un usuario registrado con el correo electronico de su cuenta de linkedin, consulte al administrador del sitio',
+    'user_register_linkedin' => 'Ya existe un usuario registrado con esta cuenta de linkedin, consulte al administrador del sitio',
+    'user_register_linkedin_ok' => 'Se ha registrado satisfactoriamente con linkedin, sera redirigido para que termine sus datos.',
     'first_name_required'    => 'El nombre es requerido',
     'last_name_required'     => 'El apellido es requerido',
     'email_required'     => 'El correo electrónico es requerido',

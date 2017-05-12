@@ -19,6 +19,7 @@ use Vanguard\Events\NotificationEvent;
 use Vanguard\Events\RankingEvent;
 use Vanguard\ExperienceYear;
 use Vanguard\FunctionalArea;
+use Vanguard\UserInvited;
 use Vanguard\VacancyViewed;
 use Vanguard\Http\Requests\Vacancy\CreateVacancyRequest;
 use Vanguard\Http\Requests\Vacancy\UpdateVacancyRequest;
@@ -351,10 +352,18 @@ class VacancyController extends Controller
     } else {
         $data['group2'] = 1;
     }
-   $vacancy_id= $request->session()->get('id');
+   $vacancy_id = $request->session()->get('id');
+   $id = $vacancy_id;
    $this->vacancies->update($vacancy_id,$data);
     event(new RankingEvent(['user_id' => Auth::user()->id, 'points' => 25]));
-   return view('dashboard_user.post.post_step2' , compact('vacancy_id'), ['vacancies' => $request->session()->get('vacancies')]);
+        $company_id = CompanyUser::where(['user_id' => Auth::user()->id])->get()->first()->company_id;
+        $supliers_recommended = User::where('id','!=',Auth::user()->id)->whereNotExists(function($query) use($id){
+            $query->select('vacancy_users.*')->from('vacancy_users')
+                ->where('vacancy_id', $id)->whereRaw('vg_vacancy_users.supplier_user_id = vg_users.id');
+        })->whereHas('company_user', function($q) use($company_id){
+            $q->where('company_id', '!=', $company_id);
+        })->limit(4)->get();
+   return view('dashboard_user.post.post_step2' , compact('vacancy_id', 'supliers_recommended'), ['vacancies' => $request->session()->get('vacancies')]);
 
     }
 
@@ -631,7 +640,6 @@ class VacancyController extends Controller
         $status = settings('reg_email_confirmation')
             ? UserStatus::UNCONFIRMED
             : UserStatus::ACTIVE;
-
         // Add the user to database
         $user = $this->users->create(
             ['email' => $request->email,
@@ -645,11 +653,12 @@ class VacancyController extends Controller
         //change register user with consultant unverified role
         $role = $roles->findByName('ConsultantUnverified');
         $this->users->setRole($user->id, $role->id);
+        $codePromotional = $this->createCode(Auth::user()->id, $user->id, $id);
 
         // Check if email confirmation is required,
         // and if it does, send confirmation email to the user.
         if (settings('reg_email_confirmation')) {
-            $this->sendEmailSupplier($mailer, $user, $request->message);
+            $this->sendEmailSupplier($mailer, $user, $request->message, $codePromotional);
             $message = trans('app.account_create_confirm_email');
         } else {
             $message = trans('app.account_created_login');
@@ -679,11 +688,31 @@ class VacancyController extends Controller
         return $rand;
     }
 
-    private function sendEmailSupplier(InvitationMailer $mailer, $user, $message)
+    public function createCode($user_create, $user_destiny, $vacancy)
+    {
+        $letras = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M',
+            'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'W', 'X', 'Y', 'Z'];
+
+        $rand = '';
+        for($i = 0; $i<4; $i++){
+            $rand .= $letras[rand(0, count($letras)-1)];
+        }
+        while(UserInvited::where('code', $rand)->get()->first()){
+            $rand = '';
+            for($i = 0; $i<4; $i++){
+                $rand .= $letras[rand(0, count($letras)-1)];
+            }
+        }
+        UserInvited::create(['user_id' => $user_create, 'user_invited_id' => $user_destiny,
+        'code' => $rand, 'status' => 1, 'vacancy_id' => $vacancy]);
+        return $rand;
+    }
+
+    private function sendEmailSupplier(InvitationMailer $mailer, $user, $mess, $code)
     {
         $token = str_random(60);
         $this->users->update($user->id, ['confirmation_token' => $token]);
-        $mailer->sendEmailSupplier($user, $token, $message);
+        $mailer->sendEmailSupplier($user, $token, $mess, $code);
     }
 
     public function invitedSupplier(Request $request, $id)
@@ -705,6 +734,11 @@ class VacancyController extends Controller
 
         event(new NotificationEvent(['element_id' => $vacancy->id,
             'user_id'=>$request->supplier, 'type' => 'invited_supplier_vacancy', 'name'=>$vacancy->name]));
+
+        if(isset($request->view)){
+            return redirect()->route('vacancies.show', $id)
+                ->withSuccess(trans('app.invited_supplier'));
+        }
 
         return redirect()->back()
             ->withSuccess(trans('app.invited_supplier'));

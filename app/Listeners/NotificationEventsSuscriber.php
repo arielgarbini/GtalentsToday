@@ -46,7 +46,11 @@ class NotificationEventsSuscriber implements ShouldQueue
                 $data =  ['title' => 'title_rejected_supplier', 'message' =>'rejected_supplier_vacancy__'.$dataRequest['name']];
             break;
             case 'approved_supplier_invited_vacancy':
-                $data =  ['title' => 'title_supplier__'.Auth::user()->code, 'message' =>'approved_supplier_invited_vacancy__'.$dataRequest['name']];
+                if(isset($dataRequest['user'])){
+                    $data =  ['title' => 'title_supplier__'.$dataRequest['user'], 'message' =>'approved_supplier_invited_vacancy__'.$dataRequest['name']];
+                } else {
+                    $data =  ['title' => 'title_supplier__'.Auth::user()->code, 'message' =>'approved_supplier_invited_vacancy__'.$dataRequest['name']];
+                }
             break;
             case 'rejected_supplier_invited_vacancy':
                 $data =  ['title' => 'title_supplier__'.Auth::user()->code, 'message' =>'rejected_supplier_invited_vacancy__'.$dataRequest['name']];

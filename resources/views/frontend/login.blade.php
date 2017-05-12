@@ -24,7 +24,7 @@
 
 		{{-- This will simply include partials/messages.blade.php view here --}}
 		@include('partials/messages')
-
+		<button class="btn-linkedin"><i class="fa fa-linkedin fa-fw"></i> @lang('app.login_linkedin')</button>
 		<!--FORMULARIO login-->
 		<form role="form" action="{{ URL('loginuser') }}" class="formLogin" method="POST" id="login-container" autocomplete="off">
   			<input type="hidden" value="<?= csrf_token() ?>" name="_token">
@@ -113,4 +113,42 @@
     {!! HTML::script('assets/js/as/login.js') !!}
     {!! JsValidator::formRequest('Vanguard\Http\Requests\Auth\LoginRequest', '#login-container') !!}
     {!! JsValidator::formRequest('Vanguard\Http\Requests\Auth\PasswordRemindRequest', '#recover-container') !!}
+
+	<script>
+        function successConfirm(data){
+            location.replace(data.url);
+        }
+
+        function successCancel(){
+
+        }
+
+        function successError(data){
+            if(data.url!=undefined){
+                url = data.url;
+                setTimeout(function(){ location.replace(url); }, 5200);
+			}
+            swal({
+                title: "{{trans('app.error')}}",
+                text: data.message,
+                timer: 5000,
+                html: true,
+                showConfirmButton: false,
+                type: "error"
+            });
+        }
+
+        $(document).ready(function(){
+
+            $('.btn-linkedin').click(function(){
+                $.ajax({
+                    method: 'GET',
+                    url: '{{route("url.linkedin")}}?type=2',
+                    success : function(data){
+                        window.open(data.url, "_blank", "width=800,height=800");
+                    }
+                });
+            })
+        });
+	</script>
 @stop
