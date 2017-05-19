@@ -102,7 +102,7 @@
 
                 <!--LINK DESCARGA-->
                 <div class="link">
-                    <a href="#">
+                    <a @if($vacancy->file_job_description!='') href="/{{$vacancy->file_job_description}}" download @else href="#" @endif>
                         <figure>
                             <span class="icon-gTalents_pdf"></span>
                         </figure>
@@ -192,7 +192,22 @@
                     </a>
                 </div>
             @endif
-
+            @if(in_array($vacancy->id,$userVacancy))
+                <?php
+                    $notification = \Vanguard\Notification::where('element_id', $vacancy->id)
+                        ->where('user_id', Auth::user()->id)->get()->first();
+                ?>
+            <div class="btn-section">
+                <form action="{{route('vacancies.approbate.supplier.invited',$notification->element_id)}}" method="POST">
+                    {{csrf_field()}}
+                    <input type="hidden" value="{{$notification->id}}" name="notification">
+                    <input type="hidden" value="{{$notification->user_id}}" name="supplier">
+                    <button class="btn-main" type="submit">
+                        @lang('app.accept_invitation')
+                    </button>
+                </form>
+            </div>
+            @endif
             <!-- RESUMEN -->
             <div class="bills">
                 <div class="resum-position">

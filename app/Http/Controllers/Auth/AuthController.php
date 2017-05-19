@@ -236,7 +236,11 @@ class AuthController extends Controller
                 ->withErrors(trans('app.your_account_is_banned'));
         }
         Auth::login($user, settings('remember_me') && $request->get('remember'));
-        session(['lang' => \App::getLocale()]);
+        if($user->language!=''){
+            session(['lang' => $user->language]);
+        } else {
+            session(['lang' => \App::getLocale()]);
+        }
         return $this->handleUserWasAuthenticated($request, $throttles, $user);
     }
 
@@ -854,7 +858,8 @@ class AuthController extends Controller
                     'email'                => $request->email,
                     'phone'                => $request->phone,
                     'secundary_phone'      => $request->secundary_phone,
-                    'status'               => UserStatus::UNVERIFIED
+                    'status'               => UserStatus::UNVERIFIED,
+                    'language'             => \App::getLocale()
                     ];
 
         if(isset($request->password) && $request->password!=''){

@@ -232,7 +232,7 @@ class VacancyController extends Controller
     {
     // Validación de campos(Pantalla Create)
      $this->validate($request,
-            ['name'                     => 'required|min:6',
+            ['name'                     => 'required',
             'positions_number'          => 'required|numeric',
              'location'                   => 'required',
             'target_companies'          => 'required',
@@ -346,6 +346,7 @@ class VacancyController extends Controller
                 'terms'                     => $request->terms,
                 'created_at'                => \Carbon\Carbon::now(),
                 'updated_at'                => \Carbon\Carbon::now(),
+                'vacancy_status_id'         => 1
             ];
     if($request->group1=='%'){
         $data['group1'] = 1;
@@ -635,6 +636,11 @@ class VacancyController extends Controller
 
     public function invitedSupplierExternal(Request $request, InvitationMailer $mailer, RoleRepository $roles, $id)
     {
+
+        if(User::where('email', $request->email)->get()->first()){
+            return redirect()->back()
+                ->withErrors(trans('app.collaborator_register'));
+        }
         // Determine user status. User's status will be set to UNCONFIRMED
         // if he has to confirm his email or to ACTIVE if email confirmation is not required
         $status = settings('reg_email_confirmation')

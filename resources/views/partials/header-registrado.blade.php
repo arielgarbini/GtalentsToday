@@ -26,9 +26,10 @@
 			</li>
 			<!--LISTADO DE POST-->
 			<li>
+				<!--
 				<a href="{{route('vacancies.list')}}">
 					<p>@lang('app.opportunities')</p>
-				</a>
+				</a>-->
 			</li>
 			<!--NUEVO POST-->
 			<li class="item-newPost">
@@ -302,49 +303,43 @@
 
 		<ul class="grid">
 			<!--INICIO-->
-			<li class="active">
+			<li @if(Request::is('admin')) class="active" @endif>
 				<a href="{{route('dashboard')}}">
 					<p>@lang('app.home')</p>
 				</a>
 			</li>
-			<!--POST (SOLO SE VERA EN MOBILE)-->
-			<li class="option-mobile">
-				<a href="post.php">
-					<p>@lang('app.post')</p>
-				</a>
-			</li>
 			<!--MIS OPORTUNIDADES-->
-			<li>
+			<li @if(Request::is('vacancies/list')) class="active" @endif>
 				<a href="{{ route('vacancies.list') }}">
 					<p>@lang('app.my_opportunities')</p>
 				</a>
 			</li>
 			<!--MI EQUIPO-->
-			<li>
+			<li @if(Request::is('team')) class="active" @endif>
 				<a href="{{URL::to('team')}}">
 					<p>@lang('app.my_team')</p>
 				</a>
 			</li>
 			<!--MIS CANDIDATOS-->
-			<li>
+			<li @if(Request::is('candidates')) class="active" @endif>
 				<a href="{{URL::to('candidates')}}">
 					<p>@lang('app.my_candidates')</p>
 				</a>
 			</li>
 			<!--MIS FACTURAS-->
-			<li>
+			<li @if(Request::is('invoices')) class="active" @endif>
 				<a href="{{URL::to('invoices')}}">
 					<p>@lang('app.my_invoices')</p>
 				</a>
 			</li>
 			<!--MIS CALIFICACIONES-->
-			<li>
+			<li @if(Request::is('califications')) class="active" @endif>
 				<a href="{{URL::to('califications')}}">
 					<p>@lang('app.my_qualifications')</p>
 				</a>
 			</li>
 			<!--MIS CREDITOS-->
-			<li>
+			<li @if(Request::is('credits')) class="active" @endif>
 				<a href="{{URL::to('credits')}}">
 					<p>@lang('app.my_credits')</p>
 				</a>

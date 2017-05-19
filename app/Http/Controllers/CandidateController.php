@@ -121,7 +121,6 @@ class CandidateController extends Controller
             ['first_name'       => 'required|min:3',
                 'last_name'     => 'required|min:3',
                 'email'         => 'required|email|unique:candidates',
-                'telf'          => 'required',
                 'company'          => 'required',
             ] );
 

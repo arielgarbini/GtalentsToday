@@ -49,14 +49,6 @@
                     </a>
                 </li>
 
-            @permission('news.manage')
-                <li class="{{ Request::is('news*') ? 'active open' : ''  }}">
-                    <a href="{{ route('news.index') }}" class="{{ Request::is('news*') ? 'active' : ''  }}">
-                        <i class="fa fa-list-alt fa-fw"></i> @lang('app.news')
-                    </a>
-                </li>
-            @endpermission
-
             @permission('users.activity')
                 <li class="{{ Request::is('activity*') ? 'active open' : ''  }}">
                     <a href="{{ route('activity.index') }}" class="{{ Request::is('activity*') ? 'active' : ''  }}">

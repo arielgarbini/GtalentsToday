@@ -105,7 +105,7 @@
 
                 <!--LINK DESCARGA-->
                 <div class="link">
-                    <a href="#">
+                    <a @if($vacancy->file_job_description!='') href="/{{$vacancy->file_job_description}}" download @else href="#" @endif>
                         <figure>
                             <span class="icon-gTalents_pdf"></span>
                         </figure>
@@ -647,9 +647,6 @@
                    required: true,
                    email: true
                },
-               telff: {
-                   required: true,
-               },
            },
            messages: {
                first_name: {
@@ -663,9 +660,6 @@
                email: {
                    required: "{{trans('app.candidate_validate.email_required')}}",
                    email: "{{trans('app.candidate_validate.email_valid')}}"
-               },
-               telff: {
-                   required: "{{trans('app.candidate_validate.telf_required')}}",
                },
            },
            errorElement : 'div',

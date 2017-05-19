@@ -30,6 +30,12 @@ $(document).ready(
                     }
                 });
 
+                setTimeout(function(){
+					if($('.alert-login').attr('class')!=undefined){
+                        $('.alert-login').fadeOut('slow');
+					}
+				}, 3000);
+
 	    		//INICIALIZAR NICESCROLL
 				try{
                     $("html").niceScroll({cursorwidth:"12px" , zindex:"9" , cursorborder:"0px", cursorborderradius:"0px"});

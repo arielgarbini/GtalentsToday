@@ -27,6 +27,7 @@ use Vanguard\Http\Requests\User\UpdateUserRequest;
 use Vanguard\Jobtitle;
 use Vanguard\LegalInformation;
 use Vanguard\LevelPosition;
+use Vanguard\Mailers\UserMailer;
 use Vanguard\Point;
 use Vanguard\Preference;
 use Vanguard\Region;
@@ -104,13 +105,33 @@ class UsersController extends Controller
     {
         $this->vacancies = $vacancies;
         $this->vacancies_users = $vacancies_users;
-        $this->middleware('auth');
+        $this->middleware('auth', ['except' => ['getEmail', 'postResend']]);
         $this->middleware('session.database', ['only' => ['sessions', 'invalidateSession']]);
-        $this->middleware('permission:users.manage', ['except' => ['profile', 'profileUpdate', 'updateProfileAdmin']]);
+        $this->middleware('permission:users.manage', ['except' => ['profile', 'profileUpdate', 'updateProfileAdmin', 'getEmail', 'postResend']]);
         $this->users = $users;
         $this->countries = $countries;
         $this->address = $address;
         $this->theUser = Auth::user();
+    }
+
+    public function getEmail(Request $request)
+    {
+        $user = User::where('email', $request->email)->get()->first();
+        if($user){
+            return response()->json(['taken' => true, 'status' => $user->status]);
+        } else {
+            return response()->json(['taken' => false]);
+        }
+    }
+
+    public function postResend(Request $request, UserMailer $mailer)
+    {
+        $user = User::where('email', $request->correo)->get()->first();
+        $token = str_random(60);
+        $this->users->update($user->id, ['confirmation_token' => $token]);
+        $mailer->sendConfirmationEmail($user, $token);
+        return redirect()->to('loginuser')
+            ->withSuccess(trans('app.re_send_email'));
     }
 
     /**
@@ -645,7 +666,7 @@ class UsersController extends Controller
                 'industries'));
     }
 
-    public function update(User $user, Request $request)
+    public function update(User $user, Request $request, UserMailer $mailer)
     {
 
         $dataUser = [
@@ -876,6 +897,10 @@ class UsersController extends Controller
                 event(new RankingEvent(['user_id' => $invitation->user_id, 'points' => 20]));
                 $invitation->delete();
             }
+        }
+
+        if($request->status=='Active'){
+            $mailer->sendConfirmationEmailActive($user);
         }
 
         return redirect()->route('user.index')

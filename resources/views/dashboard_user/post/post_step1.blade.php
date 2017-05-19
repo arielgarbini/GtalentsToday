@@ -170,8 +170,10 @@
                 <!--CHECKBOX DE TERMINOS-->
                 <div class="itemCheck">
                     <p>
-                    {!! Form::checkbox('terms',1,true, ['id' => 'filled-in-box', 'class' => 'filled-in','checked' ]) !!}              
-                    <label for="filled-in-box">Acepto las políticas y condiciones de gTalents</label>
+                    {!! Form::checkbox('terms',1,true, ['id' => 'filled-in-box', 'class' => 'filled-in','checked' ]) !!}
+                    <label for="tos">@lang('app.i_accept')
+                        <a href="#tos-modal" class="modal-trigger waves-effect waves-light">@lang('app.terms_of_service')</a>
+                    </label>
                     @if($errors->has('terms'))
                       <p class="text-darger" style="color:red;"> {{ $errors->first('terms') }}</p>
                     @endif 
@@ -193,6 +195,28 @@
             </section>
         </article>
       {!! Form::close() !!}
+ <div id="tos-modal" class="modal modalText">
+     <!--CERRAR-->
+     <div class="modal-footer">
+         <a class=" modal-action modal-close waves-effect waves-green btn-flat">
+             <span class="icon-gTalents_close"></span>
+         </a>
+     </div>
+
+     <!--CONTENIDO-->
+     <div class="modal-content">
+         <!--GARANTIAS-->
+         <article class="generic grid">
+             <!--TITULO DE LA SECCION-->
+             <section class="generic-title">
+                 <span class="icon-gTalents_garantia"></span>
+                 <h2> {{ trans('app.terms_of_service' ) }} </h2>
+             </section>
+
+             <embed src="{{URL::to('/GTALENTSAGREEMENT.docx.pdf')}}" width="600" height="500" alt="pdf" pluginspage="http://www.adobe.com/products/acrobat/readstep2.html">
+         </article>
+     </div>
+ </div>
 @stop
 
 @section('scripts')

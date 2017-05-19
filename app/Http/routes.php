@@ -38,6 +38,16 @@ if (settings('reg_enabled')) {
         'uses' => 'Auth\AuthController@getRegister'
     ]);
 
+    Route::get('register/email', [
+        'as' => 'register.email',
+        'uses' => 'UsersController@getEmail'
+    ]);
+
+    Route::post('register/email/resend', [
+        'as' => 'register.email.resend',
+        'uses' => 'UsersController@postResend'
+    ]);
+
     Route::post('register', 'Auth\AuthController@postRegister');
     Route::get('register/linkedin/cancel', 'Auth\AuthController@getRegisterLinkedinCancel');
 
@@ -798,7 +808,10 @@ Route::delete('news/{new}/delete', [
  * Front-End
  */
 
-Route::get('loginuser', 'Auth\AuthController@getLoginFrontend');
+Route::get('loginuser', [
+    'as' => 'loginuser',
+    'uses' => 'Auth\AuthController@getLoginFrontend'
+]);
 Route::post('loginuser', 'Auth\AuthController@postLoginFrontend');
 
 Route::get('/', function()

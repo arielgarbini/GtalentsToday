@@ -15,7 +15,7 @@ class CreateVacancyRequest extends Request
     public function rules()
     {
         return [
-            'name'                      => 'required|min:6',
+            'name'                      => 'required',
           //  'description'               => 'required|min:15',
             'positions_number'          => 'required|numeric|integer',
           //  'scheme_work_id'            => 'required|exists:scheme_works,id',

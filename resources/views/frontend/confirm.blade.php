@@ -63,7 +63,6 @@
 				<!--TITULO DE LA SECCION-->
 				<div class="formLogin-title">
 					<h4>@lang('app.contact_informations')</h4>
-					<p>@lang('app.correct_your_personal_data')</p>
 				</div>
 
 				<!--NOMBRE-->
@@ -321,8 +320,16 @@
 					</div>
 				</div>
 
+				<div class="categoria-container-item">
+					<!--TITULO CATEGORIA-->
+					<a href="#!" class="option" style="color:#4d4d4d !important; padding:0px;">
+						<h4 style="font-size: 1em;">@lang('app.job_title')</h4>
+						<span class="hint--right hint--large hint--bounce" aria-label="{{trans('app.job_title_direction')}}">
+                            <i class="icon-gTalents_help "></i>
+                        </span>
+					</a>
+				</div>
 				<div class="itemForm">
-					<label for="years_experience_id">@lang('app.job_title')</label>
 					{!! Form::select('job_title_id', $jobTitle , ($profile!='') ? $profile->jobtitle_id : '', ['message' => trans('app.job_title_id_required'), 'class' => 'validate-select browser-default', 'id' => 'job_title_id', 'placeholder' => trans('app.job_title')]) !!}
 				</div>
 
@@ -341,17 +348,22 @@
 					<label for="years_experience_id">@lang('app.years_of_experience')</label>
 					{!! Form::select('years_experience_id', $experienceYears , ($profile!='') ? $profile->years_experience_id : '', ['message' => trans('app.years_experience_required'), 'class' => 'validate-select browser-default', 'id' => 'years_experience_id', 'placeholder' => trans('app.years_of_experience')]) !!}
 				</div>
-
+                <div class="categoria-container-item">
+                    <!--TITULO CATEGORIA-->
+                    <a href="#!" class="option" style="color:#4d4d4d !important; padding:0px; ">
+                        <h4 style="font-size: 1em;">@lang('app.linkedin')</h4>
+                        <span class="hint--right hint--large hint--bounce" aria-label="{{trans('app.linkedin_direction')}}">
+                            <i class="icon-gTalents_help "></i>
+                        </span>
+                    </a>
+                </div>
 				<div class="itemForm">
-					<label for="years_experience_id">@lang('app.linkedin')</label>
 					{!! Form::text('linkedin', ($profile!='') ? $profile->linkedin_url : '' , ['id' => 'linkedin', 'placeholder' => trans('app.linkedin')]) !!}
 				</div>
-
 				<div class="itemForm">
 					<label for="sourcing_networks_id">@lang('app.principal_sourcing')</label>
 					{!! Form::select('sourcing_networks_candidates_id', $sourcingNetworks , ($preferences!='') ? $preferences->sourcing_network_id : '', ['class' => 'browser-default', 'id' => 'sourcing_networks_candidates_id', 'placeholder' => trans('app.principal_sourcing')]) !!}
 				</div>
-
                 <!--LEYENDA PUNTOS-->
 				<div class="leyend">
 					<div class="leyend-point"></div>
@@ -438,26 +450,6 @@
 				<!--PAPEL EN LA ORGANIZACION-->
                 {!! Form::hidden('organization_role', 'both', ['id' => 'organization_role']) !!}
 
-                <!--CONDICIONES DE USO-->
-                <div class="condiciones-uso">
-                    <h4>@lang('app.terms_of_use')</h4>
-                    <div class="condiciones-uso-container">
-                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Minus veritatis quisquam, dignissimos distinctio, eos repellendus dolore ab quasi repellat voluptates ex vitae minima tempore commodi non repudiandae earum. Rem, molestiae!</p>
-
-                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Facere enim, voluptas impedit culpa ut debitis dolorem. Suscipit dolore, tempore architecto id ipsam sequi, sint ab earum ullam libero ducimus vel.</p>
-
-                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Facere enim, voluptas impedit culpa ut debitis dolorem. Suscipit dolore, tempore architecto id ipsam sequi, sint ab earum ullam libero ducimus vel.</p>
-                    </div>
-                </div>
-
-                <!--CHECKBOX DE TERMINOS-->
-                <div class="itemCheck">
-                    <p>
-                        <input type="checkbox" class="filled-in" id="accept_terms_cond" checked="checked" />
-                        <label for="accept_terms_cond">* @lang('app.accept_terms_of_use')</label>
-                    </p>
-                </div>
-
 				<!--LEYENDA PUNTOS-->
 				<div class="leyend">
 					<div class="leyend-point"></div>
@@ -467,8 +459,28 @@
 
 			<!--PASO 4-3 | MENSAJE FINAL-->
 			<div class="formContainer-confirm" id="paso4-3">
+				<!--CONDICIONES DE USO-->
+				<div class="condiciones-uso">
+					<h4>@lang('app.terms_of_use')</h4>
+					<div class="condiciones-uso-container">
+						<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Minus veritatis quisquam, dignissimos distinctio, eos repellendus dolore ab quasi repellat voluptates ex vitae minima tempore commodi non repudiandae earum. Rem, molestiae!</p>
+
+						<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Facere enim, voluptas impedit culpa ut debitis dolorem. Suscipit dolore, tempore architecto id ipsam sequi, sint ab earum ullam libero ducimus vel.</p>
+
+						<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Facere enim, voluptas impedit culpa ut debitis dolorem. Suscipit dolore, tempore architecto id ipsam sequi, sint ab earum ullam libero ducimus vel.</p>
+					</div>
+				</div>
+
+				<!--CHECKBOX DE TERMINOS-->
+				<div class="itemCheck">
+					<p>
+						<input type="checkbox" class="filled-in" id="accept_terms_cond" checked="checked" />
+						<label for="accept_terms_cond">* @lang('app.accept_terms_of_use')</label>
+					</p>
+				</div>
+
 				<!--MENSAJE FINAL-->
-				<div class="message-finish">
+				<div class="message-finish" style="padding-top: 25px;">
 					<h3>@lang('app.thanks_for_choosing_us')</h3>
 					<p>@lang('app.pending_validate')</p>
 					<div class="link">

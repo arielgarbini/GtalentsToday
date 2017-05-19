@@ -117,9 +117,13 @@
                                 <div class="item-activity-leyend">
                                     <!--FACTURACION APROXIMADA-->
                                     <?php
-                                    preg_match_all('/\d{1,2}/' ,$vacancy->range_salary, $matches);
-                                    $factur = (intval($matches[0][0].'000')+intval($matches[0][1].'000'))/2;
-                                    $factur = number_format($factur, 2, '.', ',');
+                                        try{
+                                            preg_match_all('/\d{1,2}/' ,$vacancy->range_salary, $matches);
+                                            $factur = (intval($matches[0][0].'000')+intval($matches[0][1].'000'))/2;
+                                            $factur = number_format($factur, 2, '.', ',');
+                                        } catch(\Exception $e){
+                                            $factur = '';
+                                        }
                                     ?>
                                     <div class="item">
                                         <a class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="{{trans('app.approximate_billing')}}: ${{$factur}}">

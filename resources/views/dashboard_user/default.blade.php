@@ -42,10 +42,12 @@
                                                 {{ $vacancy->vacancy_status->getNameLang($vacancy->vacancy_status_id)->name }}
                                             </span></p>
                                             @else 
-                                            <select class="browser-default">
+                                            <select class="change-status browser-default" value="{{$vacancy->id}}">
                                                 <option value="" disabled>@lang('app.choose_an_option')</option>
                                                 <option value="1" selected>@lang('app.published')</option>
                                                 <option value="2">@lang('app.paused')</option>
+                                                <option value="edit">@lang('app.edit')</option>
+                                                <option value="4">@lang('app.close')</option>
                                             </select>
                                             @endif
                                             <h2>{{$vacancy->name}}</h2>
@@ -253,9 +255,13 @@
                                         <div class="item-activity-leyend">
                                             <!--FACTURACION APROXIMADA-->
                                             <?php
-                                            preg_match_all('/\d{1,2}/' ,$vacancy_opportunity->range_salary, $matches);
-                                            $factur = (intval($matches[0][0].'000')+intval($matches[0][1].'000'))/2;
-                                            $factur = number_format($factur, 2, '.', ',');
+                                                try{
+                                                    preg_match_all('/\d{1,2}/' ,$vacancy_opportunity->range_salary, $matches);
+                                                    $factur = (intval($matches[0][0].'000')+intval($matches[0][1].'000'))/2;
+                                                    $factur = number_format($factur, 2, '.', ',');
+                                                } catch(\exception $e){
+                                                    $factur = '';
+                                                }
                                             ?>
                                             <div class="item">
                                                 <a class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="{{trans('app.approximate_billing')}}: ${{$factur}}">
@@ -947,6 +953,15 @@
 
     <script>
         $(document).ready(function(){
+            $('.change-status').change(function(){
+                console.log($(this).attr('value'));
+            });
+
+            $('.change-status').click(function(e){
+                console.log('click');
+                e.stopPropagation();
+            });
+
             $('#search-supplier').keyup(function(){
                 if($(this).val().length>=2){
                     $('#list-supplier > li').show();
@@ -1120,9 +1135,6 @@
                     required: true,
                     email: true
                 },
-                telff: {
-                    required: true
-                },
                 company: {
                     required: true,
                 }
@@ -1139,9 +1151,6 @@
                 email: {
                     required: "{{trans('app.candidate_validate.email_required')}}",
                     email: "{{trans('app.candidate_validate.email_valid')}}"
-                },
-                telff: {
-                    required: "{{trans('app.candidate_validate.telf_required')}}"
                 },
                 company: {
                     required: "{{trans('app.candidate_validate.company_required')}}",
@@ -1173,9 +1182,6 @@
                         required: true,
                         email: true
                     },
-                    telff: {
-                        required: true
-                    },
                     company: {
                         required: true,
                     }
@@ -1192,9 +1198,6 @@
                     email: {
                         required: "{{trans('app.candidate_validate.email_required')}}",
                         email: "{{trans('app.candidate_validate.email_valid')}}"
-                    },
-                    telff: {
-                        required: "{{trans('app.candidate_validate.telf_required')}}"
                     },
                     company: {
                         required: "{{trans('app.candidate_validate.company_required')}}",

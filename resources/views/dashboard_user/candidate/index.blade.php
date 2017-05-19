@@ -61,7 +61,10 @@
                             <li><a href="#modalEditar{{$candidate['id']}}" class="modal-trigger waves-effect waves-light">@lang('app.edit')</a></li>
                             <li><a href="#modalEliminar{{$candidate['id']}}" class="modal-trigger waves-effect waves-light">@lang('app.delete')</a></li>
                         </ul>
-                        <?php $dataFile = 'update-'.$candidate['id'] ?>
+                        <?php
+                            $dataFile = 'update-'.$candidate['id'];
+                            $cand = $candidate['id'];
+                        ?>
                         @include('dashboard_user.candidate.partials.modaldelete')
                         @include('dashboard_user.candidate.partials.modaledit')
                     </div>
@@ -145,9 +148,6 @@
                 required: true,
                 email: true
             },
-            telff: {
-                required: true
-            },
             company: {
                 required: true,
             }
@@ -164,9 +164,6 @@
             email: {
                 required: "{{trans('app.candidate_validate.email_required')}}",
                 email: "{{trans('app.candidate_validate.email_valid')}}"
-            },
-            telff: {
-                required: "{{trans('app.candidate_validate.telf_required')}}"
             },
             company: {
                 required: "{{trans('app.candidate_validate.company_required')}}",
@@ -198,9 +195,6 @@
                     required: true,
                     email: true
                 },
-                telff: {
-                    required: true
-                },
                 company: {
                     required: true,
                 }
@@ -217,9 +211,6 @@
                 email: {
                     required: "{{trans('app.candidate_validate.email_required')}}",
                     email: "{{trans('app.candidate_validate.email_valid')}}"
-                },
-                telff: {
-                    required: "{{trans('app.candidate_validate.telf_required')}}"
                 },
                 company: {
                     required: "{{trans('app.candidate_validate.company_required')}}",

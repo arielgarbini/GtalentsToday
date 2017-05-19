@@ -57,9 +57,13 @@ class VacancyComposer
             $i++;
         }
         $candidatesApproved = $data;
-        preg_match_all('/\d{1,2}/' ,$vacancy->range_salary, $matches);
-        $factura = (intval($matches[0][0].'000')+intval($matches[0][1].'000'))/2;
-        $factura = number_format($factura, 2, '.', ',');
+        try{
+            preg_match_all('/\d{1,2}/' ,$vacancy->range_salary, $matches);
+            $factura = (intval($matches[0][0].'000')+intval($matches[0][1].'000'))/2;
+            $factura = number_format($factura, 2, '.', ',');
+        } catch (\Exception $e){
+            $factura = '';
+        }
 
         $viewed = $this->vacancy_viewed->search(['vacancy_id' => $vacancy->id])->count();
         $vacancy->location = $vacancy->locat->country->name.' / '.$vacancy->locat->name;

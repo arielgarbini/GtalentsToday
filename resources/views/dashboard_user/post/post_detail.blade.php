@@ -105,7 +105,7 @@
 
                 <!--LINK DESCARGA-->
                 <div class="link">
-                    <a href="#">
+                    <a @if($vacancy->file_job_description!='') href="/{{$vacancy->file_job_description}}" download @else href="#" @endif>
                         <figure>
                             <span class="icon-gTalents_pdf"></span>
                         </figure>
