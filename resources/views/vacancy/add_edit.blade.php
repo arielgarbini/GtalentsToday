@@ -146,7 +146,7 @@
                   $('#state').removeAttr('disabled');
                   $('#state').append($('<option></option>').text('{{ trans('app.select_province') }}').val('')); 
                   $.each(data, function(i) {
-                    if("{{ $edit ? $vacancy->address->state->id: '' }}" == data[i].id ){
+                    if("{{ '' }}" == data[i].id ){
                         $('#state').append("<option selected value='" + data[i].id + "'>" + data[i].name + "</option>");
                     }else{
                        $('#state').append("<option value='" + data[i].id + "'>" + data[i].name + "</option>");

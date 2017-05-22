@@ -4,6 +4,7 @@ namespace Vanguard\Http\Controllers;
 
 use Auth;
 use Cache;
+use Vanguard\Compensation;
 use Vanguard\Events\User\Registered;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Input;
@@ -202,22 +203,23 @@ class VacancyController extends Controller
         }
         $states = State::where('country_id', Auth::user()->country_id)->lists('name', 'id');
 
-      // 	$edit = false;
-      //  $schemeWorks = $schemeWorks->lists($language);
-     //   $contractTypes = $contractTypes->lists($language);
-      //  $vacancyStatus = $vacancyStatus->lists($language);
-      //  $addressTypes = $addressTypes->lists($language);
-       // $countries = $this->countries->lists()->toArray();
+       	$edit = false;
+        $schemeWorks = $schemeWorks->lists($language);
+        $contractTypes = $contractTypes->lists($language);
+        $vacancyStatus = $vacancyStatus->lists($language);
+        $addressTypes = $addressTypes->lists($language);
+        $countries = $this->countries->lists()->toArray();
         $languages = $languages->lists()->toArray();
-
-      /*  return view('vacancy.add_edit', compact('edit', 
-                                                'schemeWorks', 
-                                                'contractTypes', 
-                                                'vacancyStatus',
-                                                'countries',
-                                                'addressTypes',
-                                                'languages'
-                                                ));	*/
+        if($this->theUser->hasRole('Admin')){
+            return view('vacancy.add_edit', compact('edit',
+                'schemeWorks',
+                'contractTypes',
+                'vacancyStatus',
+                'countries',
+                'addressTypes',
+                'languages'
+            ));
+        }
         return view('dashboard_user.post.add_post', compact('states'));
 
     }
@@ -235,8 +237,6 @@ class VacancyController extends Controller
             ['name'                     => 'required',
             'positions_number'          => 'required|numeric',
              'location'                   => 'required',
-            'target_companies'          => 'required',
-            'off_limits_companies'      => 'required',
             'responsabilities'          => 'required', 
             'required_experience'       => 'required',
             'key_position_questions'    => 'required'
@@ -302,13 +302,17 @@ class VacancyController extends Controller
            $language = 1;
            $searchType = ['1' => 'Contingencia', '2' => 'Retenido'];
         }
+        $compensations = Compensation::orderBy('created_at', 'asc')->lists('salary', 'salary');
         $contractTypes = $contractTypes->lists($language);
         $experience = $experience->lists($language);
         $languages = $languages->lists()->toArray();
         $functionalArea = $functionalArea->lists($language);
         $industries = $industries->lists($language);
-        $replacement_period = ReplacementPeriod::where('language_id',$language)->lists('name', 'value_id');
-        return view('dashboard_user.post.post_step1',compact('replacement_period', 'contractTypes', 'languages', 'searchType', 'experience', 'functionalArea', 'industries') , ['vacancies' => $request->session()->get('vacancies')]);
+        $replacement_period = ['' => 'None'];
+        foreach(ReplacementPeriod::where('language_id',$language)->get() as $re){
+            $replacement_period[$re['value_id']] = $re['name'];
+        }
+        return view('dashboard_user.post.post_step1',compact('compensations', 'replacement_period', 'contractTypes', 'languages', 'searchType', 'experience', 'functionalArea', 'industries') , ['vacancies' => $request->session()->get('vacancies')]);
 
     }
 
@@ -323,11 +327,9 @@ class VacancyController extends Controller
                 'years_experience'         => 'required',
                 'especialization_id'       => 'required|numeric', 
                 'range_salary'             => 'required',
-                'warranty_employer'        => 'required', 
-                'replacement_period_id'    => 'required',
+                'warranty_employer'        => 'required',
                 'group1'                   => 'required',
                 'fee'                      => 'required',
-                'general_conditions'       => 'required',
                 'terms'                    => 'required',
                 ] 
                 );

@@ -224,6 +224,7 @@ return [
     'independent'                  => 'Independiente',
 
     //Vacancies
+    'percentaje'                    => 'Percentaje',
     'accept_invitation'             => 'Accept invitation',
     'vacancies'                    => 'Vacancies',
     'create'                       => 'Create',
@@ -303,7 +304,7 @@ return [
     'positions'                   => 'Positions',
     'career_plan'                 => 'Career Plan',
     'scheme_work'                 => 'Scheme Work',
-    'responsabilities'            => 'Responsabilities',
+    'responsabilities'            => 'Responsibilities',
     'key_points'                  => 'Key Points',
     'contract_type'               => 'Contract Type',
     'sharing'                     => 'Sharing',
@@ -376,26 +377,26 @@ return [
     'years_of_experience'         => 'Years of Experience' ,
     'desired_experience'          => 'Desired experience',
     'search_type'                 => 'Search Type',
-    'key_position_questions'      => 'Key Position Questions',
+    'key_position_questions'      => 'Key Questions',
     'required_experience'         => 'Required Experience',
     'off_limits_companies'        => 'Off-limits Companies',
     'companies_where_the_candidate_has_worked' => 'Companies where the candidate has worked',
     'target_companies'            => 'Target Companies',   
     'location'                    => 'Location', 
-    'positions_number'            => 'Positions Number',
-    'name_position'               => 'Name Position',
+    'positions_number'            => 'Number of Openings',
+    'name_position'               => 'Job Title',
     'employer_fee'                => 'Employer fee', 
     'fee_charged_to_employer'     => 'Fee charged to employer',
     'replacement_period'         =>  'Replacement period',
-    'warranty_employer'           => 'Warranty employer',
+    'warranty_employer'           => 'Warranty Details',
     'additional_information'     => 'Additional Information',
-
+    'write_the_key_questions'   => 'Write the key questions you ask a potential candidate based on the profile you are looking for',
 
     //Vancancies Details
     'description_company'       =>'Description of the contracting company',
     'work_description'          => 'Work Description',
     'working_hours'             => 'Working Hours',
-    'fixed'                     => 'Fixed',
+    'fixed'                     => 'Fixed Fee (USD)',
 
     //Messages
     'subject'                => 'Subject',

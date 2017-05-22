@@ -191,7 +191,7 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="country">@lang('app.country')</label>
-                                {!! Form::select('country', $countries ,$edit ? $vacancy->address->state->country->id: '', ['class' => 'form-control', 'id' => 'country', 'placeholder' => trans('app.select')]) !!}
+                                {!! Form::select('country', $countries ,$edit ? $vacancy->location: '', ['class' => 'form-control', 'id' => 'country', 'placeholder' => trans('app.select')]) !!}
                             </div>
                         </div>
 
@@ -203,45 +203,8 @@
                         </div>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-lg-12 col-md-12">
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="zip_code">@lang('app.zip_code')</label>
-                                {!! Form::text('zip_code', $edit ? $vacancy->address->zip_code: '', ['class' => 'form-control', 'id' => 'zip_code', 'placeholder' => trans('app.zip_code')]) !!}
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="city">@lang('app.city')</label>
-                                {!! Form::text('city', $edit ? $vacancy->address->city: '', ['class' => 'form-control', 'id' => 'city', 'placeholder' => trans('app.city')]) !!}
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-lg-12 col-md-12">
-                        <div class="col-md-12">
-                            <div class="form-group">
-                                <label for="address">@lang('app.address')</label>
-                                {!! Form::text('address', $edit ? $vacancy->address->address: '', ['id' => 'address', 'class' => 'form-control','placeholder' => trans('app.address')]) !!}
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-lg-12 col-md-12">
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="address_type_id">@lang('app.address_type_id')</label>
-                                {!! Form::select('address_type_id', $addressTypes , $edit ? $vacancy->address->address_type_id: '', ['class' => 'form-control', 'id' => 'address_type_id', 'placeholder' => trans('app.select')]) !!}
-                            </div>
-                        </div>
-                    </div>
-                </div>
             </div>
         </div>
-
         <div class="row">
             <div class="col-lg-12 col-md-12">
                 <div class="col-md-3">
@@ -275,7 +238,7 @@
                         <div class="col-md-12">
                             <div class="form-group">
                                 <label for="general_conditions">@lang('app.general_conditions')</label>
-                                {!! Form::textarea('general_condition', $edit ? $vacancy->condition->general_condition: '', ['id' => 'general_condition', 'class' => 'form-control','placeholder' => trans('app.general_conditions')]) !!}
+                                {!! Form::textarea('general_condition', $edit ? $vacancy->general_condition: '', ['id' => 'general_condition', 'class' => 'form-control','placeholder' => trans('app.general_conditions')]) !!}
                             </div>
                         </div>
                     </div>
@@ -285,13 +248,13 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="approximate_total_billing">@lang('app.approximate_total_billing')</label>
-                                {!! Form::text('approximate_total_billing', $edit ? $vacancy->condition->approximate_total_billing: '', ['id' => 'approximate_total_billing', 'class' => 'form-control','placeholder' => trans('app.approximate_total_billing')]) !!}
+                                {!! Form::text('approximate_total_billing', '', ['id' => 'approximate_total_billing', 'class' => 'form-control','placeholder' => trans('app.approximate_total_billing')]) !!}
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="comission">@lang('app.comission')</label>
-                                {!! Form::text('comission', $edit ? $vacancy->condition->comission: '', ['id' => 'comission', 'class' => 'form-control','placeholder' => trans('app.comission')]) !!}
+                                {!! Form::text('comission', '', ['id' => 'comission', 'class' => 'form-control','placeholder' => trans('app.comission')]) !!}
                             </div>
                         </div>
                     </div>
@@ -301,7 +264,7 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="warranty">@lang('app.days_warranty')</label>
-                                {!! Form::text('warranty', $edit ? $vacancy->condition->warranty: '', ['id' => 'warranty', 'class' => 'form-control','placeholder' => trans('app.warranty')]) !!}
+                                {!! Form::text('warranty', $edit ? $vacancy->warranty_employer: '', ['id' => 'warranty', 'class' => 'form-control','placeholder' => trans('app.warranty')]) !!}
                             </div>
                         </div>
                     </div>

@@ -225,6 +225,7 @@ return [
     'company_updated_successfully' => 'Compañía actualizada satisfactoriamente.',
     'independent'                  => 'Independiente',
     //Vacancies
+    'percentaje'                    => 'Porcentaje',
     'accept_invitation'             => 'Aceptar invitación',
     'vacancies'                    => 'Vacantes',
     'create'                       => 'Crear',
@@ -371,7 +372,7 @@ return [
     'comission'                 => 'Comisión', 
     'days_warranty'             => 'Días de garantía', 
     'warranty'                  => 'Garantía',
-    'name_position'               => 'Nombre de la posición',
+    'name_position'               => 'Título del Puesto',
     'positions_number'            => 'Número de posiciones',
     'location'                    => 'Ubicación', 
     'target_companies'            => 'Empresas Objetivo (Opcional)',
@@ -390,8 +391,8 @@ return [
     'group1'                       => '%', 
     'group2'                       => '$Fijo' ,
     'employer_fee'              => 'Honorario cobrado al empleador',
-    'additional_information'    =>'Información Adicional',         
-  
+    'additional_information'    =>'Información Adicional',
+    'write_the_key_questions'   => 'Escriba las preguntas claves que le plantearia a un posible candidato según el perfil que busca',
 
     //Vancancies Details
     'description_company'   => 'Descripción de la empresa contratante',

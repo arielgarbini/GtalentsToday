@@ -46,7 +46,6 @@
                                                 <option value="" disabled>@lang('app.choose_an_option')</option>
                                                 <option value="1" selected>@lang('app.published')</option>
                                                 <option value="2">@lang('app.paused')</option>
-                                                <option value="edit">@lang('app.edit')</option>
                                                 <option value="4">@lang('app.close')</option>
                                             </select>
                                             @endif
@@ -959,7 +958,7 @@
 
             $('.change-status').click(function(e){
                 console.log('click');
-                e.stopPropagation();
+                e.preventDefault();
             });
 
             $('#search-supplier').keyup(function(){

@@ -53,7 +53,7 @@
                     <!--NUMERO DE POSICIONES-->
                     <div class="itemForm">
                         <label for="positions_number">@lang('app.positions_number')</label>
-                       {!! Form::text('positions_number',null, ['id' => 'positions_number','class' => 'form-control','placeholder' => trans('app.positions_number')]) !!} 
+                       {!! Form::input('number','positions_number',null, ['min'=>1, 'id' => 'positions_number','class' => 'solo-numero form-control','placeholder' => trans('app.positions_number')]) !!}
                          @if($errors->has('positions_number'))
                           <p class="text-darger" style="color:red;"> {{ $errors->first('positions_number') }}</p>
                          @endif
@@ -67,24 +67,6 @@
                           <p class="text-darger" style="color:red;"> {{ $errors->first('location') }}</p>
                          @endif
                     </div>
-                </div>
-
-                <!--EMPLESAS OBJETIVOS-->
-                <div class="itemForm">
-                    <label for="target_companies">@lang('app.target_companies')</label>
-                    {!! Form::textarea('target_companies', null, ['id' => 'target_companies', 'class' => 'form-control','placeholder' => trans('app.companies_where_the_candidate_has_worked') ])!!}
-                    @if($errors->has('target_companies'))
-                          <p class="text-darger" style="color:red;"> {{ $errors->first('target_companies') }}</p>
-                    @endif
-                </div>
-
-                <!--EMPLESAS OFF-LIMITS-->
-                <div class="itemForm">
-                    <label for="off_limits_companies">@lang('app.off_limits_companies')</label>
-                   {!! Form::textarea('off_limits_companies', null, ['id' => 'off_limits_companies', 'class' => 'form-control','placeholder' => trans('app.off_limits_companies') ])!!}
-                  @if($errors->has('off_limits_companies'))
-                          <p class="text-darger" style="color:red;"> {{ $errors->first('off_limits_companies') }}</p>
-                    @endif  
                 </div>
 
                 <!--RESPONSABILIDADES-->
@@ -108,7 +90,7 @@
                 <!--PREGUNTAS CLAVES-->
                 <div class="itemForm icon-help">
                     <label for="key_position_questions">@lang('app.key_position_questions')</label>
-                    <a class="hint--right  hint--large hint--bounce" aria-label="Escriba las preguntas claves que le plantearia a un posible candidato según el perfil que busca">
+                    <a class="hint--right  hint--large hint--bounce" aria-label="{{trans('app.write_the_key_questions')}}">
                         <i class="icon-gTalents_help "></i>
                     </a>
                     {!! Form::text('key_position_questions', null, ['id' => 'key_position_questions', 'class' => 'form-control','placeholder' => '3 puntos o preguntas claves de la posición' ])!!}
@@ -116,7 +98,30 @@
                           <p class="text-darger" style="color:red;"> {{ $errors->first('key_position_questions') }}</p>
                     @endif 
                 </div>
-                 
+
+                <!--EMPLESAS OBJETIVOS-->
+                <div class="itemForm">
+                    <div class="row">
+                        <div class="col s6">
+                            <label for="target_companies">@lang('app.target_companies')</label>
+                            {!! Form::textarea('target_companies', null, ['id' => 'target_companies', 'class' => 'form-control','placeholder' => trans('app.companies_where_the_candidate_has_worked') ])!!}
+                            @if($errors->has('target_companies'))
+                                <p class="text-darger" style="color:red;"> {{ $errors->first('target_companies') }}</p>
+                            @endif
+                        </div>
+                        <div class="col s6">
+                            <label for="off_limits_companies">@lang('app.off_limits_companies')</label>
+                            {!! Form::textarea('off_limits_companies', null, ['id' => 'off_limits_companies', 'class' => 'form-control','placeholder' => trans('app.off_limits_companies') ])!!}
+                            @if($errors->has('off_limits_companies'))
+                                <p class="text-darger" style="color:red;"> {{ $errors->first('off_limits_companies') }}</p>
+                            @endif
+                        </div>
+                    </div>
+                </div>
+
+                <!--EMPLESAS OFF-LIMITS-->
+                <div class="itemForm">
+                </div>
 
                 <!--BOTONES UPLOAD-->
                 <div class="upload">

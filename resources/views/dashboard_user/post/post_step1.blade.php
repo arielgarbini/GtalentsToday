@@ -99,7 +99,7 @@
                     <!--RANGO SALARIAL-->
                     <div class="itemForm">
                         <label for="range_salary">@lang('app.range_salary')</label>
-                        {!!  Form::select('range_salary',array('USD 5k - 10k' => 'USD 5k - 10k', 'USD 5k - 15k' => 'USD 5k - 15k', 'USD 25k - 35k' => 'USD 25k - 35k'), null, ['id' => 'range_salary' , 'class' => 'browser-default'] )!!}
+                        {!!  Form::select('range_salary',$compensations, null, ['id' => 'range_salary' , 'class' => 'browser-default'] )!!}
                         @if($errors->has('range_salary'))
                             <p class="text-darger" style="color:red;"> {{ $errors->first('range_salary') }}</p>
                         @endif
@@ -114,7 +114,7 @@
                             <p>
                                <!-- <input name="group1" type="radio" id="test1" />-->
                                {!!  Form::radio('group1','%', null, ['id' => 'test1'])!!}
-                                <label for="test1">%</label>
+                                <label for="test1">@lang('app.percentaje')</label>
                             </p>
 
                             <!-- $ Fijo -->
@@ -125,7 +125,7 @@
                                
                             </p>                            
                         </div>
-                    {!! Form::text('fee', null,['id' => 'fee', 'class' => 'form-control','placeholder' => '22', 'maxlength' => 5]) !!}
+                        <div id="des" class="radio" style="width:9% !important; margin-top: 8px"></div>{!! Form::text('fee', null,['id' => 'fee', 'class' => 'solo-numero form-control','placeholder' => '22', 'maxlength' => 5]) !!}
                    @if($errors->has('group1'))
                           <p class="text-darger" style="color:red;"> {{ $errors->first('group1') }}</p>
                     @endif
@@ -161,7 +161,7 @@
                     <a class="hint--right  hint--large hint--bounce" aria-label="Condiciones que debe cumplir el candidato para su oportunidad laboral">
                         <i class="icon-gTalents_help "></i>
                     </a>
-                {!! Form::text('general_conditions',null, ['id' => 'general_conditions', 'class' => 'form-control','placeholder' => trans('app.general_conditions')]) !!}              
+                {!! Form::textarea('general_conditions',null, ['id' => 'general_conditions', 'class' => 'form-control','placeholder' => trans('app.general_conditions')]) !!}
                     @if($errors->has('general_conditions'))
                       <p class="text-darger" style="color:red;"> {{ $errors->first('general_conditions') }}</p>
                     @endif 
@@ -226,11 +226,13 @@
             $('#test1').click(function(){
                 $('#fee').val('');
                 $('#fee').attr('maxlength',2);
+                $('#des').html('%');
             });
 
             $('#test2').click(function(){
                 $('#fee').val('');
                 $('#fee').attr('maxlength',5);
+                $('#des').html('$');
             });
        });
 </script>

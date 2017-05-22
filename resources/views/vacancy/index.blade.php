@@ -25,10 +25,10 @@
 <div class="row tab-search">
     <div class="col-md-2">
         @permission('vacancies.create')
-            <!--<a href="{{ route('vacancies.create') }}" class="btn btn-success" id="add-vacancy">
+            <a href="{{ route('vacancies.create') }}" class="btn btn-success" id="add-vacancy">
                 <i class="glyphicon glyphicon-plus"></i>
                 @lang('app.add_vacancy')
-            </a>-->
+            </a>
         @endpermission
     </div>
     <div class="col-md-5"></div>
@@ -82,10 +82,10 @@
                             </a>
                             @endpermission
                             @permission('vacancies.edit')
-                           <!-- <a href="{{ route('vacancies.edit', $vacancy) }}" class="btn btn-primary btn-circle edit" title="@lang('app.edit_vacancy')"
+                            <a href="{{ route('vacancies.edit', $vacancy) }}" class="btn btn-primary btn-circle edit" title="@lang('app.edit_vacancy')"
                                     data-toggle="tooltip" data-placement="top">
                                 <i class="glyphicon glyphicon-edit"></i>
-                            </a>-->
+                            </a>
                             @endpermission
                             @permission('vacancies.delete')
                                 <a href="{{ route('vacancies.delete', $vacancy->id) }}" class="btn btn-danger btn-circle" title="@lang('app.delete_vacancy')"

@@ -987,7 +987,7 @@ Route::delete('vacancies/{vacancy}/delete', [
 
 Route::get('vacancies/{vacancy}/status', [
     'as' => 'vacancies.vacancy_status',
-    'uses' => 'VacancyController@update_status',
+    'uses' => 'VacancyController@status',
     'middleware' => 'permission:vacancies.edit'
 ]);
 
