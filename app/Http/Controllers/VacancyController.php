@@ -10,6 +10,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Input;
 use Vanguard\ActualPosition;
 use Vanguard\Candidate;
+use Vanguard\Language;
+use Vanguard\LanguageType;
+use Vanguard\LanguageVacancy;
 use Vanguard\State;
 use Vanguard\ContractType;
 use Vanguard\Conversation;
@@ -193,16 +196,19 @@ class VacancyController extends Controller
                             ContractTypeRepository $contractTypes,
                             VacancyStatusRepository $vacancyStatus, 
                             AddressTypeRepository $addressTypes, 
-                            LanguageRepository $languages) 
+                            LanguageRepository $languages, $id = null)
     {
-     
         if (session('lang') =='en'){
             $language = 2;
         }else{
            $language = 1; 
         }
         $states = State::where('country_id', Auth::user()->country_id)->lists('name', 'id');
-
+        if($id!=null){
+            $vacancy = $this->vacancies->find($id);
+        } else {
+            $vacancy = false;
+        }
        	$edit = false;
         $schemeWorks = $schemeWorks->lists($language);
         $contractTypes = $contractTypes->lists($language);
@@ -220,7 +226,7 @@ class VacancyController extends Controller
                 'languages'
             ));
         }
-        return view('dashboard_user.post.add_post', compact('states'));
+        return view('dashboard_user.post.add_post', compact('vacancy', 'states'));
 
     }
 
@@ -230,7 +236,7 @@ class VacancyController extends Controller
      * @param CreateVacancyRequest $request
      * @return mixed
      */
-    public function store (Request $request, FileManager $filemanager)
+    public function store (Request $request, FileManager $filemanager, $id = null)
     {
     // Validación de campos(Pantalla Create)
      $this->validate($request,
@@ -260,40 +266,35 @@ class VacancyController extends Controller
               'updated_at'                => \Carbon\Carbon::now(),
                 ];
 
-      $vacancy = $this->vacancies->create($data);   
-    
-      //Guarda los Archivos en carpeta de docs y en BD
-      $files= $request->file('files');
-      $uploadcount = 1;
-        foreach($files as $file) {
-          if ($file){
-            $destinationPath = public_path('upload/docs');
-            $filename = sprintf(
-                "%s.%s",
-                md5(str_random() . time()),
-                $file->getClientOriginalExtension()
-            );
-            $upload_success = $file->move($destinationPath, $filename);
-           if ($uploadcount == 1){
-                 $this->vacancies->update($vacancy->id, ['file_job_description' => $filename]);
-              }else if ($uploadcount == 2){
-                 $this->vacancies->update($vacancy->id, ['file_employer' => $filename]);
-              }
-        $uploadcount++;
+        if($id!=null){
+            $vacancy = $this->vacancies->find($id);
+            $this->vacancies->update($vacancy->id, $data);
+        } else {
+            $vacancy = $this->vacancies->create($data);
         }
-      } 
-      
-     
+        if($request->file('job')){
+               $name = $filemanager->uploadFile('vacancy', $vacancy->id, 'job');
+               $this->vacancies->update($vacancy->id, ['file_job_description' => $name]);
+        }
+
+        if($request->file('employer')){
+            $name = $filemanager->uploadFile('vacancy', $vacancy->id, 'employer');
+            $this->vacancies->update($vacancy->id, ['file_employer' => $name]);
+        }
+
         $request->session()->put('vacancy', $vacancy);
         $request->session()->put('id', $vacancy->id);
-    
-    return redirect()->action('VacancyController@getVacancyStepOne');
+        if($id!=null){
+            return redirect()->route('vacancies.step1', $id);
+        } else {
+            return redirect()->action('VacancyController@getVacancyStepOne');
+        }
     }
 
 
     public function getVacancyStepOne(Request $request, ContractTypeRepository $contractTypes, 
                             LanguageRepository $languages, ExperienceYearRepository $experience,
-                            FunctionalAreaRepository $functionalArea, IndustryRepository $industries){
+                            FunctionalAreaRepository $functionalArea, IndustryRepository $industries, $id = null){
 
         if (session('lang') =='en'){
             $language = 2;
@@ -302,24 +303,40 @@ class VacancyController extends Controller
            $language = 1;
            $searchType = ['1' => 'Contingencia', '2' => 'Retenido'];
         }
+        if($id!=null){
+            $vacancy = $this->vacancies->find($id);
+            $langs = LanguageVacancy::where('vacancy_id', $id)->get();
+            $langc = [];
+            foreach ($langs as $l){
+                $langc[] = $l['type_id'].'-'.$l->type($language);
+            }
+        } else {
+            $langs = false;
+            $langc = [];
+            $vacancy = false;
+        }
+        $lans = ['1' => \Lang::get('app.native'), '2' => \Lang::get('app.fluent'), '3' => \Lang::get('app.good'), '4' => \Lang::get('app.functional'), '5' => \Lang::get('app.basic')];
         $compensations = Compensation::orderBy('created_at', 'asc')->lists('salary', 'salary');
         $contractTypes = $contractTypes->lists($language);
         $experience = $experience->lists($language);
-        $languages = $languages->lists()->toArray();
+        $languages = [];
+        foreach(LanguageType::where('language_id', $language)->get() as $lan){
+            $languages[$lan['value_id'].'-'.$lan['name']] = $lan['name'];
+        }
         $functionalArea = $functionalArea->lists($language);
         $industries = $industries->lists($language);
         $replacement_period = ['' => 'None'];
         foreach(ReplacementPeriod::where('language_id',$language)->get() as $re){
             $replacement_period[$re['value_id']] = $re['name'];
         }
-        return view('dashboard_user.post.post_step1',compact('compensations', 'replacement_period', 'contractTypes', 'languages', 'searchType', 'experience', 'functionalArea', 'industries') , ['vacancies' => $request->session()->get('vacancies')]);
+        $vacancy_id = $request->session()->get('id');
+        return view('dashboard_user.post.post_step1',compact('vacancy_id', 'language', 'lans', 'langs', 'langc', 'vacancy', 'compensations', 'replacement_period', 'contractTypes', 'languages', 'searchType', 'experience', 'functionalArea', 'industries') , ['vacancies' => $request->session()->get('vacancies')]);
 
     }
 
 
-    public function postVacancyStepOne(Request $request)
+    public function postVacancyStepOne(Request $request, $id = null)
     {
-
        $this->validate($request,[
                 'contract_type_id'         => 'required|exists:contract_types,id',
                 'industry'                 => 'required',
@@ -327,7 +344,6 @@ class VacancyController extends Controller
                 'years_experience'         => 'required',
                 'especialization_id'       => 'required|numeric', 
                 'range_salary'             => 'required',
-                'warranty_employer'        => 'required',
                 'group1'                   => 'required',
                 'fee'                      => 'required',
                 'terms'                    => 'required',
@@ -340,25 +356,32 @@ class VacancyController extends Controller
                 'search_type'               => $request->search_type, 
                 'years_experience'          => $request->years_experience,
                 'especialization_id'        => $request->especialization_id,
-                'range_salary'             =>  $request->range_salary,
+                'range_salary'              =>  $request->range_salary,
                 'warranty_employer'         => $request->warranty_employer, 
                 'general_conditions'        => $request->general_conditions,
                 'replacement_period'        => $request->replacement_period_id,
                 'fee'                       => $request->fee,
+                'group1'                    => $request->group1,
                 'terms'                     => $request->terms,
                 'created_at'                => \Carbon\Carbon::now(),
                 'updated_at'                => \Carbon\Carbon::now(),
                 'vacancy_status_id'         => 1
             ];
-    if($request->group1=='%'){
-        $data['group1'] = 1;
-    } else {
-        $data['group2'] = 1;
-    }
+
    $vacancy_id = $request->session()->get('id');
    $id = $vacancy_id;
    $this->vacancies->update($vacancy_id,$data);
-    event(new RankingEvent(['user_id' => Auth::user()->id, 'points' => 25]));
+   LanguageVacancy::where('vacancy_id', $id)->delete();
+   if(isset($request->list_languages)){
+       foreach($request->list_languages as $lan){
+           if($lan!=''){
+               $explode = explode('-', $lan);
+               LanguageVacancy::create(['level' => $request->all()['level-'.$explode[0]],
+                   'type_id' => $explode[0], 'vacancy_id' =>$id]);
+           }
+       }
+   }
+   event(new RankingEvent(['user_id' => Auth::user()->id, 'points' => 25]));
         $company_id = CompanyUser::where(['user_id' => Auth::user()->id])->get()->first()->company_id;
         $supliers_recommended = User::where('id','!=',Auth::user()->id)->whereNotExists(function($query) use($id){
             $query->select('vacancy_users.*')->from('vacancy_users')
@@ -922,6 +945,12 @@ class VacancyController extends Controller
     }
 
     //** Status Post-Vancancy (Approved Administrador)
+    public function change_status(Request $request){
+        $vacancy = $this->vacancies->find($request->vacancy);
+        $vacancy->update(['vacancy_status_id' => $request->status]);
+        return response()->json(['message' => 'success', 'status' =>$vacancy->vacancy_status->getNameLang($request->status)->name ]);
+    }
+
     public function status($id){
       $vacancy = $this->vacancies->find($id);
         if ($vacancy->vacancy_status->language_id == 1){

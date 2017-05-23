@@ -52,7 +52,7 @@ class EloquentVacancy implements VacancyRepository
 
     public function search($user, $perPage, array $data)
     {
-        $vacancy = Vacancy::where('poster_user_id', '!=', $user)->whereNotExists(function ($query) use($user){
+        $vacancy = Vacancy::where('poster_user_id', '!=', $user)->where('vacancy_status_id', 1)->whereNotExists(function ($query) use($user){
                 $query->select('vacancy_users.*')->from('vacancy_users')
                     ->where('supplier_user_id',$user)->whereRaw('vg_vacancy_users.vacancy_id = vg_vacancies.id');
             });

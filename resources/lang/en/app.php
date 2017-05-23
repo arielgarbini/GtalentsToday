@@ -110,6 +110,8 @@ return [
     'category_updated_successfully'=> 'Category updated successfully.',
     'delete_category'              => 'Delete category',
     'are_you_sure_delete_category' => 'Are you sure delete category?',
+    'are_you_sure' => 'Are you sure?',
+    'are_you_sure_change_status'   => 'Are you sure of change the status of this vacancy?',
     'category_deleted'             => 'Category deleted.',
     'show'                         => 'View',
     'required_points'              => 'Required Points',
@@ -224,6 +226,14 @@ return [
     'independent'                  => 'Independiente',
 
     //Vacancies
+    'status_changed'                => 'Status updated successfully',
+    'contingency'                   => 'Contingency',
+    'retained'                      => 'Retained',
+    'native'                        => 'Native',
+    'fluent'                        => 'Fluent',
+    'good'                          => 'Good',
+    'functional'                    => 'Functional',
+    'basic'                         => 'Basic',
     'percentaje'                    => 'Percentaje',
     'accept_invitation'             => 'Accept invitation',
     'vacancies'                    => 'Vacancies',

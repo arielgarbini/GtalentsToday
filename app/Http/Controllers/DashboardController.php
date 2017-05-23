@@ -126,12 +126,11 @@ class DashboardController extends Controller
             $i++;
         }
         $candidates = $data1;
-        $latestVacancies = Vacancy::where('poster_user_id', '=', Auth::user()->id)->where('general_conditions', '!=', '')
-            ->orderBy('created_at', 'DESC')->paginate($paginate);
+        $latestVacancies = Vacancy::where('poster_user_id', '=', Auth::user()->id)->orderBy('created_at', 'DESC')->paginate($paginate);
         $vacancies_users = Vacancy::whereHas('asSupplier', function($query) use($user_id){
             $query->where('supplier_user_id', $user_id)->where('status',1);
-        })->paginate($paginate);
-        $lastestOpportunities = Vacancy::orderBy('created_at', 'desc')
+        })->where('vacancy_status_id', 1)->paginate($paginate);
+        $lastestOpportunities = Vacancy::where('vacancy_status_id', 1)->orderBy('created_at', 'desc')
             ->where('poster_user_id', '!=', Auth::user()->id)->whereNotExists(function ($query) use($user_id){
                 $query->select('vacancy_users.*')->from('vacancy_users')
                     ->where('supplier_user_id',$user_id)->whereRaw('vg_vacancy_users.vacancy_id = vg_vacancies.id');

@@ -111,7 +111,7 @@
                               <!--  <h5>{{ $vacancy->vacancy_status->getNameLang($vacancy->vacancy_status_id)->name }}</h5>-->
                               <h5>@lang('app.active')</h5>
                                 <h2>{{$vacancy->name}}</h2>
-                                <h3>{{$vacancy->locat->country->name.' | '.$vacancy->locat->name}} </h3>
+                                <h3>{{substr($vacancy->locat->country->name.' | '.$vacancy->locat->name, 0, 25)}} @if(strlen($vacancy->locat->country->name.' | '.$vacancy->locat->name)>25) ... @endif</h3>
                                 <p>@lang('app.published') |  {{ $vacancy->created_at->diffForHumans() }}</p>
                                 <!--SECCIONES TOOLTIPS-->
                                 <div class="item-activity-leyend">
@@ -140,7 +140,7 @@
 
                                     <!--CONTIGENCY O RETAINED-->
                                     <div class="item">
-                                         <a class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="Retained">
+                                         <a class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="@if($vacancy->search_type==1) {{trans('app.contingency')}} @else {{trans('app.retained')}} @endif">
                                             <span class="icon-gTalents_estado-post"></span>
                                          </a>
                                     </div>

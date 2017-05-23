@@ -937,72 +937,77 @@ Route::get('vacancies/getProvince', [
     'middleware' => 'permission:vacancies.create'
 ]);
 
-Route::get('vacancies/create', [
+Route::get('vacancies/create/{id?}', [
     'as' => 'vacancies.create',
     'uses' => 'VacancyController@create',
-    'middleware' => 'permission:vacancies.create'
+    'middleware' => ['auth', 'permission:vacancies.create']
 ]);
 
-Route::post('vacancies/store', [
+Route::post('vacancies/store/{id?}', [
     'as' => 'vacancies.store',
     'uses' => 'VacancyController@store',
-    'middleware' => 'permission:vacancies.create'
+    'middleware' => ['auth', 'permission:vacancies.create']
 ]);
 
-Route::get('vacancies/step/1', [
+Route::get('vacancies/step/1/{id?}', [
     'as' => 'vacancies.step1',
     'uses' => 'VacancyController@getVacancyStepOne',
-    'middleware' => 'permission:vacancies.create'
+    'middleware' => ['auth', 'permission:vacancies.create']
 ]);
 
-Route::post('vacancies/step/1', [
+Route::post('vacancies/step/1/{id?}', [
     'as' => 'vacancies.step1',
     'uses' => 'VacancyController@postVacancyStepOne',
-    'middleware' => 'permission:vacancies.create'
+    'middleware' => ['auth', 'permission:vacancies.create']
 ]);
 
 Route::get('vacancies/{vacancy}/show', [
     'as' => 'vacancies.show',
     'uses' => 'VacancyController@view',
-    'middleware' => 'permission:vacancies.view'
+    'middleware' => ['auth', 'permission:vacancies.view']
 ]);
 
 Route::get('vacancies/{vacancy}/edit', [
     'as' => 'vacancies.edit',
     'uses' => 'VacancyController@edit',
-    'middleware' => 'permission:vacancies.edit'
+    'middleware' => ['auth', 'permission:vacancies.edit']
 ]);
 
 Route::put('vacancies/{vacancy}/update', [
     'as' => 'vacancies.update',
     'uses' => 'VacancyController@update',
-    'middleware' => 'permission:vacancies.edit'
+    'middleware' => ['auth', 'permission:vacancies.edit']
 ]);
 
 Route::delete('vacancies/{vacancy}/delete', [
     'as' => 'vacancies.delete',
     'uses' => 'VacancyController@delete',
-    'middleware' => 'permission:vacancies.delete'
+    'middleware' => ['auth', 'permission:vacancies.delete']
 ]);
 
 Route::get('vacancies/{vacancy}/status', [
     'as' => 'vacancies.vacancy_status',
     'uses' => 'VacancyController@status',
-    'middleware' => 'permission:vacancies.edit'
+    'middleware' => ['auth', 'permission:vacancies.edit']
+]);
+
+Route::post('vacancies/change_status', [
+    'as' => 'vacancies.change_status',
+    'uses' => ['auth', 'VacancyController@change_status']
 ]);
 
 //Post-User (Oportunities Available)
 Route::get('vacancies/{vacancy}/show_post_user', [
     'as' => 'vacancies.post_user',
     'uses' => 'VacancyController@show_post_user',
-    'middleware' => 'permission:vacancies.view'
+    'middleware' => ['auth', 'permission:vacancies.view']
 ]);
 
 //Post-Supplier (Solicitud Supplier)
 Route::post('vacancies/{vacancy}/post_supplier', [
     'as' => 'vacancies.post_supplier',
     'uses' => 'VacancyController@post_supplier',
-    'middleware' => 'permission:vacancies.view'
+    'middleware' => ['auth', 'permission:vacancies.view']
 ]);
 
 Route::post('vacancies/{id}/approbate', [
@@ -1068,13 +1073,13 @@ Route::post('vacancies/{id}/read/candidate', [
 Route::get('vacancies/{id}/history/candidate', [
     'as' => 'vacancies.history.candidate',
     'uses' => 'VacancyController@getHistory',
-    'middleware' => 'permission:vacancies.view'
+    'middleware' => ['auth', 'permission:vacancies.view']
 ]);
 
 Route::get('vacancies/{id}/contract/candidate', [
     'as' => 'vacancies.contract.candidate',
     'uses' => 'VacancyController@getContractCandidate',
-    'middleware' => 'permission:vacancies.view'
+    'middleware' => ['auth', 'permission:vacancies.view']
 ]);
 
 Route::post('vacancies/{id}/contract/candidate/save', [

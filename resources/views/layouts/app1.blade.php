@@ -23,7 +23,7 @@
     {!! HTML::style('assets/css/intlTelInput.css') !!}
 
     <!-- NEW POST-->
-    {!! HTML::style('assets/css/demo.css') !!} 
+    {!! HTML::style('assets/css/demo.css') !!}
     {!! HTML::style('assets/css/component.css') !!}
 
      <!--ESTILOS TOOLTIP-->
@@ -34,7 +34,25 @@
     {!! HTML::style("assets/css/bootstrap-social.css") !!}
     <!-- ESTILOS SWEATALERT -->
     {!! HTML::style('assets/css/sweetalert.css') !!}
+    {!! HTML::style('assets/css/chosen.min.css') !!}
 
+    <style>
+        .chosen-container{
+            margin-top: .35em;
+        }
+
+        .chosen-choices{
+            box-shadow: none !important;
+            background-image: none !important;
+        }
+
+        .chosen-choices li span{
+            display: block !important;
+            color: #333 !important;
+        }
+
+
+    </style>
     @yield('styles')
 </head>
 <body class="body-registered">
@@ -91,6 +109,8 @@
     <!-- SCRIPT SWEATALERT -->
     {!! HTML::script('assets/js/sweetalert.min.js') !!}
     {!! HTML::script('assets/js/jquery.validate.min.js') !!}
+
+    {!! HTML::script('assets/js/chosen.jquery.min.js') !!}
 
     <script>
         $(document).ready(function(){

@@ -45,7 +45,7 @@ class FileManager
      * @param $id
      * @return string file name.
      */
-    public function uploadFile($type, $id)
+    public function uploadFile($type, $id, $tp = '')
     {
         if ($type == 'vacancy') {
             $model = $this->vacancy->find($id);
@@ -54,14 +54,14 @@ class FileManager
         }
 
         if ($model->file) {
-            $path = sprintf("%s/%s", $this->getDestinationDirectory(), $model->file);
+            $path = sprintf("%s/%s", $this->getDestinationDirectory($type, $tp), $model->file);
             $this->fs->delete($path);
         }
 
-        $name = $this->generateFileName();
-        $uploadedFile = $this->getUploadedFileFromRequest();
+        $name = $this->generateFileName($type, $tp);
+        $uploadedFile = $this->getUploadedFileFromRequest($type, $tp);
 
-        $targetFile = $uploadedFile->move($this->getDestinationDirectory(), $name);
+        $targetFile = $uploadedFile->move($this->getDestinationDirectory($type, $tp), $name);
 
         return $name;
     }
@@ -71,9 +71,17 @@ class FileManager
      *
      * @return array|null|\Symfony\Component\HttpFoundation\File\UploadedFile
      */
-    private function getUploadedFileFromRequest()
+    private function getUploadedFileFromRequest($type, $tp)
     {
-        return $this->request->file('file');
+        if ($type == 'vacancy') {
+            if($tp=='job'){
+                return $this->request->file('job');
+            } else if ($tp=='employer'){
+                return $this->request->file('employer');
+            }
+        } else if ($type == 'candidate') {
+            return $this->request->file('file');
+        }
     }
 
     /**
@@ -81,9 +89,17 @@ class FileManager
      *
      * @return string
      */
-    private function getDestinationDirectory()
+    private function getDestinationDirectory($type, $tp)
     {
-        return public_path('upload/docs');
+        if ($type == 'vacancy') {
+            if($tp=='job'){
+                return public_path('upload/job');
+            } else if ($tp=='employer'){
+                return public_path('upload/employer');
+            }
+        } else if ($type == 'candidate') {
+            return public_path('upload/docs');
+        }
     }
 
     /**
@@ -91,9 +107,9 @@ class FileManager
      *
      * @return string
      */
-    private function generateFileName()
+    private function generateFileName($type, $tp)
     {
-        $file = $this->getUploadedFileFromRequest();
+        $file = $this->getUploadedFileFromRequest($type, $tp);
 
         return sprintf(
             "%s.%s",

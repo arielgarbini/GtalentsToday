@@ -37,7 +37,7 @@
                                     <section class="opportunity-admin">
                                         <!--DATOS DEL POST-->
                                         <div class="item-activity">
-                                            @if(($vacancy->vacancy_status_id ==2 ) || ($vacancy->vacancy_status_id ==6 ))
+                                            @if(($vacancy->vacancy_status_id ==2 ) || ($vacancy->vacancy_status_id ==6 ) || ($vacancy->vacancy_status_id ==4 ) || ($vacancy->vacancy_status_id ==8 ))
                                             <p>{{trans('app.status')}}:  <span class="label label-{{ $vacancy->vacancy_status_id == 1 ? 'success':'warning' }}">
                                                 {{ $vacancy->vacancy_status->getNameLang($vacancy->vacancy_status_id)->name }}
                                             </span></p>
@@ -47,10 +47,11 @@
                                                 <option value="1" selected>@lang('app.published')</option>
                                                 <option value="2">@lang('app.paused')</option>
                                                 <option value="4">@lang('app.close')</option>
+                                                <option value="edit">@lang('app.edit')</option>
                                             </select>
                                             @endif
                                             <h2>{{$vacancy->name}}</h2>
-                                            <h3>{{$vacancy->locat->country->name.' | '.$vacancy->locat->name}}</h3>
+                                            <h3>{{substr($vacancy->locat->country->name.' | '.$vacancy->locat->name, 0, 25)}} @if(strlen($vacancy->locat->country->name.' | '.$vacancy->locat->name)>25) ... @endif</h3>
                                              <p>@lang('app.published') | {{ $vacancy->created_at->diffForHumans() }}</p>
                                         </div>
 
@@ -138,28 +139,40 @@
                                         <div class="item-activity">
                                             <h5>@lang('app.active')</h5>
                                             <h2>{{$vacancy_opportunity->name}}</h2>
-                                            <h3>{{$vacancy_opportunity->locat->country->name.' | '.$vacancy_opportunity->locat->name}}</h3>
+                                            <h3>{{substr($vacancy_opportunity->locat->country->name.' | '.$vacancy_opportunity->locat->name, 0, 25)}} @if(strlen($vacancy_opportunity->locat->country->name.' | '.$vacancy_opportunity->locat->name)>25) ... @endif</h3>
                                            <p>@lang('app.published') | {{ $vacancy_opportunity->created_at->diffForHumans() }}</p>
                                            
                                             <!--SECCIONES TOOLTIPS-->
                                             <div class="item-activity-leyend">
-                                                <!--FACTURACION APROXIMADA-->
-                                                <div class="item">
-                                                    
-                                                </div>
 
+
+                                                <!--FACTURACION APROXIMADA-->
+                                                <?php
+                                                try{
+                                                    preg_match_all('/\d{1,2}/' ,$vacancy_opportunity->range_salary, $matches);
+                                                    $factur = (intval($matches[0][0].'000')+intval($matches[0][1].'000'))/2;
+                                                    $factur = number_format($factur, 2, '.', ',');
+                                                } catch(\exception $e){
+                                                    $factur = '';
+                                                }
+                                                ?>
+                                                <div class="item">
+                                                    <a class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="{{trans('app.approximate_billing')}}: ${{$factur}}">
+                                                        <span class="icon-gTalents_facturacion"></span>
+                                                    </a>
+                                                </div>
                                                 <!--CANTIDAD DE SUPPLIERS-->
                                                 <div class="item">
-                                                     <a class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="{{count($vacancy_opportunity->activeSuppliers())}} Suppliers">
+                                                    <a class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="{{count($vacancy_opportunity->activeSuppliers())}} Suppliers">
                                                         <span class="icon-gTalents_comision"></span>
-                                                     </a>
+                                                    </a>
                                                 </div>
 
                                                 <!--CONTIGENCY O RETAINED-->
                                                 <div class="item">
-                                                     <a class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="Retained">
+                                                    <a class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="@if($vacancy_opportunity->search_type==1) {{trans('app.contingency')}} @else {{trans('app.retained')}} @endif">
                                                         <span class="icon-gTalents_estado-post"></span>
-                                                     </a>
+                                                    </a>
                                                 </div>
                                             </div>
 
@@ -247,7 +260,7 @@
                                     <div class="item-activity">
                                         <h5>@lang('app.active')</h5>
                                         <h2>{{$vacancy_opportunity->name}}</h2>
-                                        <h3>{{$vacancy_opportunity->locat->country->name.' | '.$vacancy_opportunity->locat->name}}</h3>
+                                        <h3>{{substr($vacancy_opportunity->locat->country->name.' | '.$vacancy_opportunity->locat->name, 0, 25)}} @if(strlen($vacancy_opportunity->locat->country->name.' | '.$vacancy_opportunity->locat->name)>25) ... @endif</h3>
                                         <p>@lang('app.published') | {{ $vacancy_opportunity->created_at->diffForHumans() }}</p>
 
                                         <!--SECCIONES TOOLTIPS-->
@@ -276,7 +289,7 @@
 
                                             <!--CONTIGENCY O RETAINED-->
                                             <div class="item">
-                                                <a class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="Retained">
+                                                <a class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="@if($vacancy_opportunity->search_type==1) {{trans('app.contingency')}} @else {{trans('app.retained')}} @endif">
                                                     <span class="icon-gTalents_estado-post"></span>
                                                 </a>
                                             </div>
@@ -953,11 +966,38 @@
     <script>
         $(document).ready(function(){
             $('.change-status').change(function(){
-                console.log($(this).attr('value'));
+                vacancy = $(this).attr('value');
+                status = $(this).val();
+                element = $(this);
+                pare = $(this).parent();
+                if($(this).val()==4 || $(this).val()==2){
+                    swal({
+                        title: "{{trans('app.are_you_sure')}}",
+                        text: "{{trans('app.are_you_sure_change_status')}}",
+                        type: "warning",
+                        showCancelButton: true,
+                        confirmButtonColor: "#DD6B55",
+                        confirmButtonText: "{{trans('app.continue')}}",
+                        closeOnConfirm: false
+                    },
+                    function(){
+                        $.ajax({
+                            url: "{{route('vacancies.change_status')}}",
+                            method: "POST",
+                            data: '_token={{csrf_token()}}&status='+status+'&vacancy='+vacancy,
+                            success: function(data){
+                                pare.append('<p>{{trans('app.status')}}:<span class="label label-warning">'+data.status+'</span></p>');
+                                element.remove();
+                                swal("{{trans('app.success')}}", "{{trans('app.status_changed')}}", "success");
+                            }
+                        });
+                    });
+                } else if($(this).val()=='edit'){
+                    location.replace('/vacancies/create/'+vacancy);
+                }
             });
 
             $('.change-status').click(function(e){
-                console.log('click');
                 e.preventDefault();
             });
 

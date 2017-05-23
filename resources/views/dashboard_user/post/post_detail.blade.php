@@ -95,7 +95,7 @@
                     @if($vacancy->group1)
                         % {{$vacancy->fee}}
                     @else
-                        $ {{$vacancy->fee}} {{trans('app.fixed')}})
+                        $ {{$vacancy->fee}} {{trans('app.fixed')}}
                     @endif
                 </p>
 
@@ -186,7 +186,13 @@
 
         <!--INTERESADO - OFERTAS SIMILARES-->
         <section class="user-main-contain">
-
+            @if($vacancy->vacancy_status_id==1 || $vacancy->vacancy_status_id==2 || $vacancy->vacancy_status_id==5 || $vacancy->vacancy_status_id==6)
+            <div class="btn-section">
+                <a href="{{route('vacancies.create', $vacancy->id)}}" class="btn-main modal-trigger waves-effect waves-light">
+                    @lang('app.edit')
+                </a>
+            </div>
+            @endif
             <!-- RESUMEN -->
             <div class="bills">
                 <!--TITULO DE LA SECCION-->
