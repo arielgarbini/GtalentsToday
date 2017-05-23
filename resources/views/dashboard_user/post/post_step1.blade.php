@@ -261,10 +261,11 @@
             @endif
             $('#list_languages').change(function(){
                val2 = $(this).val();
-               if(val2[0]==''){
-                   val2 == $(this).val().slice(1);
+               console.log($(this).val());
+               if(val2!=null && val2[0]==''){
+                   val2 = $(this).val().slice(1);
                }
-               if(val!=''){
+               if(val!='' && val!=null && val2!=null){
                    for(var i = 0; i<val.length;i++){
                        var existe = false;
                        for(var j = 0; j<val2.length;j++){
@@ -277,16 +278,21 @@
                        }
                    }
                }
-               var html = '';
-               for(var i=0; i<val2.length; i++){
-                   var data = val2[i].split('-');
-                   if(document.getElementById(val2[i])==undefined){
-                       html += '<div class="itemForm"><label for="'+val2[i]+'">'+data[1]+'</label> <select id="'+val2[i]+'" class="browser-default" name="level-'+data[0]+'"><option value="1">{{trans("app.native")}}</option>';
-                       html += '<option value="2">{{trans("app.fluent")}}</option><option value="3">{{trans("app.good")}}</option><option value="4">{{trans("app.functional")}}</option><option value="5">{{trans("app.basic")}}</option></select> </div>';
+               if(val2!=null){
+                   var html = '';
+                   for(var i=0; i<val2.length; i++){
+                       var data = val2[i].split('-');
+                       if(document.getElementById(val2[i])==undefined){
+                           html += '<div class="itemForm"><label for="'+val2[i]+'">'+data[1]+'</label> <select id="'+val2[i]+'" class="browser-default" name="level-'+data[0]+'"><option value="1">{{trans("app.native")}}</option>';
+                           html += '<option value="2">{{trans("app.fluent")}}</option><option value="3">{{trans("app.good")}}</option><option value="4">{{trans("app.functional")}}</option><option value="5">{{trans("app.basic")}}</option></select> </div>';
+                       }
                    }
+                   $('#languages').append(html);
                }
-               val = val2;
-               $('#languages').append(html);
+               if(val2==null){
+                   $('#languages').html('');
+               }
+                val = val2;
             });
             $("#crear-container").hide();
             $('#test1').click(function(){

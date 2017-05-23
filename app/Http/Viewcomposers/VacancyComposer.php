@@ -5,6 +5,7 @@ namespace Vanguard\Http\ViewComposers;
 use Illuminate\View\View;
 use Vanguard\ContractType;
 use Vanguard\ExperienceYear;
+use Vanguard\LanguageVacancy;
 use Vanguard\ReplacementPeriod;
 use Vanguard\FunctionalArea;
 use Vanguard\VacancyUser;
@@ -67,6 +68,10 @@ class VacancyComposer
 
         $viewed = $this->vacancy_viewed->search(['vacancy_id' => $vacancy->id])->count();
         $vacancy->location = $vacancy->locat->country->name.' / '.$vacancy->locat->name;
+        $languages = LanguageVacancy::where('vacancy_id', $vacancy->id)->get();
+
+        $view->with('languages', $languages);
+        $view->with('language', $language);
         $view->with('viewed', $viewed);
         $view->with('candidatesUnReadCount', $candidatesUnReadCount);
         $view->with('candidatesUnRead', $candidatesUnRead);

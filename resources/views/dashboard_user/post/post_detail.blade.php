@@ -78,11 +78,9 @@
                 <!--IDIOMAS-->
                 <h4>{{trans('app.languages')}}</h4>
                 <p>
-                    @if($vacancy->language_id == 1)
-                        {{trans('app.spanish')}}
-                    @else
-                       {{trans('app.english')}}
-                    @endif
+                    @foreach($languages as $lang)
+                        {{$lang->type($language)}} : {{$lang->level()}}
+                    @endforeach
                 </p>
 
                 <!--RANGO SALARIAL-->
@@ -92,8 +90,8 @@
                 <!--HONORARIO COBRADO AL EMPLEADOR-->
                 <h4>{{trans('app.employer_fee')}}</h4>
                 <p>
-                    @if($vacancy->group1)
-                        % {{$vacancy->fee}}
+                    @if($vacancy->group1==1)
+                        {{$vacancy->fee}}%
                     @else
                         $ {{$vacancy->fee}} {{trans('app.fixed')}}
                     @endif
@@ -104,6 +102,7 @@
                 <p>{{$replacementPeriod['name']}}</p>
 
                 <!--LINK DESCARGA-->
+                @if($vacancy->file_job_description!='')
                 <div class="link">
                     <a @if($vacancy->file_job_description!='') href="/{{$vacancy->file_job_description}}" download @else href="#" @endif>
                         <figure>
@@ -112,7 +111,7 @@
                         <p>@lang('app.job_Description')</p>
                     </a>
                 </div>
-
+                @endif
                 <!--RESUMEN-->
                 <ul class="jobs-detail-body-resum">
                     <!--FACTURACION APROXIMADA-->
