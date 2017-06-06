@@ -676,11 +676,23 @@ Route::get('vacancies', [
     'middleware' => 'permission:vacancies.view'
 ]);
 
-Route::get('vacancies/list', [
+Route::get('vacancies/list/{url?}', [
     'as' => 'vacancies.list',
     'uses' => 'VacancyController@listVacancies',
     'middleware' => 'permission:vacancies.view'
 ]);
+/*
+Route::get('vacancies/list/{url}', [
+    'as' => 'vacancies.list.poster',
+    'uses' => 'VacancyController@listVacancies',
+    'middleware' => 'permission:vacancies.view'
+]);
+
+Route::get('vacancies/list/{url}', [
+    'as' => 'vacancies.list.supplier',
+    'uses' => 'VacancyController@listVacancies',
+    'middleware' => 'permission:vacancies.view'
+]);*/
 /*
 Route::get('vacancies/create', [
     'as' => 'vacancies.create',
@@ -943,6 +955,12 @@ Route::get('vacancies/create/{id?}', [
     'middleware' => ['auth', 'permission:vacancies.create']
 ]);
 
+Route::get('vacancies/{id?}/edit/', [
+    'as' => 'vacancies.edit.front',
+    'uses' => 'VacancyController@create',
+    'middleware' => ['auth', 'permission:vacancies.create']
+]);
+
 Route::post('vacancies/store/{id?}', [
     'as' => 'vacancies.store',
     'uses' => 'VacancyController@store',
@@ -993,7 +1011,8 @@ Route::get('vacancies/{vacancy}/status', [
 
 Route::post('vacancies/change_status', [
     'as' => 'vacancies.change_status',
-    'uses' => ['auth', 'VacancyController@change_status']
+    'uses' => 'VacancyController@change_status',
+    'middleware' => ['auth']
 ]);
 
 //Post-User (Oportunities Available)

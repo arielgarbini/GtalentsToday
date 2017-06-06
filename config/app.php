@@ -170,6 +170,7 @@ return [
         Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class,
         DougSisk\CountryState\CountryStateServiceProvider::class,
         Laracasts\Utilities\JavaScript\JavaScriptServiceProvider::class,
+        //Happyr\LinkedIn\LinkedIn::class,
 
         /*
          * Application Service Providers...

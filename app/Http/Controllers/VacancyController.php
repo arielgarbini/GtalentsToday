@@ -295,7 +295,6 @@ class VacancyController extends Controller
     public function getVacancyStepOne(Request $request, ContractTypeRepository $contractTypes, 
                             LanguageRepository $languages, ExperienceYearRepository $experience,
                             FunctionalAreaRepository $functionalArea, IndustryRepository $industries, $id = null){
-
         if (session('lang') =='en'){
             $language = 2;
             $searchType = ['1'=>'Contingency', '2'=>'Retained'];
@@ -330,7 +329,12 @@ class VacancyController extends Controller
             $replacement_period[$re['value_id']] = $re['name'];
         }
         $vacancy_id = $request->session()->get('id');
-        return view('dashboard_user.post.post_step1',compact('vacancy_id', 'language', 'lans', 'langs', 'langc', 'vacancy', 'compensations', 'replacement_period', 'contractTypes', 'languages', 'searchType', 'experience', 'functionalArea', 'industries') , ['vacancies' => $request->session()->get('vacancies')]);
+        if(preg_match('/create/', $request->url())){
+            $url = route('vacancies.create', $vacancy_id);
+        } else {
+            $url = route('vacancies.edit.front', $vacancy_id);
+        }
+        return view('dashboard_user.post.post_step1',compact('url', 'vacancy_id', 'language', 'lans', 'langs', 'langc', 'vacancy', 'compensations', 'replacement_period', 'contractTypes', 'languages', 'searchType', 'experience', 'functionalArea', 'industries') , ['vacancies' => $request->session()->get('vacancies')]);
 
     }
 
@@ -985,7 +989,8 @@ class VacancyController extends Controller
     //** List Opportunites Available  
     public function listVacancies(Request $request, ContractTypeRepository $contractTypes,
                                   LanguageRepository $languages, ExperienceYearRepository $experience,
-                                  FunctionalAreaRepository $functionalArea, IndustryRepository $industries)
+                                  FunctionalAreaRepository $functionalArea, IndustryRepository $industries,
+                                  $url = null)
     {
         if (session('lang') =='en'){
             $language = 2;
@@ -999,12 +1004,18 @@ class VacancyController extends Controller
         $user_id = Auth::user()->id;
         $viewed = new VacancyViewedRepository(new VacancyViewed());
         $perPage = 20;
-        $data = $this->vacancies->search(Auth::user()->id, $perPage, $request->all());
+        $data = $this->vacancies->search(Auth::user()->id, $perPage, array_merge($request->all(), ['type' => ($url!= null) ? $url : 'find']));
         $vacanciesCount = $data['count'];
         $vacancies = $data['data'];
         $data = $request->all();
         //$vacancies = $this->vacancies->getOpportunities('poster_user_id',$this->theUser->id, $perPage);
-        return view('dashboard_user.post.index', compact('data', 'industries','vacanciesCount','vacancies', 'viewed'));
+        if($url==null || $url=='find'){
+            return view('dashboard_user.post.index', compact('data', 'industries','vacanciesCount','vacancies', 'viewed'));
+        } else if($url == 'poster'){
+            return view('dashboard_user.post.index_poster', compact('data', 'industries','vacanciesCount','vacancies', 'viewed'));
+        } else if($url == 'supplier'){
+            return view('dashboard_user.post.index_supplier', compact('data', 'industries','vacanciesCount','vacancies', 'viewed'));
+        }
     }
 
     //** Detail Opportunity Available

@@ -51,7 +51,7 @@ use Illuminate\Http\Request;
 use Vanguard\Http\Controllers\Controller;
 use Lang;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use Validator;
+use Valida;
 use Vanguard\TypeInvolvedOpportunity;
 use Vanguard\TypeInvolvedOpportunityProfile;
 use Vanguard\TypeInvolvedSearch;
@@ -320,6 +320,7 @@ class AuthController extends Controller
      * @param  Request  $request
      * @return array
      */
+    /*
     protected function getCredentials(Request $request)
     {
         // The form field for providing username or password
@@ -336,6 +337,14 @@ class AuthController extends Controller
         }
 
         return $request->only($this->loginUsername(), 'password');
+    }*/
+
+    protected function getCredentials(Request $request)
+    {
+        return [
+            'email' => $request->username,
+            'password' => $request->get('password')
+        ];
     }
 
     /**

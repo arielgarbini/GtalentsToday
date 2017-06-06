@@ -24,8 +24,16 @@
                             <span class="icon-gTalents_team-48"></span>
                         </figure>
                         <div class="datos">
-                            <h4>{{substr($te->user->first_name.' '.$te->user->last_name, 0, 20)}}</h4>
-                            <span>{{$te->user->email}}</span>
+                            @if((strlen($te->user->first_name) + strlen($te->user->last_name)) > 15)
+                                <h4>{{substr($te->user->first_name.' '.$te->user->last_name, 0, 15)}}...</h4>
+                            @else
+                                <h4>{{$te->user->first_name.' '.$te->user->last_name}}</h4>
+                            @endif
+                            @if(strlen($te->user->email) > 23)
+                                <span>{{substr($te->user->email, 0, 23)}}...</span>
+                            @else
+                                <span>{{$te->user->email}}</span>
+                            @endif
                             <p>
                                 @if($te->is_active)
                                     @lang('app.active')

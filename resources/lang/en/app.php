@@ -226,6 +226,7 @@ return [
     'independent'                  => 'Independiente',
 
     //Vacancies
+    'find_new_opportunities'        => 'Find new opportunities',
     'status_changed'                => 'Status updated successfully',
     'contingency'                   => 'Contingency',
     'retained'                      => 'Retained',

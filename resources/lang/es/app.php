@@ -227,6 +227,7 @@ return [
     'company_updated_successfully' => 'Compañía actualizada satisfactoriamente.',
     'independent'                  => 'Independiente',
     //Vacancies
+    'find_new_opportunities'        => 'Encuentra nuevas oportunidades',
     'status_changed'                => 'Estatus actualizado satisfactoriamente',
     'contingency'                   => 'Contingencia',
     'retained'                      => 'Retenido',

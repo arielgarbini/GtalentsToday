@@ -214,7 +214,7 @@
                     <!--NEXT-->
                     <div class="item">
                         <!-- <a href="#" class="btn-main" id="next-newPost2">Siguiente</a>-->
-                        <a class="btn-main next2" id="next-newPost2" href="{{route('vacancies.create', $vacancy_id)}}">@lang('app.back')</a>
+                        <a class="btn-main next2" id="next-newPost2" href="{{$url}}">@lang('app.back')</a>
                     </div>
                     <div class="item">
                        <!-- <a href="#" class="btn-main" id="next-newPost2">Siguiente</a>-->

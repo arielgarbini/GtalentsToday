@@ -114,6 +114,39 @@
 
     <script>
         $(document).ready(function(){
+            function menuVacancies() {
+                if($(window).width()<=835){
+                    $('#dropdown4').hide();
+                    if($('#list-vacancies').hasClass('dropdown-button')){
+                        $('#list-vacancies').removeClass('dropdown-button');
+                        $('#list-vacancies').removeAttr('data-activates');
+                    }
+                } else {
+                    if(!$('#list-vacancies').hasClass('dropdown-button')){
+                        $('#list-vacancies').addClass('dropdown-button');
+                        $('#list-vacancies').attr('data-activates', 'dropdown1');
+                    }
+                }
+            }
+            $('.hamburguer-1').click(function(){
+                console.log('mamalo al doble');
+                setTimeout(function(){
+                    $('#dropdown4').hide();
+                }, 100);
+            });
+
+            menuVacancies();
+            $(window).resize(function() {
+                menuVacancies();
+            });
+            display = false;
+            $('#list-vacancies').click(function(e){
+                if($(window).width()<=835){
+                    $('#dropdown4').hide();
+                    $('.list-vaca').slideToggle('slow');
+                }
+            });
+
             $(".btn-viewMore").click(function(){
 
                 $(this).parent().parent().find('.listado-post').toggleClass("ul-complete");

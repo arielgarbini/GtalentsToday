@@ -91,6 +91,9 @@ class TeamController extends Controller
             ]);
 
         $newCompany = CompanyUser::find($team);
+        if($user = User::where('email',$request->input('email'))->where('id','!=',$newCompany->user_id)->get()->first()){
+            return redirect()->back()->withErrors(trans('app.email_taken'));
+        }
         $newCompany->position = $request->level_of_access;
         $newCompany->save();
 

@@ -301,6 +301,9 @@
 			</div>
 		</div>
 
+		<!--<a class='dropdown-button btn' href='#' data-activates='dropdown1'>Drop Me!</a>-->
+
+		<!-- Dropdown Structure -->
 		<ul class="grid">
 			<!--INICIO-->
 			<li @if(Request::is('admin')) class="active" @endif>
@@ -309,9 +312,32 @@
 				</a>
 			</li>
 			<!--MIS OPORTUNIDADES-->
-			<li @if(Request::is('vacancies/list')) class="active" @endif>
-				<a href="{{ route('vacancies.list') }}">
+			<li @if(Request::is('vacancies/list') || Request::is('vacancies/list/find') || Request::is('vacancies/list/poster') || Request::is('vacancies/list/suplier')) class="active" @endif>
+				<a id="list-vacancies" class='dropdown-button' href='#' data-activates='dropdown4'>
 					<p>@lang('app.my_opportunities')</p>
+				</a>
+				<ul id='dropdown4' class='dropdown-content'>
+					<li><a href="{{route('vacancies.list','poster')}}">@lang('app.as_poster')</a></li>
+					<li><a href="{{route('vacancies.list','supplier')}}">@lang('app.as_supplier')</a></li>
+					<li><a href="{{route('vacancies.list','find')}}">@lang('app.find_new_opportunities')</a></li>
+				</ul>
+			</li>
+
+			<li style="display:none;" class="list-vaca">
+				<a href="{{route('vacancies.list','poster')}}">
+					<p>@lang('app.as_poster')</p>
+				</a>
+			</li>
+
+			<li style="display:none;" class="list-vaca">
+				<a href="{{route('vacancies.list','supplier')}}">
+					<p>@lang('app.as_supplier')</p>
+				</a>
+			</li>
+
+			<li style="display:none;" class="list-vaca">
+				<a href="{{route('vacancies.list','find')}}">
+					<p>@lang('app.find_new_opportunities')</p>
 				</a>
 			</li>
 			<!--MI EQUIPO-->

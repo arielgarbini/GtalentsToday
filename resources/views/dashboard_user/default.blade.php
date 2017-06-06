@@ -208,7 +208,7 @@
                     <!--MENSAJE PARA DIV VACIO -->
                     <section class="messageGO">
                         <h3>@lang('app.no_activities_recorded')
-                            <br><a href="new-post.php">@lang('app.participate_in_an_opportunity')</a>
+                            <br><a href="{{route('vacancies.list')}}">@lang('app.participate_in_an_opportunity')</a>
                         </h3>
                     </section>
                 @endif
@@ -993,7 +993,7 @@
                         });
                     });
                 } else if($(this).val()=='edit'){
-                    location.replace('/vacancies/create/'+vacancy);
+                    location.replace('/vacancies/'+vacancy+'/edit');
                 }
             });
 
