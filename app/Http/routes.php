@@ -392,6 +392,11 @@ Route::post('{id}/notifications/delete', [
     'uses' => 'NotificationsController@delete'
 ]);
 
+Route::post('notifications/read', [
+    'as' => 'read_notifications',
+    'uses' => 'NotificationsController@read'
+]);
+
 /**
  * Activity Log
  */
@@ -831,7 +836,7 @@ Route::get('/', function()
     if (Auth::check()){
         return redirect()->route('dashboard');
     }
-    $countries = \Vanguard\Country::orderBy('full_name','asc')->get();
+    $countries = \Vanguard\Country::orderBy('name','asc')->get();
  return View::make('frontend.homepage', ['countries' => $countries]);
 });
 
@@ -1216,4 +1221,9 @@ Route::get('alerts', function()
 Route::get('country/getProvince', [
     'as' => 'country.getProvince',
     'uses' => 'CountryController@getProvinceByCountry'
+]);
+
+Route::get('country/getCities', [
+    'as' => 'country.getCities',
+    'uses' => 'CountryController@getCitiesByCountry'
 ]);

@@ -846,6 +846,7 @@ return [
     'secundary_phone' => 'Secondary Telephone Number',
     'choose_country'  => 'Choose a country',
     'choose_province' => 'Choose a state',
+    'choose_city' => 'Choose a city',
     'state_province'  => 'State or Province',
     'complement'      => 'Complement',
     'company_information' => 'Professional Information',

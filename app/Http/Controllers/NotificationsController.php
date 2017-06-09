@@ -15,4 +15,10 @@ class NotificationsController extends Controller
         return redirect()->back();
     }
 
+    public function read()
+    {
+        Notification::where('user_id', \Auth::user()->id)->where('read',0)->update(['read' => 1]);
+        return response()->json(['success' => 'success']);
+    }
+
 }

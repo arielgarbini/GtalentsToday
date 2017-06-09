@@ -44,31 +44,45 @@
             <!-- CREAR - CONTENEDOR -->
             <section class="newPost-container" id="crear-container">
                 <!--NOMBRE DE LA POSICION-->
-                <div class="itemForm">
-                    <label for="name">@lang('app.name_position')</label>
-                {!! Form::text('name', ($vacancy!=false) ? $vacancy->name : old('name') , ['id' => 'name', 'class' => 'form-control', 'placeholder' => trans('app.name_position')]) !!}
-                         @if($errors->has('name'))
-                          <p class="text-darger" style="color:red;"> {{ $errors->first('name') }}</p>
-                          @endif
-                </div>
-
                 <div class="dual">
+                    <div class="itemForm">
+                        <label for="name">@lang('app.name_position')</label>
+                    {!! Form::text('name', ($vacancy!=false) ? $vacancy->name : old('name') , ['id' => 'name', 'class' => 'form-control', 'placeholder' => trans('app.name_position')]) !!}
+                             @if($errors->has('name'))
+                              <p class="text-darger" style="color:red;"> {{ $errors->first('name') }}</p>
+                              @endif
+                    </div>
                     <!--NUMERO DE POSICIONES-->
                     <div class="itemForm">
                         <label for="positions_number">@lang('app.positions_number')</label>
-                       {!! Form::input('number','positions_number',($vacancy!=false) ? $vacancy->positions_number : null, ['min'=>1, 'id' => 'positions_number','class' => 'solo-numero form-control','placeholder' => trans('app.positions_number')]) !!}
-                         @if($errors->has('positions_number'))
-                          <p class="text-darger" style="color:red;"> {{ $errors->first('positions_number') }}</p>
+                        {!! Form::input('number','positions_number',($vacancy!=false) ? $vacancy->positions_number : null, ['min'=>1, 'id' => 'positions_number','class' => 'solo-numero form-control','placeholder' => trans('app.positions_number')]) !!}
+                        @if($errors->has('positions_number'))
+                            <p class="text-darger" style="color:red;"> {{ $errors->first('positions_number') }}</p>
+                        @endif
+                    </div>
+                </div>
+
+                <div class="dual">
+                    <!--UBICACION-->
+                    <div class="itemForm itemFormTriple">
+                        <label for="location">@lang('app.choose_country')</label>
+                        {!! Form::select('country_id', $countries , ($vacancy!=false) ? $vacancy->country_id : null, ['message' => trans('app.state_required'), 'class' => 'browser-default', 'id' => 'country_id', 'placeholder' => trans('app.choose_country')]) !!}
+                          @if($errors->has('country_id'))
+                          <p class="text-darger" style="color:red;"> {{ $errors->first('country_id') }}</p>
                          @endif
                     </div>
 
-                    <!--UBICACION-->
-                    <div class="itemForm">
-                        <label for="location">@lang('app.location')</label>
-                        {!! Form::select('location', $states , ($vacancy!=false) ? $vacancy->location : null, ['message' => trans('app.state_required'), 'class' => 'browser-default', 'id' => 'location', 'placeholder' => trans('app.choose_province')]) !!}
-                          @if($errors->has('location'))
-                          <p class="text-darger" style="color:red;"> {{ $errors->first('location') }}</p>
-                         @endif
+                    <div class="itemForm itemFormTriple">
+                        <label for="location">@lang('app.choose_province')</label>
+                        {!! Form::select('state_id', [] , ($vacancy!=false) ? $vacancy->state_id : null, ['disabled' => true, 'message' => trans('app.state_required'), 'class' => 'browser-default', 'id' => 'state_id', 'placeholder' => trans('app.choose_province')]) !!}
+                        @if($errors->has('state_id'))
+                            <p class="text-darger" style="color:red;"> {{ $errors->first('state_id') }}</p>
+                        @endif
+                    </div>
+
+                    <div class="itemForm itemFormTriple">
+                        <label for="location">@lang('app.choose_city')</label>
+                        {!! Form::select('city_id', [] , ($vacancy!=false) ? $vacancy->city_id : null, ['disabled' => true, 'message' => trans('app.state_required'), 'class' => 'browser-default', 'id' => 'city_id', 'placeholder' => trans('app.choose_city')]) !!}
                     </div>
                 </div>
 
@@ -246,4 +260,82 @@
 
 @section('scripts')
   <!--  {!! JsValidator::formRequest('Vanguard\Http\Requests\Vacancy\CreateVacancyRequest', '#vacancy-form') !!}-->
+
+  <script>
+      $(document).ready(function(){
+          @if($vacancy!=false && $vacancy->country_id!='')
+            $.ajax({
+              method: "GET",
+              url: "{{route('country.getProvince')}}?country={{$vacancy->country_id}}",
+              success: function(response){
+                  var html = '<option value="">{{trans('app.choose_province')}}</option>';
+                  for(var i = 0; i<response.length; i++){
+                      html += '<option value="'+response[i].id+'">'+response[i].name+'</option>';
+                  }
+                  $('#state_id').html(html);
+                  $('#state_id').attr('disabled', false);
+                  @if($vacancy!=false && $vacancy->state_id!='')
+                    $('#state_id').val("{{$vacancy->state_id}}");
+                    $.ajax({
+                      method: "GET",
+                      url: "{{route('country.getCities')}}?state={{$vacancy->state_id}}",
+                      success: function(response){
+                          var html = '<option value="">{{trans('app.choose_city')}}</option>';
+                          for(var i = 0; i<response.length; i++){
+                              html += '<option value="'+response[i].id+'">'+response[i].name+'</option>';
+                          }
+                          $('#city_id').html(html);
+                          $('#city_id').attr('disabled', false);
+                          $('#city_id').val("{{$vacancy->city_id}}");
+                      }
+                    });
+                  @endif
+              }
+          });
+          @endif
+        $('#country_id').change(function(){
+           if($(this).val()!=''){
+               var country = $(this).val();
+               $.ajax({
+                    method: "GET",
+                    url: "{{route('country.getProvince')}}?country="+country,
+                    success: function(response){
+                        var html = '<option value="">{{trans('app.choose_province')}}</option>';
+                        for(var i = 0; i<response.length; i++){
+                            html += '<option value="'+response[i].id+'">'+response[i].name+'</option>';
+                        }
+                        $('#state_id').html(html);
+                        $('#state_id').attr('disabled', false);
+                    }
+               });
+           } else {
+               $('#state_id').val('');
+               $('#city_id').val('');
+               $('#state_id').attr('disabled', true);
+               $('#city_id').attr('disabled', true);
+           }
+        });
+
+          $('#state_id').change(function(){
+              if($(this).val()!=''){
+                  var state = $(this).val();
+                  $.ajax({
+                      method: "GET",
+                      url: "{{route('country.getCities')}}?state="+state,
+                      success: function(response){
+                          var html = '<option value="">{{trans('app.choose_city')}}</option>';
+                          for(var i = 0; i<response.length; i++){
+                              html += '<option value="'+response[i].id+'">'+response[i].name+'</option>';
+                          }
+                          $('#city_id').html(html);
+                          $('#city_id').attr('disabled', false);
+                      }
+                  });
+              } else {
+                  $('#city_id').val('');
+                  $('#city_id').attr('disabled', true);
+              }
+          });
+      });
+  </script>
 @stop

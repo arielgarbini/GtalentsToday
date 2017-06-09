@@ -39,24 +39,28 @@
 			</li>
 			<!--MENSAJES ALERT-->
 			<li>
-				<a href="{{route('message.indexFrontend')}}">
+				<a href="{{route('message.indexFrontend')}}" @if($read_messages) class="messages-icon" @endif>
 					<figure class="icon-message">
 						<span class="icon-gTalents_message"></span>
 					</figure>
-					<figure class="icon-alert">
-						<span class="icon-gTalents_point"></span>
-					</figure>
+					@if($read_messages)
+						<figure class="icon-alert" id="messages-icon-point">
+							<span class="icon-gTalents_point"></span>
+						</figure>
+					@endif
 				</a>
 			</li>
 			<!--ALERTAS-->
 			<li>
-				<a href="#!" id="btn-alertNav">
+				<a href="#!" id="btn-alertNav" @if($read_notification) class="notifications-icon" @endif>
 					<figure class="icon-message">
 						<span class="icon-gTalents_alert"></span>
 					</figure>
-					<figure class="icon-alert">
-						<span class="icon-gTalents_point"></span>
-					</figure>
+					@if($read_notification)
+						<figure class="icon-alert" id="notifications-icon-point">
+							<span class="icon-gTalents_point"></span>
+						</figure>
+					@endif
 				</a>
 			
 

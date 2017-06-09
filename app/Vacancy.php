@@ -59,12 +59,30 @@ class Vacancy extends Model
                             'group2',
                             'fee',
                             'terms',
-                            'company_id'
+                            'company_id',
+                            'country_id',
+                            'state_id',
+                            'city_id'
                         ];                   
 
     public function locat()
     {
         return $this->belongsTo(State::class, 'location');
+    }
+
+    public function country()
+    {
+        return $this->belongsTo(Country::class);
+    }
+
+    public function state()
+    {
+        return $this->belongsTo(State::class);
+    }
+
+    public function city()
+    {
+        return $this->belongsTo(City::class);
     }
 
     public function asSupplier()

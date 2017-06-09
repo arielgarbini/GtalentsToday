@@ -933,6 +933,7 @@ return [
     'secundary_phone' => 'Teléfono secundario',
     'choose_country'  => 'Elige tu país',
     'choose_province' => 'Elige tu provincia',
+    'choose_city'     => 'Elige tu ciudad',
     'state_province'  => 'Estado/Provincia',
     'complement'      => 'Complemento',
     'company_information' => 'Información Profesional',

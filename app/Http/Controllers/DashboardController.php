@@ -4,6 +4,7 @@ namespace Vanguard\Http\Controllers;
 
 use Vanguard\Candidate;
 use Vanguard\ActualPosition;
+use Vanguard\Notification;
 use Vanguard\Repositories\Activity\ActivityRepository;
 use Vanguard\Repositories\User\UserRepository;
 use Vanguard\Repositories\Vacancy\VacancyRepository;
@@ -102,6 +103,7 @@ class DashboardController extends Controller
     private function defaultDashboard()
     {
         $user_id = Auth::user()->id;
+        Notification::where('user_id', \Auth::user()->id)->where('read',0)->update(['read' => 1]);
         $activities = $this->activities->userActivityForPeriod(
             Auth::user()->id,
             Carbon::now()->subWeeks(2),

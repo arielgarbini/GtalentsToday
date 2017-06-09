@@ -5,6 +5,7 @@ namespace Vanguard\Http\Controllers;
 use Auth;
 use Cache;
 use Vanguard\Compensation;
+use Vanguard\Country;
 use Vanguard\Events\User\Registered;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Input;
@@ -203,7 +204,7 @@ class VacancyController extends Controller
         }else{
            $language = 1; 
         }
-        $states = State::where('country_id', Auth::user()->country_id)->lists('name', 'id');
+        $countries = Country::orderBy('name', 'asc')->lists('name', 'id');
         if($id!=null){
             $vacancy = $this->vacancies->find($id);
         } else {
@@ -226,7 +227,7 @@ class VacancyController extends Controller
                 'languages'
             ));
         }
-        return view('dashboard_user.post.add_post', compact('vacancy', 'states'));
+        return view('dashboard_user.post.add_post', compact('vacancy', 'countries'));
 
     }
 
@@ -242,7 +243,8 @@ class VacancyController extends Controller
      $this->validate($request,
             ['name'                     => 'required',
             'positions_number'          => 'required|numeric',
-             'location'                   => 'required',
+            'country_id'                => 'required',
+            'state_id'                  => 'required',
             'responsabilities'          => 'required', 
             'required_experience'       => 'required',
             'key_position_questions'    => 'required'
@@ -251,19 +253,22 @@ class VacancyController extends Controller
         $company_id = CompanyUser::where(['user_id' => Auth::user()->id])->get()->first()->company_id;
 
         $data = ['poster_user_id'    => $this->theUser->id,
-              'name'                      => $request->name,
-              'positions_number'          => $request->positions_number,
-              'vacancy_status_id'         => 2,
-              'target_companies'          => $request->target_companies,
-              'location'                  => $request->location,
-              'off_limits_companies'      => $request->off_limits_companies,
-              'responsabilities'          => $request->responsabilities, 
-              'required_experience'       => $request->required_experience,
-              'key_position_questions'    => $request->key_position_questions,
-              'contract_type_id'          => 1,
-              'company_id'                => $company_id,
-              'created_at'                => \Carbon\Carbon::now(),
-              'updated_at'                => \Carbon\Carbon::now(),
+              'name'                 => $request->name,
+              'positions_number'     => $request->positions_number,
+              'vacancy_status_id'    => 2,
+              'target_companies'     => $request->target_companies,
+              'location'             => $request->state_id,
+              'country_id'           => $request->country_id,
+              'state_id'             => $request->state_id,
+              'city_id'              => $request->city_id,
+              'off_limits_companies' => $request->off_limits_companies,
+              'responsabilities'     => $request->responsabilities,
+              'required_experience'  => $request->required_experience,
+              'key_position_questions' => $request->key_position_questions,
+              'contract_type_id'     => 1,
+              'company_id'           => $company_id,
+              'created_at'           => \Carbon\Carbon::now(),
+              'updated_at'           => \Carbon\Carbon::now(),
                 ];
 
         if($id!=null){

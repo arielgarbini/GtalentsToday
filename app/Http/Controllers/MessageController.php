@@ -36,8 +36,10 @@ class MessageController extends Controller
         $conversations = Vacancy::with('conversations')->whereHas('conversations', function ($query) use($user_id){
             $query->where('destinatary_user_id', $user_id)->orWhere('sender_user_id', $user_id);
         })->get();
-        $messagesAdminSender = Message::where('sender_user_id', $user_id)->groupBy('destinatary_user_id')->get();
-        $messagesAdminDestinatary = Message::where('destinatary_user_id', $user_id)->groupBy('sender_user_id')->get();
+        $messagesAdminSender = Message::where('sender_user_id', $user_id)
+            ->where('conversation_id', '=', null)->groupBy('destinatary_user_id')->get();
+        $messagesAdminDestinatary = Message::where('destinatary_user_id', $user_id)
+            ->where('conversation_id', '=', null)->groupBy('sender_user_id')->get();
         $messageAdminConversation = [];
         $ids = [];
         foreach($messagesAdminSender as $message){
@@ -92,11 +94,15 @@ class MessageController extends Controller
                 $query->where('sender_user_id', $user_id);
                 $query->where('destinatary_user_id', $id);
             })->orderBy('created_at', 'desc')->get() as $messages){
+                $messages->status_destinatary_user = 1;
+                $messages->save();
                 $data[] = ['sender_user_id' => $messages->sender_user_id, 'destinatary_user_id' => $messages->destinatary_user_id,
                     'created_at' => $messages->created_at->diffForHumans(), 'message' => $messages->message];
             }
         } else {
             foreach(Message::where('conversation_id', $id)->orderBy('created_at', 'desc')->get() as $messages){
+                $messages->status_destinatary_user = 1;
+                $messages->save();
                 $data[] = ['sender_user_id' => $messages->sender_user_id, 'destinatary_user_id' => $messages->destinatary_user_id,
                     'created_at' => $messages->created_at->diffForHumans(), 'message' => $messages->message];
             }

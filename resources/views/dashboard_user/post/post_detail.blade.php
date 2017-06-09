@@ -230,6 +230,7 @@
             </div>
 
             <!--INVITAR SUPPLIER EXTERNO-->
+            @if($vacancy->vacancy_status_id==1 || $vacancy->vacancy_status_id==5)
             <div class="btn-section">
                 <a href="#modalInvitar" class="btn-main modal-trigger waves-effect waves-light">
                     @lang('app.invite_external_supplier_to_platform')
@@ -524,6 +525,7 @@
                     </a>
                 </section>    -->
             </div>
+                @endif
         </section>
     </article>
 

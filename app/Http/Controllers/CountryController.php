@@ -7,6 +7,7 @@ use Cache;
 use Illuminate\Http\Request;
 use Vanguard\Repositories\Country\CountryRepository;
 use Vanguard\Http\Requests;
+use Vanguard\State;
 
 class CountryController extends Controller
 {
@@ -40,5 +41,12 @@ class CountryController extends Controller
         $country = $this->countries->find($request->get('country'));
         
         return response()->json($country->states->toArray());
+    }
+
+    public function getCitiesByCountry(Request $request)
+    {
+        $state = State::find($request->get('state'));
+
+        return response()->json($state->cities->toArray());
     }
 }

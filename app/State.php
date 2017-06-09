@@ -19,4 +19,9 @@ class State extends Model
         return $this->belongsTo('Vanguard\Country','country_id');
     }
 
+    public function cities()
+    {
+        return $this->hasMany('Vanguard\City','state_id');
+    }
+
 }

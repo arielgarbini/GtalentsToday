@@ -682,7 +682,7 @@ class AuthController extends Controller
     {
         if ($user = $this->users->findByConfirmationToken($token)) {
             $this->users->update($user->id, [
-                'status' => UserStatus::ACTIVE,
+                'status' => UserStatus::UNVERIFIED,
                 'confirmation_token' => null
             ]);
 

@@ -87,11 +87,11 @@
                         <p class="parrafo" style="font-size:16px;  line-height:20px; color:#22203B;">
                         <p>@lang('app.confirm_email_on_link_below')</p>
 
-                        <a href="{{ route('register.confirm-data', $token) }}">@lang('app.confirm_email')</a> <br/><br/>
+                        <a href="{{ route('register.confirm-email', $token) }}">@lang('app.confirm_email')</a> <br/><br/>
 
                         <p>@lang('app.if_you_cant_click')</p>
 
-                        <p>{{ route('register.confirm-data', $token) }}</p>
+                        <p>{{ route('register.confirm-email', $token) }}</p>
 
                         @lang('app.many_thanks'), <br/>
                         {{ settings('app_name') }}
@@ -103,7 +103,7 @@
                 <!--CALL TO ACTION-->
                 <tr>
                     <td align="center" style="border-bottom: 1px solid #F2F2F2; padding: 15px 0px 35px 0px;">
-                        <a href="{{ route('register.confirm-data', $token) }}" target="_blank" style="color:#ffffff;background:#73BF9B;padding:10px 12px;text-align:center;border-radius:5px;display:block;text-decoration:none;width:30%; font-size:14px;" class="cta">
+                        <a href="{{ route('register.confirm-email', $token) }}" target="_blank" style="color:#ffffff;background:#73BF9B;padding:10px 12px;text-align:center;border-radius:5px;display:block;text-decoration:none;width:30%; font-size:14px;" class="cta">
                             @lang('app.confirm_invitation')
                         </a>
                     </td>

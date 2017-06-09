@@ -114,6 +114,22 @@
 
     <script>
         $(document).ready(function(){
+            $('.notifications-icon').click(function(){
+                if($(this).hasClass('notifications-icon')){
+                    element = $(this);
+                    $.ajax({
+                        url: "{{route('read_notifications')}}",
+                        data: "_token={{csrf_token()}}",
+                        method: "POST",
+                        success: function(response){
+                            $(element).removeAttr('class');
+                            $('#notifications-icon-point').remove();
+                            console.log(response);
+                        }
+                    })
+                }
+            });
+
             function menuVacancies() {
                 if($(window).width()<=835){
                     $('#dropdown4').hide();
@@ -129,7 +145,6 @@
                 }
             }
             $('.hamburguer-1').click(function(){
-                console.log('mamalo al doble');
                 setTimeout(function(){
                     $('#dropdown4').hide();
                 }, 100);

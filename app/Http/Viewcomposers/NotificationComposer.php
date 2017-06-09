@@ -3,6 +3,7 @@
 namespace Vanguard\Http\ViewComposers;
 
 use Illuminate\View\View;
+use Vanguard\Message;
 use Vanguard\VacancyUser;
 
 class NotificationComposer
@@ -12,7 +13,16 @@ class NotificationComposer
         if(\Auth::user()) {
             $data = [];
             $i = 0;
+            $unread = false;
+            if(Message::where('destinatary_user_id', \Auth::user()->id)->where('status_destinatary_user', 0)->get()->first()){
+                $unreadmessages = true;
+            } else {
+                $unreadmessages = false;
+            }
             foreach(\Auth::user()->notifications as $notification){
+                if($notification->read==0){
+                    $unread = true;
+                }
                 $data[] = $notification;
                 $message = explode('__',$notification->message);
                 $title = explode('__',$notification->title);
@@ -32,6 +42,8 @@ class NotificationComposer
                 $i++;
             }
             $view->with('notifications',(object) $data);
+            $view->with('read_notification', $unread);
+            $view->with('read_messages', $unreadmessages);
         }
     }
 }
