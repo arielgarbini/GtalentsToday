@@ -364,6 +364,81 @@
                     $(this).removeClass('error-form');
                 }
             });
+
+            @if(isset($address) && $address!='' && $address->country_id!='')
+            $.ajax({
+                method: "GET",
+                url: "{{route('country.getProvince')}}?country={{$address->country_id}}",
+                success: function(response){
+                    var html = '<option value="">{{trans('app.choose_province')}}</option>';
+                    for(var i = 0; i<response.length; i++){
+                        html += '<option value="'+response[i].id+'">'+response[i].name+'</option>';
+                    }
+                    $('#state_id2').html(html);
+                    $('#state_id2').attr('disabled', false);
+                    @if($address!='' && $address->state_id!='')
+                      $('#state_id2').val("{{$address->state_id}}");
+                    $.ajax({
+                        method: "GET",
+                        url: "{{route('country.getCities')}}?state={{$address->state_id}}",
+                        success: function(response){
+                            var html = '<option value="">{{trans('app.choose_city')}}</option>';
+                            for(var i = 0; i<response.length; i++){
+                                html += '<option value="'+response[i].id+'">'+response[i].name+'</option>';
+                            }
+                            $('#city_id2').html(html);
+                            $('#city_id2').attr('disabled', false);
+                            $('#city_id2').val("{{$address->city_id}}");
+                        }
+                    });
+                    @endif
+                }
+            });
+            @endif
+
+          $('#country_id2').change(function(){
+                if($(this).val()!=''){
+                    var country = $(this).val();
+                    $.ajax({
+                        method: "GET",
+                        url: "{{route('country.getProvince')}}?country="+country,
+                        success: function(response){
+                            var html = '<option value="">{{trans('app.choose_province')}}</option>';
+                            for(var i = 0; i<response.length; i++){
+                                html += '<option value="'+response[i].id+'">'+response[i].name+'</option>';
+                            }
+                            $('#state_id2').html(html);
+                            $('#state_id2').attr('disabled', false);
+                        }
+                    });
+                } else {
+                    $('#state_id2').val('');
+                    $('#city_id2').val('');
+                    $('#state_id2').attr('disabled', true);
+                    $('#city_id2').attr('disabled', true);
+                }
+            });
+
+            $('#state_id2').change(function(){
+                if($(this).val()!=''){
+                    var state = $(this).val();
+                    $.ajax({
+                        method: "GET",
+                        url: "{{route('country.getCities')}}?state="+state,
+                        success: function(response){
+                            var html = '<option value="">{{trans('app.choose_city')}}</option>';
+                            for(var i = 0; i<response.length; i++){
+                                html += '<option value="'+response[i].id+'">'+response[i].name+'</option>';
+                            }
+                            $('#city_id2').html(html);
+                            $('#city_id2').attr('disabled', false);
+                        }
+                    });
+                } else {
+                    $('#city_id2').val('');
+                    $('#city_id2').attr('disabled', true);
+                }
+            });
         });
     </script>
 @stop

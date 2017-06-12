@@ -226,6 +226,19 @@ return [
     'independent'                  => 'Independiente',
 
     //Vacancies
+    'closed'                        => 'Closed',
+    'status_vacancy'                => 'The new status of the vacancy is',
+    'message_to_gtalents'           => 'Message to gtalents',
+    'message_for_poster'           => 'Poster message',
+    'go_to_gtalents'               => 'Go to gtalents',
+    'status_change_vacancy'        => 'Has changed the status of the vacancy',
+    'required_message_gtalents'    => 'The message to gtalents is required',
+    'required_message_supplier'    => 'The message to supplier is required',
+    'message_to_gtalents_platform'          => 'Message to gTalents Platform',
+    'message_to_supplier'                   => 'Message to Supplier',
+    'to_gtalents_platform'          => 'To gTalents Platform',
+    'to_supplier'                   => 'To Supplier',
+    'write_your_reasons'            => 'Write your reasons',
     'find_new_opportunities'        => 'Find new opportunities',
     'status_changed'                => 'Status updated successfully',
     'contingency'                   => 'Contingency',
@@ -1038,6 +1051,7 @@ return [
     'title_qualify_supplier_vacancy_contract' => '¡Contracted candidate!',
     'title_get_points'          => '¡You earned points!',
     'title_promotion_received'  => '¡Have you been promoted!',
+    'title_change_status'  => '¡Vacancy status changed!',
 
     'request_supplier_vacancy'  => 'Want participate on',
     'invited_supplier_vacancy' => 'You have been invited to',
@@ -1053,4 +1067,6 @@ return [
     'qualify_supplier_vacancy_contract' => 'A candidate has been hired in the post',
     'get_points'                    => 'You received',
     'promotion_received'  => 'Have you received a promotion to',
+    'change_status_paused'          => 'This vacancy has been paused',
+    'change_status_closed'          => 'This vacancy has been closed'
 ];

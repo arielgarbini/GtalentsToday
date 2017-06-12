@@ -79,6 +79,12 @@ class NotificationEventsSuscriber implements ShouldQueue
             case 'promotion_received':
                 $data =  ['title' => 'title_promotion_received', 'message' =>'promotion_received__'.$dataRequest['name']];
             break;
+            case 'vacancy_change_status_paused':
+                $data =  ['title' => 'title_change_status', 'message' =>'change_status_paused__'.$dataRequest['name']];
+            break;
+            case 'vacancy_change_status_closed':
+                $data =  ['title' => 'title_change_status', 'message' =>'change_status_closed__'.$dataRequest['name']];
+            break;
         }
 
         return $data;

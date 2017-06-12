@@ -206,7 +206,7 @@ class UsersController extends Controller
         $experienceYears = $experienceYears->lists($language);
         $educationLevels = $educationLevels->lists($language);
         $securityQuestions = $securityQuestions->lists($language);
-        $currencies = $this->countries->lists('currency_code', 'id')->toArray();
+        //$currencies = $this->countries->lists('currency_code', 'id')->toArray();
         $sourcingNetworks = $sourcingNetworks->lists($language);
         $contacts = $contacts->lists($language);
         $functionalArea = $functionalArea->lists($language);
@@ -255,7 +255,6 @@ class UsersController extends Controller
             'experienceYears',
             'educationLevels',
             'securityQuestions',
-            'currencies',
             'sourcingNetworks',
             'contacts',
             'functionalArea',
@@ -309,10 +308,11 @@ class UsersController extends Controller
                 $dataUser['address_id'] = $address1->id;
             }
 
-            if((isset($request->state2) && $request->state2!='') && (isset($request->country_id2) && $request->country_id2!='')){
+            if((isset($request->state_id2) && $request->state_id2!='') && (isset($request->country_id2) && $request->country_id2!='')){
                 $dataAddress2 = [
-                    'city'       => $request->state2,
-                    'address'    => $request->country_id2,
+                    'state_id'       => $request->state_id2,
+                    'country_id'    => $request->country_id2,
+                    'city_id'    => $request->city_id2,
                     'is_active'  => 1];
 
                 $address2 = $this->address->create($dataAddress2);
@@ -536,7 +536,7 @@ class UsersController extends Controller
         $experienceYears = $experienceYears->lists($language);
         $educationLevels = $educationLevels->lists($language);
         $securityQuestions = $securityQuestions->lists($language);
-        $currencies = $this->countries->lists('currency_code', 'id')->toArray();
+        //$currencies = $this->countries->lists('currency_code', 'id')->toArray();
         $sourcingNetworks = $sourcingNetworks->lists($language);
         $contacts = $contacts->lists($language);
         $functionalArea = $functionalArea->lists($language);
@@ -659,7 +659,6 @@ class UsersController extends Controller
                 'experienceYears',
                 'educationLevels',
                 'securityQuestions',
-                'currencies',
                 'sourcingNetworks',
                 'contacts',
                 'functionalArea',
@@ -1156,7 +1155,7 @@ class UsersController extends Controller
         $experienceYears = $experienceYears->lists($language);
         $educationLevels = $educationLevels->lists($language);
         $securityQuestions = $securityQuestions->lists($language);
-        $currencies = $this->countries->lists('currency_code', 'id')->toArray();
+        //$currencies = $this->countries->lists('currency_code', 'id')->toArray();
         $sourcingNetworks = $sourcingNetworks->lists($language);
         $contacts = $contacts->lists($language);
         $functionalArea = $functionalArea->lists($language);
@@ -1216,6 +1215,7 @@ class UsersController extends Controller
                 $type1_name[] = $na->name($language)->name;
             }
             $funca = TypeSharedOpportunityProfile::where('profile_id', $profile->id)->get();
+
             foreach($funca as $na){
                 $type2_id[] = $na->type_of_shared_opportunities_id;
                 $type2_name[] = $na->name($language)->name;
@@ -1274,7 +1274,6 @@ class UsersController extends Controller
                 'experienceYears',
                 'educationLevels',
                 'securityQuestions',
-                'currencies',
                 'sourcingNetworks',
                 'contacts',
                 'functionalArea',
@@ -1402,10 +1401,11 @@ class UsersController extends Controller
 
         $this->users->update($user->id, $dataUser);
 
-        if((isset($request->state2) && $request->state2!='') && (isset($request->country_id2) && $request->country_id2!='')){
+        if((isset($request->state_id2) && $request->state_id2!='') && (isset($request->country_id2) && $request->country_id2!='')){
             $dataAddress2 = [
-                'city'       => $request->state2,
-                'address'    => $request->country_id2,
+                'state_id'       => $request->state_id2,
+                'country_id'    => $request->country_id2,
+                'city_id'    => $request->city_id2,
                 'is_active'  => 1];
 
             $address2 = $this->address->create($dataAddress2);

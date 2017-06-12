@@ -14,6 +14,7 @@ use Vanguard\Candidate;
 use Vanguard\Language;
 use Vanguard\LanguageType;
 use Vanguard\LanguageVacancy;
+use Vanguard\Mailers\VacancyMailer;
 use Vanguard\State;
 use Vanguard\ContractType;
 use Vanguard\Conversation;
@@ -954,10 +955,26 @@ class VacancyController extends Controller
     }
 
     //** Status Post-Vancancy (Approved Administrador)
-    public function change_status(Request $request){
+    public function change_status(Request $request, VacancyMailer $mailer){
         $vacancy = $this->vacancies->find($request->vacancy);
         $vacancy->update(['vacancy_status_id' => $request->status]);
-        return response()->json(['message' => 'success', 'status' =>$vacancy->vacancy_status->getNameLang($request->status)->name ]);
+        $vacancy_users = VacancyUser::with('supplier')
+            ->where('vacancy_id', $vacancy->id)->where('status', 1)->get();
+        if($request->status==2){
+            $type = 'vacancy_change_status_paused';
+            $status = \Lang::get('app.paused');
+        } else if($request->status == 4){
+            $status = \Lang::get('app.closed');
+            $type = 'vacancy_change_status_closed';
+        }
+        foreach($vacancy_users as $v){
+            event(new NotificationEvent(['element_id' => $vacancy->id,
+                'user_id'=>$v->supplier->id, 'type' => $type, 'name'=>$vacancy->name]));
+            $mailer->sendEmailSupplier($v->supplier, $vacancy, array_merge($request->all(), ['status' => $status]));
+        }
+        $mailer->sendEmailGtalents($vacancy, array_merge($request->all(), ['status' => $status]));
+        return redirect()->back()
+            ->withSuccess(trans('app.status_changed'));
     }
 
     public function status($id){
@@ -1013,13 +1030,14 @@ class VacancyController extends Controller
         $vacanciesCount = $data['count'];
         $vacancies = $data['data'];
         $data = $request->all();
+        $countries = $this->countries->lists()->toArray();
         //$vacancies = $this->vacancies->getOpportunities('poster_user_id',$this->theUser->id, $perPage);
         if($url==null || $url=='find'){
-            return view('dashboard_user.post.index', compact('data', 'industries','vacanciesCount','vacancies', 'viewed'));
+            return view('dashboard_user.post.index', compact('countries', 'data', 'industries','vacanciesCount','vacancies', 'viewed'));
         } else if($url == 'poster'){
-            return view('dashboard_user.post.index_poster', compact('data', 'industries','vacanciesCount','vacancies', 'viewed'));
+            return view('dashboard_user.post.index_poster', compact('countries', 'data', 'industries','vacanciesCount','vacancies', 'viewed'));
         } else if($url == 'supplier'){
-            return view('dashboard_user.post.index_supplier', compact('data', 'industries','vacanciesCount','vacancies', 'viewed'));
+            return view('dashboard_user.post.index_supplier', compact('countries', 'data', 'industries','vacanciesCount','vacancies', 'viewed'));
         }
     }
 

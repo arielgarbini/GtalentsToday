@@ -29,9 +29,20 @@
 -->
                 <!--UBICACION-->
                 <div class="itemForm">
-                    <label>@lang('app.location')</label>
-                    <input name="location" type="text" id="location" @if(isset($data['location'])) value="{{$data['location']}}" @endif>
+                    <label>@lang('app.choose_country')</label>
+                    {!! Form::select('country_id', $countries , (isset($data['country_id'])) ? $data['country_id'] : null, ['class' => 'browser-default', 'id' => 'country_id', 'placeholder' => trans('app.choose_country')]) !!}
                 </div>
+
+                <div class="itemForm">
+                    <label>@lang('app.choose_province')</label>
+                    {!! Form::select('state_id', [] , null, ['disabled'=> true, 'class' => 'browser-default', 'id' => 'state_id', 'placeholder' => trans('app.choose_province')]) !!}
+                </div>
+
+                <div class="itemForm">
+                    <label>@lang('app.choose_city')</label>
+                    {!! Form::select('city_id', [] , null, ['disabled'=> true, 'class' => 'browser-default', 'id' => 'city_id', 'placeholder' => trans('app.choose_city')]) !!}
+                </div>
+
 
                 <!--INDUSTRIA-->
                 <div class="itemForm">
@@ -189,6 +200,69 @@
         </section>
     </article>
 
+    <div id="modalChangeStatus" class="modal modal-userRegistered">
+
+        <div class="modal-header">
+            <!--CERRAR MODAL-->
+            <div class="close">
+                <a href="#!" class="modal-action modal-close">
+                    <span class="icon-gTalents_close-2"></span>
+                </a>
+            </div>
+
+            <h4>@lang('app.write_your_reasons')</h4>
+        </div>
+
+        <div class="modal-content">
+            <form action="{{route('vacancies.change_status')}}" role='form' method="POST" id="formCreate" class="formLogin">
+                <!--NOMBRE-->
+                {{csrf_field()}}
+                <input type="hidden" id="status_change" name="status">
+                <input type="hidden" id="vacancy_change" name="vacancy">
+                <div class="itemForm icon-help">
+                    <label>@lang('app.to_supplier')</label>
+                    <textarea name="message_supplier" id="message_supplier" cols="30" rows="10" placeholder="{{trans('app.message_to_supplier')}}"></textarea>
+                </div>
+
+                <!--MENSJE-->
+                <div class="itemForm icon-help">
+                    <label>@lang('app.to_gtalents_platform')</label>
+                    <textarea name="message_gtalents" id="message_gtalents" cols="30" rows="10" placeholder="{{trans('app.message_to_gtalents_platform')}}"></textarea>
+                </div>
+
+                <section class="buttonsMain">
+                    <!--REGRESAR-->
+                    <div class="item">
+                        <a href="#!" class="modal-action modal-close waves-effect waves-green btn-return">
+                            @lang('app.back')
+                        </a>
+                    </div>
+
+                    <!--INVITAR-->
+                    <div class="item">
+                        <button class="btn-main" type="submit" id="btn-modalMain">
+                            @lang('app.continue')
+                        </button>
+                    </div>
+                </section>
+            </form>
+
+            <!--MENSAJE DE COLABORADOR CARGADO-->
+            <div class="messageModal">
+                <figure>
+                    <span class="icon-gTalents_win-53"></span>
+                </figure>
+                <p>@lang('app.message_created')</p>
+                <!--BTN-MAIN-->
+                <div class="item">
+                    <a href="#!" class="btn-main">
+                        @lang('app.continue')
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
 @stop
 
 @section('scripts')
@@ -204,27 +278,9 @@
                 element = $(this);
                 pare = $(this).parent();
                 if($(this).val()==4 || $(this).val()==2){
-                    swal({
-                            title: "{{trans('app.are_you_sure')}}",
-                            text: "{{trans('app.are_you_sure_change_status')}}",
-                            type: "warning",
-                            showCancelButton: true,
-                            confirmButtonColor: "#DD6B55",
-                            confirmButtonText: "{{trans('app.continue')}}",
-                            closeOnConfirm: false
-                        },
-                        function(){
-                            $.ajax({
-                                url: "{{route('vacancies.change_status')}}",
-                                method: "POST",
-                                data: '_token={{csrf_token()}}&status='+status+'&vacancy='+vacancy,
-                                success: function(data){
-                                    pare.append('<p>{{trans('app.status')}}:<span class="label label-warning">'+data.status+'</span></p>');
-                                    element.remove();
-                                    swal("{{trans('app.success')}}", "{{trans('app.status_changed')}}", "success");
-                                }
-                            });
-                        });
+                    $('#modalChangeStatus').modal('open');
+                    $('#status_change').val(status);
+                    $('#vacancy_change').val(vacancy);
                 } else if($(this).val()=='edit'){
                     location.replace('/vacancies/'+vacancy+'/edit');
                 }
@@ -232,6 +288,82 @@
 
             $('.change-status').click(function(e){
                 e.preventDefault();
+            });
+
+            @if(isset($data['country_id']) && $data['country_id']!='')
+ $.ajax({
+                method: "GET",
+                url: "{{route('country.getProvince')}}?country={{$data['country_id']}}",
+                success: function(response){
+                    var html = '<option value="">{{trans('app.choose_province')}}</option>';
+                    for(var i = 0; i<response.length; i++){
+                        html += '<option value="'+response[i].id+'">'+response[i].name+'</option>';
+                    }
+                    $('#state_id').html(html);
+                    $('#state_id').attr('disabled', false);
+                    @if(isset($data['state_id']) && $data['state_id']!='')
+                      $('#state_id').val("{{$data['state_id']}}");
+                    $.ajax({
+                        method: "GET",
+                        url: "{{route('country.getCities')}}?state={{$data['state_id']}}",
+                        success: function(response){
+                            var html = '<option value="">{{trans('app.choose_city')}}</option>';
+                            for(var i = 0; i<response.length; i++){
+                                html += '<option value="'+response[i].id+'">'+response[i].name+'</option>';
+                            }
+                            $('#city_id').html(html);
+                            $('#city_id').attr('disabled', false);
+                            @if(isset($data['city_id']) && $data['city_id']!='')
+                                $('#city_id').val("{{$data['city_id']}}");
+                            @endif
+                        }
+                    });
+                    @endif
+                }
+            });
+            @endif
+          $('#country_id').change(function(){
+                if($(this).val()!=''){
+                    var country = $(this).val();
+                    $.ajax({
+                        method: "GET",
+                        url: "{{route('country.getProvince')}}?country="+country,
+                        success: function(response){
+                            var html = '<option value="">{{trans('app.choose_province')}}</option>';
+                            for(var i = 0; i<response.length; i++){
+                                html += '<option value="'+response[i].id+'">'+response[i].name+'</option>';
+                            }
+                            $('#state_id').html(html);
+                            $('#state_id').attr('disabled', false);
+                        }
+                    });
+                } else {
+                    $('#state_id').val('');
+                    $('#city_id').val('');
+                    $('#state_id').attr('disabled', true);
+                    $('#city_id').attr('disabled', true);
+                }
+            });
+
+            $('#state_id').change(function(){
+                if($(this).val()!=''){
+                    var state = $(this).val();
+                    $.ajax({
+                        method: "GET",
+                        url: "{{route('country.getCities')}}?state="+state,
+                        success: function(response){
+                            var html = '<option value="">{{trans('app.choose_city')}}</option>';
+                            for(var i = 0; i<response.length; i++){
+                                html += '<option value="'+response[i].id+'">'+response[i].name+'</option>';
+                            }
+                            $('#city_id').html(html);
+                            $('#city_id').attr('disabled', false);
+                        }
+                    });
+                } else {
+                    $('#city_id').val('');
+                    $('#city_id').attr('disabled', true);
+                }
             });
         });
     </script>

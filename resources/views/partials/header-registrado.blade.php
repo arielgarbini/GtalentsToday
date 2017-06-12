@@ -248,7 +248,7 @@
 										<span class="icon-gTalents_close close-alert send_form"></span>
 									</form>
 								</li>
-							@elseif($notification->type=='get_points' || $notification->type=='promotion_received')
+							@elseif($notification->type=='get_points' || $notification->type=='promotion_received' || $notification->type=='vacancy_change_status_paused' || $notification->type=='vacancy_change_status_closed')
 								<li class="alert-participar">
 									<div class="motivo">
 										<a href="{{route('dashboard')}}">

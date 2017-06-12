@@ -9,7 +9,11 @@
                 window.opener.successError({'message': "{{$dataFinal['message']}}"});
             @endif
         @else
-                window.opener.successConfirm({'url': "{{$dataFinal['url']}}", 'message': "{{$dataFinal['message']}}"});
+            @if($dataFinal['register'] == true)
+                window.opener.successError({'register': "{{$dataFinal['register']}}", 'message': "{{$dataFinal['message']}}", 'url': "{{$dataFinal['url']}}"});
+            @else
+                window.opener.successError({'message': "{{$dataFinal['message']}}", 'url': "{{$dataFinal['url']}}"});
+            @endif
         @endif
         window.close();
     </script>

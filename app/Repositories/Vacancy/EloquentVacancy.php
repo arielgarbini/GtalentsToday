@@ -76,8 +76,16 @@ class EloquentVacancy implements VacancyRepository
             });
         }
 
-        if(isset($data['location']) && $data['location']!=''){
-            $vacancy->where('location', 'like', '%'.$data['location'].'%');
+        if(isset($data['country_id']) && $data['country_id']!=''){
+            $vacancy->where('country_id', $data['country_id']);
+        }
+
+        if(isset($data['state_id']) && $data['state_id']!=''){
+            $vacancy->where('state_id', $data['state_id']);
+        }
+
+        if(isset($data['city_id']) && $data['city_id']!=''){
+            $vacancy->where('city_id', $data['city_id']);
         }
 
         if(isset($data['industry']) && $data['industry']!=''){
@@ -93,6 +101,7 @@ class EloquentVacancy implements VacancyRepository
         } else {
             $vacancy->orderBy('created_at', 'desc');
         }
+
         return ['count'=> $vacancy->count(), 'data' => $vacancy->paginate($perPage)];
     }
 

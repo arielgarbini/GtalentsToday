@@ -19,16 +19,22 @@
                 </div>
             </div>
             <div class="col-lg-12 col-md-12">
-                <div class="col-md-6">
+                <div class="col-md-4">
                     <div class="form-group">
                         <label for="country_id2">@lang('app.country')</label>
-                        {!! Form::select('country_id2', $countries, ($address!='') ? $address->address : '', ['message' => trans('app.country_required'), 'class' => 'form-control validate-dos browser-default', 'id' => 'country_id2', 'placeholder' => trans('app.choose_country')]) !!}
+                        {!! Form::select('country_id2', $countries, ($address!='') ? $address->country_id : '', ['message' => trans('app.country_required'), 'class' => 'form-control validate-dos browser-default', 'id' => 'country_id2', 'placeholder' => trans('app.choose_country')]) !!}
                     </div>
                 </div>
-                <div class="col-md-6">
+                <div class="col-md-4">
                     <div class="form-group">
                         <label>@lang('app.state_province')</label>
-                        {!! Form::text('state2', ($address!='') ? $address->city : '', ['message' => trans('app.state_required'), 'id' => 'state2', 'placeholder' => trans('app.state_province'), 'class' => 'form-control validate-dos']) !!}
+                        {!! Form::select('state_id2', [],  '', ['disabled' => true, 'message' => trans('app.state_required'), 'id' => 'state_id2', 'placeholder' => trans('app.choose_province'), 'class' => 'form-control validate-dos']) !!}
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label>@lang('app.city')</label>
+                        {!! Form::select('city_2', [],  '', ['disabled' => true, 'id' => 'city_id2', 'placeholder' => trans('app.choose_city'), 'class' => 'form-control validate-dos']) !!}
                     </div>
                 </div>
             </div>

@@ -116,7 +116,20 @@
 
 	<script>
         function successConfirm(data){
-            location.replace(data.url);
+            if(data.register!=undefined){
+                url = data.url;
+                setTimeout(function(){ location.replace(url) }, 5200);
+                swal({
+                    title: "{{trans('app.success')}}",
+                    text: data.message,
+                    timer: 5000,
+                    html: true,
+                    showConfirmButton: false,
+                    type: "success"
+                });
+			} else {
+                location.replace(data.url);
+			}
         }
 
         function successCancel(){
@@ -124,10 +137,10 @@
         }
 
         function successError(data){
-            if(data.url!=undefined){
+            /*if(data.url!=undefined){
                 url = data.url;
                 setTimeout(function(){ location.replace(url); }, 5200);
-			}
+			}*/
             swal({
                 title: "{{trans('app.error')}}",
                 text: data.message,

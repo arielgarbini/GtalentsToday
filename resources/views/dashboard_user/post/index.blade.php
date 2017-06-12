@@ -29,8 +29,18 @@
 -->
                 <!--UBICACION-->
                 <div class="itemForm">
-                    <label>@lang('app.location')</label>
-                    <input name="location" type="text" id="location" @if(isset($data['location'])) value="{{$data['location']}}" @endif>
+                    <label>@lang('app.choose_country')</label>
+                    {!! Form::select('country_id', $countries , (isset($data['country_id'])) ? $data['country_id'] : null, ['class' => 'browser-default', 'id' => 'country_id', 'placeholder' => trans('app.choose_country')]) !!}
+                </div>
+
+                <div class="itemForm">
+                    <label>@lang('app.choose_province')</label>
+                    {!! Form::select('state_id', [] , null, ['disabled'=> true, 'class' => 'browser-default', 'id' => 'state_id', 'placeholder' => trans('app.choose_province')]) !!}
+                </div>
+
+                <div class="itemForm">
+                    <label>@lang('app.choose_city')</label>
+                    {!! Form::select('city_id', [] , null, ['disabled'=> true, 'class' => 'browser-default', 'id' => 'city_id', 'placeholder' => trans('app.choose_city')]) !!}
                 </div>
 
                 <!--INDUSTRIA-->
@@ -220,6 +230,82 @@
            $('#order').change(function(){
                location.href = $('#formSearch').attr('action')+'?search='+$('#search').val()+'&location='+$('#location').val()+'&industry='+$('#industry').val()+'&periods='+$('#periods').val()+'&order='+$(this).val();
            });
+
+            @if(isset($data['country_id']) && $data['country_id']!='')
+             $.ajax({
+                method: "GET",
+                url: "{{route('country.getProvince')}}?country={{$data['country_id']}}",
+                success: function(response){
+                    var html = '<option value="">{{trans('app.choose_province')}}</option>';
+                    for(var i = 0; i<response.length; i++){
+                        html += '<option value="'+response[i].id+'">'+response[i].name+'</option>';
+                    }
+                    $('#state_id').html(html);
+                    $('#state_id').attr('disabled', false);
+                    @if(isset($data['state_id']) && $data['state_id']!='')
+                      $('#state_id').val("{{$data['state_id']}}");
+                    $.ajax({
+                        method: "GET",
+                        url: "{{route('country.getCities')}}?state={{$data['state_id']}}",
+                        success: function(response){
+                            var html = '<option value="">{{trans('app.choose_city')}}</option>';
+                            for(var i = 0; i<response.length; i++){
+                                html += '<option value="'+response[i].id+'">'+response[i].name+'</option>';
+                            }
+                            $('#city_id').html(html);
+                            $('#city_id').attr('disabled', false);
+                            @if(isset($data['city_id']) && $data['city_id']!='')
+                                $('#city_id').val("{{$data['city_id']}}");
+                            @endif
+                        }
+                    });
+                    @endif
+                }
+            });
+            @endif
+          $('#country_id').change(function(){
+                if($(this).val()!=''){
+                    var country = $(this).val();
+                    $.ajax({
+                        method: "GET",
+                        url: "{{route('country.getProvince')}}?country="+country,
+                        success: function(response){
+                            var html = '<option value="">{{trans('app.choose_province')}}</option>';
+                            for(var i = 0; i<response.length; i++){
+                                html += '<option value="'+response[i].id+'">'+response[i].name+'</option>';
+                            }
+                            $('#state_id').html(html);
+                            $('#state_id').attr('disabled', false);
+                        }
+                    });
+                } else {
+                    $('#state_id').val('');
+                    $('#city_id').val('');
+                    $('#state_id').attr('disabled', true);
+                    $('#city_id').attr('disabled', true);
+                }
+            });
+
+            $('#state_id').change(function(){
+                if($(this).val()!=''){
+                    var state = $(this).val();
+                    $.ajax({
+                        method: "GET",
+                        url: "{{route('country.getCities')}}?state="+state,
+                        success: function(response){
+                            var html = '<option value="">{{trans('app.choose_city')}}</option>';
+                            for(var i = 0; i<response.length; i++){
+                                html += '<option value="'+response[i].id+'">'+response[i].name+'</option>';
+                            }
+                            $('#city_id').html(html);
+                            $('#city_id').attr('disabled', false);
+                        }
+                    });
+                } else {
+                    $('#city_id').val('');
+                    $('#city_id').attr('disabled', true);
+                }
+            });
         });
     </script>
 @stop

@@ -227,6 +227,19 @@ return [
     'company_updated_successfully' => 'Compañía actualizada satisfactoriamente.',
     'independent'                  => 'Independiente',
     //Vacancies
+    'closed'                        => 'Cerrada',
+    'status_vacancy'                => 'El nuevo estado de la vacante es',
+    'message_to_gtalents'           => 'Message ti gtalents',
+    'message_for_poster'           => 'Mensaje del publicador',
+    'go_to_gtalents'               => 'Ir a gtalents',
+    'status_change_vacancy'        => 'Ha cambiado el estado de la vacante',
+    'required_message_gtalents'    => 'El mensaje a gtalents es requerido',
+    'required_message_supplier'    => 'El mensaje al supplier es requerido',
+    'message_to_gtalents_platform'          => 'Mensaje a la plataforma gTalents',
+    'message_to_supplier'                   => 'Mensaje al supplier',
+    'to_gtalents_platform'          => 'A la plataforma gTalents',
+    'to_supplier'                   => 'Al Supplier',
+    'write_your_reasons'            => 'Escribe tus razones',
     'find_new_opportunities'        => 'Encuentra nuevas oportunidades',
     'status_changed'                => 'Estatus actualizado satisfactoriamente',
     'contingency'                   => 'Contingencia',
@@ -1132,6 +1145,7 @@ return [
     'title_qualify_supplier_vacancy_contract' => '¡Candidato contratado!',
     'title_get_points'          => '¡Has obtenido puntos!',
     'title_promotion_received'  => '¡Has sido promovido!',
+    'title_change_status'  => '¡Ha cambiado el estado de la vacante!',
 
     'request_supplier_vacancy'  => 'Quiere participar en',
     'invited_supplier_vacancy' => 'Has sido invitado a',
@@ -1144,7 +1158,9 @@ return [
     'approved_supplier_invited_vacancy' => 'Ha aceptado la invitación a',
     'rejected_supplier_invited_vacancy' => 'Ha rechazado la invitación a',
     'qualify_supplier_vacancy'      => 'Has sido calificado',
-    'qualify_supplier_vacancy_contract' => 'Un candidato ha sido contratado en el post',
+    'qualify_supplier_vacancy_contract' => 'Un candidato ha sido contratado en la vacante',
     'get_points'                    => 'Has recibido',
     'promotion_received'  => 'Has recibido una promoción a',
+    'change_status_paused'          => 'Se ha pausado la vacante',
+    'change_status_closed'          => 'Se ha cerrado la vacante'
 ];

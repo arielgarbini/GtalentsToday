@@ -511,11 +511,7 @@ class AuthController extends Controller
     public function getLinkedinUrl(Request $request)
     {
         $linkedIn = new \Happyr\LinkedIn\LinkedIn('78smzb4w4fzq6v', '534YjIafBBG95qIy');
-        if($request->type==1){
-            $url = $linkedIn->getLoginUrl(['redirect_uri' => route('register.linkedin')]);
-        } else if($request->type==2){
-            $url = $linkedIn->getLoginUrl(['redirect_uri' => route('login.linkedin')]);
-        }
+        $url = $linkedIn->getLoginUrl(['redirect_uri' => route('register.linkedin')]);
         return response()->json(['url' => $url]);
     }
 
@@ -575,6 +571,74 @@ class AuthController extends Controller
             $data = json_decode($data);
             $linkedIn->setAccessToken($data->access_token);
             $dataUser = $linkedIn->get('v1/people/~:(firstName,lastName,id,email-address)');
+
+            if($user = User::where('id_linkedin', $dataUser['id'])->get()->first()){
+                if($user->status=='Active'){
+                    //Logealo menol
+                    Auth::login($user, true);
+                    session(['lang' => \App::getLocale()]);
+                    $dataFinal = ['register' => false, 'error' => false, 'message' => '', 'url' => route('dashboard')];
+                } else {
+                    //no estas verificado menol
+                    $dataFinal = ['error' => true, 'message' => Lang::get('app.not_user_register_verify')];
+                }
+            } else {
+                if($user = User::where('email', $dataUser['emailAddress'])->get()->first()){
+                    $dataFinal = ['error' => true, 'message' => Lang::get('app.user_register_email')];
+                    return view('frontend.linkedin.success', compact('dataFinal'));
+                }
+
+                $status = settings('reg_email_confirmation')
+                    ? UserStatus::UNCONFIRMED
+                    : UserStatus::ACTIVE;
+
+                $code = $this->generateCode();
+
+                // Add the user to database
+                $user = $this->users->create(['status' => $status,
+                    'code'=>$code, 'first_name' => $dataUser['firstName'], 'last_name' => $dataUser['lastName'],
+                    'email' => $dataUser['emailAddress'], 'id_linkedin' => $dataUser['id'], 'code_linkedin' => $data->access_token]);
+
+                $this->users->updateSocialNetworks($user->id, []);
+
+                //change register user with consultant unverified role
+                $role = $roles->findByName('Consultant');
+                $this->users->setRole($user->id, $role->id);
+
+                // Check if email confirmation is required,
+                // and if it does, send confirmation email to the user.
+                $token = str_random(60);
+                $this->users->update($user->id, ['confirmation_token' => $token]);
+                if (settings('reg_email_confirmation')) {
+                    $mailer->sendConfirmationEmail($user, $token);
+                }
+                event(new Registered($user));
+                $dataFinal = ['register' => true, 'error' => false, 'message' => Lang::get('app.user_register_linkedin_ok'), 'url' => route('register.confirm-data', $token)];
+            }
+            return view('frontend.linkedin.success', compact('dataFinal'));
+        }
+    }
+
+    /*public function getRegisterLinkedin(Request $request, RoleRepository $roles, UserMailer $mailer)
+    {
+        if(isset($request->error)){
+            return view('frontend.linkedin.cancel');
+        } else {
+            $linkedIn = new \Happyr\LinkedIn\LinkedIn('78smzb4w4fzq6v', '534YjIafBBG95qIy');
+            $client = new \GuzzleHttp\Client(['base_uri' => 'https://www.linkedin.com/']);
+            $response = $client->post('oauth/v2/accessToken?format=json', [
+                'form_params' => [
+                    'grant_type' => 'authorization_code',
+                    'redirect_uri' => route('register.linkedin'),
+                    'client_id' => '78smzb4w4fzq6v',
+                    'client_secret' => '534YjIafBBG95qIy',
+                    'code' => $request->code
+                ]]);
+            $data = $response->getBody();
+            $data = $data->getContents();
+            $data = json_decode($data);
+            $linkedIn->setAccessToken($data->access_token);
+            $dataUser = $linkedIn->get('v1/people/~:(firstName,lastName,id,email-address)');
             if($user = User::where('email', $dataUser['emailAddress'])->get()->first()){
                 $dataFinal = ['error' => true, 'message' => Lang::get('app.user_register_email')];
             } else if($user = User::where('id_linkedin', $dataUser['id'])->get()->first()){
@@ -609,7 +673,7 @@ class AuthController extends Controller
             }
             return view('frontend.linkedin.success', compact('dataFinal'));
         }
-    }
+    }*/
 
     /**
      * Handle a registration request for the application.
@@ -725,7 +789,7 @@ class AuthController extends Controller
             $experienceYears = $experienceYears->lists($language);
             $educationLevels = $educationLevels->lists($language);
             $securityQuestions = $securityQuestions->lists($language);
-            $currencies = $this->countries->lists('currency_code', 'id')->toArray();
+            //$currencies = $this->countries->lists('currency_code', 'id')->toArray();
             $sourcingNetworks = $sourcingNetworks->lists($language);
             $contacts = $contacts->lists($language);
             $functionalArea = $functionalArea->lists($language);
@@ -841,7 +905,6 @@ class AuthController extends Controller
                                                     'opportunityShared',
                                                     'educationLevels',
                                                     'securityQuestions',
-                                                    'currencies',
                                                     'sourcingNetworks',
                                                     'contacts',
                                                     'functionalArea',
@@ -884,10 +947,11 @@ class AuthController extends Controller
 
         $this->users->update($user->id, $dataUser);
 
-        if((isset($request->state2) && $request->state2!='') && (isset($request->country_id2) && $request->country_id2!='')){
+        if((isset($request->state_id2) && $request->state_id2!='') && (isset($request->country_id2) && $request->country_id2!='')){
             $dataAddress2 = [
-                'city'       => $request->state2,
-                'address'    => $request->country_id2,
+                'state_id'       => $request->state_id2,
+                'country_id'    => $request->country_id2,
+                'city_id'    => $request->city_id2,
                 'is_active'  => 1];
 
             $address2 = $this->address->create($dataAddress2);

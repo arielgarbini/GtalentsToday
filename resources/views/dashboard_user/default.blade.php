@@ -524,7 +524,7 @@
                                         <span class="icon-gTalents_close close-alert send_form"></span>
                                     </form>
                                 </li>
-                                @elseif($notification->type=='get_points' || $notification->type=='promotion_received')
+                                @elseif($notification->type=='get_points' || $notification->type=='promotion_received' || $notification->type=='vacancy_change_status_paused' || $notification->type=='vacancy_change_status_closed')
                                     <li class="alert-participar">
                                         <div class="motivo">
                                             <a href="{{route('dashboard')}}">
@@ -946,6 +946,70 @@
         </section>
     </article>
 
+
+    <div id="modalChangeStatus" class="modal modal-userRegistered">
+
+        <div class="modal-header">
+            <!--CERRAR MODAL-->
+            <div class="close">
+                <a href="#!" class="modal-action modal-close">
+                    <span class="icon-gTalents_close-2"></span>
+                </a>
+            </div>
+
+            <h4>@lang('app.write_your_reasons')</h4>
+        </div>
+
+        <div class="modal-content">
+            <form action="{{route('vacancies.change_status')}}" role='form' method="POST" id="formCreate" class="formLogin">
+                <!--NOMBRE-->
+                {{csrf_field()}}
+                <input type="hidden" id="status_change" name="status">
+                <input type="hidden" id="vacancy_change" name="vacancy">
+                <div class="itemForm icon-help">
+                    <label>@lang('app.to_supplier')</label>
+                    <textarea name="message_supplier" id="message_supplier" cols="30" rows="10" placeholder="{{trans('app.message_to_supplier')}}"></textarea>
+                </div>
+
+                <!--MENSJE-->
+                <div class="itemForm icon-help">
+                    <label>@lang('app.to_gtalents_platform')</label>
+                    <textarea name="message_gtalents" id="message_gtalents" cols="30" rows="10" placeholder="{{trans('app.message_to_gtalents_platform')}}"></textarea>
+                </div>
+
+                <section class="buttonsMain">
+                    <!--REGRESAR-->
+                    <div class="item">
+                        <a href="#!" class="modal-action modal-close waves-effect waves-green btn-return">
+                            @lang('app.back')
+                        </a>
+                    </div>
+
+                    <!--INVITAR-->
+                    <div class="item">
+                        <button class="btn-main" type="submit" id="btn-modalMain">
+                            @lang('app.continue')
+                        </button>
+                    </div>
+                </section>
+            </form>
+
+            <!--MENSAJE DE COLABORADOR CARGADO-->
+            <div class="messageModal">
+                <figure>
+                    <span class="icon-gTalents_win-53"></span>
+                </figure>
+                <p>@lang('app.message_created')</p>
+                <!--BTN-MAIN-->
+                <div class="item">
+                    <a href="#!" class="btn-main">
+                        @lang('app.continue')
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!--MODAL NUEVO COLABORADOR-->
     @include('dashboard_user.team.partials.modalcreate')
 
@@ -971,7 +1035,10 @@
                 element = $(this);
                 pare = $(this).parent();
                 if($(this).val()==4 || $(this).val()==2){
-                    swal({
+                    $('#modalChangeStatus').modal('open');
+                    $('#status_change').val(status);
+                    $('#vacancy_change').val(vacancy);
+                    /*swal({
                         title: "{{trans('app.are_you_sure')}}",
                         text: "{{trans('app.are_you_sure_change_status')}}",
                         type: "warning",
@@ -991,7 +1058,7 @@
                                 swal("{{trans('app.success')}}", "{{trans('app.status_changed')}}", "success");
                             }
                         });
-                    });
+                    });*/
                 } else if($(this).val()=='edit'){
                     location.replace('/vacancies/'+vacancy+'/edit');
                 }
@@ -1241,6 +1308,80 @@
                     company: {
                         required: "{{trans('app.candidate_validate.company_required')}}",
                     },
+                },
+                errorElement : 'div',
+                errorPlacement: function(error, element) {
+                    var placement = $(element).data('error');
+                    if (placement) {
+                        $(placement).append(error)
+                    } else {
+                        error.insertAfter(element);
+                    }
+                }
+            });
+
+            $("#formCreateCollaborator").validate({
+                rules: {
+                    first_name: {
+                        required: true,
+                        minlength: 3
+                    },
+                    last_name: {
+                        required: true,
+                        minlength: 3
+                    },
+                    email: {
+                        required: true,
+                        email: true
+                    },
+                    level_of_access: {
+                        required: true
+                    }
+                },
+                messages: {
+                    first_name: {
+                        required: "{{trans('app.candidate_validate.first_name_required')}}",
+                        minlength: "{{trans('app.candidate_validate.first_name_length')}}"
+                    },
+                    last_name: {
+                        required: "{{trans('app.candidate_validate.last_name_required')}}",
+                        minlength: "{{trans('app.candidate_validate.last_name_length')}}"
+                    },
+                    email: {
+                        required: "{{trans('app.candidate_validate.email_required')}}",
+                        email: "{{trans('app.candidate_validate.email_valid')}}"
+                    },
+                    level_of_access: {
+                        required: "{{trans('app.collaborator_validate.level_required')}}",
+                    }
+                },
+                errorElement : 'div',
+                errorPlacement: function(error, element) {
+                    var placement = $(element).data('error');
+                    if (placement) {
+                        $(placement).append(error)
+                    } else {
+                        error.insertAfter(element);
+                    }
+                }
+            });
+
+            $("#formCreateChangeStatus").validate({
+                rules: {
+                    message_supplier: {
+                        required: true
+                    },
+                    message_gtalents: {
+                        required: true
+                    }
+                },
+                messages: {
+                    message_supplier: {
+                        required: "{{trans('app.required_message_supplier')}}"
+                    },
+                    message_gtalents: {
+                        required: "{{trans('app.required_message_gtalents')}}"
+                    }
                 },
                 errorElement : 'div',
                 errorPlacement: function(error, element) {

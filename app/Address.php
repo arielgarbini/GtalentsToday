@@ -17,7 +17,7 @@ class Address extends Model
 
     public $dates = ['deleted_at'];
 
-    protected $fillable = ['address_type_id', 'address', 'complement', 'state_id', 'zip_code', 'city', 'is_active'];
+    protected $fillable = ['address_type_id', 'address', 'complement', 'state_id', 'zip_code', 'city', 'is_active', 'country_id', 'city_id'];
 
     public function address_type()
     {

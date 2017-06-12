@@ -17,7 +17,7 @@ class CreateUserRequest extends Request
         return [
             'first_name' => 'required',
             'last_name'  => 'required',
-            'principal_phone'  => 'required',
+            'phone'  => 'required',
             'email'      => 'required|email|unique:users,email',
             'password'   => 'required|min:6|confirmed',
             'country_id' => 'required',

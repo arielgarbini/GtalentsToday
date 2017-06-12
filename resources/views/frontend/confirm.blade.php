@@ -128,12 +128,17 @@
 				<!--PAIS-->
 				<div class="itemForm">
 					<label>@lang('app.country')</label>
-					{!! Form::select('country_id2', $countries, ($address!='') ? $address->address : '', ['message' => trans('app.country_required'), 'class' => 'validate-tres browser-default', 'id' => 'country_id2', 'placeholder' => trans('app.choose_country')]) !!}
+					{!! Form::select('country_id2', $countries, ($address!='') ? $address->country_id : '', ['message' => trans('app.country_required'), 'class' => 'validate-tres browser-default', 'id' => 'country_id2', 'placeholder' => trans('app.choose_country')]) !!}
 				</div>
 
 				<div class="itemForm">
 					<label>@lang('app.state_province')</label>
-					{!! Form::text('state2', ($address!='') ? $address->city : '', ['message' => trans('app.state_required'), 'id' => 'state2', 'placeholder' => trans('app.state_province'), 'class' => 'validate-tres']) !!}
+					{!! Form::select('state_id2', [], '', ['disabled' => true, 'message' => trans('app.state_required'), 'class' => 'validate-tres browser-default', 'id' => 'state_id2', 'placeholder' => trans('app.choose_province')]) !!}
+				</div>
+
+				<div class="itemForm">
+					<label>@lang('app.city')</label>
+					{!! Form::select('city_id2', [], '', ['disabled' => true, 'class' => 'browser-default', 'id' => 'city_id2', 'placeholder' => trans('app.choose_city')]) !!}
 				</div>
 
 				<!--TAMAÑO DE LA EMPRESA-->
@@ -865,12 +870,6 @@
     		$('#organization_role').val( $('input[name="group2"]:checked').val() );
 		});
 
-        if( $('#country_id').val() != ''){
-			var country = $('#country_id').find(':selected').val();
-            var state = 'state';
-            getStates(country, state);
-		}
-
         @if( Input::old('state') )
 			var country = $('#country_id').find(':selected').val();
             var state = 'state';
@@ -886,42 +885,85 @@
             getStates(country, state);
         });
 
-        if( $('#country_id2').val() != ''){
-			var country = $('#country_id').find(':selected').val();
-            var state = 'state2';
-            getStates(country, state);
-		}
-
         @if( Input::old('state2') )
 			var country = $('#country_id2').find(':selected').val();
             var state = 'state2';
             getStates(country, state);
         @endif
 
-        $('#country_id2').change(function (e) {
-            var country = $('#country_id2').find(':selected').val();
-            var state = 'state2';
-            getStates(country, state);
+		@if($address!='' && $address->country_id!='')
+			$.ajax({
+			method: "GET",
+			url: "{{route('country.getProvince')}}?country={{$address->country_id}}",
+			success: function(response){
+				var html = '<option value="">{{trans('app.choose_province')}}</option>';
+				for(var i = 0; i<response.length; i++){
+					html += '<option value="'+response[i].id+'">'+response[i].name+'</option>';
+				}
+				$('#state_id2').html(html);
+				$('#state_id2').attr('disabled', false);
+				@if($address!='' && $address->state_id!='')
+				  $('#state_id2').val("{{$address->state_id}}");
+					$.ajax({
+						method: "GET",
+						url: "{{route('country.getCities')}}?state={{$address->state_id}}",
+						success: function(response){
+							var html = '<option value="">{{trans('app.choose_city')}}</option>';
+							for(var i = 0; i<response.length; i++){
+								html += '<option value="'+response[i].id+'">'+response[i].name+'</option>';
+							}
+							$('#city_id2').html(html);
+							$('#city_id2').attr('disabled', false);
+							$('#city_id2').val("{{$address->city_id}}");
+						}
+					});
+				@endif
+			}
+			});
+        @endif
+
+      $('#country_id2').change(function(){
+            if($(this).val()!=''){
+                var country = $(this).val();
+                $.ajax({
+                    method: "GET",
+                    url: "{{route('country.getProvince')}}?country="+country,
+                    success: function(response){
+                        var html = '<option value="">{{trans('app.choose_province')}}</option>';
+                        for(var i = 0; i<response.length; i++){
+                            html += '<option value="'+response[i].id+'">'+response[i].name+'</option>';
+                        }
+                        $('#state_id2').html(html);
+                        $('#state_id2').attr('disabled', false);
+                    }
+                });
+            } else {
+                $('#state_id2').val('');
+                $('#city_id2').val('');
+                $('#state_id2').attr('disabled', true);
+                $('#city_id2').attr('disabled', true);
+            }
         });
 
-		function getStates(country, state){
-            $.get("{{ route('country.getProvince') }}",
-              { country: country },
-              function(data) {
-                if(data){
-                  $('#'+state).empty();
-                  $('#'+state).removeAttr('disabled');
-                  $('#'+state).append($('<option></option>').text('{{ trans('app.select_province') }}').val('')); 
-                  $.each(data, function(i) {                    
-                       $('#'+state).append("<option value='" + data[i].id + "'>" + data[i].name + "</option>");                    
-                  });
-
-                  var states = $('#'+state).find(':selected').val();
-
-                }else{
-                  sweetAlert('Oops...'+'{{ trans('app.the_country_has_no_provinces') }}', '{{ trans('app.select_another_country') }}', 'error');
-                }
-              }, 'json');
-        }
+        $('#state_id2').change(function(){
+            if($(this).val()!=''){
+                var state = $(this).val();
+                $.ajax({
+                    method: "GET",
+                    url: "{{route('country.getCities')}}?state="+state,
+                    success: function(response){
+                        var html = '<option value="">{{trans('app.choose_city')}}</option>';
+                        for(var i = 0; i<response.length; i++){
+                            html += '<option value="'+response[i].id+'">'+response[i].name+'</option>';
+                        }
+                        $('#city_id2').html(html);
+                        $('#city_id2').attr('disabled', false);
+                    }
+                });
+            } else {
+                $('#city_id2').val('');
+                $('#city_id2').attr('disabled', true);
+            }
+        });
     </script>
 @stop
