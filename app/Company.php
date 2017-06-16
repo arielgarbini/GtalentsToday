@@ -71,4 +71,9 @@ class Company extends Model
     {
         return $this->hasOne(QuantityEmployees::class, 'id', 'quantity_employees_id');
     }
+
+    public function industries()
+    {
+        return $this->belongsToMany(ExperienceIndustry::class,'experiencies', 'company_id', 'id')->withPivot('industry_id');
+    }
 }

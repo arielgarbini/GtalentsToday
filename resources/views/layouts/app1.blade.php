@@ -35,6 +35,7 @@
     <!-- ESTILOS SWEATALERT -->
     {!! HTML::style('assets/css/sweetalert.css') !!}
     {!! HTML::style('assets/css/chosen.min.css') !!}
+    {!! HTML::style('assets/css/pagination.css') !!}
 
     <style>
         .chosen-container{
@@ -111,6 +112,8 @@
     {!! HTML::script('assets/js/jquery.validate.min.js') !!}
 
     {!! HTML::script('assets/js/chosen.jquery.min.js') !!}
+
+    {!! HTML::script('assets/js/pagination.js') !!}
 
     <script>
         $(document).ready(function(){

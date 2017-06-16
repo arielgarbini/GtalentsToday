@@ -61,4 +61,8 @@ class Experience extends Model
     public function sourcing_networks(){
         return $this->belongsToMany(SourcingNetwork::class,'experience_sourcing_networks');
     }
+
+    public function industries_all(){
+        return $this->hasMany(ExperienceIndustry::class);
+    }
 }

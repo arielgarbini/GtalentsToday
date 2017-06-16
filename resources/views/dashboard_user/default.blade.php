@@ -28,7 +28,7 @@
                 </section>
 
                 @if (count($latestVacancies)) 
-                    <ul class="credits-container post-list listado-post">
+                    <ul class="credits-container post-list listado-post" id="latesVacanciesPoster">
                         @foreach ($latestVacancies as $vacancy)
                             <!--POST 1 -->
                             <li>
@@ -89,27 +89,17 @@
                         </h3>
                     </section>
                 @endif
+                @if($latestVacanciesPages>1)
+                    <ul class="pagination" data-pages="{{$latestVacanciesPages}}" data-element="latesVacanciesPoster" data-resource="{{route('vacancies.get.poster')}}" data-count="{{$latestVacanciesCount}}" data-page="1">
+                        <li class="disabled" data-page="last"><span>«</span></li>
+                        <li class="active page-1" data-page="1" ><span>1</span></li>
+                        @for($j = 2; $j<=$latestVacanciesPages; $j++)
+                            <li data-page="{{$j}}" class="page-{{$j}}"><span>{{$j}}</span></li>
+                        @endfor
+                        <li class="disabled" data-page="next"><span>»</span></li>
+                    </ul>
+                @endif
 
-                {{ $latestVacancies->links() }}
-
-                <!--
-                <ul class="pagination">
-                    <li class="disabled">
-                        <a href="#">
-                            <span class="icon-gTalents_left"></span>
-                        </a>
-                    </li>
-                    <li class="active"><a href="#">1</a></li>
-                    <li class="waves-effect"><a href="#">2</a></li>
-                    <li class="waves-effect"><a href="#">3</a></li>
-                    <li class="waves-effect"><a href="#">4</a></li>
-                    <li class="waves-effect"><a href="#">5</a></li>
-                    <li class="waves-effect">
-                        <a href="#">
-                            <span class="icon-gTalents_right"></span>
-                        </a>
-                    </li>
-                </ul>-->
                 @if(count($latestVacancies) > 2)
                     <section class="view-more">
                         <a class="btn-viewMore">
@@ -128,7 +118,7 @@
                 </section>
 
                 @if (count($vacancies_users))
-                    <ul class="credits-container post-list listado-post">
+                    <ul class="credits-container post-list listado-post" id="latesVacanciesUser">
                         @foreach ($vacancies_users as $vacancy_opportunity)
                             <!--POST SUPPLIER -->
                             <li>
@@ -213,25 +203,17 @@
                     </section>
                 @endif
 
-                {{$vacancies_users->links()}}
-                <!--
-                <ul class="pagination">
-                    <li class="disabled">
-                        <a href="#">
-                            <span class="icon-gTalents_left"></span>
-                        </a>
-                    </li>
-                    <li class="active"><a href="#">1</a></li>
-                    <li class="waves-effect"><a href="#">2</a></li>
-                    <li class="waves-effect"><a href="#">3</a></li>
-                    <li class="waves-effect"><a href="#">4</a></li>
-                    <li class="waves-effect"><a href="#">5</a></li>
-                    <li class="waves-effect">
-                        <a href="#">
-                            <span class="icon-gTalents_right"></span>
-                        </a>
-                    </li>
-                </ul>-->
+                @if($vacancies_users_pages>1)
+                    <ul class="pagination" data-pages="{{$vacancies_users_pages}}" data-element="latesVacanciesUser" data-resource="{{route('vacancies.get.user')}}" data-count="{{$vacancies_users_count}}" data-page="1">
+                        <li class="disabled" data-page="last"><span>«</span></li>
+                        <li class="active page-1" data-page="1" ><span>1</span></li>
+                        @for($j = 2; $j<=$vacancies_users_pages; $j++)
+                            <li data-page="{{$j}}" class="page-{{$j}}"><span>{{$j}}</span></li>
+                        @endfor
+                        <li class="disabled" data-page="next"><span>»</span></li>
+                    </ul>
+                @endif
+
                 @if(count($vacancies_users) > 2)
                 <section class="view-more">
                     <a class="btn-viewMore">
@@ -1029,7 +1011,7 @@
 
     <script>
         $(document).ready(function(){
-            $('.change-status').change(function(){
+            $('body').on('change','.change-status',function(){
                 vacancy = $(this).attr('value');
                 status = $(this).val();
                 element = $(this);
@@ -1064,7 +1046,7 @@
                 }
             });
 
-            $('.change-status').click(function(e){
+            $('body').on('click','.change-status',function(e){
                 e.preventDefault();
             });
 

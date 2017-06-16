@@ -686,6 +686,18 @@ Route::get('vacancies/list/{url?}', [
     'uses' => 'VacancyController@listVacancies',
     'middleware' => 'permission:vacancies.view'
 ]);
+
+Route::get('vacancies/get/poster', [
+    'as' => 'vacancies.get.poster',
+    'uses' => 'DashboardController@getVacanciesPoster',
+    'middleware' => 'permission:vacancies.view'
+]);
+
+Route::get('vacancies/get/user', [
+    'as' => 'vacancies.get.user',
+    'uses' => 'DashboardController@getVacanciesUser',
+    'middleware' => 'permission:vacancies.view'
+]);
 /*
 Route::get('vacancies/list/{url}', [
     'as' => 'vacancies.list.poster',

@@ -4,12 +4,14 @@ namespace Vanguard\Http\Controllers;
 
 use Vanguard\Candidate;
 use Vanguard\ActualPosition;
+use Illuminate\Http\Request;
 use Vanguard\Notification;
 use Vanguard\Repositories\Activity\ActivityRepository;
 use Vanguard\Repositories\User\UserRepository;
 use Vanguard\Repositories\Vacancy\VacancyRepository;
 use Vanguard\Repositories\VacancyUser\VacancyUserRepository;
 use Vanguard\Repositories\VacancyViewedRepository;
+use Vanguard\Services\Vacancies\VacancyManager;
 use Vanguard\Support\Enum\UserStatus;
 use Auth;
 use Carbon\Carbon;
@@ -40,16 +42,20 @@ class DashboardController extends Controller
 
     private $viewed;
 
+    private $vacanciesManager;
+
     public function __construct(UserRepository $users,
                                 ActivityRepository $activities,
                                 VacancyRepository $vacancies,
-                                VacancyUserRepository $vacancies_users)
+                                VacancyUserRepository $vacancies_users,
+                                VacancyManager $vacanciesManager)
     {
         $this->middleware('auth');
         $this->users = $users;
         $this->activities = $activities;
         $this->vacancies = $vacancies;
         $this->vacancies_users = $vacancies_users;
+        $this->vacanciesManager = $vacanciesManager;
     }
 
     /**
@@ -128,24 +134,27 @@ class DashboardController extends Controller
             $i++;
         }
         $candidates = $data1;
+        $latestVacanciesCount = $paginate;
+        $vacancies_users_count = $paginate;
         $latestVacancies = Vacancy::where('poster_user_id', '=', Auth::user()->id)
             ->where(function($q){
                 $q->where('vacancy_status_id', 1);
                 $q->orWhere('vacancy_status_id', 5);
-            })->orderBy('created_at', 'DESC')->paginate($paginate);
+            })->orderBy('created_at', 'DESC');
+        $latestVacanciesClone = clone $latestVacancies;
+        $latestVacanciesPages = ceil($latestVacanciesClone->count() / $latestVacanciesCount);
+        $latestVacancies = $latestVacancies->limit($latestVacanciesCount)->get();
         $vacancies_users = Vacancy::whereHas('asSupplier', function($query) use($user_id){
             $query->where('supplier_user_id', $user_id)->where('status',1);
         })->where(function($q){
             $q->where('vacancy_status_id', 1);
             $q->orWhere('vacancy_status_id', 5);
-        })->paginate($paginate);
-        $lastestOpportunities = Vacancy::where(function($q){
-            $q->where('vacancy_status_id', 1);
-            $q->orWhere('vacancy_status_id', 5);
-        })->orderBy('created_at', 'desc')->where('poster_user_id', '!=', Auth::user()->id)->whereNotExists(function ($query) use($user_id){
-                $query->select('vacancy_users.*')->from('vacancy_users')
-                    ->where('supplier_user_id',$user_id)->whereRaw('vg_vacancy_users.vacancy_id = vg_vacancies.id');
-            })->limit(3)->get(); //** Opportunities Available
+        })->orderBy('created_at', 'DESC');
+        $vacancies_users_clone = clone $vacancies_users;
+        $vacancies_users_pages = ceil($vacancies_users_clone->count() / $vacancies_users_count);
+        $vacancies_users = $vacancies_users->limit($vacancies_users_count)->get();
+        $lastestOpportunities = $this->vacanciesManager->getRecommended(3);
+        //dd($lastestOpportunities);
         $viewed = new VacancyViewedRepository(new VacancyViewed());
         $potentialPoster = 0;
         $potentialSupplier = 0;
@@ -164,7 +173,43 @@ class DashboardController extends Controller
             $factur = (intval($matches[0][0].'000')+intval($matches[0][1].'000'))/2;
             $potentialSupplier += $factur;
         }
-        return view('dashboard_user.default', compact('latestVacanciesSupplier','latestVacanciesPoster','potentialSupplier','potentialPoster','viewed','team', 'candidates', 'activities', 'latestVacancies', 'vacancies_users','lastestOpportunities' ));
+        return view('dashboard_user.default', compact('vacancies_users_pages', 'vacancies_users_count', 'latestVacanciesPages', 'latestVacanciesCount', 'latestVacanciesSupplier','latestVacanciesPoster','potentialSupplier','potentialPoster','viewed','team', 'candidates', 'activities', 'latestVacancies', 'vacancies_users','lastestOpportunities' ));
+    }
+
+    public function getVacanciesPoster(Request $request)
+    {
+        $latestVacancies = Vacancy::where('poster_user_id', '=', Auth::user()->id)
+            ->where(function($q){
+                $q->where('vacancy_status_id', 1);
+                $q->orWhere('vacancy_status_id', 5);
+            })->orderBy('created_at', 'DESC');
+
+        $viewed = new VacancyViewedRepository(new VacancyViewed());
+        $count = clone $latestVacancies;
+        $data = view('partials.vacancies.poster',
+            ['latestVacancies' => $latestVacancies->limit($request->count)->offset(($request->page-1)*$request->count)->get(),
+            'viewed' => $viewed]);
+        $data = $data->render();
+        return response()->json(['count'=>$count->count(), 'page'=>ceil($count->count()/$request->count), 'data' => $data]);
+    }
+
+    public function getVacanciesUser(Request $request)
+    {
+        $user_id = Auth::user()->id;
+        $vacancies_users = Vacancy::whereHas('asSupplier', function($query) use($user_id){
+            $query->where('supplier_user_id', $user_id)->where('status',1);
+        })->where(function($q){
+            $q->where('vacancy_status_id', 1);
+            $q->orWhere('vacancy_status_id', 5);
+        })->orderBy('created_at', 'DESC');
+
+        $viewed = new VacancyViewedRepository(new VacancyViewed());
+        $count = clone $vacancies_users;
+        $data = view('partials.vacancies.user',
+            ['vacancies_users' => $vacancies_users->limit($request->count)->offset(($request->page-1)*$request->count)->get(),
+                'viewed' => $viewed]);
+        $data = $data->render();
+        return response()->json(['count'=>$count->count(), 'page'=>ceil($count->count()/$request->count), 'data' => $data]);
     }
 
 

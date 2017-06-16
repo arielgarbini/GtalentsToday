@@ -65,6 +65,11 @@ class Vacancy extends Model
                             'city_id'
                         ];                   
 
+    public function company()
+    {
+        return $this->belongsTo(Company::class, 'company_id');
+    }
+
     public function locat()
     {
         return $this->belongsTo(State::class, 'location');
