@@ -212,5 +212,25 @@ class DashboardController extends Controller
         return response()->json(['count'=>$count->count(), 'page'=>ceil($count->count()/$request->count), 'data' => $data]);
     }
 
-
+    public function getVacanciesFind(Request $request, $url = null)
+    {
+        $perPage = 10;
+        $data = $this->vacancies->search(Auth::user()->id, $perPage, array_merge($request->all(), ['type' => ($url!= null) ? $url : 'find']));
+        $vacanciesCount = $data['count'];
+        $vacancies = $data['data'];
+        $data = $request->all();
+        $vacancies_users_pages = ceil($vacanciesCount / $perPage);
+        $vacancies_users_count = $perPage;
+        $viewed = new VacancyViewedRepository(new VacancyViewed());
+        if($url==null || $url=='find'){
+            $vacancies = $this->vacanciesManager->orderVacancies($vacancies, $vacancies_users_count, $request->all());
+            $data = view('partials.vacancies.user', ['vacancies_users' => $vacancies, 'viewed' => $viewed]);
+        } else if($url == 'poster'){
+            $data = view('partials.vacancies.poster', ['latestVacancies' => $vacancies, 'viewed' => $viewed]);
+        } else if($url == 'supplier'){
+            $data = view('partials.vacancies.user', ['vacancies_users' => $vacancies, 'viewed' => $viewed]);
+        }
+        $data = $data->render();
+        return response()->json(['count'=>count($vacancies), 'page'=>$vacancies_users_pages, 'data' => $data]);
+    }
 }

@@ -38,27 +38,35 @@ class VacancyManager
         return $data;
     }
 
-    public function orderVacancies($vacancies, $paginate)
+    public function orderVacancies($vacancies, $paginate, $request = null)
     {
         $results = [];
-        $industries = $this->getIndustriesLogedUser();
         $country_id = Auth::user()->country_id;
         $vacancies = $this->getById($vacancies);
         //ordenar por paises
-        foreach($vacancies as $v){
-            if($v->country_id==$country_id){
-                $results[] = $v;
-                unset($vacancies[$v->id]);
+        if($request==null || !isset($request['country_id'])) {
+            foreach ($vacancies as $v) {
+                if ($v->country_id == $country_id) {
+                    $results[] = $v;
+                    unset($vacancies[$v->id]);
+                }
             }
         }
         //ordenar por industrias
-        foreach($vacancies as $v){
-            if(in_array($v->industry, $industries)){
-                $results[] = $v;
-                unset($vacancies[$v->id]);
+        if($request==null || !isset($request['industry'])){
+            $industries = $this->getIndustriesLogedUser();
+            foreach($vacancies as $v){
+                if(in_array($v->industry, $industries)){
+                    $results[] = $v;
+                    unset($vacancies[$v->id]);
+                }
             }
         }
-        $results = array_slice(array_merge($results, $vacancies), 0, 3);
+        if($request!=null && isset($request['page'])){
+            $results = array_slice(array_merge($results, $vacancies), ($request['page'] - 1) * $paginate, $paginate);
+        } else {
+            $results = array_slice(array_merge($results, $vacancies), 0, $paginate);
+        }
         return $results;
     }
 

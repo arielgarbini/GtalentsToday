@@ -19,8 +19,19 @@ $(document).ready(function(){
            new_page = parseInt(pagina)+1;
        }
        $('#loading').show();
+       var data = '';
+       $('input').each(function(){
+            if($(this).attr('name')!=undefined){
+                data += '&'+$(this).attr('name')+'='+$(this).val();
+            }
+        });
+       $('select').each(function(){
+            if($(this).attr('name')!=undefined){
+                data += '&'+$(this).attr('name')+'='+$(this).val();
+            }
+       });
        $.ajax({
-            url: url+'?page='+new_page+'&count='+count,
+            url: url+'?page='+new_page+'&count='+count+''+data,
             method : "GET",
             success: function(response){
                 console.log(response);

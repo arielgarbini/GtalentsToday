@@ -110,7 +110,7 @@
 
         @if (count($vacancies))
             <!--LISTADO DE CREDITOS-->
-                <ul class="credits-container post-list">
+                <ul class="credits-container post-list" id="latesVacanciesUser">
                     <!-- OPORTUNIDAD 1 -->
                     @foreach ($vacancies as $vacancy)
                         <li>
@@ -161,7 +161,17 @@
                         </li>
                     @endforeach
                 </ul>
-            {{$vacancies->links()}}
+                @if($vacancies_users_pages>1)
+                    <ul class="pagination" data-pages="{{$vacancies_users_pages}}" data-element="latesVacanciesUser" data-resource="{{route('vacancies.get.find')}}/poster" data-count="{{$vacancies_users_count}}" data-page="1">
+                        <li class="disabled" data-page="last"><span>«</span></li>
+                        <li class="active page-1" data-page="1" ><span>1</span></li>
+                        @for($j = 2; $j<=$vacancies_users_pages; $j++)
+                            <li data-page="{{$j}}" class="page-{{$j}}"><span>{{$j}}</span></li>
+                        @endfor
+                        <li class="disabled" data-page="next"><span>»</span></li>
+                    </ul>
+                @endif
+
             <!--
             <ul class="pagination">
                 <li class="disabled">
@@ -272,7 +282,7 @@
                 location.href = $('#formSearch').attr('action')+'?search='+$('#search').val()+'&location='+$('#location').val()+'&industry='+$('#industry').val()+'&periods='+$('#periods').val()+'&order='+$(this).val();
             });
 
-            $('.change-status').change(function(){
+            $('body').on('change', '.change-status', function(){
                 vacancy = $(this).attr('value');
                 status = $(this).val();
                 element = $(this);
@@ -286,7 +296,7 @@
                 }
             });
 
-            $('.change-status').click(function(e){
+            $('body').on('click', '.change-status', function(e){
                 e.preventDefault();
             });
 

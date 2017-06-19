@@ -54,10 +54,13 @@ class EloquentVacancy implements VacancyRepository
     {
         $user_id = \Auth::user()->id;
         if(isset($data['type']) && $data['type']=='find'){
-            $vacancy = Vacancy::where('poster_user_id', '!=', $user)->where('vacancy_status_id', 1)->whereNotExists(function ($query) use($user){
+            $vacancy = Vacancy::select('vacancies.*')->where('poster_user_id', '!=', $user)->where('vacancy_status_id', 1)->whereNotExists(function ($query) use($user){
                 $query->select('vacancy_users.*')->from('vacancy_users')
                     ->where('supplier_user_id',$user)->whereRaw('vg_vacancy_users.vacancy_id = vg_vacancies.id');
-            });
+            })->join('companies', function($join)
+            {
+                $join->on('vacancies.company_id', '=', 'companies.id');
+            })->orderBy('category_id', 'DESC');
         } else if(isset($data['type']) && $data['type']=='poster'){
             $vacancy = Vacancy::where('poster_user_id', '=', \Auth::user()->id);
         } else if(isset($data['type']) && $data['type']=='supplier'){
@@ -93,16 +96,22 @@ class EloquentVacancy implements VacancyRepository
         }
 
         if(isset($data['periods']) && $data['periods']!=''){
-            $vacancy->where('created_at', '>=', Carbon::now()->subDays($data['periods'])->format('Y-m-d'));
+            $vacancy->where('vacancies.created_at', '>=', Carbon::now()->subDays($data['periods'])->format('Y-m-d'));
         }
 
         if(isset($data['order']) && $data['order']!='suppliers_cant'){
             $vacancy->orderBy($data['order'], 'desc');
         } else {
-            $vacancy->orderBy('created_at', 'desc');
+            $vacancy->orderBy('vacancies.created_at', 'desc');
+        }
+        if(isset($data['type']) && $data['type']!='find') {
+            if (isset($data['page']) && $data['page'] != '') {
+                $vacancy->offset(($data['page'] - 1) * $perPage);
+            }
+            $vacancy->limit($perPage);
         }
 
-        return ['count'=> $vacancy->count(), 'data' => $vacancy->paginate($perPage)];
+        return ['count'=> $vacancy->count(), 'data' => $vacancy->get()];
     }
 
     /**

@@ -15,6 +15,8 @@ use Vanguard\Language;
 use Vanguard\LanguageType;
 use Vanguard\LanguageVacancy;
 use Vanguard\Mailers\VacancyMailer;
+use Vanguard\Services\Suppliers\SupplierManager;
+use Vanguard\Services\Vacancies\VacancyManager;
 use Vanguard\State;
 use Vanguard\ContractType;
 use Vanguard\Conversation;
@@ -140,6 +142,11 @@ class VacancyController extends Controller
      * VacancyController constructor.
      * @param VacancyRepository $vacancies)
      */
+
+    private $vacanciesManager;
+
+    private $supplierManager;
+
     public function __construct(VacancyRepository $vacancies,
                                 UserRepository $users, 
                                 CountryRepository $countries,
@@ -151,7 +158,9 @@ class VacancyController extends Controller
                                 CompanyUserRepository $companies_users,
                                 CompanyRepository $companies,
                                 VacancyViewedRepository $vacancy_viewed,
-                                VacancyCandidatesStatusRepository $vacancy_candidates_status)
+                                VacancyCandidatesStatusRepository $vacancy_candidates_status,
+                                VacancyManager $vacanciesManager,
+                                SupplierManager $supplierManager)
     {
         //$this->middleware('permission:vacancies.view');
         $this->vacancies = $vacancies;
@@ -167,6 +176,8 @@ class VacancyController extends Controller
         $this->vacancy_viewed = $vacancy_viewed;
         $this->vacancy_candidates_status = $vacancy_candidates_status;
         $this->theUser = Auth::user();
+        $this->vacanciesManager = $vacanciesManager;
+        $this->supplierManager = $supplierManager;
 
         JavaScript::put([
             'nonSelectedText_' => trans('app.non_selected_text'),
@@ -392,13 +403,7 @@ class VacancyController extends Controller
        }
    }
    event(new RankingEvent(['user_id' => Auth::user()->id, 'points' => 25]));
-        $company_id = CompanyUser::where(['user_id' => Auth::user()->id])->get()->first()->company_id;
-        $supliers_recommended = User::where('id','!=',Auth::user()->id)->whereNotExists(function($query) use($id){
-            $query->select('vacancy_users.*')->from('vacancy_users')
-                ->where('vacancy_id', $id)->whereRaw('vg_vacancy_users.supplier_user_id = vg_users.id');
-        })->whereHas('company_user', function($q) use($company_id){
-            $q->where('company_id', '!=', $company_id);
-        })->limit(4)->get();
+   $supliers_recommended = $this->supplierManager->getRecommended($id, 4);
    return view('dashboard_user.post.post_step2' , compact('vacancy_id', 'supliers_recommended'), ['vacancies' => $request->session()->get('vacancies')]);
 
     }
@@ -417,13 +422,7 @@ class VacancyController extends Controller
         if($this->theUser->hasRole('Admin')){
             return view('vacancy.view', compact('vacancy'));
         }else {
-            $company_id = CompanyUser::where(['user_id' => Auth::user()->id])->get()->first()->company_id;
-            $supliers_recommended = User::where('id','!=',Auth::user()->id)->whereNotExists(function($query) use($id){
-                $query->select('vacancy_users.*')->from('vacancy_users')
-                    ->where('vacancy_id', $id)->whereRaw('vg_vacancy_users.supplier_user_id = vg_users.id');
-            })->whereHas('company_user', function($q) use($company_id){
-                $q->where('company_id', '!=', $company_id);
-            })->limit(3)->get();
+            $supliers_recommended = $this->supplierManager->getRecommended($id, 3);
             return view('dashboard_user.post.post_detail', compact('supliers_recommended', 'vacancy'));
         }
     }
@@ -1025,19 +1024,22 @@ class VacancyController extends Controller
         $industries = $industries->lists($language);
         $user_id = Auth::user()->id;
         $viewed = new VacancyViewedRepository(new VacancyViewed());
-        $perPage = 20;
+        $perPage = 10;
         $data = $this->vacancies->search(Auth::user()->id, $perPage, array_merge($request->all(), ['type' => ($url!= null) ? $url : 'find']));
         $vacanciesCount = $data['count'];
         $vacancies = $data['data'];
         $data = $request->all();
         $countries = $this->countries->lists()->toArray();
         //$vacancies = $this->vacancies->getOpportunities('poster_user_id',$this->theUser->id, $perPage);
+        $vacancies_users_pages = ceil($vacanciesCount / $perPage);
+        $vacancies_users_count = $perPage;
         if($url==null || $url=='find'){
-            return view('dashboard_user.post.index', compact('countries', 'data', 'industries','vacanciesCount','vacancies', 'viewed'));
+            $vacancies = $this->vacanciesManager->orderVacancies($vacancies, $vacancies_users_count);
+            return view('dashboard_user.post.index', compact('vacancies_users_count', 'vacancies_users_pages', 'countries', 'data', 'industries','vacanciesCount','vacancies', 'viewed'));
         } else if($url == 'poster'){
-            return view('dashboard_user.post.index_poster', compact('countries', 'data', 'industries','vacanciesCount','vacancies', 'viewed'));
+            return view('dashboard_user.post.index_poster', compact('vacancies_users_count', 'vacancies_users_pages', 'countries', 'data', 'industries','vacanciesCount','vacancies', 'viewed'));
         } else if($url == 'supplier'){
-            return view('dashboard_user.post.index_supplier', compact('countries', 'data', 'industries','vacanciesCount','vacancies', 'viewed'));
+            return view('dashboard_user.post.index_supplier', compact('vacancies_users_count', 'vacancies_users_pages', 'countries', 'data', 'industries','vacanciesCount','vacancies', 'viewed'));
         }
     }
 
