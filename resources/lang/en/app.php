@@ -204,6 +204,11 @@ return [
     'periods'                       =>  'Periods' ,      
 
     //Companies
+    'points_success'               => 'Points updated successfully',
+    'add_points'                   => 'Manage company points',
+    'points_add_delete'            => 'Add or remove points',
+    'date_register'                => 'Date of register',
+    'quantity_employees'           => 'Quantity employees',
     'companies' => 'Companies',
     'list_of_registered_companies' => 'List of registered companies',
     'add_company'                  => 'Add company',
@@ -981,11 +986,23 @@ return [
     'deposit'               => 'deposit',
 
     //credits
-
+    'change_credits_price'  => 'Update credits price',
     'buy_credits'           => 'Buy Credits',
+    'bought'                => 'Bought',
+    'spent'                 => 'Spent',
+    'choose_option'         => 'Choose a company',
+    'new_price_credits'     => 'New price',
+    'list_of_registered_credits' => 'List of credits bought and consumed',
+    'add_credits'           => 'Add credits to a company',
     'events'                => 'Events',
     'credit_purchase'       => 'Credit Purchase',
     'buy'                   => 'Buy',
+    'credit_deleted'        => 'Credit deleted',
+    'credit_add_updated'    => 'Credits updated sucessfully',
+    'credit_add'            => 'Credits saved sucessfully',
+    'credit_updated'         => 'Credit price updated',
+    'credit_not_saved'      => 'An error ocurred, try again',
+    'are_you_sure_delete_credit' => 'Are you sure delete Credit?',
     'send_you_the_invoice'  => 'We will send you the invoice shortly <br> and payment instruction',
     'cr_my_credits'         => 'My Credits',
     'payment_description'   => 'Payment description',

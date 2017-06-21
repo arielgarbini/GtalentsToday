@@ -17,7 +17,7 @@ class Balance extends Model
 
     public $dates = ['deleted_at'];
 
-    protected $fillable = ['company_id', 'credit'];
+    protected $fillable = ['company_id', 'credit', 'status'];
 
     public function company()
     {

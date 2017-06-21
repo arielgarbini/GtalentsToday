@@ -562,6 +562,12 @@ Route::put('companies/experience', [
     'middleware' => 'permission:companies.manage'
 ]);
 
+Route::put('companies/{company}/update/points', [
+    'as' => 'companies.update.points',
+    'uses' => 'CompanyController@updatePoints',
+    'middleware' => 'permission:companies.manage'
+]);
+
 /**
  * Candidates
  */
@@ -896,63 +902,110 @@ Route::get('califications', [
 
 Route::get('credits', [
     'as' => 'credits.index',
-    'uses' => 'CreditsController@index'
+    'uses' => 'CreditsController@index',
+    'middleware' => 'auth'
 ]);
 
 Route::get('credits/getpay', [
     'as' => 'credits.getpay',
-    'uses' => 'CreditsController@getDetailsPayment'
+    'uses' => 'CreditsController@getDetailsPayment',
+    'middleware' => 'auth'
 ]);
 
 Route::get('credits/getpay/paypal', [
     'as' => 'credits.getpay.paypal',
-    'uses' => 'CreditsController@getDetailsPaymentPaypal'
+    'uses' => 'CreditsController@getDetailsPaymentPaypal',
+    'middleware' => 'auth'
 ]);
 
 Route::get('credits/getpay/{amount}/success', [
     'as' => 'credits.getpay.success',
-    'uses' => 'CreditsController@getPaymentSuccess'
+    'uses' => 'CreditsController@getPaymentSuccess',
+    'middleware' => 'auth'
 ]);
 
 Route::get('credits/getpay/cancel', [
     'as' => 'credits.getpay.cancel',
-    'uses' => 'CreditsController@getPaymentCancel'
+    'uses' => 'CreditsController@getPaymentCancel',
+    'middleware' => 'auth'
 ]);
 
 Route::post('credits/pay', [
     'as' => 'credits.pay',
-    'uses' => 'CreditsController@pay'
+    'uses' => 'CreditsController@pay',
+    'middleware' => 'auth'
+]);
+
+Route::get('credits/list', [
+    'as' => 'credits.list',
+    'uses' => 'CreditsController@lists',
+    'middleware' => 'auth'
+]);
+
+Route::get('credits/create', [
+    'as' => 'credits.create',
+    'uses' => 'CreditsController@create',
+    'middleware' => 'auth'
+]);
+
+Route::post('credits/store', [
+    'as' => 'credits.store',
+    'uses' => 'CreditsController@store',
+    'middleware' => 'auth'
+]);
+
+Route::post('credits/store/price', [
+    'as' => 'credits.store.price',
+    'uses' => 'CreditsController@storePrice',
+    'middleware' => 'auth'
+]);
+
+Route::put('credits/{id}/update', [
+    'as' => 'credits.update',
+    'uses' => 'CreditsController@update',
+    'middleware' => 'auth'
+]);
+Route::delete('credits/{id}/delete', [
+    'as' => 'credits.delete',
+    'uses' => 'CreditsController@delete',
+    'middleware' => 'auth'
 ]);
 
 // ======Facturas============
 
 Route::get('invoices', [
     'as' => 'invoices.index',
-    'uses' => 'InvoicesController@index'
+    'uses' => 'InvoicesController@index',
+    'middleware' => 'auth'
 ]);
 
 Route::get('invoices/list', [
     'as' => 'invoices.list',
-    'uses' => 'InvoicesController@lists'
+    'uses' => 'InvoicesController@lists',
+    'middleware' => 'auth'
 ]);
 
 Route::get('invoices/{id}/show', [
     'as' => 'invoices.show',
-    'uses' => 'InvoicesController@show'
+    'uses' => 'InvoicesController@show',
+    'middleware' => 'auth'
 ]);
 
 Route::get('invoices/{id}/edit', [
     'as' => 'invoices.edit',
-    'uses' => 'InvoicesController@edit'
+    'uses' => 'InvoicesController@edit',
+    'middleware' => 'auth'
 ]);
 
 Route::put('invoices/{id}/update', [
     'as' => 'invoices.update',
-    'uses' => 'InvoicesController@update'
+    'uses' => 'InvoicesController@update',
+    'middleware' => 'auth'
 ]);
 Route::delete('invoices/{id}/delete', [
     'as' => 'invoices.delete',
-    'uses' => 'InvoicesController@delete'
+    'uses' => 'InvoicesController@delete',
+    'middleware' => 'auth'
 ]);
 
 // ======Post============

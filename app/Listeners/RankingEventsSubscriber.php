@@ -14,21 +14,32 @@ class RankingEventsSubscriber implements ShouldQueue
     public function handle($event)
     {
         $dataRequest = $event->getData();
-        $company = $this->getUserCompany($dataRequest['user_id']);
-        Point::create(['user_id' => $dataRequest['user_id'], 'sum' =>$dataRequest['points'], 'company_id' => $company->id]);
+        if(isset($dataRequest['user_id'])){
+            $company = $this->getUserCompany($dataRequest['user_id']);
+            Point::create(['user_id' => $dataRequest['user_id'], 'sum' =>$dataRequest['points'], 'company_id' => $company->id]);
+        } else {
+            $company = $this->getCompany($dataRequest['company_id']);
+            Point::create(['sum' =>$dataRequest['points'], 'company_id' => $company->id]);
+        }
         if($dataRequest['points']>0) {
             $this->sendNotification($company, $dataRequest['points'], 'get_points');
             if ($company->category_id < 8 && $company->points->sum('sum') >= Category::find($company->category_id + 1)->required_points) {
-                $category = Category::find($company->category_id + 1);
-                $this->updateRanking($company, $company->category_id + 1);
+                $category = $this->getCategoryByPoints($company->points->sum('sum'));
+                $this->updateRanking($company, $category->id);
                 $this->sendNotification($company, $category->name, 'promotion_received');
             }
         } else {
             if ($company->category_id > 1 && $company->points->sum('sum') >= Category::find($company->category_id - 1)->required_points) {
-                $category = Category::find($company->category_id - 1);
-                $this->updateRanking($company, $company->category_id - 1);
+                $category = $this->getCategoryByPoints($company->points->sum('sum'));
+                $this->updateRanking($company, $category->id);
             }
         }
+    }
+
+    public function getCategoryByPoints($points)
+    {
+        $ca = Category::where('required_points','>', $points)->get()->first();
+        return Category::find($ca->id-1);
     }
 
     public function getUserCompany($user_id)
@@ -36,6 +47,11 @@ class RankingEventsSubscriber implements ShouldQueue
         return Company::whereHas('company_users', function($query) use($user_id){
             $query->where('user_id', $user_id);
         })->get()->first();
+    }
+
+    public function getCompany($company_id)
+    {
+        return Company::find($company_id);
     }
 
     public function getListUsersCompany($company_id)

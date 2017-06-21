@@ -184,8 +184,6 @@
         }
         
     </script>
-
     {!! HTML::script('assets/js/modal_message.js') !!}
-
 
 @stop

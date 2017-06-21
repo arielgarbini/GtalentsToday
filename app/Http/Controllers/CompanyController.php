@@ -8,6 +8,7 @@ use JavaScript;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Input;
 use Vanguard\Company;
+use Vanguard\Events\RankingEvent;
 use Vanguard\Http\Requests;
 use Vanguard\Http\Requests\Company\CreateCompanyRequest;
 use Vanguard\Http\Requests\Company\UpdateCompanyRequest;
@@ -392,5 +393,11 @@ class CompanyController extends Controller
 
         return redirect()->back()
             ->withSuccess(trans('app.user_experience_updated_successfully'));
+    }
+
+    public function updatePoints(Request $request, $company_id)
+    {
+        event(new RankingEvent(['company_id' => $company_id, 'points' => $request->points]));
+        return redirect()->route('companies.index')->withSuccess(trans('app.points_success'));
     }
 }

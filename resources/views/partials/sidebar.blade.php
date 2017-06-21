@@ -57,31 +57,6 @@
                 </li>
             @endpermission
 
-            @permission(['roles.manage', 'permissions.manage'])
-                <li class="{{ Request::is('role*') || Request::is('permission*') ? 'active open' : ''  }}">
-                    <a href="#">
-                        <i class="fa fa-user fa-fw"></i>
-                        @lang('app.roles_and_permissions')
-                        <span class="fa arrow"></span>
-                    </a>
-                    <ul class="nav nav-second-level collapse">
-                        @permission('roles.manage')
-                            <li>
-                                <a href="{{ route('role.index') }}" class="{{ Request::is('role*') ? 'active' : ''  }}">
-                                    @lang('app.roles')
-                                </a>
-                            </li>
-                        @endpermission
-                        @permission('permissions.manage')
-                            <li>
-                                <a href="{{ route('permission.index') }}"
-                                   class="{{ Request::is('permission*') ? 'active' : ''  }}">@lang('app.permissions')</a>
-                            </li>
-                        @endpermission
-                    </ul>
-                </li>
-            @endpermission
-
             @permission('users.manage')
                 <li class="{{ Request::is('user*') ? 'active open' : ''  }}">
                     <a href="{{ route('user.index') }}" class="{{ Request::is('user*') ? 'active' : ''  }}">
@@ -106,40 +81,11 @@
                 </a>
             </li>
 
-            @permission(['settings.general', 'settings.auth', 'settings.notifications'])
-            <li class="{{ Request::is('settings*') ? 'active open' : ''  }}">
-                <a href="#">
-                    <i class="fa fa-gear fa-fw"></i> @lang('app.settings')
-                    <span class="fa arrow"></span>
+            <li class="{{ Request::is('credits*') ? 'active open' : ''  }}">
+                <a href="{{ route ('credits.list')}}" class="{{ Request::is('credits*') ? 'active' : ''  }}">
+                    <i class="fa fa-list-alt fa-fw"></i> @lang('app.credits')
                 </a>
-                <ul class="nav nav-second-level collapse">
-                    @permission('settings.general')
-                        <li>
-                            <a href="{{ route('settings.general') }}"
-                               class="{{ Request::is('settings') ? 'active' : ''  }}">
-                                @lang('app.general')
-                            </a>
-                        </li>
-                    @endpermission
-                    @permission('settings.auth')
-                        <li>
-                            <a href="{{ route('settings.auth') }}"
-                               class="{{ Request::is('settings/auth*') ? 'active' : ''  }}">
-                                @lang('app.auth_and_registration')
-                            </a>
-                        </li>
-                    @endpermission
-                    @permission('settings.notifications')
-                        <li>
-                            <a href="{{ route('settings.notifications') }}"
-                               class="{{ Request::is('settings/notifications*') ? 'active' : ''  }}">
-                                @lang('app.notifications')
-                            </a>
-                        </li>
-                    @endpermission
-                </ul>
             </li>
-            @endpermission
         </ul>
     </div>
     <!-- /.sidebar-collapse -->

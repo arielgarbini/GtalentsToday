@@ -206,6 +206,11 @@ return [
     'periods'                       => 'Periodos',
 
     //Companies
+    'points_success'               => 'Puntos actualizados satisfactoriamente',
+    'add_points'                   => 'Administrar puntos de la empresa',
+    'points_add_delete'            => 'Agregar o quitar puntos',
+    'date_register'                => 'Fecha de registro',
+    'quantity_employees'           => 'Cantidad de empleados',
     'companies'                    => 'Compañías',
     'list_of_registered_companies' => 'Listado de Compañías Registradas',
     'add_company'                  => 'Agregar Nueva Compañía',
@@ -1072,11 +1077,23 @@ return [
     'deposit'               => 'depósito',
 
     //credits
-
+    'change_credits_price'  => 'Actualizar precio de los créditos',
     'buy_credits'           => 'Comprar Creditos',
+    'list_of_registered_credits' => 'Lista de créditos comprados y consumidos',
+    'add_credits'           => 'Agregar créditos a una empresa',
     'events'                => 'Evento',
     'credit_purchase'       => 'Compra de Creditos',
+    'credit_add_updated'    => 'Credito actualizado satisfactoriamente',
+    'credit_deleted'       => 'Credito eliminado',
     'buy'                   => 'Comprar',
+    'bought'                => 'Comprado',
+    'spent'                 => 'Gastado',
+    'choose_option'         => 'Seleccione una empresa',
+    'new_price_credits'     => 'Nuevo precio',
+    'credit_add'            => 'Crédito guardado satisfactoriamente',
+    'credit_update'         => 'Precio del crédito actualizado',
+    'credit_not_saved'      => 'Ocurrio un error, intente de nuevo',
+    'are_you_sure_delete_credit' => 'Seguro desea eliminar este credito?',
     'send_you_the_invoice'  => 'En breve le enviaremos la factura <br> e instrucción de pago',
     'cr_my_credits'         => 'Mis Creditos',
     'payment_description'   => 'Descripción de pago',
