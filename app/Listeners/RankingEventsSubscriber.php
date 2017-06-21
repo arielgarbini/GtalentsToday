@@ -23,14 +23,16 @@ class RankingEventsSubscriber implements ShouldQueue
         }
         if($dataRequest['points']>0) {
             $this->sendNotification($company, $dataRequest['points'], 'get_points');
-            if ($company->category_id < 8 && $company->points->sum('sum') >= Category::find($company->category_id + 1)->required_points) {
+            if ($company->category_id < 8) {
                 $category = $this->getCategoryByPoints($company->points->sum('sum'));
-                $this->updateRanking($company, $category->id);
-                $this->sendNotification($company, $category->name, 'promotion_received');
+                if($category->id!=$company->category_id){
+                    $this->updateRanking($company, $category->id);
+                    $this->sendNotification($company, $category->name, 'promotion_received');
+                }
             }
         } else {
-            if ($company->category_id > 1 && $company->points->sum('sum') >= Category::find($company->category_id - 1)->required_points) {
-                $category = $this->getCategoryByPoints($company->points->sum('sum'));
+            $category = $this->getCategoryByPoints($company->points->sum('sum'));
+            if($category->id!=$company->category_id) {
                 $this->updateRanking($company, $category->id);
             }
         }
