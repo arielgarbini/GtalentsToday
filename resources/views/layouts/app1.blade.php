@@ -197,7 +197,7 @@
                 swal({
                     title: "{{trans('app.error')}}",
                     text: errors,
-                    timer: 3000,
+                    timer: 5000,
                     html: true,
                     showConfirmButton: false,
                     type: "error"

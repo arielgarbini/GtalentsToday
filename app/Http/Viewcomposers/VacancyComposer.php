@@ -67,7 +67,10 @@ class VacancyComposer
         }
 
         $viewed = $this->vacancy_viewed->search(['vacancy_id' => $vacancy->id])->count();
-        $vacancy->location = $vacancy->locat->country->name.' / '.$vacancy->locat->name;
+        $vacancy->location = $vacancy->country->name.' / '.$vacancy->state->name;
+        if($vacancy->city){
+            $vacancy->location .= ' / '.$vacancy->city->name;
+        }
         $languages = LanguageVacancy::where('vacancy_id', $vacancy->id)->get();
 
         $view->with('languages', $languages);

@@ -109,7 +109,7 @@ class DashboardController extends Controller
     private function defaultDashboard()
     {
         $user_id = Auth::user()->id;
-        Notification::where('user_id', \Auth::user()->id)->where('read',0)->update(['read' => 1]);
+        //Notification::where('user_id', \Auth::user()->id)->where('read',0)->update(['read' => 1]);
         $activities = $this->activities->userActivityForPeriod(
             Auth::user()->id,
             Carbon::now()->subWeeks(2),

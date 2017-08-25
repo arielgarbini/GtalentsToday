@@ -100,7 +100,7 @@ class MessageController extends Controller
                     'created_at' => $messages->created_at->diffForHumans(), 'message' => $messages->message];
             }
         } else {
-            foreach(Message::where('conversation_id', $id)->orderBy('created_at', 'desc')->get() as $messages){
+            foreach(Message::where('conversation_id', $id)->orderBy('created_at', 'asc')->get() as $messages){
                 $messages->status_destinatary_user = 1;
                 $messages->save();
                 $data[] = ['sender_user_id' => $messages->sender_user_id, 'destinatary_user_id' => $messages->destinatary_user_id,

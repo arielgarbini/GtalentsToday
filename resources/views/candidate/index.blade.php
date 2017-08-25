@@ -41,7 +41,7 @@
                         <span class="glyphicon glyphicon-search"></span>
                     </button>
                     @if (Input::has('search') && Input::get('search') != '')
-                        <a href="{{ route('candidates.index') }}" class="btn btn-danger" type="button" >
+                        <a href="{{ route('candidates.index.admin') }}" class="btn btn-danger" type="button" >
                             <span class="glyphicon glyphicon-remove"></span>
                         </a>
                     @endif
@@ -56,8 +56,8 @@
         <thead>
             <th>@lang('app.first_name')</th>
             <th>@lang('app.last_name')</th>
-            <th>@lang('app.profile')</th>
-            <th>@lang('app.code')</th>
+            <th>@lang('app.email')</th>
+            <th>@lang('app.date')</th>
             <th class="text-center">@lang('app.action')</th>
         </thead>
         <tbody>
@@ -66,8 +66,8 @@
                     <tr>
                         <td>{{ $candidate->first_name }}</td>
                         <td>{{ $candidate->last_name }}</td>
-                        <td>{{ $candidate->profile }}</td>
-                        <td>{{ $candidate->code }}</td>
+                        <td>{{ $candidate->email }}</td>
+                        <td>{{ $candidate->created_at->format('d/m/Y') }}</td>
                         <td class="text-center">
                             <a href="{{ route('candidates.show', $candidate->id) }}" class="btn btn-success btn-circle"
                                title="@lang('app.view_candidate')" data-toggle="tooltip" data-placement="top">

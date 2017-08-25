@@ -303,7 +303,7 @@
 
             $('#test2').click(function(){
                 $('#fee').val('');
-                $('#fee').attr('maxlength',5);
+                $('#fee').attr('maxlength',6);
                 $('#des').html('$');
             });
        });

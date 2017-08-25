@@ -14,16 +14,18 @@
 					<!-- ACTIVO 1 -->
 					<div class="active-one">
 						<!--FILTRADO-->
+						<!--
 						<select class="browser-default">
 							<option value="" disabled selected>@lang('app.all_messages')</option>
 							<option value="1">Administrador</option>
 							<option value="2">Poster</option>
 							<option value="3">Novato</option>
-						</select>
+						</select>-->
 
+						<!--
 						<div class="search-opt1 btn-search">
 							<span class="icon-gTalents_search"></span>
-						</div>							
+						</div>		-->
 					</div>
 
 					<!-- SECCION DE BUSQUEDA -->
@@ -184,6 +186,7 @@
 						   }
 					   }
 					   $('.message-body').html(html);
+                       $(".message-body").scrollTop($(".message-body")[0].scrollHeight);
 				   }
 			   })
 		   });

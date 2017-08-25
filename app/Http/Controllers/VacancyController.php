@@ -301,6 +301,9 @@ class VacancyController extends Controller
 
         $request->session()->put('vacancy', $vacancy);
         $request->session()->put('id', $vacancy->id);
+        if(isset($request->saveonly)){
+            return redirect()->route('vacancies.show', $vacancy->id);
+        }
         if($id!=null){
             return redirect()->route('vacancies.step1', $id);
         } else {
@@ -1192,7 +1195,8 @@ class VacancyController extends Controller
             ->where('candidate_id', $candidate->id)->get()->first();
         event(new NotificationEvent(['element_id' => $vacancy_user->id,
             'user_id'=>$candidate->supplier_user_id, 'type' => 'qualify_supplier_vacancy_contract', 'name'=>$vacancy->name]));
-
+        $vacancy->status = 4;
+        $vacancy->save();
         $rating = ['1' => -10, '2' => 0, '3' => 5, '4' => 10, '5' => 20];
         event(new RankingEvent(['user_id' => $candidate->supplier_user_id, 'points' => $rating[$request->rating.'']]));
         return redirect()->route('vacancies.show', $vacancy->id)

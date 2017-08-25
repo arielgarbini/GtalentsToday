@@ -145,8 +145,14 @@
                     <!-- DESCRIPCION DEL PUESTO -->
                     <div class="box">
                      <!--   <input type="file" name="file" id="file-4" class="inputfile inputfile-2" data-multiple-caption="{count} files selected" multiple />-->
-                        {!! Form::file('job', ['id' => 'file-4', 'class' => 'inputfile inputfile-2','data-multiple-caption' => '{count} files selected ' ,'multiple'=> true ])!!}
-                     <label for="file-4"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="17" viewBox="0 0 20 17"><path d="M10 0l-5.2 4.9h3.3v5.1h3.8v-5.1h3.3l-5.2-4.9zm9.3 11.5l-3.2-2.1h-2l3.4 2.6h-3.5c-.1 0-.2.1-.2.1l-.8 2.3h-6l-.8-2.2c-.1-.1-.1-.2-.2-.2h-3.6l3.4-2.6h-2l-3.2 2.1c-.4.3-.7 1-.6 1.5l.6 3.1c.1.5.7.9 1.2.9h16.3c.6 0 1.1-.4 1.3-.9l.6-3.1c.1-.5-.2-1.2-.7-1.5z"/></svg> <span>@lang('app.job_Description')</span></label>
+                    {!! Form::file('job', ['id' => 'file-4', 'class' => 'inputfile inputfile-2','data-multiple-caption' => '{count} files selected ' ,'multiple'=> true ])!!}
+                     <label for="file-4"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="17" viewBox="0 0 20 17"><path d="M10 0l-5.2 4.9h3.3v5.1h3.8v-5.1h3.3l-5.2-4.9zm9.3 11.5l-3.2-2.1h-2l3.4 2.6h-3.5c-.1 0-.2.1-.2.1l-.8 2.3h-6l-.8-2.2c-.1-.1-.1-.2-.2-.2h-3.6l3.4-2.6h-2l-3.2 2.1c-.4.3-.7 1-.6 1.5l.6 3.1c.1.5.7.9 1.2.9h16.3c.6 0 1.1-.4 1.3-.9l.6-3.1c.1-.5-.2-1.2-.7-1.5z"/></svg> <span>
+                        @if($vacancy!=false && $vacancy->file_job_description!='')
+                            {{$vacancy->file_job_description}}
+                        @else
+                             @lang('app.job_Description')
+                        @endif
+                     </span></label>
                     
                     </div>
 
@@ -154,7 +160,13 @@
                     <div class="box hint--bottom  hint--large hint--bounce" aria-label="Acuerdo de confidencialidad entre usted y gTalents, sin este acuerdo podremos invalidar su post">
                        <!-- <input type="file" name="file-2[]" id="file-2" class="inputfile inputfile-2" data-multiple-caption="{count} files selected" multiple />-->
                         {!! Form::file('employer', ['id' => 'file-2', 'class' => 'inputfile inputfile-2','data-multiple-caption' => '{count} files selected ' , 'multiple' => true ])!!}
-                        <label for="file-2"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="17" viewBox="0 0 20 17"><path d="M10 0l-5.2 4.9h3.3v5.1h3.8v-5.1h3.3l-5.2-4.9zm9.3 11.5l-3.2-2.1h-2l3.4 2.6h-3.5c-.1 0-.2.1-.2.1l-.8 2.3h-6l-.8-2.2c-.1-.1-.1-.2-.2-.2h-3.6l3.4-2.6h-2l-3.2 2.1c-.4.3-.7 1-.6 1.5l.6 3.1c.1.5.7.9 1.2.9h16.3c.6 0 1.1-.4 1.3-.9l.6-3.1c.1-.5-.2-1.2-.7-1.5z"/></svg> <span>@lang('app.agreement_with_the_Employer')</span></label>
+                        <label for="file-2"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="17" viewBox="0 0 20 17"><path d="M10 0l-5.2 4.9h3.3v5.1h3.8v-5.1h3.3l-5.2-4.9zm9.3 11.5l-3.2-2.1h-2l3.4 2.6h-3.5c-.1 0-.2.1-.2.1l-.8 2.3h-6l-.8-2.2c-.1-.1-.1-.2-.2-.2h-3.6l3.4-2.6h-2l-3.2 2.1c-.4.3-.7 1-.6 1.5l.6 3.1c.1.5.7.9 1.2.9h16.3c.6 0 1.1-.4 1.3-.9l.6-3.1c.1-.5-.2-1.2-.7-1.5z"/></svg> <span>
+                                @if($vacancy!=false && $vacancy->file_employer!='')
+                                    {{$vacancy->file_employer}}
+                                @else
+                                    @lang('app.agreement_with_the_Employer')
+                                @endif
+                            </span></label>
                         
                     </div>
                 </div>
@@ -162,7 +174,13 @@
                 <div class="btn-container">
                     <div class="item">
                        <!-- <a href="#" class="btn-main" id="next-newPost1">Siguiente </a>-->
+                        @if($vacancy!=false)
+                            <a href="{{route('vacancies.show', $vacancy->id)}}" class="btn-main next " >@lang('app.cancel')</a>
+                        @else
+                            <a href="{{route('dashboard')}}" class="btn-main next " >@lang('app.cancel')</a>
+                        @endif
                         <button type="submit" class="btn-main next " >@lang('app.next')</button>
+                        <button type="submit" name="saveonly" value="true" class="btn-main next " >@lang('app.save')</button>
                     </div>
                 </div>
             </section>

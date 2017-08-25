@@ -66,10 +66,15 @@ class CandidateController extends Controller
         return view('dashboard_user.candidate.index', compact('candidates','users'));
     }
 
-    public function indexAdmin ()
+    public function indexAdmin (Request $request)
     {
         $perPage = 20;
-        $candidates = Candidate::all();
+        if(isset($request->search)){
+            $candidates = Candidate::where('first_name','like','%'.$request->search.'%')
+                ->orWhere('last_name','like','%'.$request->search.'%')->get();
+        } else {
+            $candidates = Candidate::all();
+        }
         //dd($candidates);
         //dd($perPage);
         /*if(Auth::user()->hasRole('Consultant') Or Auth::user()->hasRole('Consultant Unverified'))

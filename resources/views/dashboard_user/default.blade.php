@@ -129,7 +129,12 @@
                                         <!--DATOS DEL POST-->
                                         <div class="item-activity">
                                             <h5>@lang('app.active')</h5>
-                                            <h2>{{$vacancy_opportunity->name}}</h2>
+                                            <h2>@if(strlen($vacancy_opportunity->name)>=28)
+                                                    {{substr($vacancy_opportunity->name,0,28)}}...
+                                                @else
+                                                    {{$vacancy_opportunity->name}}
+                                                @endif
+                                            </h2>
                                             <h3>{{substr($vacancy_opportunity->locat->country->name.' | '.$vacancy_opportunity->locat->name, 0, 25)}} @if(strlen($vacancy_opportunity->locat->country->name.' | '.$vacancy_opportunity->locat->name)>25) ... @endif</h3>
                                             <p>@lang('app.published') | {{ $vacancy_opportunity->created_at->diffForHumans() }}</p>
                                             <h3>@if($vacancy_opportunity->search_type==1) {{trans('app.contingency')}} @else {{trans('app.retained')}} @endif</h3>
@@ -504,7 +509,13 @@
                                         </form>
                                     </li>
                                 @endif
-                                <li class="ClassFecha">{{$notification->created_at->diffForHumans()}}</li>
+                                <li class="ClassFechaCampana right-align">
+                                    <div class="motivo">
+                                        <div class="datos">
+                                            <p>{{$notification->created_at->diffForHumans()}}</p>
+                                        </div>
+                                    </div>
+                                </li>
                         @endforeach
                     @else
                            <li>{{trans('app.no_notifications')}}</li>

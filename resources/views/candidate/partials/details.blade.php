@@ -36,12 +36,6 @@
         <div class="row">
             <div class="col-lg-12 col-md-12">
                 <div class="col-md-6">
-                    <div class="form-group">
-                        <label for="profile">@lang('app.profile')</label>
-                        {!! Form::text('profile', $edit ? $candidate->profile: '', ['id' => 'profile', 'class' => 'form-control','placeholder' => trans('app.profile')]) !!}       
-                    </div>
-                </div>
-                <div class="col-md-6">
                     <div class="form-group orb-form">
                         <label>@lang('app.resume')</label>
                         <label for="file" class="input input-file">
@@ -53,10 +47,6 @@
                         </label>
                     </div>
                 </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-lg-12 col-md-12">
                 <div class="col-md-6">
                     <div class="form-group">
                         <label for="is_active">@lang('app.status')</label>
@@ -66,18 +56,5 @@
                 </div>
             </div>
         </div>
-        <div class="row">
-            <div class="col-lg-12 col-md-12">
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <div class="checkbox">
-                            <input type="checkbox" name="accept_terms_cond" id="accept_terms_cond" value="1"/>
-                            <label for="accept_terms_cond"><a href="#tos-modal" data-toggle="modal">@lang('app.accept_terms_cond')</a></label>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
     </div>
 </div>
