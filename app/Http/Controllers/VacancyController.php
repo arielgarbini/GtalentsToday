@@ -259,7 +259,8 @@ class VacancyController extends Controller
             'state_id'                  => 'required',
             'responsabilities'          => 'required', 
             'required_experience'       => 'required',
-            'key_position_questions'    => 'required'
+            'key_position_questions'    => 'required',
+            'job'                       => 'required'
             ] );
 
         $company_id = CompanyUser::where(['user_id' => Auth::user()->id])->get()->first()->company_id;
@@ -335,7 +336,7 @@ class VacancyController extends Controller
             $vacancy = false;
         }
         $lans = ['1' => \Lang::get('app.native'), '2' => \Lang::get('app.fluent'), '3' => \Lang::get('app.good'), '4' => \Lang::get('app.functional'), '5' => \Lang::get('app.basic')];
-        $compensations = Compensation::orderBy('created_at', 'asc')->lists('salary', 'salary');
+        $compensations = Compensation::orderBy('id', 'asc')->lists('salary', 'salary');
         $contractTypes = $contractTypes->lists($language);
         $experience = $experience->lists($language);
         $languages = [];
@@ -358,6 +359,61 @@ class VacancyController extends Controller
 
     }
 
+    public function postVacancyStepOneAjax(Request $request, $id)
+    {
+        $data = [];
+        if(isset($request->contract_type_id)){
+            $data['contract_type_id'] = $request->contract_type_id;
+        }
+        if(isset($request->industry)){
+            $data['industry'] = $request->industry;
+        }
+        if(isset($request->search_type)){
+            $data['search_type'] = $request->search_type;
+        }
+        if(isset($request->years_experience)){
+            $data['years_experience'] = $request->years_experience;
+        }
+        if(isset($request->especialization_id)){
+            $data['especialization_id'] = $request->especialization_id;
+        }
+        if(isset($request->range_salary)){
+            $data['range_salary'] = $request->range_salary;
+        }
+        if(isset($request->warranty_employer)){
+            $data['warranty_employer'] = $request->warranty_employer;
+        }
+        if(isset($request->general_conditions)){
+            $data['general_conditions'] = $request->general_conditions;
+        }
+        if(isset($request->replacement_period_id)){
+            $data['replacement_period_id'] = $request->replacement_period_id;
+        }
+        if(isset($request->fee)){
+            $data['fee'] = $request->fee;
+        }
+        if(isset($request->group1)){
+            $data['group1'] = $request->group1;
+        }
+        if(isset($request->terms)){
+            $data['terms'] = $request->terms;
+        }
+        if(count($data)>0) {
+            $data['vacancy_status_id'] = 1;
+        }
+        $this->vacancies->update($id,$data);
+        LanguageVacancy::where('vacancy_id', $id)->delete();
+        if(isset($request->list_languages)){
+            foreach($request->list_languages as $lan){
+                if($lan!=''){
+                    $explode = explode('-', $lan);
+                    LanguageVacancy::create(['level' => $request->all()['level-'.$explode[0]],
+                        'type_id' => $explode[0], 'vacancy_id' =>$id]);
+                }
+            }
+        }
+        return response()->json(['sucess'=>'success'], 200);
+    }
 
     public function postVacancyStepOne(Request $request, $id = null)
     {
@@ -383,7 +439,7 @@ class VacancyController extends Controller
                 'range_salary'              =>  $request->range_salary,
                 'warranty_employer'         => $request->warranty_employer, 
                 'general_conditions'        => $request->general_conditions,
-                'replacement_period'        => $request->replacement_period_id,
+                'replacement_period_id'        => $request->replacement_period_id,
                 'fee'                       => $request->fee,
                 'group1'                    => $request->group1,
                 'terms'                     => $request->terms,
@@ -393,7 +449,12 @@ class VacancyController extends Controller
             ];
 
    $vacancy_id = $request->session()->get('id');
-   $id = $vacancy_id;
+   $validate_first = $id;
+   if($id!=null){
+       $vacancy_id = $id;
+   } else {
+       $id = $vacancy_id;
+   }
    $this->vacancies->update($vacancy_id,$data);
    LanguageVacancy::where('vacancy_id', $id)->delete();
    if(isset($request->list_languages)){
@@ -405,7 +466,12 @@ class VacancyController extends Controller
            }
        }
    }
-   event(new RankingEvent(['user_id' => Auth::user()->id, 'points' => 25]));
+   if($validate_first==null) {
+       event(new RankingEvent(['user_id' => Auth::user()->id, 'points' => 25]));
+   }
+   if(isset($request->saveonly)){
+       return redirect()->route('vacancies.show', $vacancy_id);
+   }
    $supliers_recommended = $this->supplierManager->getRecommended($id, 4);
    return view('dashboard_user.post.post_step2' , compact('vacancy_id', 'supliers_recommended'), ['vacancies' => $request->session()->get('vacancies')]);
 
@@ -428,6 +494,16 @@ class VacancyController extends Controller
             $supliers_recommended = $this->supplierManager->getRecommended($id, 3);
             return view('dashboard_user.post.post_detail', compact('supliers_recommended', 'vacancy'));
         }
+    }
+
+    public function getSupplierRecommended(Request $request, $id)
+    {
+        $vacancy = $this->vacancies->find($id);
+        $supliers_recommended = $this->supplierManager->getRecommended($id, 1, explode(',',$request->exclude));
+        $html = view('dashboard_user.post.partials.suppliersrecommended', ['supliers_recommended' => $supliers_recommended,
+            'vacancy' => $vacancy]);
+        $html = $html->render();
+        return response()->json(['data' => $supliers_recommended, 'html' => $html]);
     }
 
     /**

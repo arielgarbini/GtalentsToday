@@ -8,7 +8,7 @@ use Vanguard\User;
 
 class SupplierManager
 {
-    public function getRecommended($id = null, $paginate)
+    public function getRecommended($id = null, $paginate, $exclude = [])
     {
         $company_id = Auth::user()->company()->get()->first()->id;
         $supliers_recommended = User::where('id','!=',Auth::user()->id)->whereNotExists(function($query) use($id){
@@ -16,7 +16,7 @@ class SupplierManager
                 ->where('vacancy_id', $id)->whereRaw('vg_vacancy_users.supplier_user_id = vg_users.id');
         })->whereHas('company_user', function($q) use($company_id){
             $q->where('company_id', '!=', $company_id);
-        })->get();
+        })->with('company.category')->whereNotIn('id',$exclude)->get();
         return $this->orderSuppliers($supliers_recommended, $paginate);
     }
 

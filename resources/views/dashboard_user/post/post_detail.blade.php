@@ -102,16 +102,32 @@
                 <p>{{$replacementPeriod['name']}}</p>
 
                 <!--LINK DESCARGA-->
+                <div class="row">
                 @if($vacancy->file_job_description!='')
-                <div class="link">
-                    <a @if($vacancy->file_job_description!='') href="/upload/job/{{$vacancy->file_job_description}}" download @else href="#" @endif>
-                        <figure>
-                            <span class="icon-gTalents_pdf"></span>
-                        </figure>
-                        <p>@lang('app.job_Description')</p>
-                    </a>
-                </div>
+                    <div class="col s6">
+                        <div class="link">
+                            <a @if($vacancy->file_job_description!='') href="/upload/job/{{$vacancy->file_job_description}}" download @else href="#" @endif>
+                                <figure>
+                                    <span class="icon-gTalents_pdf"></span>
+                                </figure>
+                                <p>@lang('app.job_Description')</p>
+                            </a>
+                        </div>
+                    </div>
                 @endif
+                @if($vacancy->file_employer!='')
+                    <div class="col s6">
+                        <div class="link">
+                            <a @if($vacancy->file_employer!='') href="/upload/employer/{{$vacancy->file_employer}}" download @else href="#" @endif>
+                                <figure>
+                                    <span class="icon-gTalents_pdf"></span>
+                                </figure>
+                                <p>@lang('app.agreement_employer')</p>
+                            </a>
+                        </div>
+                    </div>
+                @endif
+                </div>
                 <!--RESUMEN-->
                 <ul class="jobs-detail-body-resum">
                     <!--FACTURACION APROXIMADA-->
@@ -131,7 +147,7 @@
                             <span class="icon-gTalents_coins"></span>
                         </figure>
                         <div class="datos">
-                            <h4>20% @lang('app.of_commission')</h4>
+                            <h4>{{$userCategorie->supplier_percent}}% @lang('app.of_commission')</h4>
                             <p>@lang('app.supplier_commission')</p>
                         </div>
                     </li>
@@ -142,7 +158,7 @@
                             <span class="icon-gTalents_coins"></span>
                         </figure>
                         <div class="datos">
-                            <h4>5% @lang('app.of_commission')</h4>
+                            <h4>{{$userCategorie->poster_percent}}% @lang('app.of_commission')</h4>
                             <p>@lang('app.poster_commission')</p>
                         </div>
                     </li>
@@ -175,7 +191,7 @@
                             <span class="icon-gTalents_isotipo"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span><span class="path5"></span></span>
                         </figure>
                         <div class="datos">
-                            <h4>30% @lang('app.of_commission')</h4>
+                            <h4>{{$userCategorie->gtalents_percent}}% @lang('app.of_commission')</h4>
                             <p>@lang('app.gTalents_commission')</p>
                         </div>
                     </li>
@@ -476,7 +492,7 @@
                 <section class="bills-title">
                     <h3>@lang('app.we_recommend_you')</h3>
                 </section>
-                <ul class="alerts-div supplier-recomend">
+                <ul class="alerts-div supplier-recomend" id="add_new_sup">
                     @foreach($supliers_recommended as $supplier)
                     <li>
                         <div class="motivo">
@@ -496,7 +512,7 @@
                             <div class="addSupplier">
 
                                 <div class="link">
-                                    <a href="#modalProfileSupplier{{$supplier->id}}" class="modal-trigger waves-effect waves-light">
+                                    <a modal="modalProfileSupplier{{$supplier->id}}" href="#modalProfileSupplier{{$supplier->id}}" class="waves-effect waves-light">
                                         <span class="icon-gTalents_profile"></span>
                                     </a>
                                 </div>
@@ -513,7 +529,7 @@
                             </div>
                             @include('dashboard_user.post.partials.modalsupplier')
                         </div>
-                        <span class="icon-gTalents_close close-alert"></span>
+                        <span val="{{$supplier->id}}" class="new_supplier icon-gTalents_close close-alert"></span>
                     </li>
                     @endforeach
                 </ul>
@@ -776,6 +792,44 @@
 @section('scripts')
    <script>
        $(document).ready(function(){
+           $('body').on('click','.modal-job',function(){
+               $('#'+$(this).attr('modal')).modal('open');
+           });
+           new_sup = true;
+           exclude_sup = [];
+           @foreach($supliers_recommended as $supplier)
+               exclude_sup.push("{{$supplier->id}}");
+           @endforeach
+            $('body').on('click','.new_supplier',function (e) {
+               if(new_sup){
+                   new_sup = false;
+                   $.ajax({
+                       url: "{{route('vacancies.show.getsuppliers',$vacancy->id)}}?exclude="+exclude_sup.toString(),
+                       method: 'GET',
+                       success:function(response){
+                           for(var i = 0; i<response.data.length;i++){
+                               exclude_sup.push(response.data[i].id);
+                           }
+                           console.log(response.html);
+                           $('#add_new_sup').append(response.html);
+                           new_sup = true;
+                           //INICIALIZAR MODALES
+                           $('.modal-trigger').leanModal();
+                           try {
+                               $('.modal').modal();
+                           }
+                           catch(err) {
+                               console.log('che');
+                           }
+                       }
+                   });
+               } else {
+                   e.preventDefault();
+                   e.stopPropagation();
+                   return false;
+               }
+           });
+
            $('#search-supplier').keyup(function(){
               if($(this).val().length>=2){
                   $('#list-supplier > li').show();

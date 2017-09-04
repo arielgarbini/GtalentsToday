@@ -164,7 +164,7 @@
                     <!--PERIODO DE REEMPLAZO-->
                     <div class="itemForm">
                         <label for="replacement_period">@lang('app.replacement_period')</label>
-                    {!!  Form::select('replacement_period_id', $replacement_period, ($vacancy!=false) ? $vacancy->replacement_period : null, ['id' => 'replacement_period' , 'class' => 'browser-default'] )!!}
+                    {!!  Form::select('replacement_period_id', $replacement_period, ($vacancy!=false) ? $vacancy->replacement_period_id : null, ['id' => 'replacement_period' , 'class' => 'browser-default'] )!!}
                     @if($errors->has('replacement_period_id'))
                           <p class="text-darger" style="color:red;"> {{ $errors->first('replacement_period_id') }}</p>
                     @endif 
@@ -214,11 +214,13 @@
                     <!--NEXT-->
                     <div class="item">
                         <!-- <a href="#" class="btn-main" id="next-newPost2">Siguiente</a>-->
-                        <a class="btn-main next2" id="next-newPost2" href="{{$url}}">@lang('app.back')</a>
+                        <a class="btn-main next2" id="next-newPost2-back" href="{{$url}}">@lang('app.back')</a>
                     </div>
                     <div class="item">
-                       <!-- <a href="#" class="btn-main" id="next-newPost2">Siguiente</a>-->
                          <button type="submit" class="btn-main next2"  id="next-newPost2">@lang('app.next')</button>
+                    </div>
+                    <div class="item">
+                        <button type="submit" name="saveonly" value="true" class="btn-main next " >@lang('app.save')</button>
                     </div>
                 </div>
             </section>
@@ -251,6 +253,41 @@
 @section('scripts')
    <script type="text/javascript">
         $(document).ready(function() {
+            $('#next-newPost2-back').click(function (e) {
+                e.preventDefault();
+                e.stopPropagation();
+                href = $(this).attr('href');
+                data = new FormData();
+                $('input').each(function(){
+                    if($(this).attr('name')!=undefined){
+                        data.append($(this).attr('name'), $(this).val());
+                    }
+                });
+                $('select').each(function(){
+                    if($(this).attr('name')!=undefined){
+                        data.append($(this).attr('name'), $(this).val());
+                    }
+                });
+                $('textarea').each(function(){
+                    if($(this).attr('name')!=undefined){
+                        data.append($(this).attr('name'), $(this).val());
+                    }
+                });
+                console.log('efsef');
+                $.ajax({
+                    url: "{{route('vacancies.step1.ajax', $vacancy_id)}}",
+                    method: 'POST',
+                    data: data,
+                    processData: false,
+                    processing: true,
+                    serverSide: false,
+                    contentType: false,
+                    success: function(response){
+                        window.location = href;
+                    }
+                });
+            });
+
             @if($langc!=false)
                 val = new Array;
                 @foreach($langc as $ll)

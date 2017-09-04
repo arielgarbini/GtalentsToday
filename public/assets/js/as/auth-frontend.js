@@ -278,9 +278,9 @@ $(document).ready(
 				//DESPLEGAR TODA LA LISTA
 
 				//ELIMINAR UNA ALERTA
-				$(".close-alert").click(function(){
+				$("body").on('click',".close-alert",function(){
 					$(this).parent().fadeOut(); 
-				})
+				});
 
 				//ACTIVAR BUSCADOR DE CANDIDATOS
 				$(".btn-search").click(function(){

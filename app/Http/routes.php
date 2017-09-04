@@ -1055,9 +1055,21 @@ Route::post('vacancies/step/1/{id?}', [
     'middleware' => ['auth', 'permission:vacancies.create']
 ]);
 
+Route::post('vacancies/step/1/{id}', [
+    'as' => 'vacancies.step1.ajax',
+    'uses' => 'VacancyController@postVacancyStepOneAjax',
+    'middleware' => ['auth', 'permission:vacancies.create']
+]);
+
 Route::get('vacancies/{vacancy}/show', [
     'as' => 'vacancies.show',
     'uses' => 'VacancyController@view',
+    'middleware' => ['auth', 'permission:vacancies.view']
+]);
+
+Route::get('vacancies/{vacancy}/getSuppliers', [
+    'as' => 'vacancies.show.getsuppliers',
+    'uses' => 'VacancyController@getSupplierRecommended',
     'middleware' => ['auth', 'permission:vacancies.view']
 ]);
 

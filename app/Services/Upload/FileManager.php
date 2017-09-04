@@ -110,10 +110,11 @@ class FileManager
     private function generateFileName($type, $tp)
     {
         $file = $this->getUploadedFileFromRequest($type, $tp);
+        $filename = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
 
         return sprintf(
             "%s.%s",
-            md5(str_random() . time()),
+            md5(str_random() . time()).'&&'.$filename,
             $file->getClientOriginalExtension()
         );
     }

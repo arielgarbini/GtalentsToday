@@ -123,3 +123,16 @@
     border: 1px solid transparent;
     border-radius: .25rem;
 }
+.category-o{
+    height:40px;
+    width:40px;
+    margin-left:10px;
+    margin-right:10px;
+}
+.category-u{
+    height:40px;
+    width:40px;
+    margin-left:10px;
+    margin-right:10px;
+    opacity:0.5;
+}

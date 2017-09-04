@@ -8,6 +8,7 @@ use Vanguard\ExperienceYear;
 use Vanguard\LanguageVacancy;
 use Vanguard\ReplacementPeriod;
 use Vanguard\FunctionalArea;
+use Vanguard\User;
 use Vanguard\VacancyUser;
 use Vanguard\VacancyCandidate;
 use Vanguard\ActualPosition;
@@ -30,6 +31,7 @@ class VacancyComposer
             $language = 1;
         }
         $vacancy = $view->getData()['vacancy'];
+        $userCategorie = User::find($vacancy->poster_user_id)->company[0]->category;
         $contract = ContractType::where('value_id', $vacancy->contract_type_id)->where('language_id', $language)->get()->first();
         $experiencie = ExperienceYear::where('value_id', $vacancy->contract_type_id)->where('language_id', $language)->get()->first();
         $replacementPeriod = ReplacementPeriod::where('value_id', $vacancy->contract_type_id)->where('language_id', $language)->get()->first();
@@ -73,6 +75,7 @@ class VacancyComposer
         }
         $languages = LanguageVacancy::where('vacancy_id', $vacancy->id)->get();
 
+        $view->with('userCategorie', $userCategorie);
         $view->with('languages', $languages);
         $view->with('language', $language);
         $view->with('viewed', $viewed);

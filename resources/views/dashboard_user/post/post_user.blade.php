@@ -99,16 +99,32 @@
                 <p>{{$replacementPeriod['name']}}</p>
 
                 <!--LINK DESCARGA-->
-                @if($vacancy->file_job_description!='')
-                    <div class="link">
-                        <a @if($vacancy->file_job_description!='') href="/upload/job/{{$vacancy->file_job_description}}" download @else href="#" @endif>
-                            <figure>
-                                <span class="icon-gTalents_pdf"></span>
-                            </figure>
-                            <p>@lang('app.job_Description')</p>
-                        </a>
-                    </div>
-                @endif
+                <div class="row">
+                    @if($vacancy->file_job_description!='')
+                        <div class="col s6">
+                            <div class="link">
+                                <a @if($vacancy->file_job_description!='') href="/upload/job/{{$vacancy->file_job_description}}" download @else href="#" @endif>
+                                    <figure>
+                                        <span class="icon-gTalents_pdf"></span>
+                                    </figure>
+                                    <p>@lang('app.job_Description')</p>
+                                </a>
+                            </div>
+                        </div>
+                    @endif
+                    @if($vacancy->file_employer!='')
+                        <div class="col s6">
+                            <div class="link">
+                                <a @if($vacancy->file_employer!='') href="/upload/employer/{{$vacancy->file_employer}}" download @else href="#" @endif>
+                                    <figure>
+                                        <span class="icon-gTalents_pdf"></span>
+                                    </figure>
+                                    <p>@lang('app.agreement_employer')</p>
+                                </a>
+                            </div>
+                        </div>
+                    @endif
+                </div>
 
                 <!--RESUMEN-->
                 <ul class="jobs-detail-body-resum">
@@ -129,7 +145,7 @@
                             <span class="icon-gTalents_coins"></span>
                         </figure>
                         <div class="datos">
-                            <h4>20% @lang('app.of_commission')</h4>
+                            <h4>{{$userCategorie->supplier_percent}}% @lang('app.of_commission')</h4>
                             <p>@lang('app.supplier_commission')</p>
                         </div>
                     </li>
@@ -140,7 +156,7 @@
                             <span class="icon-gTalents_coins"></span>
                         </figure>
                         <div class="datos">
-                            <h4>5% @lang('app.of_commission')</h4>
+                            <h4>{{$userCategorie->poster_percent}}% @lang('app.of_commission')</h4>
                             <p>@lang('app.poster_commission')</p>
                         </div>
                     </li>
@@ -173,7 +189,7 @@
                             <span class="icon-gTalents_isotipo"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span><span class="path5"></span></span>
                         </figure>
                         <div class="datos">
-                            <h4>30% @lang('app.of_commission')</h4>
+                            <h4>{{$userCategorie->gtalents_percent}}% @lang('app.of_commission')</h4>
                             <p>@lang('app.gTalents_commission')</p>
                         </div>
                     </li>
@@ -197,6 +213,7 @@
                     $notification = \Vanguard\Notification::where('element_id', $vacancy->id)
                         ->where('user_id', Auth::user()->id)->get()->first();
                 ?>
+            @if($notification)
             <div class="btn-section">
                 <form action="{{route('vacancies.approbate.supplier.invited',$notification->element_id)}}" method="POST">
                     {{csrf_field()}}
@@ -207,6 +224,7 @@
                     </button>
                 </form>
             </div>
+                @endif
             @endif
             <!-- RESUMEN -->
             <div class="bills">

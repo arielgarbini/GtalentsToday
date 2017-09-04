@@ -107,16 +107,30 @@
 
                 <!--RANGO-->
                 <section class="ranking">
-                    <figure class="ranking-active">
+                    <img class="category-o" src="/upload/categories/{{Auth::user()->company[0]->category->avatar}}">
+                <!--<figure class="ranking-active">
                         <span class="icon-gTalents_rango-{{Auth::user()->company[0]->category_id}}"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span><span class="path5"></span></span>
-                    </figure>
-
-                @for($i=1; $i<=3; $i++)
-                    @if(Auth::user()->company[0]->category_id+$i <= 8)
+                    </figure>-->
+                    <?php
+                    $getCategories = \Vanguard\Category::where('id','>',Auth::user()->company[0]->category_id)->get();
+                    $i = 0;
+                    ?>
+                    @foreach($getCategories as $rr)
+                        <img class="category-u" src="/upload/categories/{{$rr->avatar}}" >
+                        <?php
+                        $i++;
+                        if($i==3){
+                            break;
+                        }
+                        ?>
+                    @endforeach
+                    @for($i=1; $i<=3; $i++)
+                        @if(Auth::user()->company[0]->category_id+$i <= 8)
                         <!--RANGO B -->
+                        <!--
                             <figure>
                                 <span class="icon-gTalents_rango-{{Auth::user()->company[0]->category_id+$i}}"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span><span class="path5"></span><span class="path6"></span><span class="path7"></span></span>
-                            </figure>
+                            </figure>-->
                         @endif
                     @endfor
                 </section>
@@ -132,13 +146,14 @@
                     <!--PUNTAJE-->
                     <div class="item">
                         <h4>@lang('app.i_lack')</h4>
-                        <p><strong>{{ Auth::user()->company[0]->category->nextLevel() }}pts</strong> @lang('app.next_level')</p>
+                        <p><strong><a style="color:#f4511e;" href="#modalMembresias" class="modal-trigger waves-effect waves-light">{{ Auth::user()->company[0]->category->nextLevel() }}pts</a></strong> @lang('app.next_level')</p>
                     </div>
                 </section>
             </div>
         </section>
     </article>
 
+    @include('dashboard_user.modalmembership')
     <!--MODAL NUEVO COLABORADOR-->
     @include('dashboard_user.team.partials.modalcreate')
 

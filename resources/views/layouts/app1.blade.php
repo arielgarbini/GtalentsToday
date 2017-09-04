@@ -173,7 +173,7 @@
                 $(this).html(($(this).text() == 'ver menos' || $(this).text() == 'see less') ? '{{trans('app.see_more')}}' : '{{trans('app.see_less')}}');
             });
            // $('.modal').modal();
-            $('.send_form').click(function(){
+            $('body').on('click','.send_form',function(){
                 $(this).parent('form').submit();
             });
 
