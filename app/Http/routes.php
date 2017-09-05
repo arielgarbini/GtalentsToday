@@ -861,7 +861,8 @@ Route::get('/', function()
         return redirect()->route('dashboard');
     }
     $countries = \Vanguard\Country::orderBy('name','asc')->get();
- return View::make('frontend.homepage', ['countries' => $countries]);
+    $categories = \Vanguard\Category::all();
+ return View::make('frontend.homepage', ['countries' => $countries, 'categories' => $categories]);
 });
 
 Route::get('about', function()

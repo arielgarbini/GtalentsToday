@@ -67,9 +67,9 @@
 		</section>
 		
 		<!--SKILL GTALENTS-->
-		<section class="generic-skill bloque">
+		<section class="row generic-skill bloque">
 			<!-- ALTA CARGA DE TRABAJO-->
-			<div class="item">
+			<div class="col s6 item">
 				<figure>
 					<span class="icon-gTalents_alta-carga"></span>
 				</figure>
@@ -78,7 +78,7 @@
 			</div>
 
 			<!-- FUERA DE TU AREA DE EXPERTISE-->
-			<div class="item">
+			<div class="col s6 item">
 				<figure>
 					<span class="icon-gTalents_area"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span><span class="path5"></span><span class="path6"></span><span class="path7"></span><span class="path8"></span><span class="path9"></span><span class="path10"></span><span class="path11"></span><span class="path12"></span><span class="path13"></span><span class="path14"></span><span class="path15"></span><span class="path16"></span><span class="path17"></span><span class="path18"></span><span class="path19"></span><span class="path20"></span><span class="path21"></span><span class="path22"></span><span class="path23"></span><span class="path24"></span><span class="path25"></span><span class="path26"></span><span class="path27"></span><span class="path28"></span><span class="path29"></span><span class="path30"></span><span class="path31"></span><span class="path32"></span><span class="path33"></span><span class="path34"></span><span class="path35"></span><span class="path36"></span><span class="path37"></span><span class="path38"></span><span class="path39"></span><span class="path40"></span><span class="path41"></span><span class="path42"></span><span class="path43"></span><span class="path44"></span><span class="path45"></span><span class="path46"></span><span class="path47"></span><span class="path48"></span><span class="path49"></span><span class="path50"></span><span class="path51"></span><span class="path52"></span><span class="path53"></span><span class="path54"></span><span class="path55"></span><span class="path56"></span><span class="path57"></span><span class="path58"></span><span class="path59"></span></span>
 				</figure>
@@ -87,7 +87,7 @@
 			</div>
 
 			<!-- ALTO VOLUMEN DE BUSQUEDAS-->
-			<div class="item">
+			<div class="col s6 item">
 				<figure>
 					<span class="icon-gTalents_search-team"></span>
 				</figure>
@@ -97,7 +97,7 @@
 			</div>
 
 			<!--SOLIDA FUERZA DE ENTREGA-->
-			<div class="item">
+			<div class="col s6 item">
 				<figure>
 					<span class="icon-gTalents_sleep"></span>
 				</figure>
@@ -659,88 +659,32 @@
 				<!--RANGOS-->
 				<section class="skill-rangos">
 					<!--RANGO 1-3-->
-					<div class="item">
 						<!--RANGO 1-->
+						<?php
+						$range = ['one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight'];
+						$i = 0;
+						$mitad = count($categories) / 2 ;
+						?>
+						@foreach($categories as $rr)
+							@if($i==0 || $i==$mitad)
+								<div class="item">
+							@endif
 						<div class="item-options">
 							<div class="number">
-								<span class="icon-gTalents_one"></span>
+								<span class="icon-gTalents_{{$range[$i]}}"></span>
 							</div>
 							<div class="rango">
-								<figure>
-									<span class="icon-gTalents_rango-1"><span class="path1"></span><span class="path2"></span></span>
-								</figure>
-								<p>Newbie (Talent Shifty)</p>
+								<img class="category-o" src="/upload/categories/{{$rr->avatar}}">
+								<p>{{$rr->name}}</p>
 							</div>
 						</div>
-
-						<!--RANGO 2-->
-						<div class="item-options">
-							<div class="number">
-								<span class="icon-gTalents_two"></span>
-							</div>
-							<div class="rango">
-								<figure class="special">
-									<span class="icon-gTalents_rango-2"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span><span class="path5"></span><span class="path6"></span></span>
-								</figure>
-								<p>Hiring Pro </p>
-							</div>
-						</div>
-
-						<!--RANGO 3-->
-						<div class="item-options">
-							<div class="number">
-								<span class="icon-gTalents_three"></span>
-							</div>
-							<div class="rango">
-								<figure>
-									<span class="icon-gTalents_rango-3"><span class="path1"></span><span class="path2"></span><span class="path3"></span></span>
-								</figure>
-								<p>Boolean Boss</p>
-							</div>
-						</div>
-					</div>
-
-					<!--RANGO 4-6-->
-					<div class="item">
-						<!--RANGO 4-->
-						<div class="item-options">
-							<div class="number">
-								<span class="icon-gTalents_four"></span>
-							</div>
-							<div class="rango">
-								<figure class="special">
-									<span class="icon-gTalents_rango-4"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span><span class="path5"></span></span>
-								</figure>
-								<p>Staffing Elite</p>
-							</div>
-						</div>
-
-						<!--RANGO 5-->
-						<div class="item-options">
-							<div class="number">
-								<span class="icon-gTalents_five"></span>
-							</div>
-							<div class="rango">
-								<figure class="special">
-									<span class="icon-gTalents_rango-5"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span><span class="path5"></span><span class="path6"></span><span class="path7"></span></span>
-								</figure>
-								<p>Sourcing Guru</p>
-							</div>
-						</div>
-
-						<!--RANGO 6-->
-						<div class="item-options">
-							<div class="number">
-								<span class="icon-gTalents_six"></span>
-							</div>
-							<div class="rango">
-								<figure class="special">
-									<span class="icon-gTalents_rango-6"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span><span class="path5"></span><span class="path6"></span></span>
-								</figure>
-								<p>Global Talent Shifter </p>
-							</div>
-						</div>
-					</div>
+							@if($i==$mitad-1 || $i==count($categories)-1)
+								</div>
+							@endif
+							<?php
+								$i++;
+							?>
+						@endforeach
 				</section>		
 			</article>
 
