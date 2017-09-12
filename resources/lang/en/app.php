@@ -30,6 +30,7 @@ return [
     'see_less'          => 'see less',
     'alerts'            => 'Alerts',
     'my_position'       => 'My position',
+    'my_points'         => 'My points',
     'i_lack'            => 'Next level in',
     'no_create'         => 'No create',
     'my_published_opportunities' => 'My Published Opportunities',

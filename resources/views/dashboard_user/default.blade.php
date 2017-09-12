@@ -703,7 +703,7 @@
 
                 <!--RANGO-->
                 <section class="ranking">
-                    <img class="category-o" src="/upload/categories/{{Auth::user()->company[0]->category->avatar}}">
+                    <img class="category-o tooltipped" src="/upload/categories/{{Auth::user()->company[0]->category->avatar}}" data-position="bottom" data-delay="50" data-tooltip="{{Auth::user()->company[0]->category->name}}">
                 <!--<figure class="ranking-active">
                         <span class="icon-gTalents_rango-{{Auth::user()->company[0]->category_id}}"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span><span class="path5"></span></span>
                     </figure>-->
@@ -712,7 +712,7 @@
                         $i = 0;
                     ?>
                     @foreach($getCategories as $rr)
-                        <img class="category-u" src="/upload/categories/{{$rr->avatar}}" >
+                        <img class="category-u tooltipped" src="/upload/categories/{{$rr->avatar}}" data-position="bottom" data-delay="50" data-tooltip="{{$rr->name}}">
                         <?php
                         $i++;
                         if($i==3){
@@ -737,6 +737,11 @@
                     <div class="item">
                         <h4>@lang('app.my_position')</h4>
                         <p><strong><?php echo Auth::user()->company[0]->category->name; ?></strong></p>
+                    </div>
+
+                    <div class="item">
+                        <h4>@lang('app.my_points')</h4>
+                        <p><strong><?php echo Auth::user()->company[0]->points->sum('sum'); ?>pts</strong></p>
                     </div>
 
                     <!--PUNTAJE-->

@@ -30,6 +30,7 @@ return [
     'see_less'          => 'ver menos',
     'alerts'            => 'Notificaciones',
     'my_position'       => 'Mi posición',
+    'my_points'         => 'Mis puntos',
     'i_lack'            => 'Me faltan',
     'no_create'         => 'No creado',
     'my_published_opportunities' => 'Mis Oportunidades Publicadas',
