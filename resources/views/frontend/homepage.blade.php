@@ -663,7 +663,7 @@
 						<?php
 						$range = ['one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight'];
 						$i = 0;
-						$mitad = count($categories) / 2 ;
+						$mitad = ceil(count($categories) / 2) ;
 						?>
 						@foreach($categories as $rr)
 							@if($i==0 || $i==$mitad)
@@ -671,7 +671,7 @@
 							@endif
 						<div class="item-options">
 							<div class="number">
-								<span class="icon-gTalents_{{$range[$i]}}"></span>
+								<img class="category-o" src="/assets/img/gtalents_{{$range[$i]}}.png">
 							</div>
 							<div class="rango">
 								<img class="category-o" src="/upload/categories/{{$rr->avatar}}">

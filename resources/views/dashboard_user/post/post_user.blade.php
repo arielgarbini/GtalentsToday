@@ -11,18 +11,19 @@
             <!--TITULO-->
             <div class="jobs-detail-title">
                 <h3>{{$vacancy->name}}</h3>
-                <p>{{$vacancy->location}} | {{$experiencie['name']}}</p>
+                <p>{{$vacancy->location}} | {{$contract['name']}}</p>
             </div>
 
             <!--CUERPO DE LA DESCRIPCION-->
             <div class="jobs-detail-body">
                 <!--DESCRIPCION DE LA EMPRESA-->
                 <h4>{{trans('app.description_company')}}</h4>
-                <p>@if($companies) {{$companies->name}} @else {{trans('app.independent')}} @endif </p>
+                <p>{{$vacancy->name}}</p>
 
                 <!--DESCRIPCION DEL TRABAJO-->
                 <h4>{{trans('app.work_description')}}</h4>
-                <p>{{$vacancy->target_companies}}</p>
+                <p>{{$vacancy->target_companies}}
+                </p>
 
                 <!--EXPERIENCIA DESEADA-->
                 <h4>{{trans('app.desired_experience')}}</h4>
@@ -31,31 +32,33 @@
                         <span class="icon-gTalents_point"></span>
                         <p>{{$vacancy->required_experience}}</p>
                     </li>
-                  <!--  <li>
-                        <span class="icon-gTalents_point"></span>
-                        <p>Lenguajes de programación: .NET Framework 3.0 / 4.0 (Excluyente)</p>
-                    </li>
-                    <li>
-                        <span class="icon-gTalents_point"></span>
-                        <p>Bases de Datos: MS SQL Server u ORACLE (Excluyente)</p>
-                    </li>
-                    <li>
-                        <span class="icon-gTalents_point"></span>
-                        <p>Lenguajes de programación: ASP.NET MVC (Deseable)</p>
-                    </li>
-                    <li>
-                        <span class="icon-gTalents_point"></span>
-                        <p>Lenguajes de programación: Java Script (Deseable)</p>
-                    </li>-->
+                    <!--   <li>
+                           <span class="icon-gTalents_point"></span>
+                           <p>Lenguajes de programación: .NET Framework 3.0 / 4.0 (Excluyente)</p>
+                       </li>
+                       <li>
+                           <span class="icon-gTalents_point"></span>
+                           <p>Bases de Datos: MS SQL Server u ORACLE (Excluyente)</p>
+                       </li>
+                       <li>
+                           <span class="icon-gTalents_point"></span>
+                           <p>Lenguajes de programación: ASP.NET MVC (Deseable)</p>
+                       </li>
+                       <li>
+                           <span class="icon-gTalents_point"></span>
+                           <p>Lenguajes de programación: Java Script (Deseable)</p>
+                       </li>
+
+                   <p>Es requisito contar con experiencia de 1 a 3 años en algunas de las tecnologías antes mencionadas.</p>-->
                 </ul>
                 <!--INFORMACION ADICIONAL-->
-                <h4>{{trans('app.additional_information')}}</h4>
+                <h4>@lang('app.additional_information')</h4>
                 <p>{{$vacancy->responsabilities}}</p>
 
                 <!--HORARIO DE TRABAJO-->
-                <!--<h4>{{trans('app.working_hours')}}</h4>
-                <p><span style="color:red">Este campo no esta reflejado al crear Nuevo Post</span></p>
-                -->
+            <!--<h4>{{trans('app.working_hours')}}</h4>
+                <p><span style="color:red"></span></p>-->
+
                 <!--UBICACION-->
                 <h4>{{trans('app.location')}}</h4>
                 <p>{{$vacancy->location}}</p>
@@ -87,7 +90,7 @@
                 <!--HONORARIO COBRADO AL EMPLEADOR-->
                 <h4>{{trans('app.employer_fee')}}</h4>
                 <p>
-                    @if($vacancy->language_id == 1)
+                    @if($vacancy->group1==1)
                         {{$vacancy->fee}}%
                     @else
                         $ {{$vacancy->fee}} {{trans('app.fixed')}}

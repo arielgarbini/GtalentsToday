@@ -16,7 +16,7 @@
 		<div class="item">
 			<p>
 				@lang('app.credits')
-				<br><strong>0</strong>
+				<br><strong>{{\Vanguard\Balance::where('company_id', \Auth::user()->company_user->company_id)->sum('credit')}}</strong>
 			</p>
 		</div>
 

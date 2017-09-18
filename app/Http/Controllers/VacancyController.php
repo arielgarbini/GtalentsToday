@@ -219,6 +219,9 @@ class VacancyController extends Controller
         $countries = Country::orderBy('name', 'asc')->lists('name', 'id');
         if($id!=null){
             $vacancy = $this->vacancies->find($id);
+            if(Auth::user()->company[0]->id!=$vacancy->poster->company[0]->id){
+                return redirect()->route('vacancies.post_user', $id);
+            }
         } else {
             $vacancy = false;
         }
@@ -325,6 +328,9 @@ class VacancyController extends Controller
         }
         if($id!=null){
             $vacancy = $this->vacancies->find($id);
+            if(Auth::user()->company[0]->id!=$vacancy->poster->company[0]->id){
+                return redirect()->route('vacancies.post_user', $id);
+            }
             $langs = LanguageVacancy::where('vacancy_id', $id)->get();
             $langc = [];
             foreach ($langs as $l){
@@ -486,6 +492,9 @@ class VacancyController extends Controller
     public function view($id)
     {
         $vacancy = $this->vacancies->find($id);
+        if(Auth::user()->company[0]->id!=$vacancy->poster->company[0]->id){
+            return redirect()->route('vacancies.post_user', $id);
+        }
         if(!isset($vacancy))
             return redirect()->route('vacancies.index')->withErrors(trans('app.register_not_found'));
         if($this->theUser->hasRole('Admin')){
