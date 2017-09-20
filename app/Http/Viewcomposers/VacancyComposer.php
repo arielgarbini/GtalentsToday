@@ -61,9 +61,14 @@ class VacancyComposer
         }
         $candidatesApproved = $data;
         try{
-            preg_match_all('/\d{1,2}/' ,$vacancy->range_salary, $matches);
-            $factura = (intval($matches[0][0].'000')+intval($matches[0][1].'000'))/2;
-            $factura = number_format($factura, 2, '.', ',');
+            if($vacancy->group1==1) {
+                preg_match_all('/\d{1,3}/' ,$vacancy->range_salary, $matches);
+                $factura = (intval($matches[0][0].'000')+intval($matches[0][1].'000'))/2;
+                $factura = ($vacancy->fee * $factura) / 100;
+                $factura = number_format($factura, 2, '.', ',');
+            } else {
+                $factura = $vacancy->fee;
+            }
         } catch (\Exception $e){
             $factura = '';
         }

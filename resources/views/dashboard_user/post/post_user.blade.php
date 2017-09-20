@@ -238,7 +238,7 @@
                             <span class="icon-gTalents_billetes"></span>
                         </figure>
                         <div class="datos">
-                            <h4>30% @lang('app.of_commission')</h4>
+                            <h4>{{$userCategorie->supplier_percent}}% @lang('app.of_commission')</h4>
                             <p>@lang('app.if_you_close_the_position')</p>
                         </div>
                     </div>
@@ -285,7 +285,7 @@
         </div>
 
         <div class="modal-content">
-            <form action="{{route('vacancies.post_supplier', $vacancy->id)}}" class="formLogin" method="POST">
+            <form action="{{route('vacancies.post_supplier', $vacancy->id)}}" id="form-participate" class="formLogin" method="POST">
                  {{ csrf_field() }}
                 <!--RESUMEN SUPPLIER-->
                 <div class="profile-colab profile-supplier">
@@ -305,7 +305,7 @@
 
                     <!--INVITAR-->
                     <div class="item">
-                        <button class="btn-main" type="submit" id="btn-modalMain">
+                        <button class="btn-main" type="button" id="btn-modalMain">
                             @lang('app.participate')
                         </button>
                     </div>
@@ -330,5 +330,13 @@
 @stop
 
 @section('scripts')
-   
+    <script>
+    $('#btn-modalMain').click(function(){
+        setTimeout(sendForm, 4000);
+    });
+
+        function sendForm(){
+            $('#form-participate').submit();
+        }
+    </script>
 @stop

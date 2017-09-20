@@ -161,17 +161,27 @@ class DashboardController extends Controller
         $latestVacanciesPoster = Vacancy::where('poster_user_id', '=', Auth::user()->id)->where('general_conditions', '!=', '')
             ->orderBy('created_at', 'DESC')->get();
         foreach($latestVacanciesPoster as $vacancy){
-            preg_match_all('/\d{1,2}/' ,$vacancy->range_salary, $matches);
-            $factur = (intval($matches[0][0].'000')+intval($matches[0][1].'000'))/2;
-            $potentialPoster += $factur;
+            if($vacancy->group1==1) {
+                preg_match_all('/\d{1,3}/' ,$vacancy->range_salary, $matches);
+                $factur = (intval($matches[0][0].'000')+intval($matches[0][1].'000'))/2;
+                $factur = ($vacancy->fee * $factur) / 100;
+                $potentialPoster += $factur;
+            } else {
+                $potentialPoster += intval($vacancy->fee);
+            }
         }
         $latestVacanciesSupplier = Vacancy::whereHas('asSupplier', function($query) use($user_id){
             $query->where('supplier_user_id', $user_id)->where('status',1);
         })->get();
         foreach($latestVacanciesSupplier as $vacancy){
-            preg_match_all('/\d{1,2}/' ,$vacancy->range_salary, $matches);
-            $factur = (intval($matches[0][0].'000')+intval($matches[0][1].'000'))/2;
-            $potentialSupplier += $factur;
+            if($vacancy->group1==1) {
+                preg_match_all('/\d{1,3}/' ,$vacancy->range_salary, $matches);
+                $factur = (intval($matches[0][0].'000')+intval($matches[0][1].'000'))/2;
+                $factur = ($vacancy->fee * $factur) / 100;
+                $potentialSupplier += $factur;
+            } else {
+                $potentialSupplier += intval($vacancy->fee);
+            }
         }
         return view('dashboard_user.default', compact('vacancies_users_pages', 'vacancies_users_count', 'latestVacanciesPages', 'latestVacanciesCount', 'latestVacanciesSupplier','latestVacanciesPoster','potentialSupplier','potentialPoster','viewed','team', 'candidates', 'activities', 'latestVacancies', 'vacancies_users','lastestOpportunities' ));
     }

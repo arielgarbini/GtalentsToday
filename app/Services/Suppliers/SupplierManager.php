@@ -5,6 +5,7 @@ namespace Vanguard\Services\Suppliers;
 use Illuminate\Support\Facades\Auth;
 use Vanguard\Company;
 use Vanguard\User;
+use Vanguard\VacancyUser;
 
 class SupplierManager
 {
@@ -18,6 +19,11 @@ class SupplierManager
             $q->where('company_id', '!=', $company_id);
         })->with('company.category')->whereNotIn('id',$exclude)->get();
         return $this->orderSuppliers($supliers_recommended, $paginate);
+    }
+
+    public function getPostInteresting($id)
+    {
+        return VacancyUser::where('vacancy_id', $id)->where('status',0)->get();
     }
 
     public function getById($suppliers)

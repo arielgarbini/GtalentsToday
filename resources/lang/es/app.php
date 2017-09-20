@@ -154,6 +154,8 @@ return [
     'we_recommend_you'              => 'Te recomendamos',
     'candidate_name'                => 'Nombre del candidato',
 
+    'job_description_required' => 'El archivo de Descripción del trabajo es requerido',
+
     'candidate_validate'            => [
         'first_name_required'    => 'El nombre es requerido',
         'name_required'    => 'El nombre es requerido',
@@ -233,6 +235,10 @@ return [
     'company_updated_successfully' => 'Compañía actualizada satisfactoriamente.',
     'independent'                  => 'Independiente',
     //Vacancies
+    'supplier_interested_participating' => 'Hay un proveedor interesado en participar en la vacante',
+    'see_more_details'              => 'Puedes ver mas detalles haciendo clic en el siguiente enlace:',
+    'see_more_detail'               => 'Ver mas detalles',
+    'suppliers_interesting'         => 'Suppliers interesados',
     'closed'                        => 'Cerrada',
     'status_vacancy'                => 'El nuevo estado de la vacante es',
     'message_to_gtalents'           => 'Message ti gtalents',

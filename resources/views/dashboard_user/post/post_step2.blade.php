@@ -70,8 +70,8 @@
                 </div>
 
                 <!--RANGO-->
-                <figure>
-                    <span class="icon-gTalents_rango-{{$supplier->company[0]->category_id}}"><span class="path1"></span><span class="path2"></span></span>
+                <figure class="supplierContain1-ranking">
+                    <img class="category-p tooltipped" src="/upload/categories/{{$supplier->company[0]->category->avatar}}" data-position="bottom" data-delay="50" data-tooltip="{{$supplier->company[0]->category->name}}">
                 </figure>
 
                 <!--DATOS-->

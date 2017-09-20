@@ -152,6 +152,8 @@ return [
     'we_recommend_you'              => 'We recommended you',
     'candidate_name'                => 'Candidate name',
 
+    'job_description_required' => 'The Job Description file is required',
+
     'candidate_validate'            => [
         'first_name_required'    => 'The first name is required',
         'name_required'    => 'The name is required',
@@ -232,6 +234,10 @@ return [
     'independent'                  => 'Independiente',
 
     //Vacancies
+    'supplier_interested_participating' => 'There is a supplier interested in participating in the vacancy',
+    'see_more_details'              => 'You can see more details by clicking on the link below:',
+    'see_more_detail'               => 'See more details',
+    'suppliers_interesting'         => 'Interested suppliers',
     'closed'                        => 'Closed',
     'status_vacancy'                => 'The new status of the vacancy is',
     'message_to_gtalents'           => 'Message to gtalents',

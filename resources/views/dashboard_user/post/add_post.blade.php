@@ -311,6 +311,41 @@
               }
           });
           @endif
+          country_id_old = "{{old('country_id', 'none')}}";
+          state_id_old = "{{old('state_id', 'none')}}";
+          city_id_old = "{{old('city_id', 'none')}}";
+          if(country_id_old!='none' && country_id_old!=''){
+              $.ajax({
+                  method: "GET",
+                  url: "{{route('country.getProvince')}}?country="+country_id_old,
+                  success: function(response) {
+                      var html = '<option value="">{{trans('app.choose_province')}}</option>';
+                      for (var i = 0; i < response.length; i++) {
+                          html += '<option value="' + response[i].id + '">' + response[i].name + '</option>';
+                      }
+                      $('#state_id').html(html);
+                      $('#state_id').attr('disabled', false);
+                      if (state_id_old!='none' && state_id_old!=''){
+                          $('#state_id').val(state_id_old);
+                          $.ajax({
+                              method: "GET",
+                              url: "{{route('country.getCities')}}?state=" + state_id_old,
+                              success: function (response) {
+                                  var html = '<option value="">{{trans('app.choose_city')}}</option>';
+                                  for (var i = 0; i < response.length; i++) {
+                                      html += '<option value="' + response[i].id + '">' + response[i].name + '</option>';
+                                  }
+                                  $('#city_id').html(html);
+                                  $('#city_id').attr('disabled', false);
+                                  if (city_id_old!='none' && city_id_old!='') {
+                                      $('#city_id').val(city_id_old);
+                                  }
+                              }
+                          });
+                      }
+                  }
+              });
+          }
         $('#country_id').change(function(){
            if($(this).val()!=''){
                var country = $(this).val();

@@ -136,7 +136,26 @@
     margin-right:10px;
     opacity:0.5;
 }
-
+.category-p{
+    height:30px;
+    width:30px;
+    margin-left:10px;
+    margin-right:10px;
+}
 .modal-footer .btn-flat{
     margin-right:50px !important;
+}
+
+.puntico-verde{
+    font-size: 1.2em;
+    position: relative;
+    left: 5px;
+    color: #7ac943;
+    cursor: pointer;
+}
+
+.puntico-rojo{
+    position: relative;
+    top: 5px;
+    cursor: pointer;
 }

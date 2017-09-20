@@ -301,7 +301,7 @@
                                     <section class="supplierContain1">
                                         <!--ICONO RANGO-->
                                         <figure class="supplierContain1-ranking">
-                                            <span class="icon-gTalents_rango-{{$supplier->supplier->company[0]->category_id}}"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span><span class="path5"></span></span>
+                                            <img class="category-p tooltipped" src="/upload/categories/{{$supplier->supplier->company[0]->category->avatar}}" data-position="bottom" data-delay="50" data-tooltip="{{$supplier->supplier->company[0]->category->name}}">
                                         </figure>
 
                                         <div class="datos">
@@ -488,6 +488,63 @@
             </div>
 
             <!-- RECOMENDACIONES SUPPLIERS -->
+                    <div class="bills">
+                        <section class="bills-title">
+                            <h3>@lang('app.suppliers_interesting')</h3>
+                        </section>
+                        <ul class="alerts-div supplier-recomend" id="add_new_sup">
+                            @foreach($supliers_interesting as $supplier)
+                                <li>
+                                    <div class="motivo">
+
+                                        <section class="supplierContain1">
+
+                                            <figure class="supplierContain1-ranking">
+                                                <img class="category-p tooltipped" src="/upload/categories/{{$supplier->supplier->company[0]->category->avatar}}" data-position="bottom" data-delay="50" data-tooltip="{{$supplier->supplier->company[0]->category->name}}">
+                                            </figure>
+
+                                            <div class="datos">
+                                                <h4>{{$supplier->supplier->code}}</h4>
+                                                <p>{{$supplier->supplier->company[0]->category->name}}</p>
+                                            </div>
+                                        </section>
+
+                                        <div class="addSupplier">
+
+                                            <div class="link">
+                                                <a modal="modalProfileSupplierIn{{$supplier->supplier_user_id}}" href="#modalProfileSupplierIn{{$supplier->supplier_user_id}}" class="waves-effect waves-light">
+                                                    <span class="icon-gTalents_profile"></span>
+                                                </a>
+                                            </div>
+
+                                            <div class="link">
+                                                <form action="{{route('vacancies.approbate.supplier',$vacancy->id)}}" method="POST">
+                                                    {{csrf_field()}}
+                                                    <input type="hidden" value="" name="notification">
+                                                    <span class="puntico-verde icon-gTalents_win-53 acept-alert send_form"></span>
+                                                </form>
+                                            </div>
+                                        </div>
+                                        @include('dashboard_user.post.partials.modalsupplierin')
+                                    </div>
+                                    <form action="{{route('vacancies.reject.supplier',$vacancy->id)}}" method="POST">
+                                        {{csrf_field()}}
+                                        <input type="hidden" value="" name="notification">
+                                        <input type="hidden" value="{{$supplier->supplier_user_id}}" name="supplier">
+                                        <span class="puntico-rojo icon-gTalents_close close-alert send_form"></span>
+                                    </form>
+                                </li>
+                            @endforeach
+                        </ul>
+
+                    <!--
+                <section class="new-team">
+                    <a href="{{route('supplier.index')}}">
+                        <p>@lang('app.see_more') Supplier</p>
+                    </a>
+                </section>    -->
+                    </div>
+
             <div class="bills">
                 <section class="bills-title">
                     <h3>@lang('app.we_recommend_you')</h3>
@@ -500,7 +557,7 @@
                             <section class="supplierContain1">
 
                                 <figure class="supplierContain1-ranking">
-                                    <span class="icon-gTalents_rango-{{$supplier->company[0]->category_id}}"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span><span class="path5"></span></span>
+                                    <img class="category-p tooltipped" src="/upload/categories/{{$supplier->company[0]->category->avatar}}" data-position="bottom" data-delay="50" data-tooltip="{{$supplier->company[0]->category->name}}">
                                 </figure>
 
                                 <div class="datos">

@@ -4,6 +4,7 @@ namespace Vanguard\Http\Controllers;
 
 use Auth;
 use Cache;
+use Illuminate\Support\Facades\Lang;
 use Vanguard\Compensation;
 use Vanguard\Country;
 use Vanguard\Events\User\Registered;
@@ -75,6 +76,7 @@ use Symfony\Component\HttpFoundation\File\File;
 use Vanguard\Http\Requests\Auth\RegisterRequest;
 use Vanguard\Mailers\InvitationMailer;
 use Vanguard\Repositories\Role\RoleRepository;
+use Vanguard\Mailers\InterestedMailer;
 
 class VacancyController extends Controller
 {
@@ -264,7 +266,8 @@ class VacancyController extends Controller
             'required_experience'       => 'required',
             'key_position_questions'    => 'required',
             'job'                       => 'required'
-            ] );
+            ],
+            ['job.required' => Lang::get('app.job_description_required')]);
 
         $company_id = CompanyUser::where(['user_id' => Auth::user()->id])->get()->first()->company_id;
 
@@ -500,8 +503,9 @@ class VacancyController extends Controller
         if($this->theUser->hasRole('Admin')){
             return view('vacancy.view', compact('vacancy'));
         }else {
+            $supliers_interesting = $this->supplierManager->getPostInteresting($id);
             $supliers_recommended = $this->supplierManager->getRecommended($id, 3);
-            return view('dashboard_user.post.post_detail', compact('supliers_recommended', 'vacancy'));
+            return view('dashboard_user.post.post_detail', compact('supliers_interesting', 'supliers_recommended', 'vacancy'));
         }
     }
 
@@ -1215,7 +1219,7 @@ class VacancyController extends Controller
     }
 
     //** Request Supplier 
-    public function post_supplier($id){
+    public function post_supplier($id, InterestedMailer $mailer){
         $vacancy  = $this->vacancies->find($id);
         if ($vacancy){
         $data = [ 'vacancy_id'        => $id,
@@ -1228,6 +1232,7 @@ class VacancyController extends Controller
         $vacancy_user = $this->vacancies_users->create($data);
         event(new NotificationEvent(['element_id' => $vacancy_user->id,
             'user_id'=>$vacancy->poster_user_id, 'type' => 'request_supplier_vacancy', 'name'=>$vacancy->name]));
+        $mailer->sendEmail($vacancy->poster, ['vacancy' => $vacancy, 'supplier' => Auth::user()]);
         return redirect()->back()
             ->withSuccess(trans('app.has_applied_for_vacancy'));
         }
