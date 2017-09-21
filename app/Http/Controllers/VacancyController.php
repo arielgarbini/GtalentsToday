@@ -1144,9 +1144,9 @@ class VacancyController extends Controller
         }
         $userVacancy = [];
         $userSupplierPost = false;
-        foreach(Auth::user()->vacancy as $vacancy){
-            $userVacancy[] = $vacancy['id'];
-            if($vacancy['id']==$id && $vacancy['pivot']['status']=='1'){
+        foreach(Auth::user()->vacancy as $vaccc){
+            $userVacancy[] = $vaccc['id'];
+            if($vaccc['id']==$id && $vaccc['pivot']['status']=='1'){
                 $userSupplierPost = true;
             }
         }
