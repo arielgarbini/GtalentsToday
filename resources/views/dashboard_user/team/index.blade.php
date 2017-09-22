@@ -35,7 +35,7 @@
                                 <span>{{$te->user->email}}</span>
                             @endif
                             <p>
-                                @if($te->is_active)
+                                @if($te->user->status == 'Active')
                                     @lang('app.active')
                                 @else
                                     @lang('app.inactive')

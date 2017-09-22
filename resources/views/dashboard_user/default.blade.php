@@ -571,7 +571,7 @@
                                         <div class="datos">
                                             <h3>{{substr($te->user->first_name.' '.$te->user->last_name, 0, 20)}}</h3>
                                             <p>
-                                                @if($te->is_active)
+                                                @if($te->user->status == 'Active')
                                                     @lang('app.active')
                                                 @else
                                                     @lang('app.inactive')
