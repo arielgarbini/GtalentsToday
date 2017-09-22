@@ -16,12 +16,16 @@ class VacancyManager
     public function getRecommended($paginate)
     {
         $user_id = Auth::user()->id;
+        $users_comapny = [];
+        foreach(Auth::user()->company_user->company->users as $u){
+            $users_comapny[] = $u->id;
+        }
         $vacancies = Vacancy::select('vacancies.*')->where(function($q){
             $q->where('vacancy_status_id', 1);
             $q->orWhere('vacancy_status_id', 5);
-        })->where('poster_user_id', '!=', Auth::user()->id)->whereNotExists(function ($query) use($user_id){
+        })->where('company_id', '!=', Auth::user()->company_user->company_id)->whereNotExists(function ($query) use($users_comapny){
             $query->select('vacancy_users.*')->from('vacancy_users')
-            ->where('supplier_user_id',$user_id)->whereRaw('vg_vacancy_users.vacancy_id = vg_vacancies.id');
+            ->whereIn('supplier_user_id',$users_comapny)->whereRaw('vg_vacancy_users.vacancy_id = vg_vacancies.id');
         })->join('companies', function($join)
         {
             $join->on('vacancies.company_id', '=', 'companies.id');

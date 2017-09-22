@@ -2,6 +2,7 @@
 
 namespace Vanguard\Repositories\Vacancy;
 
+use Vanguard\Company;
 use Vanguard\Events\Vacancy\Created;
 use Vanguard\Events\Vacancy\Deleted;
 use Vanguard\Events\Vacancy\Updated;
@@ -53,10 +54,15 @@ class EloquentVacancy implements VacancyRepository
     public function search($user, $perPage, array $data)
     {
         $user_id = \Auth::user()->id;
+        $company = Company::find($user);
+        $users_company = [];
+        foreach($company->users as $u){
+            $users_company[] = $u->id;
+        }
         if(isset($data['type']) && $data['type']=='find'){
-            $vacancy = Vacancy::select('vacancies.*')->where('poster_user_id', '!=', $user)->where('vacancy_status_id', 1)->whereNotExists(function ($query) use($user){
+            $vacancy = Vacancy::select('vacancies.*')->where('company_id', '!=', $user)->where('vacancy_status_id', 1)->whereNotExists(function ($query) use($users_company){
                 $query->select('vacancy_users.*')->from('vacancy_users')
-                    ->where('supplier_user_id',$user)->whereRaw('vg_vacancy_users.vacancy_id = vg_vacancies.id');
+                    ->whereIn('supplier_user_id',$users_company)->whereRaw('vg_vacancy_users.vacancy_id = vg_vacancies.id');
             })->join('companies', function($join)
             {
                 $join->on('vacancies.company_id', '=', 'companies.id');

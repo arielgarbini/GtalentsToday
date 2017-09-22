@@ -520,7 +520,18 @@
                                             <div class="link">
                                                 <form action="{{route('vacancies.approbate.supplier',$vacancy->id)}}" method="POST">
                                                     {{csrf_field()}}
-                                                    <input type="hidden" value="" name="notification">
+                                                    <?php
+                                                        $notifi = \Vanguard\Notification::where('type', 'request_supplier_vacancy')
+                                                        ->where('user_id', \Auth::user()->id)->get();
+                                                        foreach($notifi as $not){
+                                                            $vacancyUser = \Vanguard\VacancyUser::find($not->element_id);
+                                                            if($vacancy->id==$vacancyUser->vacancy_id && $supplier->supplier_user_id==$vacancyUser->supplier_user_id){
+                                                                $notification = $not;
+                                                                break;
+                                                            }
+                                                        }
+                                                        ?>
+                                                    <input type="hidden" value="{{$notification->id}}" name="notification">
                                                     <span class="puntico-verde icon-gTalents_win-53 acept-alert send_form"></span>
                                                 </form>
                                             </div>
@@ -529,7 +540,7 @@
                                     </div>
                                     <form action="{{route('vacancies.reject.supplier',$vacancy->id)}}" method="POST">
                                         {{csrf_field()}}
-                                        <input type="hidden" value="" name="notification">
+                                        <input type="hidden" value="{{$notification->id}}" name="notification">
                                         <input type="hidden" value="{{$supplier->supplier_user_id}}" name="supplier">
                                         <span class="puntico-rojo icon-gTalents_close close-alert send_form"></span>
                                     </form>
@@ -590,13 +601,11 @@
                     </li>
                     @endforeach
                 </ul>
-
-                <!--
                 <section class="new-team">
                     <a href="{{route('supplier.index')}}">
                         <p>@lang('app.see_more') Supplier</p>
                     </a>
-                </section>    -->
+                </section>
             </div>
                 @endif
         </section>

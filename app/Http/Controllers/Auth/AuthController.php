@@ -742,13 +742,15 @@ class AuthController extends Controller
      * @param $token
      * @return $this
      */
-    public function confirmEmail($token)
+    public function confirmEmail($token, RoleRepository $roles)
     {
         if ($user = $this->users->findByConfirmationToken($token)) {
             $this->users->update($user->id, [
-                'status' => UserStatus::UNVERIFIED,
+                'status' => UserStatus::ACTIVE,
                 'confirmation_token' => null
             ]);
+            $role = $roles->findByName('Consultant');
+            $this->users->setRole($user->id, $role->id);
 
             return redirect()->to('loginuser')
                 ->withSuccess(trans('app.email_confirmed_can_login'));

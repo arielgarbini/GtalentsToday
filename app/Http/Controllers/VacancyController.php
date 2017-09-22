@@ -481,7 +481,7 @@ class VacancyController extends Controller
    if(isset($request->saveonly)){
        return redirect()->route('vacancies.show', $vacancy_id);
    }
-   $supliers_recommended = $this->supplierManager->getRecommended($id, 4);
+   $supliers_recommended = $this->supplierManager->getRecommended($id, 4, [], $vacancy_id);
    return view('dashboard_user.post.post_step2' , compact('vacancy_id', 'supliers_recommended'), ['vacancies' => $request->session()->get('vacancies')]);
 
     }
@@ -504,7 +504,7 @@ class VacancyController extends Controller
             return view('vacancy.view', compact('vacancy'));
         }else {
             $supliers_interesting = $this->supplierManager->getPostInteresting($id);
-            $supliers_recommended = $this->supplierManager->getRecommended($id, 3);
+            $supliers_recommended = $this->supplierManager->getRecommended($id, 3, [], $vacancy->id);
             return view('dashboard_user.post.post_detail', compact('supliers_interesting', 'supliers_recommended', 'vacancy'));
         }
     }
@@ -512,7 +512,7 @@ class VacancyController extends Controller
     public function getSupplierRecommended(Request $request, $id)
     {
         $vacancy = $this->vacancies->find($id);
-        $supliers_recommended = $this->supplierManager->getRecommended($id, 1, explode(',',$request->exclude));
+        $supliers_recommended = $this->supplierManager->getRecommended($id, 1, explode(',',$request->exclude, $vacancy->id));
         $html = view('dashboard_user.post.partials.suppliersrecommended', ['supliers_recommended' => $supliers_recommended,
             'vacancy' => $vacancy]);
         $html = $html->render();
@@ -1117,7 +1117,7 @@ class VacancyController extends Controller
         $user_id = Auth::user()->id;
         $viewed = new VacancyViewedRepository(new VacancyViewed());
         $perPage = 10;
-        $data = $this->vacancies->search(Auth::user()->id, $perPage, array_merge($request->all(), ['type' => ($url!= null) ? $url : 'find']));
+        $data = $this->vacancies->search(Auth::user()->company_user->company_id, $perPage, array_merge($request->all(), ['type' => ($url!= null) ? $url : 'find']));
         $vacanciesCount = $data['count'];
         $vacancies = $data['data'];
         $data = $request->all();
@@ -1285,7 +1285,7 @@ class VacancyController extends Controller
             ->where('candidate_id', $candidate->id)->get()->first();
         event(new NotificationEvent(['element_id' => $vacancy_user->id,
             'user_id'=>$candidate->supplier_user_id, 'type' => 'qualify_supplier_vacancy_contract', 'name'=>$vacancy->name]));
-        $vacancy->status = 4;
+        $vacancy->vacancy_status_id = 4;
         $vacancy->save();
         $rating = ['1' => -10, '2' => 0, '3' => 5, '4' => 10, '5' => 20];
         event(new RankingEvent(['user_id' => $candidate->supplier_user_id, 'points' => $rating[$request->rating.'']]));

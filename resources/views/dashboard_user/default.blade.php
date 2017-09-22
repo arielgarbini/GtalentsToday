@@ -589,6 +589,7 @@
                                     <!--OPCIONES-->
                                     <div class="options">
                                         <!-- Dropdown Trigger -->
+                                        @if(\Auth::user()->company_user->position==1)
                                         <a class='dropdown-button' href='#' data-activates='collaborator{{$te->id}}'>
                                             <span class="icon-gTalents_submenu"></span>
                                         </a>
@@ -598,6 +599,7 @@
                                             <li><a href="#modalEditarcollaborator{{$te->id}}">@lang('app.edit')</a></li>
                                             <li><a href="#modalEliminarcollaborator{{$te->id}}">@lang('app.delete')</a></li>
                                         </ul>
+                                        @endif
                                         <?php
                                         $modal = 'collaborator'.$te->id ?>
                                         @include('dashboard_user.team.partials.modaldelete')
@@ -609,11 +611,13 @@
                     </ul>
 
                     <!--AGREGAR NUEVO COLABORADOR -->
+                    @if(\Auth::user()->company_user->position==1)
                     <section class="new-team">
                         <a href="#modalNewTeam" class="modal-trigger waves-effect waves-light">
                             <p>@lang('app.new_collaborator')</p>
                         </a>
                     </section>
+                    @endif
                 </div>
 
                 <!-- MIS CANDIDATOS -->
@@ -831,6 +835,7 @@
                                 <!--OPCIONES-->
                                 <div class="options">
                                     <!-- Dropdown Trigger -->
+                                    @if(\Auth::user()->company_user->position==1)
                                     <a class='dropdown-button' href='#' data-activates='{{$te->id}}'>
                                         <span class="icon-gTalents_submenu"></span>
                                     </a>
@@ -840,6 +845,7 @@
                                         <li><a href="#modalEditarmobil{{$te->id}}">@lang('app.edit')</a></li>
                                         <li><a href="#modalEliminarmobil{{$te->id}}">@lang('app.delete')</a></li>
                                     </ul>
+                                    @endif
                                     <?php
                                     $modal = 'mobil'.$te->id ?>
                                     @include('dashboard_user.team.partials.modaldelete')
@@ -851,11 +857,13 @@
                     </ul>
 
                     <!--AGREGAR NUEVO COLABORADOR -->
+                    @if(\Auth::user()->company_user->position==1)
                     <section class="new-team">
                         <a href="#modalNewTeam">
                             <p>@lang('app.new_collaborator')</p>
                         </a>
                     </section>
+                    @endif
                 </div>
 
                 <!-- MIS CANDIDATOS -->

@@ -9,7 +9,20 @@ use Vanguard\VacancyUser;
 
 class SupplierManager
 {
-    public function getRecommended($id = null, $paginate, $exclude = [])
+    public function getRecommended($id = null, $paginate, $exclude = [], $vacancy_id)
+    {
+        $company_id = Auth::user()->company()->get()->first()->id;
+        $supliers_recommended = User::where('id','!=',Auth::user()->id)->whereNotExists(function($query) use($id){
+            $query->select('vacancy_users.*')->from('vacancy_users')
+                ->where('vacancy_id', $id)
+                ->whereRaw('vg_vacancy_users.supplier_user_id = vg_users.id');
+        })->whereHas('company_user', function($q) use($company_id){
+            $q->where('company_id', '!=', $company_id);
+        })->with('company.category')->whereNotIn('id',$exclude)->get();
+        return $this->orderSuppliers($supliers_recommended, $paginate, null, $vacancy_id);
+    }
+
+    public function getSuppliersSearch($data = [])
     {
         $company_id = Auth::user()->company()->get()->first()->id;
         $supliers_recommended = User::where('id','!=',Auth::user()->id)->whereNotExists(function($query) use($id){
@@ -17,8 +30,7 @@ class SupplierManager
                 ->where('vacancy_id', $id)->whereRaw('vg_vacancy_users.supplier_user_id = vg_users.id');
         })->whereHas('company_user', function($q) use($company_id){
             $q->where('company_id', '!=', $company_id);
-        })->with('company.category')->whereNotIn('id',$exclude)->get();
-        return $this->orderSuppliers($supliers_recommended, $paginate);
+        })->with('company.category')->get();
     }
 
     public function getPostInteresting($id)
@@ -26,20 +38,27 @@ class SupplierManager
         return VacancyUser::where('vacancy_id', $id)->where('status',0)->get();
     }
 
-    public function getById($suppliers)
+    public function getById($suppliers, $vacancy_id)
     {
         $data = [];
+        $vacancy_user = VacancyUser::where('vacancy_id', $vacancy_id)->get();
+        $companies = [];
+        foreach ($vacancy_user as $va){
+            $companies[] = $va->supplier->company_user->company_id;
+        }
         foreach ($suppliers as $v){
-            $data[$v->id] = $v;
+            if(!in_array($v->company_user->company_id, $companies)){
+                $data[$v->id] = $v;
+            }
         }
         return $data;
     }
 
-    public function orderSuppliers($suppliers, $paginate, $request = null)
+    public function orderSuppliers($suppliers, $paginate, $request = null, $vacancy_id)
     {
         $results = [];
         $country_id = Auth::user()->country_id;
-        $suppliers = $this->getById($suppliers);
+        $suppliers = $this->getById($suppliers, $vacancy_id);
         //ordenar por paises
         if($request==null || !isset($request['country_id'])) {
             foreach ($suppliers as $v) {

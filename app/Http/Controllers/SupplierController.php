@@ -11,11 +11,25 @@ use Vanguard\Testimonial;
 use Vanguard\Events\NotificationEvent;
 use Vanguard\Notification;
 use Vanguard\Events\RankingEvent;
+use Vanguard\Services\Suppliers\SupplierManager;
 
 class SupplierController extends Controller
 {
+
+    private $supplierManager;
+
+    public function __construct(SupplierManager $supplierManager)
+    {
+        $this->supplierManager = $supplierManager;
+    }
+
     public function index(Request $request)
     {
+        if (session('lang') =='en'){
+            $language = 2;
+        }else{
+            $language = 1;
+        }
         return view('dashboard_user.supplier.index');
     }
 

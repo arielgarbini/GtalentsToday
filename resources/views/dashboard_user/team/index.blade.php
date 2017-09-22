@@ -52,6 +52,7 @@
                     <!--OPCIONES-->
                     <div class="options">
                         <!-- Dropdown Trigger -->
+                        @if(\Auth::user()->company_user->position==1)
                         <a class='dropdown-button' href='#' data-activates='{{$te->id}}'>
                             <span class="icon-gTalents_submenu"></span>
                         </a>
@@ -60,6 +61,7 @@
                             <li><a href="#modalEditar{{$te->id}}">@lang('app.edit')</a></li>
                             <li><a href="#modalEliminar{{$te->id}}" class="modal-trigger waves-effect waves-light">@lang('app.delete')</a></li>
                         </ul>
+                        @endif
                         @include('dashboard_user.team.partials.modaldelete')
                         @include('dashboard_user.team.partials.modaledit')
 
@@ -92,11 +94,13 @@
         <section class="user-main-contain">
 
             <!--BTN NUEVO COLABORADOR-->
+            @if(\Auth::user()->company_user->position==1)
             <div class="btn-section">
                 <a href="#modalNewTeam" class="btn-main modal-trigger waves-effect waves-light">
                     @lang('app.new_collaborator')
                 </a>
             </div>
+            @endif
 
             <!-- RANGO Y PUNTAJE -->
             <div class="bills">

@@ -158,7 +158,7 @@ class DashboardController extends Controller
         $viewed = new VacancyViewedRepository(new VacancyViewed());
         $potentialPoster = 0;
         $potentialSupplier = 0;
-        $latestVacanciesPoster = Vacancy::where('poster_user_id', '=', Auth::user()->id)->where('general_conditions', '!=', '')
+        $latestVacanciesPoster = Vacancy::where('company_id', '=', Auth::user()->company_user->company_id)->where('general_conditions', '!=', '')
             ->orderBy('created_at', 'DESC')->get();
         foreach($latestVacanciesPoster as $vacancy){
             if($vacancy->group1==1) {
@@ -170,8 +170,12 @@ class DashboardController extends Controller
                 $potentialPoster += intval($vacancy->fee);
             }
         }
-        $latestVacanciesSupplier = Vacancy::whereHas('asSupplier', function($query) use($user_id){
-            $query->where('supplier_user_id', $user_id)->where('status',1);
+        $users_company = [];
+        foreach(Auth::user()->company_user->company->users as $u) {
+            $users_company[] = $u->id;
+        }
+        $latestVacanciesSupplier = Vacancy::whereHas('asSupplier', function($query) use($users_company){
+            $query->whereIn('supplier_user_id', $users_company)->where('status',1);
         })->get();
         foreach($latestVacanciesSupplier as $vacancy){
             if($vacancy->group1==1) {

@@ -570,13 +570,13 @@
             <!--RESPUESTA-->
             <form action="" class="formLogin form-status">
                 <!--SELECTOR DE ESTATUS-->
-                <div class="itemForm">
+                <!--div class="itemForm">
                     <select class="browser-default">
                         <option value="1" selected>Estatus 1</option>
                         <option value="2">Estatus 2</option>
                         <option value="3">Estatus 3</option>
                     </select>
-                </div>
+                </div>-->
 
                 <!--HISTORIAL DE ESTATUS-->
                 <ul class="historial-status">
