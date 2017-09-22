@@ -326,6 +326,7 @@
                                     <form action="{{route('vacancies.approbate.supplier',$notification->post_id)}}" method="POST">
                                         {{csrf_field()}}
                                         <input type="hidden" value="{{$notification->id}}" name="notification">
+                                        <input type="hidden" value="{{$notification->supplier_id}}" name="supplier">
                                         <span class="icon-gTalents_win-53 acept-alert send_form"></span>
                                     </form>
                                     <!--BTN ELIMINAR -->

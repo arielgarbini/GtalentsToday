@@ -725,7 +725,8 @@ class VacancyController extends Controller
     {
         //id => vacancy
         $vacancy = $this->vacancies->find($id);
-        $vacancy_users = $this->vacancies_users->where('vacancy_id', $id);
+        $vacancy_users = VacancyUser::where('vacancy_id', $id)
+            ->where('supplier_user_id', $request->supplier)->get()->first();
         if (count($vacancy_users)>0) {
           $this->vacancies_users->updateStatusSupplier($id,$vacancy_users->supplier_user_id,1);
         }

@@ -532,6 +532,7 @@
                                                         }
                                                         ?>
                                                     <input type="hidden" value="@if(isset($notification)) {{$notification->id}} @endif" name="notification">
+                                                    <input type="hidden" value="{{$supplier->supplier_user_id}}" name="supplier">
                                                     <span class="puntico-verde icon-gTalents_win-53 acept-alert send_form"></span>
                                                 </form>
                                             </div>
