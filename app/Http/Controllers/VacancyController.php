@@ -731,7 +731,9 @@ class VacancyController extends Controller
         }
         event(new NotificationEvent(['element_id' => $vacancy->id,
             'user_id'=>$vacancy_users->supplier_user_id, 'type' => 'approved_supplier_vacancy', 'name'=>$vacancy->name]));
-        Notification::destroy($request->notification);
+        if(isset($request->notification) && $request->notification!=''){
+            Notification::destroy($request->notification);
+        }
         Conversation::create(['sender_user_id' => Auth::user()->id, 'destinatary_user_id' => $vacancy_users->supplier_user_id,
         'vacancy_id' => $vacancy->id]);
         return redirect()->back()

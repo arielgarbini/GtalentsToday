@@ -531,7 +531,7 @@
                                                             }
                                                         }
                                                         ?>
-                                                    <input type="hidden" value="{{$notification->id}}" name="notification">
+                                                    <input type="hidden" value="@if(isset($notification)) {{$notification->id}} @endif" name="notification">
                                                     <span class="puntico-verde icon-gTalents_win-53 acept-alert send_form"></span>
                                                 </form>
                                             </div>
@@ -540,7 +540,7 @@
                                     </div>
                                     <form action="{{route('vacancies.reject.supplier',$vacancy->id)}}" method="POST">
                                         {{csrf_field()}}
-                                        <input type="hidden" value="{{$notification->id}}" name="notification">
+                                        <input type="hidden" value="@if(isset($notification)) {{$notification->id}} @endif" name="notification">
                                         <input type="hidden" value="{{$supplier->supplier_user_id}}" name="supplier">
                                         <span class="puntico-rojo icon-gTalents_close close-alert send_form"></span>
                                     </form>
