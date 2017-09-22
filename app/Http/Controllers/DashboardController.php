@@ -16,6 +16,7 @@ use Vanguard\Support\Enum\UserStatus;
 use Auth;
 use Carbon\Carbon;
 use Vanguard\CompanyUser;
+use Vanguard\VacancyCandidate;
 use Vanguard\VacancyViewed;
 use Vanguard\Vacancy;
 
@@ -160,7 +161,9 @@ class DashboardController extends Controller
         $potentialSupplier = 0;
         $latestVacanciesPoster = Vacancy::where('company_id', '=', Auth::user()->company_user->company_id)->where('general_conditions', '!=', '')
             ->orderBy('created_at', 'DESC')->get();
+        $vacanciesPoster = [];
         foreach($latestVacanciesPoster as $vacancy){
+            $vacanciesPoster[] = $vacancy->id;
             if($vacancy->group1==1) {
                 preg_match_all('/\d{1,3}/' ,$vacancy->range_salary, $matches);
                 $factur = (intval($matches[0][0].'000')+intval($matches[0][1].'000'))/2;
@@ -174,10 +177,14 @@ class DashboardController extends Controller
         foreach(Auth::user()->company_user->company->users as $u) {
             $users_company[] = $u->id;
         }
+        $candidatePoster = VacancyCandidate::whereIn('vacancy_id', $vacanciesPoster)
+            ->where('status','Contract')->count();
         $latestVacanciesSupplier = Vacancy::whereHas('asSupplier', function($query) use($users_company){
             $query->whereIn('supplier_user_id', $users_company)->where('status',1);
         })->get();
+        $vacanciesSupplier = [];
         foreach($latestVacanciesSupplier as $vacancy){
+            $vacanciesSupplier[] = $vacancy->id;
             if($vacancy->group1==1) {
                 preg_match_all('/\d{1,3}/' ,$vacancy->range_salary, $matches);
                 $factur = (intval($matches[0][0].'000')+intval($matches[0][1].'000'))/2;
@@ -187,7 +194,9 @@ class DashboardController extends Controller
                 $potentialSupplier += intval($vacancy->fee);
             }
         }
-        return view('dashboard_user.default', compact('vacancies_users_pages', 'vacancies_users_count', 'latestVacanciesPages', 'latestVacanciesCount', 'latestVacanciesSupplier','latestVacanciesPoster','potentialSupplier','potentialPoster','viewed','team', 'candidates', 'activities', 'latestVacancies', 'vacancies_users','lastestOpportunities' ));
+        $candidateSupplier = VacancyCandidate::whereIn('vacancy_id', $vacanciesSupplier)
+            ->where('status','Contract')->count();
+        return view('dashboard_user.default', compact('candidatePoster', 'candidateSupplier', 'vacancies_users_pages', 'vacancies_users_count', 'latestVacanciesPages', 'latestVacanciesCount', 'latestVacanciesSupplier','latestVacanciesPoster','potentialSupplier','potentialPoster','viewed','team', 'candidates', 'activities', 'latestVacancies', 'vacancies_users','lastestOpportunities' ));
     }
 
     public function getVacanciesPoster(Request $request)

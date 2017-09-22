@@ -820,15 +820,20 @@
 
                 </div>
             </section>
-
+            <form method="POST" id="form_staus_change" action="{{route('vacancies.change_status.candidate', $vacancy->id)}}">
+                {{csrf_field()}}
+                <input type="hidden" name="status" id="status_candidate_change">
+                <input type="hidden" name="candidate" id="id_candidate_change">
+            </form>
             <!--RESPUESTA-->
             <form action="{{route('vacancies.contract.candidate', $vacancy->id)}}" method="GET" class="formLogin form-status">
                 <!--SELECTOR DE ESTATUS-->
                 <div class="itemForm">
-                    <select class="browser-default">
-                        <option value="1" selected>Estatus 1</option>
-                        <option value="2">Estatus 2</option>
-                        <option value="3">Estatus 3</option>
+                    <select name="status" class="browser-default" id="change_status_candidate">
+                        <option value="" selected>@lang('app.status')</option>
+                        <option value="Estatus 1">Estatus 1</option>
+                        <option value="Estatus 2">Estatus 2</option>
+                        <option value="Estatus 3">Estatus 3</option>
                     </select>
                 </div>
 
@@ -846,7 +851,7 @@
                     </div>
 
                     <div class="item">
-                        <button type="submit" class="btn-main" id="btn-modalMain">
+                        <button type="submit" class="btn-main" id="btn-modalMain-contract">
                             @lang('app.contract')
                         </button>
                     </div>
@@ -1004,6 +1009,13 @@
                });
            });
 
+           $('#change_status_candidate').change(function(){
+              if($(this).val()!=''){
+                  $('#status_candidate_change').val($(this).val());
+                  $('#form_staus_change').submit();
+              }
+           });
+
            $('.open-modal-history').click(function(){
                var candidates = [];
                candidates.id = $(this).attr('value');
@@ -1019,11 +1031,16 @@
                            $('#modalHistorico .link').html('<a href="#" target="_blank"><span class="icon-gTalents_download"></span></a>');
                        }
                        var html = '';
+                       var status = result[0].status;
                        for(var i = 0; i < result.length; i++){
                            html += '<li><span class="icon-gTalents_point"></span><p>'+result[i].created_at+'</p><p>'+result[i].status+'</p></li>';
                        }
                        $('.historial-status').html(html+'<input type="hidden" name="candidate" value="'+candidates.id+'">');
                        $('#modalHistorico').modal('open');
+                       $('#id_candidate_change').val(candidates.id);
+                       if(status=='Contract' || status=='Contratado'){
+                           $('#btn-modalMain-contract').hide();
+                       }
                    }
                });
            });

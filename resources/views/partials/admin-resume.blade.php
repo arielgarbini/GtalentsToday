@@ -65,7 +65,7 @@
 			<!--CONTRATACION-->
 			<p>
 				@lang('app.recruitment_dashboard')
-				<br><strong>{{count($latestVacanciesPoster)}}</strong>
+				<br><strong>{{$candidatePoster}}</strong>
 			</p>
 		</div>
 
@@ -88,7 +88,7 @@
 			<!--CONTRATACION-->
 			<p>
 				@lang('app.recruitment_dashboard')
-				<br><strong>{{count($latestVacanciesSupplier)}}</strong>
+				<br><strong>{{$candidateSupplier}}</strong>
 			</p>
 		</div>
 	</section>
@@ -114,7 +114,7 @@
 			<!--CONTRATACION-->
 			<p>
 				@lang('app.recruitment_dashboard')
-				<br><strong>{{count($latestVacanciesPoster)}}</strong>
+				<br><strong>{{$candidatePoster}}</strong>
 			</p>
 		</div>
 
@@ -137,7 +137,7 @@
 			<!--CONTRATACION-->
 			<p>
 				@lang('app.recruitment_dashboard')
-				<br><strong>{{count($latestVacanciesSupplier)}}</strong>
+				<br><strong>{{$candidateSupplier}}</strong>
 			</p>
 		</div>
 	</section>

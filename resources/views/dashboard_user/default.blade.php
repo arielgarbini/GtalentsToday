@@ -145,9 +145,15 @@
                                             <!--FACTURACION APROXIMADA-->
                                             <?php
                                                 try{
-                                                    preg_match_all('/\d{1,2}/' ,$vacancy_opportunity->range_salary, $matches);
-                                                    $factur = (intval($matches[0][0].'000')+intval($matches[0][1].'000'))/2;
-                                                    $factur = number_format($factur, 2, '.', ',');
+
+                                                    if($vacancy_opportunity->group1==1) {
+                                                        preg_match_all('/\d{1,3}/' ,$vacancy_opportunity->range_salary, $matches);
+                                                        $factur = (intval($matches[0][0].'000')+intval($matches[0][1].'000'))/2;
+                                                        $factur = ($vacancy_opportunity->fee * $factur) / 100;
+                                                        $factur = number_format($factur, 2, '.', ',');
+                                                    } else {
+                                                        $factura = $vacancy_opportunity->fee;
+                                                    }
                                                 } catch(\exception $e){
                                                     $factur = '';
                                                 }
@@ -232,9 +238,14 @@
                                             <!--FACTURACION APROXIMADA-->
                                             <?php
                                                 try{
-                                                    preg_match_all('/\d{1,2}/' ,$vacancy_opportunity->range_salary, $matches);
-                                                    $factur = (intval($matches[0][0].'000')+intval($matches[0][1].'000'))/2;
-                                                    $factur = number_format($factur, 2, '.', ',');
+                                                    if($vacancy_opportunity->group1==1) {
+                                                        preg_match_all('/\d{1,3}/' ,$vacancy_opportunity->range_salary, $matches);
+                                                        $factur = (intval($matches[0][0].'000')+intval($matches[0][1].'000'))/2;
+                                                        $factur = ($vacancy_opportunity->fee * $factur) / 100;
+                                                        $factur = number_format($factur, 2, '.', ',');
+                                                    } else {
+                                                        $factura = $vacancy_opportunity->fee;
+                                                    }
                                                 } catch(\exception $e){
                                                     $factur = '';
                                                 }

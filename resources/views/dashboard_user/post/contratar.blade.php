@@ -27,7 +27,7 @@
 				<!--NOMBRE DE LA POSICION-->
 				<div class="itemForm">
 					<label>@lang('app.name_position')</label>
-					<input class='validate' data-error='.errorTxtPosition' name="position" type="text" placeholder="{{trans('app.name_position')}}">
+					<input class='validate' data-error='.errorTxtPosition' readonly value="{{$vacancy->name}}" name="position" type="text" placeholder="{{trans('app.name_position')}}">
 					<div class="errorTxtPosition"></div>
 				</div>
 

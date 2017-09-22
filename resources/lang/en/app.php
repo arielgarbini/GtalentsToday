@@ -79,6 +79,10 @@ return [
     'active' => 'Active',
     'inactive' => 'Inactive',
     'approve' => 'Approve',
+    'Estatus 3' => 'Estatus 3',
+    'Estatus 2' => 'Estatus 2',
+    'Estatus 1' => 'Estatus 1',
+    'Contract'  => 'Contract',
     'requirements' => 'Requirements',
     'one_account_many_benefits' => 'One account, many benefits',
     'city' => 'City',
@@ -147,6 +151,7 @@ return [
     'compensation'                   => 'Compensation',
     'new_candidate_add_success'     => 'New candidate add successfully',
     'approved_candidate'            => 'Candidate approved',
+    'status_change_candidate'       => 'Change of status satisfactory',
     'rejected_candidate'            => 'Candidate rejected',
     'view_all'                      => 'View all',
     'we_recommend_you'              => 'We recommended you',
@@ -234,6 +239,7 @@ return [
     'independent'                  => 'Independiente',
 
     //Vacancies
+    'number_positions_completed'    => 'The number of positions for this vacancy has been completed',
     'supplier_interested_participating' => 'There is a supplier interested in participating in the vacancy',
     'see_more_details'              => 'You can see more details by clicking on the link below:',
     'see_more_detail'               => 'See more details',

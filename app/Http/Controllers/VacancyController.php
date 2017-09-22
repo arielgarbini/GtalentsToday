@@ -29,6 +29,7 @@ use Vanguard\Events\RankingEvent;
 use Vanguard\ExperienceYear;
 use Vanguard\FunctionalArea;
 use Vanguard\UserInvited;
+use Vanguard\VacancyCandidateStatus;
 use Vanguard\VacancyViewed;
 use Vanguard\Http\Requests\Vacancy\CreateVacancyRequest;
 use Vanguard\Http\Requests\Vacancy\UpdateVacancyRequest;
@@ -978,6 +979,16 @@ class VacancyController extends Controller
         }
     }
 
+    public function change_status_candidate(Request $request, $id)
+    {
+        $vacancy = $this->vacancies->find($id);
+        $return = $vacancy->updateStatusCandidate($request->candidate, $request->status);
+
+        $this->vacancy_candidates_status->create(['candidate_id' =>$request->candidate,
+            'vacancy_id'=>$vacancy->id, 'status'=>$request->status]);
+        return redirect()->back()
+            ->withSuccess(trans('app.status_change_candidate'));
+    }
 
     public function approbateCandidate(Request $request, $id)
     {
@@ -1252,6 +1263,11 @@ class VacancyController extends Controller
     {
         $data_admission = explode('/',$request->date_admision);
         $vacancy  = $this->vacancies->find($id);
+        $positions = VacancyCandidate::where('vacancy_id', $id)->where('status', 'Contract')->count();
+        if($positions==$vacancy->positions_number){
+            return redirect()->route('vacancies.show', $vacancy->id)
+                ->withErrors(trans('app.number_positions_completed'));
+        }
         $candidate = $this->candidates->find($request->candidate);
 
         if($vacancy->isApprobateCandidate($candidate->id)){
@@ -1288,8 +1304,15 @@ class VacancyController extends Controller
             ->where('candidate_id', $candidate->id)->get()->first();
         event(new NotificationEvent(['element_id' => $vacancy_user->id,
             'user_id'=>$candidate->supplier_user_id, 'type' => 'qualify_supplier_vacancy_contract', 'name'=>$vacancy->name]));
-        $vacancy->vacancy_status_id = 4;
-        $vacancy->save();
+        if($positions==$vacancy->positions_number) {
+            $vacancy->vacancy_status_id = 4;
+            $vacancy->save();
+        }
+        $vacancy->updateStatusCandidate($candidate->id, 'Contract');
+
+        $this->vacancy_candidates_status->create(['candidate_id' =>$candidate->id,
+            'vacancy_id'=>$vacancy->id, 'status'=>'Contract']);
+
         $rating = ['1' => -10, '2' => 0, '3' => 5, '4' => 10, '5' => 20];
         event(new RankingEvent(['user_id' => $candidate->supplier_user_id, 'points' => $rating[$request->rating.'']]));
         return redirect()->route('vacancies.show', $vacancy->id)

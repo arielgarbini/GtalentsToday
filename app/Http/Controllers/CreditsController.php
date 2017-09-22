@@ -11,6 +11,7 @@ use Vanguard\Repositories\CreditRepository;
 use Vanguard\Services\Paypal\PaypalService;
 
 use Vanguard\Vacancy;
+use Vanguard\VacancyCandidate;
 
 
 class CreditsController extends Controller
@@ -90,23 +91,45 @@ class CreditsController extends Controller
         $user_id =  \Auth::user()->id;
         $potentialPoster = 0;
         $potentialSupplier = 0;
-        $latestVacanciesPoster = Vacancy::where('poster_user_id', '=', \Auth::user()->id)->where('general_conditions', '!=', '')
+        $latestVacanciesPoster = Vacancy::where('company_id', '=', \Auth::user()->company_user->company_id)->where('general_conditions', '!=', '')
             ->orderBy('created_at', 'DESC')->get();
+        $vacanciesPoster = [];
         foreach($latestVacanciesPoster as $vacancy){
-            preg_match_all('/\d{1,2}/' ,$vacancy->range_salary, $matches);
-            $factur = (intval($matches[0][0].'000')+intval($matches[0][1].'000'))/2;
-            $potentialPoster += $factur;
+            $vacanciesPoster[] = $vacancy->id;
+            if($vacancy->group1==1) {
+                preg_match_all('/\d{1,3}/' ,$vacancy->range_salary, $matches);
+                $factur = (intval($matches[0][0].'000')+intval($matches[0][1].'000'))/2;
+                $factur = ($vacancy->fee * $factur) / 100;
+                $potentialPoster += $factur;
+            } else {
+                $potentialPoster += intval($vacancy->fee);
+            }
         }
-        $latestVacanciesSupplier = Vacancy::whereHas('asSupplier', function($query) use($user_id){
-            $query->where('supplier_user_id', $user_id)->where('status',1);
+        $users_company = [];
+        foreach(\Auth::user()->company_user->company->users as $u) {
+            $users_company[] = $u->id;
+        }
+        $candidatePoster = VacancyCandidate::whereIn('vacancy_id', $vacanciesPoster)
+            ->where('status','Contract')->count();
+        $latestVacanciesSupplier = Vacancy::whereHas('asSupplier', function($query) use($users_company){
+            $query->whereIn('supplier_user_id', $users_company)->where('status',1);
         })->get();
+        $vacanciesSupplier = [];
         foreach($latestVacanciesSupplier as $vacancy){
-            preg_match_all('/\d{1,2}/' ,$vacancy->range_salary, $matches);
-            $factur = (intval($matches[0][0].'000')+intval($matches[0][1].'000'))/2;
-            $potentialSupplier += $factur;
+            $vacanciesSupplier[] = $vacancy->id;
+            if($vacancy->group1==1) {
+                preg_match_all('/\d{1,3}/' ,$vacancy->range_salary, $matches);
+                $factur = (intval($matches[0][0].'000')+intval($matches[0][1].'000'))/2;
+                $factur = ($vacancy->fee * $factur) / 100;
+                $potentialSupplier += $factur;
+            } else {
+                $potentialSupplier += intval($vacancy->fee);
+            }
         }
+        $candidateSupplier = VacancyCandidate::whereIn('vacancy_id', $vacanciesSupplier)
+            ->where('status','Contract')->count();
         $credits = Balance::where('company_id', \Auth::user()->company_user->company_id)->get();
-        return view('dashboard_user.credit.index', compact('credits', 'latestVacanciesSupplier','latestVacanciesPoster','potentialSupplier','potentialPoster'));
+        return view('dashboard_user.credit.index', compact('candidatePoster', 'candidateSupplier', 'credits', 'latestVacanciesSupplier','latestVacanciesPoster','potentialSupplier','potentialPoster'));
     }
 
     public function getDetailsPayment(Request $request)

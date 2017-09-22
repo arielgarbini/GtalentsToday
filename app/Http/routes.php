@@ -1104,6 +1104,12 @@ Route::post('vacancies/change_status', [
     'middleware' => ['auth']
 ]);
 
+Route::post('vacancies/{id}/change_status/candidate', [
+    'as' => 'vacancies.change_status.candidate',
+    'uses' => 'VacancyController@change_status_candidate',
+    'middleware' => ['auth']
+]);
+
 //Post-User (Oportunities Available)
 Route::get('vacancies/{vacancy}/show_post_user', [
     'as' => 'vacancies.post_user',

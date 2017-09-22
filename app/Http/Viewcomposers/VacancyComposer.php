@@ -37,10 +37,11 @@ class VacancyComposer
         $replacementPeriod = ReplacementPeriod::where('value_id', $vacancy->contract_type_id)->where('language_id', $language)->get()->first();
         $functionalArea = FunctionalArea::where('value_id', $vacancy->contract_type_id)->where('language_id', $language)->get()->first();
         $suppliers = VacancyUser::where('vacancy_id', $vacancy->id)->where('status',1)->get();
-        $candidatesApproved = VacancyCandidate::where('vacancy_id', $vacancy->id)->where('status','Active')->get();
-        $candidatesRejected = VacancyCandidate::where('vacancy_id', $vacancy->id)->where('status','Rejected')->get();
-        $candidatesUnRead = VacancyCandidate::where('vacancy_id', $vacancy->id)
-            ->where('status', '!=' ,'Active')->where('status', '!=' ,'Rejected')->get();
+        $candidatesApproved = VacancyCandidate::where('vacancy_id', $vacancy->id)
+            ->where('status','!=','Unconfirmed')->where('status','!=','Rejected')->get();
+        $candidatesRejected = VacancyCandidate::where('vacancy_id', $vacancy->id)
+            ->where('status','Rejected')->get();
+        $candidatesUnRead = VacancyCandidate::where('vacancy_id', $vacancy->id)->where('status', 'Unconfirmed')->get();
         $candidatesUnReadCount = VacancyCandidate::where('vacancy_id', $vacancy->id)->where('status' ,'Unconfirmed')->get();
         $data = [];
         $i = 0;
