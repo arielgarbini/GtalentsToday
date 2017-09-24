@@ -22,38 +22,22 @@
                             <!--DATOS DEL POST-->
                             <div class="item-activity">
                                 <h5>@lang('app.active')</h5>
-                                <h2>{{$sup->vacancy->name}}</h2>
+                                <h2>{{$sup->name}}</h2>
                                 <h3>
                                     <?php
-                                    $location = $sup->vacancy->country->name.' / '.$sup->vacancy->state->name;
-                                    if($sup->vacancy->city){
-                                        $location .= ' / '.$sup->vacancy->city->name;
+                                    $location = $sup->country->name.' / '.$sup->state->name;
+                                    if($sup->city){
+                                        $location .= ' / '.$sup->city->name;
                                     }
                                     ?>
                                     {{$location}}
                                 </h3>
-                                <p>@lang('app.published') | {{ $sup->vacancy->created_at->diffForHumans() }}</p>
+                                <p>@lang('app.published') | {{ $sup->created_at->diffForHumans() }}</p>
                             </div>
 
                             <!--RESUMEN DEL POST-->
                             <div class="item">
-                                <!--VISITAS-->
-                                <div class="item-option">
-                                    <h4><?php echo $viewed->search(['vacancy_id' => $sup->vacancy->id])->count() ?></h4>
-                                    <span>@lang('app.visits')</span>
-                                </div>
 
-                                <!--CANDIDATOS-->
-                                <div class="item-option">
-                                    <h4>{{$sup->vacancy->countCandidatesByStatus('Active')}}</h4>
-                                    <span>@lang('app.candidates')</span>
-                                </div>
-
-                                <!--POR ACEPTAR-->
-                                <div class="item-option">
-                                    <h4>{{$sup->vacancy->countCandidatesByStatus('Unconfirmed')}}</h4>
-                                    <span>@lang('app.to_be_accepted')</span>
-                                </div>
 
                             </div>
                         </section>
@@ -63,38 +47,40 @@
                         <!--COMENTARIO 1-->
                         <section class="comment">
                             <!--USUARIO-->
-                            <div class="comment-user">
-                                <figure>
-                                    <img class="category-o tooltipped" src="/upload/categories/{{$sup->recommended_by_user->company[0]->category->avatar}}" data-position="bottom" data-delay="50" data-tooltip="{{$sup->recommended_by_user->company[0]->category->name}}">
-                                </figure>
-                                <div class="comment-user-datos">
-                                    <h3>{{$sup->recommended_by_user->code}}</h3>
-                                    <h4>Newbie</h4>
-                                </div>
-                            </div>
-
-                            <!--CALIFICACIONES Y COMENTARIO-->
-                            <div class="comment-detail">
-                                <!--CALIFICACION-->
-                                <div class="qualification">
+                            @foreach($sup->testimonials as $t)
+                                <div class="comment-user">
                                     <figure>
-                                        <span class="icon-gTalents_stars-3 "></span>
-                                        <span class="icon-gTalents_stars-3 @if($sup->point<2) star-null @endif"></span>
-                                        <span class="icon-gTalents_stars-3 @if($sup->point<3) star-null @endif"></span>
-                                        <span class="icon-gTalents_stars-3 @if($sup->point<4) star-null @endif"></span>
-                                        <span class="icon-gTalents_stars-3 @if($sup->point<5) star-null @endif"></span>
+                                        <img class="category-o tooltipped" src="/upload/categories/{{$t->recommended_by_user->company[0]->category->avatar}}" data-position="bottom" data-delay="50" data-tooltip="{{$t->recommended_by_user->company[0]->category->name}}">
                                     </figure>
-                                    <p>{{$sup->created_at->diffForHumans()}}</p>
+                                    <div class="comment-user-datos">
+                                        <h3>{{$t->recommended_by_user->code}}</h3>
+                                        <h4>{{$t->recommended_by_user->company[0]->category->name}}</h4>
+                                    </div>
                                 </div>
 
-                                <!--RESUMEN DE LA CALIFICACION-->
-                                <div class="comment-detail-resum">
-                                    <p>
-                                        {{$sup->testimony}}
-                                    </p>
-                                </div>
+                                <!--CALIFICACIONES Y COMENTARIO-->
+                                <div class="comment-detail">
+                                    <!--CALIFICACION-->
+                                    <div class="qualification">
+                                        <figure>
+                                            <span class="icon-gTalents_stars-3 "></span>
+                                            <span class="icon-gTalents_stars-3 @if($t->point<2) star-null @endif"></span>
+                                            <span class="icon-gTalents_stars-3 @if($t->point<3) star-null @endif"></span>
+                                            <span class="icon-gTalents_stars-3 @if($t->point<4) star-null @endif"></span>
+                                            <span class="icon-gTalents_stars-3 @if($t->point<5) star-null @endif"></span>
+                                        </figure>
+                                        <p>{{$t->created_at->diffForHumans()}}</p>
+                                    </div>
 
-                            </div>
+                                    <!--RESUMEN DE LA CALIFICACION-->
+                                    <div class="comment-detail-resum">
+                                        <p>
+                                            {{$t->testimony}}
+                                        </p>
+                                    </div>
+
+                                </div>
+                            @endforeach
                         </section>
                     </div>
                 </li>
@@ -120,38 +106,22 @@
                         <!--DATOS DEL POST-->
                         <div class="item-activity">
                             <h5>@lang('app.active')</h5>
-                            <h2>{{$sup->vacancy->name}}</h2>
+                            <h2>{{$sup->name}}</h2>
                             <h3>
                                 <?php
-                                $location = $sup->vacancy->country->name.' / '.$sup->vacancy->state->name;
-                                if($sup->vacancy->city){
-                                    $location .= ' / '.$sup->vacancy->city->name;
+                                $location = $sup->country->name.' / '.$sup->state->name;
+                                if($sup->city){
+                                    $location .= ' / '.$sup->city->name;
                                 }
                                 ?>
                                 {{$location}}
                             </h3>
-                            <p>@lang('app.published') | {{ $sup->vacancy->created_at->diffForHumans() }}</p>
+                            <p>@lang('app.published') | {{ $sup->created_at->diffForHumans() }}</p>
                         </div>
 
                         <!--RESUMEN DEL POST-->
                         <div class="item">
                             <!--VISITAS-->
-                            <div class="item-option">
-                                <h4><?php echo $viewed->search(['vacancy_id' => $sup->vacancy->id])->count() ?></h4>
-                                <span>@lang('app.visits')</span>
-                            </div>
-
-                            <!--CANDIDATOS-->
-                            <div class="item-option">
-                                <h4>{{$sup->vacancy->countCandidatesByStatus('Active')}}</h4>
-                                <span>@lang('app.candidates')</span>
-                            </div>
-
-                            <!--POR ACEPTAR-->
-                            <div class="item-option">
-                                <h4>{{$sup->vacancy->countCandidatesByStatus('Unconfirmed')}}</h4>
-                                <span>@lang('app.to_be_accepted')</span>
-                            </div>
 
                         </div>
                     </section>
@@ -161,13 +131,14 @@
                     <!--COMENTARIO 1-->
                     <section class="comment">
                         <!--USUARIO-->
+                        @foreach($sup->testimonials as $t)
                         <div class="comment-user">
                             <figure>
-                                <img class="category-o tooltipped" src="/upload/categories/{{$sup->recommended_by_user->company[0]->category->avatar}}" data-position="bottom" data-delay="50" data-tooltip="{{$sup->recommended_by_user->company[0]->category->name}}">
+                                <img class="category-o tooltipped" src="/upload/categories/{{$t->recommended_by_user->company[0]->category->avatar}}" data-position="bottom" data-delay="50" data-tooltip="{{$t->recommended_by_user->company[0]->category->name}}">
                             </figure>
                             <div class="comment-user-datos">
-                                <h3>{{$sup->recommended_by_user->code}}</h3>
-                                <h4>Newbie</h4>
+                                <h3>{{$t->recommended_by_user->code}}</h3>
+                                <h4>{{$t->recommended_by_user->company[0]->category->name}}</h4>
                             </div>
                         </div>
 
@@ -177,22 +148,23 @@
                             <div class="qualification">
                                 <figure>
                                     <span class="icon-gTalents_stars-3 "></span>
-                                    <span class="icon-gTalents_stars-3 @if($sup->point<2) star-null @endif"></span>
-                                    <span class="icon-gTalents_stars-3 @if($sup->point<3) star-null @endif"></span>
-                                    <span class="icon-gTalents_stars-3 @if($sup->point<4) star-null @endif"></span>
-                                    <span class="icon-gTalents_stars-3 @if($sup->point<5) star-null @endif"></span>
+                                    <span class="icon-gTalents_stars-3 @if($t->point<2) star-null @endif"></span>
+                                    <span class="icon-gTalents_stars-3 @if($t->point<3) star-null @endif"></span>
+                                    <span class="icon-gTalents_stars-3 @if($t->point<4) star-null @endif"></span>
+                                    <span class="icon-gTalents_stars-3 @if($t->point<5) star-null @endif"></span>
                                 </figure>
-                                <p>{{$sup->created_at->diffForHumans()}}</p>
+                                <p>{{$t->created_at->diffForHumans()}}</p>
                             </div>
 
                             <!--RESUMEN DE LA CALIFICACION-->
                             <div class="comment-detail-resum">
                                 <p>
-                                    {{$sup->testimony}}
+                                    {{$t->testimony}}
                                 </p>
                             </div>
 
                         </div>
+                        @endforeach
                     </section>
                 </div>
             </li>

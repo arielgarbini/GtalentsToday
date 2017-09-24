@@ -566,7 +566,7 @@
                     </a>
                 </section>    -->
                     </div>
-
+            @if($vacancy->countApplicationByStatus(1) < 3)
             <div class="bills">
                 <section class="bills-title">
                     <h3>@lang('app.we_recommend_you')</h3>
@@ -618,6 +618,8 @@
                     </a>
                 </section>
             </div>
+
+                @endif
                 @endif
         </section>
     </article>

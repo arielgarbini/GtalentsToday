@@ -62,20 +62,24 @@ class MessageController extends Controller
             foreach ($conver->conversations as $con) {
                 $sender = $con->sender_user_id;
                 $dest = $con->destinatary_user_id;
-                if(VacancyUser::where('vacancy_id',$conver->id)->where(function ($query) use($sender, $dest){
-                    $query->orWhere('supplier_user_id', $sender)->orWhere('supplier_user_id', $dest);
-                })->where('status',1)->count()>0) {
-                    $codigos[] = $con;
-                    $userP = ($con->sender_user_id != $user_id) ? $con->sender_user_id : $con->destinatary_user_id;
-                    //$data[$i]['conversations'][$j]['code'] = User::find($userP)->code;
-                    $codigos[$j]['code'] = User::find($userP)->code;
-                    $j++;
+                if($sender==$user_id || $dest==$user_id){
+                    if(VacancyUser::where('vacancy_id',$conver->id)->where(function ($query) use($sender, $dest){
+                            $query->orWhere('supplier_user_id', $sender)->orWhere('supplier_user_id', $dest);
+                        })->where('status',1)->count()>0) {
+                        $codigos[] = $con;
+                        $userP = ($con->sender_user_id != $user_id) ? $con->sender_user_id : $con->destinatary_user_id;
+                        //$data[$i]['conversations'][$j]['code'] = User::find($userP)->code;
+                        $codigos[$j]['code'] = User::find($userP)->code;
+                        $j++;
+                    }
                 }
             }
             if(count($codigos)>0){
                 $data[] = $conver;
                 $data[$i]['conversations'] = $codigos;
                 $i++;
+            } else {
+                $data[$i]['conversations'] = [];
             }
         }
         $conversations = (object) $data;

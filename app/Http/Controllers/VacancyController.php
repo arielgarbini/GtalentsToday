@@ -765,6 +765,12 @@ class VacancyController extends Controller
         if(isset($request->notification)){
             Notification::destroy($request->notification);
         }
+        $conversation = Conversation::where('sender_user_id', $vacancy->poster_user_id)
+        ->where('destinatary_user_id', $request->supplier)->where('vacancy_id', $vacancy->id)->get()->first();
+
+        if($conversation){
+            $conversation->delete();
+        }
 
         return redirect()->back()
             ->withSuccess(trans('app.reject_application'));

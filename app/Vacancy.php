@@ -90,6 +90,11 @@ class Vacancy extends Model
         return $this->belongsTo(City::class);
     }
 
+    public function testimonials()
+    {
+        return $this->hasMany(Testimonial::class);
+    }
+
     public function asSupplier()
     {
         return $this->hasMany(VacancyUser::class);

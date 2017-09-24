@@ -160,7 +160,11 @@ class DashboardController extends Controller
         $potentialPoster = 0;
         $potentialSupplier = 0;
         $latestVacanciesPoster = Vacancy::where('company_id', '=', Auth::user()->company_user->company_id)->where('general_conditions', '!=', '')
-            ->orderBy('created_at', 'DESC')->get();
+            ->orderBy('created_at', 'DESC')
+            ->where(function($q){
+                $q->where('vacancy_status_id', 1);
+                $q->orWhere('vacancy_status_id', 5);
+            })->get();
         $vacanciesPoster = [];
         foreach($latestVacanciesPoster as $vacancy){
             $vacanciesPoster[] = $vacancy->id;
@@ -181,6 +185,9 @@ class DashboardController extends Controller
             ->where('status','Contract')->count();
         $latestVacanciesSupplier = Vacancy::whereHas('asSupplier', function($query) use($users_company){
             $query->whereIn('supplier_user_id', $users_company)->where('status',1);
+        })->where(function($q){
+            $q->where('vacancy_status_id', 1);
+            $q->orWhere('vacancy_status_id', 5);
         })->get();
         $vacanciesSupplier = [];
         foreach($latestVacanciesSupplier as $vacancy){
