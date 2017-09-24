@@ -877,7 +877,7 @@ class UsersController extends Controller
         $invitation = UserInvited::where('status', 0)->where('user_invited_id', $user->id)->get()->first();
         if($invitation && $request->status=='Active'){
             $vacancy = Vacancy::find($invitation->vacancy_id);
-            if($vacancy->countApplicationByStatus(GeneralStatus::ACTIVE) < 3){
+            if($vacancy->countApplicationByStatus(1) < 3){
                 $data = [ 'status'      => GeneralStatus::UNCONFIRMED,
                     'is_active'   => true,
                     'comment'     => '',

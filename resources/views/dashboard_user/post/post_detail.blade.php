@@ -247,11 +247,13 @@
 
             <!--INVITAR SUPPLIER EXTERNO-->
             @if($vacancy->vacancy_status_id==1 || $vacancy->vacancy_status_id==5)
-            <div class="btn-section">
-                <a href="#modalInvitar" class="btn-main modal-trigger waves-effect waves-light">
-                    @lang('app.invite_external_supplier_to_platform')
-                </a>
-            </div>
+                @if($vacancy->countApplicationByStatus(1) < 3)
+                        <div class="btn-section">
+                    <a href="#modalInvitar" class="btn-main modal-trigger waves-effect waves-light">
+                        @lang('app.invite_external_supplier_to_platform')
+                    </a>
+                </div>
+                @endif
 
             <!-- LISTADO EQUIPOS Y CANDIDATOS -->
             <div class="user-main-contain-resumTeam">
@@ -309,17 +311,24 @@
                                             <p>{{$supplier->supplier->company[0]->category->name}}</p>
                                         </div>
                                     </section>
-
                                     <!--OPCIONES-->
                                     <div class="options">
                                         <!-- Dropdown Trigger -->
-                                        <a class='dropdown-button' href='#' data-activates='option-team01'>
+                                        <a class='dropdown-button' href='#' data-activates='option-team{{$supplier->supplier_user_id}}'>
                                             <span class="icon-gTalents_submenu"></span>
                                         </a>
-
                                         <!-- Dropdown Structure -->
-                                        <ul id='option-team01' class='dropdown-content'>
+                                        <ul id='option-team{{$supplier->supplier_user_id}}' class='dropdown-content'>
                                             <li><a href="#modalCalificar{{$supplier->supplier_user_id}}" class="modal-trigger waves-effect waves-light">@lang('app.qualify')</a></li>
+                                            <?php
+                                                $candidates_list = [];
+                                                foreach (\Vanguard\Candidate::where('supplier_user_id', $supplier->supplier_user_id)->get() as $c){
+                                                    $candidates_list[] = $c->id;
+                                                }
+                                                $candidate_contract = \Vanguard\VacancyCandidate::where('vacancy_id', $vacancy->id)
+                                                    ->whereIn('candidate_id', $candidates_list)->where('status', 'Contract')->count();
+                                            ?>
+                                            @if($candidate_contract<=0)
                                             <form action="{{route('vacancies.reject.supplier',$vacancy->id)}}" method="POST">
                                                 {{csrf_field()}}
                                                 <input type="hidden" value="{{$supplier->supplier_user_id}}" name="supplier">
@@ -327,6 +336,7 @@
                                                     <a href="#">@lang('app.discard')</a>
                                                 </li>
                                             </form>
+                                            @endif
                                         </ul>
                                         @include('dashboard_user.post.partials.modalcalificate')
                                     </div>
@@ -850,7 +860,7 @@
                         </a>
                     </div>
 
-                    <div class="item">
+                    <div class="item" >
                         <button type="submit" class="btn-main" id="btn-modalMain-contract">
                             @lang('app.contract')
                         </button>
@@ -1032,6 +1042,7 @@
                        }
                        var html = '';
                        var status = result[0].status;
+                       console.log(status);
                        for(var i = 0; i < result.length; i++){
                            html += '<li><span class="icon-gTalents_point"></span><p>'+result[i].created_at+'</p><p>'+result[i].status+'</p></li>';
                        }
@@ -1040,6 +1051,10 @@
                        $('#id_candidate_change').val(candidates.id);
                        if(status=='Contract' || status=='Contratado'){
                            $('#btn-modalMain-contract').hide();
+                           $('#change_status_candidate').hide();
+                       } else {
+                           $('#btn-modalMain-contract').show();
+                           $('#change_status_candidate').show();
                        }
                    }
                });

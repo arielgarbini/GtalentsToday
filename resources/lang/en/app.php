@@ -383,7 +383,7 @@ return [
     'reject'                      => 'Reject',
     'pending_candidates'          => 'Pending Candidates',
     'your_vacancy'                => 'Your Vacancy',
-    'full_vacancy'                => 'Full Vacancy',
+    'full_vacancy'                => 'The vacancy has the maximum number of suppliers allowed',
     'postulate_candidates'        => 'Postulate candidates',
     'only_edit_your_vacancies'    => 'You can only change your vacancies',
     'choose_an_option'            => 'Choose an option',

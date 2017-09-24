@@ -383,7 +383,7 @@ return [
     'reject'                      => 'Rechazar',
     'pending_candidates'          => 'Candidatos pendientes',
     'your_vacancy'                => 'Tu Vacante',
-    'full_vacancy'                => 'Vacante completa',
+    'full_vacancy'                => 'La vacante tiene el maximo de suppliers permitidos',
     'postulate_candidates'        => 'Postular candidatos',
     'only_edit_your_vacancies'    => 'Solo puede modificar sus vacantes',
     'choose_an_option'            => 'Elige una opción',

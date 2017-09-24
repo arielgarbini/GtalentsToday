@@ -77,7 +77,7 @@ class EloquentVacancy implements VacancyRepository
 
         if(isset($data['search']) && $data['search']!=''){
             $vacancy->where(function ($query) use($data){
-                $query->orWhere('name', 'like', '%'.$data['search'].'%');
+                $query->orWhere('vacancies.name', 'like', '%'.$data['search'].'%');
                 $query->orWhere('target_companies', 'like', '%'.$data['search'].'%');
                 $query->orWhere('off_limits_companies', 'like', '%'.$data['search'].'%');
                 $query->orWhere('responsabilities', 'like', '%'.$data['search'].'%');

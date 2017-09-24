@@ -69,7 +69,7 @@
 
 				<!--CALIFICACION-->
 				<div class="feedback-contratar">
-					<h3>@lang('app.calificate_supplier')</h3>
+					<h3>@lang('app.calificate_poster')</h3>
 					<!--ESTRELLAS-->
 					<div class="stars-feedback">
 						<select id="stars1" name="rating" autocomplete="off">

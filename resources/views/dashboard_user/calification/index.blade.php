@@ -23,7 +23,15 @@
                             <div class="item-activity">
                                 <h5>@lang('app.active')</h5>
                                 <h2>{{$sup->vacancy->name}}</h2>
-                                <h3>{{$sup->vacancy->location}}</h3>
+                                <h3>
+                                    <?php
+                                    $location = $sup->vacancy->country->name.' / '.$sup->vacancy->state->name;
+                                    if($sup->vacancy->city){
+                                        $location .= ' / '.$sup->vacancy->city->name;
+                                    }
+                                    ?>
+                                    {{$location}}
+                                </h3>
                                 <p>@lang('app.published') | {{ $sup->vacancy->created_at->diffForHumans() }}</p>
                             </div>
 
@@ -57,7 +65,7 @@
                             <!--USUARIO-->
                             <div class="comment-user">
                                 <figure>
-                                    <span class="icon-gTalents_rango-1"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span><span class="path5"></span><span class="path6"></span></span>
+                                    <img class="category-o tooltipped" src="/upload/categories/{{$sup->recommended_by_user->company[0]->category->avatar}}" data-position="bottom" data-delay="50" data-tooltip="{{$sup->recommended_by_user->company[0]->category->name}}">
                                 </figure>
                                 <div class="comment-user-datos">
                                     <h3>{{$sup->recommended_by_user->code}}</h3>
@@ -113,7 +121,15 @@
                         <div class="item-activity">
                             <h5>@lang('app.active')</h5>
                             <h2>{{$sup->vacancy->name}}</h2>
-                            <h3>{{$sup->vacancy->location}}</h3>
+                            <h3>
+                                <?php
+                                $location = $sup->vacancy->country->name.' / '.$sup->vacancy->state->name;
+                                if($sup->vacancy->city){
+                                    $location .= ' / '.$sup->vacancy->city->name;
+                                }
+                                ?>
+                                {{$location}}
+                            </h3>
                             <p>@lang('app.published') | {{ $sup->vacancy->created_at->diffForHumans() }}</p>
                         </div>
 
@@ -147,7 +163,7 @@
                         <!--USUARIO-->
                         <div class="comment-user">
                             <figure>
-                                <span class="icon-gTalents_rango-1"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span><span class="path5"></span><span class="path6"></span></span>
+                                <img class="category-o tooltipped" src="/upload/categories/{{$sup->recommended_by_user->company[0]->category->avatar}}" data-position="bottom" data-delay="50" data-tooltip="{{$sup->recommended_by_user->company[0]->category->name}}">
                             </figure>
                             <div class="comment-user-datos">
                                 <h3>{{$sup->recommended_by_user->code}}</h3>

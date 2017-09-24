@@ -197,19 +197,25 @@ class User extends Model implements AuthenticatableContract,
     {
         $applied = Candidate::where('supplier_user_id', $this->id)->whereHas('vacancy', function($query){
             $query->where('status', '!=', null);
-        })->count();
+        })->get();
         return $applied;
     }
 
     public function candidates_accepted()
     {
         $applied = $this->candidates_applied();
-        if($applied == 0){
+        if(count($applied) == 0){
             return 0;
         }
-        $accepted = Candidate::where('supplier_user_id', $this->id)->whereHas('vacancy', function($query){
+        $candidates_id = [];
+        foreach ($applied as $r){
+            $candidates_id[] = $r->id;
+        }
+        $candidates_active = VacancyCandidateStatus::whereIn('candidate_id', $candidates_id)
+            ->where('status', 'Active')->count();
+        /*$accepted = Candidate::where('supplier_user_id', $this->id)->whereHas('vacancy', function($query){
             $query->where('status', 'Active');
-        })->count();
-        return ($accepted * 100) / $applied;
+        })->count();*/
+        return ($candidates_active * 100) / count($applied);
     }
 }

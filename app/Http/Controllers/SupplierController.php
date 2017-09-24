@@ -39,8 +39,12 @@ class SupplierController extends Controller
         $candidate = Candidate::where('id', $vacancy_user->candidate_id)->get()->first();
         $invoices = Invoice::where('vacancy_id', $vacancy_user->vacancy_id)
             ->where('supplier_user_id', $candidate->supplier_user_id)->where('candidate_id', $candidate->id)->get()->first();
-        $date_of_admission = explode('-', $invoices->date_of_admission);
-        $date_of_admission = $date_of_admission[2].'/'.$date_of_admission[1].'/'.$date_of_admission[0];
+        if(isset($invoices->date_of_admission) && $invoices->date_of_admission!=''){
+            $date_of_admission = explode('-', $invoices->date_of_admission);
+            $date_of_admission = $date_of_admission[2].'/'.$date_of_admission[1].'/'.$date_of_admission[0];
+        } else {
+            $date_of_admission = '';
+        }
         return view('dashboard_user.supplier.calification_supplier', compact('candidate', 'id', 'invoices', 'date_of_admission'));
     }
 

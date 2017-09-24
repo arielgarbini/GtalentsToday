@@ -256,7 +256,8 @@ class Vacancy extends Model
     {
         $result = VacancyCandidate::where('vacancy_id', '=', $this->id)
                                 ->where('candidate_id', '=', $candidate)
-                                ->where('status', '=', GeneralStatus::ACTIVE)
+                                ->where('status', '!=', 'Contract')
+                                ->where('status', '!=', GeneralStatus::REJECTED)
                                 ->count();
         if($result > 0)
             return true;

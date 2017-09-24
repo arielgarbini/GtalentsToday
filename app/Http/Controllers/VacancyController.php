@@ -258,16 +258,19 @@ class VacancyController extends Controller
     public function store (Request $request, FileManager $filemanager, $id = null)
     {
     // Validación de campos(Pantalla Create)
-     $this->validate($request,
-            ['name'                     => 'required',
+        $data_validate = ['name'        => 'required',
             'positions_number'          => 'required|numeric',
             'country_id'                => 'required',
             'state_id'                  => 'required',
-            'responsabilities'          => 'required', 
+            'responsabilities'          => 'required',
             'required_experience'       => 'required',
-            'key_position_questions'    => 'required',
-            'job'                       => 'required'
-            ],
+            'key_position_questions'    => 'required'
+        ];
+        if($id==null){
+            $data_validate['job'] = 'required';
+        }
+     $this->validate($request,
+            $data_validate,
             ['job.required' => Lang::get('app.job_description_required')]);
 
         $company_id = CompanyUser::where(['user_id' => Auth::user()->id])->get()->first()->company_id;
@@ -726,6 +729,9 @@ class VacancyController extends Controller
     {
         //id => vacancy
         $vacancy = $this->vacancies->find($id);
+        if($vacancy->countApplicationByStatus(1) >= 3)
+            return redirect()->back()
+                ->withErrors(trans('app.full_vacancy'));
         $vacancy_users = VacancyUser::where('vacancy_id', $id)
             ->where('supplier_user_id', $request->supplier)->get()->first();
         if (count($vacancy_users)>0) {
@@ -885,7 +891,9 @@ class VacancyController extends Controller
     {
         //id => vacancy
         $vacancy = $this->vacancies->find($id);
-
+        if($vacancy->countApplicationByStatus(1) >= 3)
+            return redirect()->back()
+                ->withErrors(trans('app.full_vacancy'));
         $vacancy_users = VacancyUser::where('vacancy_id', $vacancy->id)
             ->where('supplier_user_id', $request->supplier)->get()->first();
         if ($vacancy_users) {
@@ -1304,15 +1312,15 @@ class VacancyController extends Controller
             ->where('candidate_id', $candidate->id)->get()->first();
         event(new NotificationEvent(['element_id' => $vacancy_user->id,
             'user_id'=>$candidate->supplier_user_id, 'type' => 'qualify_supplier_vacancy_contract', 'name'=>$vacancy->name]));
-        if($positions==$vacancy->positions_number) {
-            $vacancy->vacancy_status_id = 4;
-            $vacancy->save();
-        }
         $vacancy->updateStatusCandidate($candidate->id, 'Contract');
 
         $this->vacancy_candidates_status->create(['candidate_id' =>$candidate->id,
             'vacancy_id'=>$vacancy->id, 'status'=>'Contract']);
-
+        $positions++;
+        if($positions==$vacancy->positions_number) {
+            $vacancy->vacancy_status_id = 4;
+            $vacancy->save();
+        }
         $rating = ['1' => -10, '2' => 0, '3' => 5, '4' => 10, '5' => 20];
         event(new RankingEvent(['user_id' => $candidate->supplier_user_id, 'points' => $rating[$request->rating.'']]));
         return redirect()->route('vacancies.show', $vacancy->id)

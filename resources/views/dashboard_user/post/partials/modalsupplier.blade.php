@@ -19,7 +19,7 @@
                 <!--ICONO RANGO-->
 
                 <figure class="supplierContain1-ranking">
-                    <span class="icon-gTalents_rango-{{$supplier->company[0]->category_id}}"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span><span class="path5"></span></span>
+                    <img class="category-o tooltipped" src="/upload/categories/{{$supplier->company[0]->category->avatar}}" data-position="bottom" data-delay="50" data-tooltip="{{$supplier->company[0]->category->name}}">
                 </figure>
 
                 <div class="datos">
