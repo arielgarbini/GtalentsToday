@@ -23,4 +23,9 @@ class Balance extends Model
     {
         return $this->belongsTo(Company::class,'company_id');
     }
+
+    public function vacancy()
+    {
+        return $this->belongsTo(Vacancy::class,'vacancy_id');
+    }
 }

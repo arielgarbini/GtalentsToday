@@ -710,6 +710,12 @@ Route::get('vacancies/get/search/{url?}', [
     'uses' => 'DashboardController@getVacanciesFind',
     'middleware' => 'permission:vacancies.view'
 ]);
+
+Route::get('suppliers/get/search', [
+    'as' => 'suppliers.get.find',
+    'uses' => 'SupplierController@getSuppliersFind',
+    'middleware' => 'permission:vacancies.view'
+]);
 /*
 Route::get('vacancies/list/{url}', [
     'as' => 'vacancies.list.poster',
@@ -958,6 +964,12 @@ Route::post('credits/store', [
 Route::post('credits/store/price', [
     'as' => 'credits.store.price',
     'uses' => 'CreditsController@storePrice',
+    'middleware' => 'auth'
+]);
+
+Route::post('credits/store/price/candidate', [
+    'as' => 'credits.store.price.candidate',
+    'uses' => 'CreditsController@storePriceCandidate',
     'middleware' => 'auth'
 ]);
 

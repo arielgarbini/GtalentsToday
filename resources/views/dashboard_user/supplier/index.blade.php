@@ -9,82 +9,98 @@
     <article class="postList-contain grid">
         <!--POST LIST FILTRADO-->
         <article class="postList-contain-filter filter-supplier no-mobile">
-            <form action="" class="formLogin">
-                <h3>Filtra tu búsqueda</h3>
-
+            <form action="{{route('supplier.index')}}" method="GET" class="formLogin" id="formSearch">
+                <h3>@lang('app.filter_your_search')</h3>
+                <input type="hidden" name="vacancy" value="{{$data['vacancy']}}">
                 <!--BUSQUEDA-->
                 <div class="itemForm">
-                    <input type="text" placeholder="¿Qué buscas?" class="input-search">
+                    <input @if(isset($data['search'])) value="{{$data['search']}}" @endif name="search" id="search" type="text" placeholder="{{trans('app.what_are_you_looking_for')}}" class="input-search">
                 </div>
 
                 <!--COMISION-->
                 <div class="itemForm">
-                    <label>Áreas funcionales</label>
+                    <label>@lang('app.functional_area')</label>
                     <select class="browser-default">
-                        <option value="1" selected>Gerencia</option>
-                        <option value="2">Sra.</option>
-                        <option value="3">Dr.</option>
+                        <option value="" @if(!isset($data['functional']) || $data['functional'] == '') selected @endif>@lang('app.select')</option>
+                        @foreach($functionalArea as $key=>$value)
+                            <option @if(isset($data['functional']) && $data['functional'] == $key) selected @endif value="{{$key}}">{{$value}}</option>
+                        @endforeach
                     </select>
                 </div>
 
                 <!--INDUSTRIA-->
                 <div class="itemForm">
-                    <label>Industria</label>
-                    <select class="browser-default">
-                        <option value="1" selected>Diseño e Informática</option>
-                        <option value="2">Sra.</option>
-                        <option value="3">Dr.</option>
+                    <label>@lang('app.industry')</label>
+                    <select name="industry" class="browser-default" id="industry">
+                        <option value="" @if(!isset($data['industry']) || $data['industry'] == '') selected @endif>@lang('app.select')</option>
+                        @foreach($industries as $key=>$value)
+                            <option @if(isset($data['industry']) && $data['industry'] == $key) selected @endif value="{{$key}}">{{$value}}</option>
+                        @endforeach
                     </select>
                 </div>
 
                 <!--NIVELES DE POSICION-->
-                <div class="itemForm">
+                <!--<div class="itemForm">
                     <label>Niveles de posición</label>
                     <select class="browser-default">
                         <option value="1" selected>Posición</option>
                         <option value="2">Sra.</option>
                         <option value="3">Dr.</option>
                     </select>
-                </div>
+                </div>-->
 
                 <!--UBICACION-->
                 <div class="itemForm">
-                    <label>Ubicación</label>
-                    <input type="text" placeholder="Caracas - Venezuela">
+                    <label>@lang('app.choose_country')</label>
+                    {!! Form::select('country_id', $countries , (isset($data['country_id'])) ? $data['country_id'] : null, ['class' => 'browser-default', 'id' => 'country_id', 'placeholder' => trans('app.choose_country')]) !!}
+                </div>
+
+                <div class="itemForm">
+                    <label>@lang('app.choose_province')</label>
+                    {!! Form::select('state_id', [] , null, ['disabled'=> true, 'class' => 'browser-default', 'id' => 'state_id', 'placeholder' => trans('app.choose_province')]) !!}
+                </div>
+
+                <div class="itemForm">
+                    <label>@lang('app.choose_city')</label>
+                    {!! Form::select('city_id', [] , null, ['disabled'=> true, 'class' => 'browser-default', 'id' => 'city_id', 'placeholder' => trans('app.choose_city')]) !!}
                 </div>
 
                 <!--CALIFICACION-->
                 <div class="itemForm">
-                    <label>Calificación</label>
-                    <select class="browser-default">
-                        <option value="1" selected>5 estrellas</option>
-                        <option value="2">Calificacion</option>
+                    <label>@lang('app.qualification')</label>
+                    <select class="browser-default" name="qualification" id="qualification">
+                        <option value="" @if(!isset($data['qualification']) || $data['qualification'] == '') selected @endif>@lang('app.select')</option>
+                        @foreach($qualification as $key=>$value)
+                            <option @if(isset($data['qualification']) && $data['qualification'] == $key) selected @endif value="{{$key}}">{{$value}}</option>
+                        @endforeach
                     </select>
                 </div>
 
                 <!--NIVEL-->
                 <div class="itemForm">
-                    <label>Nivel</label>
-                    <select class="browser-default">
-                        <option value="1" selected>Hiring Pro</option>
-                        <option value="2">Hiring Pro</option>
-                        <option value="3">Hiring Pro</option>
+                    <label>@lang('app.category')</label>
+                    <select class="browser-default" name="category" id="category">
+                        <option value="" @if(!isset($data['category']) || $data['category'] == '') selected @endif>@lang('app.select')</option>
+                        @foreach($categories as $key=>$value)
+                            <option @if(isset($data['category']) && $data['category'] == $key) selected @endif value="{{$key}}">{{$value}}</option>
+                        @endforeach
                     </select>
                 </div>
 
                 <!--TAMAÑO DE ORGANIZACION-->
                 <div class="itemForm">
-                    <label>Tamaño de Organización</label>
-                    <select class="browser-default">
-                        <option value="1" selected>tamaño</option>
-                        <option value="2">tamaño</option>
-                        <option value="3">tamaño</option>
+                    <label>@lang('app.size_company')</label>
+                    <select name="employees" class="browser-default" id="employees">
+                        <option value="" @if(!isset($data['employees']) || $data['employees'] == '') selected @endif>@lang('app.select')</option>
+                        @foreach($quantityEmployees as $key=>$value)
+                            <option @if(isset($data['employees']) && $data['employees'] == $key) selected @endif value="{{$key}}">{{$value}}</option>
+                        @endforeach
                     </select>
                 </div>
 
                 <!--SUBMIT-->
                 <div class="submit">
-                    <button type="submit" class="btn-main2">Buscar Supplier</button>
+                    <button type="submit" class="btn-main2">@lang('app.search') Supplier</button>
                 </div>
             </form>
         </article>
@@ -94,7 +110,7 @@
         <article class="credits">
             <!--TITULO DE LA SECCION-->
             <section class="credits-title">
-                <h3>Tienes <strong>1.234 Oportunidades</strong> disponibles</h3>
+                <h3>{{trans('app.do_you_have')}} <strong>{{$suppliersCount}} Suppliers</strong> {{trans('app.available')}}</h3>
 
                 <!--FILTRADO DE ORDEN-->
                 <div class="orderFilter">
@@ -112,20 +128,22 @@
             </section>
 
             <!--LISTADO DE CREDITOS-->
-            <ul class="supplier-container supplier-list">
+            @if (count($suppliers))
+            <ul class="supplier-container supplier-list" id="latesVacanciesUser">
                 <!-- OPORTUNIDAD 1 -->
+                @foreach ($suppliers as $supplier)
                 <li>
-                    <a href="post-detail.php">
+                    <a href="#">
                         <!--RESUMEN OPORTUNIDAD-->
                         <section class="supplierContain1">
                             <!--ICONO RANGO-->
                             <figure class="supplierContain1-ranking">
-                                <span class="icon-gTalents_rango-1"><span class="path1"></span><span class="path2"></span></span>
+                                <img class="category-p tooltipped" src="/upload/categories/{{$supplier->company[0]->category->avatar}}" data-position="bottom" data-delay="50" data-tooltip="{{$supplier->company[0]->category->name}}">
                             </figure>
 
                             <div class="datos">
-                                <h4>QDT876</h4>
-                                <p>Newbie</p>
+                                <h4>{{$supplier->code}}</h4>
+                                <p>{{$supplier->company[0]->category->name}}</p>
                             </div>
                         </section>
                     </a>
@@ -134,423 +152,38 @@
                     <div class="add-supplier">
                         <!--PERFIL-->
                         <div class="link">
-                            <a href="#modalProfileSupplier" class="modal-trigger waves-effect waves-light">
+                            <a modal="modalProfileSupplier{{$supplier->id}}" href="#modalProfileSupplier{{$supplier->id}}" class="waves-effect waves-light">
                                 <span class="icon-gTalents_profile"></span>
                             </a>
                         </div>
 
                         <!--AGREGAR SUPPLIER-->
                         <div class="link">
-                            <a href="!">
-                                <span class="icon-gTalent_add-supplier"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span><span class="path5"></span></span>
-                            </a>
+                            <form method="POST" action="{{route('vacancies.invited.supplier', $data['vacancy'])}}">
+                                {{csrf_field()}}
+                                <input type="hidden" value="{{$supplier->id}}" name="supplier">
+                                <a href="#" class="send_form">
+                                    <span class="icon-gTalent_add-supplier"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span><span class="path5"></span></span>
+                                </a>
+                            </form>
                         </div>
                     </div>
+                    @include('dashboard_user.post.partials.modalsupplier')
                 </li>
-
-                <!-- OPORTUNIDAD 2 -->
-                <li>
-                    <a href="post-detail.php">
-                        <!--RESUMEN OPORTUNIDAD-->
-                        <section class="supplierContain1">
-                            <!--ICONO RANGO-->
-                            <figure class="supplierContain1-ranking">
-                                <span class="icon-gTalents_rango-1"><span class="path1"></span><span class="path2"></span></span>
-                            </figure>
-
-                            <div class="datos">
-                                <h4>QDT876</h4>
-                                <p>Newbie</p>
-                            </div>
-                        </section>
-                    </a>
-                    
-                    <!--AGREGAR SUPPLIER-->
-                    <div class="add-supplier">
-                        <!--PERFIL-->
-                        <div class="link">
-                            <a href="#modalProfileSupplier" class="modal-trigger waves-effect waves-light">
-                                <span class="icon-gTalents_profile"></span>
-                            </a>
-                        </div>
-
-                        <!--AGREGAR SUPPLIER-->
-                        <div class="link">
-                            <a href="!">
-                                <span class="icon-gTalent_add-supplier"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span><span class="path5"></span></span>
-                            </a>
-                        </div>
-                    </div>
-                </li>
-
-                <!-- OPORTUNIDAD 3 -->
-                <li>
-                    <a href="post-detail.php">
-                        <!--RESUMEN OPORTUNIDAD-->
-                        <section class="supplierContain1">
-                            <!--ICONO RANGO-->
-                            <figure class="supplierContain1-ranking">
-                                <span class="icon-gTalents_rango-1"><span class="path1"></span><span class="path2"></span></span>
-                            </figure>
-
-                            <div class="datos">
-                                <h4>QDT876</h4>
-                                <p>Newbie</p>
-                            </div>
-                        </section>
-                    </a>
-                    
-                    <!--AGREGAR SUPPLIER-->
-                    <div class="add-supplier">
-                        <!--PERFIL-->
-                        <div class="link">
-                            <a href="#modalProfileSupplier" class="modal-trigger waves-effect waves-light">
-                                <span class="icon-gTalents_profile"></span>
-                            </a>
-                        </div>
-
-                        <!--AGREGAR SUPPLIER-->
-                        <div class="link">
-                            <a href="!">
-                                <span class="icon-gTalent_add-supplier"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span><span class="path5"></span></span>
-                            </a>
-                        </div>
-                    </div>
-                </li>
-
-                <!-- OPORTUNIDAD 4 -->
-                <li>
-                    <a href="post-detail.php">
-                        <!--RESUMEN OPORTUNIDAD-->
-                        <section class="supplierContain1">
-                            <!--ICONO RANGO-->
-                            <figure class="supplierContain1-ranking">
-                                <span class="icon-gTalents_rango-1"><span class="path1"></span><span class="path2"></span></span>
-                            </figure>
-
-                            <div class="datos">
-                                <h4>QDT876</h4>
-                                <p>Newbie</p>
-                            </div>
-                        </section>
-                    </a>
-                    
-                    <!--AGREGAR SUPPLIER-->
-                    <div class="add-supplier">
-                        <!--PERFIL-->
-                        <div class="link">
-                            <a href="#modalProfileSupplier" class="modal-trigger waves-effect waves-light">
-                                <span class="icon-gTalents_profile"></span>
-                            </a>
-                        </div>
-
-                        <!--AGREGAR SUPPLIER-->
-                        <div class="link">
-                            <a href="!">
-                                <span class="icon-gTalent_add-supplier"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span><span class="path5"></span></span>
-                            </a>
-                        </div>
-                    </div>
-                </li>
-
-                <!-- OPORTUNIDAD 5 -->
-                <li>
-                    <a href="post-detail.php">
-                        <!--RESUMEN OPORTUNIDAD-->
-                        <section class="supplierContain1">
-                            <!--ICONO RANGO-->
-                            <figure class="supplierContain1-ranking">
-                                <span class="icon-gTalents_rango-1"><span class="path1"></span><span class="path2"></span></span>
-                            </figure>
-
-                            <div class="datos">
-                                <h4>QDT876</h4>
-                                <p>Newbie</p>
-                            </div>
-                        </section>
-                    </a>
-                    
-                    <!--AGREGAR SUPPLIER-->
-                    <div class="add-supplier">
-                        <!--PERFIL-->
-                        <div class="link">
-                            <a href="#modalProfileSupplier" class="modal-trigger waves-effect waves-light">
-                                <span class="icon-gTalents_profile"></span>
-                            </a>
-                        </div>
-
-                        <!--AGREGAR SUPPLIER-->
-                        <div class="link">
-                            <a href="!">
-                                <span class="icon-gTalent_add-supplier"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span><span class="path5"></span></span>
-                            </a>
-                        </div>
-                    </div>
-                </li>
-
-                <!-- OPORTUNIDAD 6 -->
-                <li>
-                    <a href="post-detail.php">
-                        <!--RESUMEN OPORTUNIDAD-->
-                        <section class="supplierContain1">
-                            <!--ICONO RANGO-->
-                            <figure class="supplierContain1-ranking">
-                                <span class="icon-gTalents_rango-1"><span class="path1"></span><span class="path2"></span></span>
-                            </figure>
-
-                            <div class="datos">
-                                <h4>QDT876</h4>
-                                <p>Newbie</p>
-                            </div>
-                        </section>
-                    </a>
-                    
-                    <!--AGREGAR SUPPLIER-->
-                    <div class="add-supplier">
-                        <!--PERFIL-->
-                        <div class="link">
-                            <a href="#modalProfileSupplier" class="modal-trigger waves-effect waves-light">
-                                <span class="icon-gTalents_profile"></span>
-                            </a>
-                        </div>
-
-                        <!--AGREGAR SUPPLIER-->
-                        <div class="link">
-                            <a href="!">
-                                <span class="icon-gTalent_add-supplier"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span><span class="path5"></span></span>
-                            </a>
-                        </div>
-                    </div>
-                </li>
-
-                <!-- OPORTUNIDAD 7 -->
-                <li>
-                    <a href="post-detail.php">
-                        <!--RESUMEN OPORTUNIDAD-->
-                        <section class="supplierContain1">
-                            <!--ICONO RANGO-->
-                            <figure class="supplierContain1-ranking">
-                                <span class="icon-gTalents_rango-1"><span class="path1"></span><span class="path2"></span></span>
-                            </figure>
-
-                            <div class="datos">
-                                <h4>QDT876</h4>
-                                <p>Newbie</p>
-                            </div>
-                        </section>
-                    </a>
-
-                    <!--AGREGAR SUPPLIER-->
-                    <div class="add-supplier">
-                        <!--PERFIL-->
-                        <div class="link">
-                            <a href="#modalProfileSupplier" class="modal-trigger waves-effect waves-light">
-                                <span class="icon-gTalents_profile"></span>
-                            </a>
-                        </div>
-
-                        <!--AGREGAR SUPPLIER-->
-                        <div class="link">
-                            <a href="!">
-                                <span class="icon-gTalent_add-supplier"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span><span class="path5"></span></span>
-                            </a>
-                        </div>
-                    </div>
-                </li>
-
-                <!-- OPORTUNIDAD 8 -->
-                <li>
-                    <a href="post-detail.php">
-                        <!--RESUMEN OPORTUNIDAD-->
-                        <section class="supplierContain1">
-                            <!--ICONO RANGO-->
-                            <figure class="supplierContain1-ranking">
-                                <span class="icon-gTalents_rango-1"><span class="path1"></span><span class="path2"></span></span>
-                            </figure>
-
-                            <div class="datos">
-                                <h4>QDT876</h4>
-                                <p>Newbie</p>
-                            </div>
-                        </section>
-                    </a>
-                    
-                    <!--AGREGAR SUPPLIER-->
-                    <div class="add-supplier">
-                        <!--PERFIL-->
-                        <div class="link">
-                            <a href="#modalProfileSupplier" class="modal-trigger waves-effect waves-light">
-                                <span class="icon-gTalents_profile"></span>
-                            </a>
-                        </div>
-
-                        <!--AGREGAR SUPPLIER-->
-                        <div class="link">
-                            <a href="!">
-                                <span class="icon-gTalent_add-supplier"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span><span class="path5"></span></span>
-                            </a>
-                        </div>
-                    </div>
-                </li>
-
-                <!-- OPORTUNIDAD 9 -->
-                <li>
-                    <a href="post-detail.php">
-                        <!--RESUMEN OPORTUNIDAD-->
-                        <section class="supplierContain1">
-                            <!--ICONO RANGO-->
-                            <figure class="supplierContain1-ranking">
-                                <span class="icon-gTalents_rango-1"><span class="path1"></span><span class="path2"></span></span>
-                            </figure>
-
-                            <div class="datos">
-                                <h4>QDT876</h4>
-                                <p>Newbie</p>
-                            </div>
-                        </section>
-                    </a>
-                    
-                    <!--AGREGAR SUPPLIER-->
-                    <div class="add-supplier">
-                        <!--PERFIL-->
-                        <div class="link">
-                            <a href="#modalProfileSupplier" class="modal-trigger waves-effect waves-light">
-                                <span class="icon-gTalents_profile"></span>
-                            </a>
-                        </div>
-
-                        <!--AGREGAR SUPPLIER-->
-                        <div class="link">
-                            <a href="!">
-                                <span class="icon-gTalent_add-supplier"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span><span class="path5"></span></span>
-                            </a>
-                        </div>
-                    </div>
-                </li>
-
-                <!-- OPORTUNIDAD 10 -->
-                <li>
-                    <a href="post-detail.php">
-                        <!--RESUMEN OPORTUNIDAD-->
-                        <section class="supplierContain1">
-                            <!--ICONO RANGO-->
-                            <figure class="supplierContain1-ranking">
-                                <span class="icon-gTalents_rango-1"><span class="path1"></span><span class="path2"></span></span>
-                            </figure>
-
-                            <div class="datos">
-                                <h4>QDT876</h4>
-                                <p>Newbie</p>
-                            </div>
-                        </section>
-                    </a>
-                    
-                    <!--AGREGAR SUPPLIER-->
-                    <div class="add-supplier">
-                        <!--PERFIL-->
-                        <div class="link">
-                            <a href="#modalProfileSupplier" class="modal-trigger waves-effect waves-light">
-                                <span class="icon-gTalents_profile"></span>
-                            </a>
-                        </div>
-
-                        <!--AGREGAR SUPPLIER-->
-                        <div class="link">
-                            <a href="!">
-                                <span class="icon-gTalent_add-supplier"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span><span class="path5"></span></span>
-                            </a>
-                        </div>
-                    </div>
-                </li>
-
-                <!-- OPORTUNIDAD 11 -->
-                <li>
-                    <a href="post-detail.php">
-                        <!--RESUMEN OPORTUNIDAD-->
-                        <section class="supplierContain1">
-                            <!--ICONO RANGO-->
-                            <figure class="supplierContain1-ranking">
-                                <span class="icon-gTalents_rango-1"><span class="path1"></span><span class="path2"></span></span>
-                            </figure>
-
-                            <div class="datos">
-                                <h4>QDT876</h4>
-                                <p>Newbie</p>
-                            </div>
-                        </section>
-                    </a>
-                    
-                    <!--AGREGAR SUPPLIER-->
-                    <div class="add-supplier">
-                        <!--PERFIL-->
-                        <div class="link">
-                            <a href="#modalProfileSupplier" class="modal-trigger waves-effect waves-light">
-                                <span class="icon-gTalents_profile"></span>
-                            </a>
-                        </div>
-
-                        <!--AGREGAR SUPPLIER-->
-                        <div class="link">
-                            <a href="!">
-                                <span class="icon-gTalent_add-supplier"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span><span class="path5"></span></span>
-                            </a>
-                        </div>
-                    </div>
-                </li>
-
-                <!-- OPORTUNIDAD 12 -->
-                <li>
-                    <a href="post-detail.php">
-                        <!--RESUMEN OPORTUNIDAD-->
-                        <section class="supplierContain1">
-                            <!--ICONO RANGO-->
-                            <figure class="supplierContain1-ranking">
-                                <span class="icon-gTalents_rango-1"><span class="path1"></span><span class="path2"></span></span>
-                            </figure>
-
-                            <div class="datos">
-                                <h4>QDT876</h4>
-                                <p>Newbie</p>
-                            </div>
-                        </section>
-                    </a>
-                    
-                    <!--AGREGAR SUPPLIER-->
-                    <div class="add-supplier">
-                        <!--PERFIL-->
-                        <div class="link">
-                            <a href="#modalProfileSupplier" class="modal-trigger waves-effect waves-light">
-                                <span class="icon-gTalents_profile"></span>
-                            </a>
-                        </div>
-
-                        <!--AGREGAR SUPPLIER-->
-                        <div class="link">
-                            <a href="!">
-                                <span class="icon-gTalent_add-supplier"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span><span class="path5"></span></span>
-                            </a>
-                        </div>
-                    </div>
-                </li>
+                @endforeach
             </ul>
+                @if($suppliers_users_pages>1)
+                    <ul class="pagination" data-pages="{{$suppliers_users_pages}}" data-element="latesVacanciesUser" data-resource="{{route('vacancies.get.find')}}/find" data-count="{{$suppliers_users_count}}" data-page="1">
+                        <li class="disabled" data-page="last"><span>«</span></li>
+                        <li class="active page-1" data-page="1" ><span>1</span></li>
+                        @for($j = 2; $j<=$suppliers_users_pages; $j++)
+                            <li data-page="{{$j}}" class="page-{{$j}}"><span>{{$j}}</span></li>
+                        @endfor
+                        <li class="disabled" data-page="next"><span>»</span></li>
+                    </ul>
+                @endif
+            @endif
 
-            <ul class="pagination">
-                <li class="disabled">
-                    <a href="#!">
-                        <span class="icon-gTalents_left"></span>
-                    </a>
-                </li>
-                <li class="active"><a href="#!">1</a></li>
-                <li class="waves-effect"><a href="#!">2</a></li>
-                <li class="waves-effect"><a href="#!">3</a></li>
-                <li class="waves-effect"><a href="#!">4</a></li>
-                <li class="waves-effect"><a href="#!">5</a></li>
-                <li class="waves-effect">
-                    <a href="#!">
-                        <span class="icon-gTalents_right"></span>
-                    </a>
-                </li>
-            </ul>
         </article>
     </article>
     
@@ -646,70 +279,6 @@
             </article>
         </section>
     </article>
-
-    <!--MODAL PERFIL SUPPLIER-->
-    <div id="modalProfileSupplier" class="modal modal-userRegistered">
-        
-        <div class="modal-header">
-            <!--CERRAR MODAL-->
-            <div class="close">
-                <a href="#!" class="modal-action modal-close">
-                    <span class="icon-gTalents_close-2"></span>
-                </a>
-            </div>
-
-            <h4>Perfil del Supplier</h4>
-        </div>
-
-        <div class="modal-content">
-
-            <!--RESUMEN SUPPLIER-->
-            <div class="profile-colab profile-supplier">
-                <section class="supplierContain1">
-                    <!--ICONO RANGO-->
-                    <figure class="supplierContain1-ranking">
-                        <span class="icon-gTalents_rango-1"><span class="path1"></span><span class="path2"></span></span>
-                    </figure>
-
-                    <div class="datos">
-                        <h4>QDT876</h4>
-                        <p>Newbie</p>
-                    </div>
-                </section>
-
-                <!--PROMEDIO CALIFICACIONES-->
-                <div class="qualification">
-                    <figure>
-                        <span class="icon-gTalents_stars-3"></span>
-                        <span class="icon-gTalents_stars-3"></span>
-                        <span class="icon-gTalents_stars-3"></span>
-                        <span class="icon-gTalents_stars-3"></span>
-                        <span class="icon-gTalents_stars-3 star-null"></span>
-                    </figure>
-                </div>
-
-                <!--RESUMEN 1-->
-                <div class="profile-colab-message">
-                    <h4>Ha participado en:</h4>
-                    <p>214 oportunidades laborales</p>
-                </div>
-
-                <!--RESUMEN 2-->
-                <div class="profile-colab-message">
-                    <h4>Indice de aceptación de candidatos:</h4>
-                    <p>90%</p>
-                </div>
-            </div>
-
-            
-            <!--BTN-MAIN-->
-            <div class="item-btn">
-                <a href="#!" class="btn-main">
-                    Continuar
-                </a>
-            </div>
-        </div>
-    </div>
     
     <!--EQUIPO Y CANDIDATOS MOBILE-->
     <article class="team-mobile">
@@ -807,5 +376,87 @@
 @stop
 
 @section('scripts')
-   
+    <script>
+        $(document).ready(function(){
+            $('#order').change(function(){
+                location.href = $('#formSearch').attr('action')+'?search='+$('#search').val()+'&location='+$('#location').val()+'&industry='+$('#industry').val()+'&periods='+$('#periods').val()+'&order='+$(this).val();
+            });
+
+            @if(isset($data['country_id']) && $data['country_id']!='')
+             $.ajax({
+                method: "GET",
+                url: "{{route('country.getProvince')}}?country={{$data['country_id']}}",
+                success: function(response){
+                    var html = '<option value="">{{trans('app.choose_province')}}</option>';
+                    for(var i = 0; i<response.length; i++){
+                        html += '<option value="'+response[i].id+'">'+response[i].name+'</option>';
+                    }
+                    $('#state_id').html(html);
+                    $('#state_id').attr('disabled', false);
+                    @if(isset($data['state_id']) && $data['state_id']!='')
+                      $('#state_id').val("{{$data['state_id']}}");
+                    $.ajax({
+                        method: "GET",
+                        url: "{{route('country.getCities')}}?state={{$data['state_id']}}",
+                        success: function(response){
+                            var html = '<option value="">{{trans('app.choose_city')}}</option>';
+                            for(var i = 0; i<response.length; i++){
+                                html += '<option value="'+response[i].id+'">'+response[i].name+'</option>';
+                            }
+                            $('#city_id').html(html);
+                            $('#city_id').attr('disabled', false);
+                            @if(isset($data['city_id']) && $data['city_id']!='')
+                                $('#city_id').val("{{$data['city_id']}}");
+                            @endif
+                        }
+                    });
+                    @endif
+                }
+            });
+            @endif
+          $('#country_id').change(function(){
+                if($(this).val()!=''){
+                    var country = $(this).val();
+                    $.ajax({
+                        method: "GET",
+                        url: "{{route('country.getProvince')}}?country="+country,
+                        success: function(response){
+                            var html = '<option value="">{{trans('app.choose_province')}}</option>';
+                            for(var i = 0; i<response.length; i++){
+                                html += '<option value="'+response[i].id+'">'+response[i].name+'</option>';
+                            }
+                            $('#state_id').html(html);
+                            $('#state_id').attr('disabled', false);
+                        }
+                    });
+                } else {
+                    $('#state_id').val('');
+                    $('#city_id').val('');
+                    $('#state_id').attr('disabled', true);
+                    $('#city_id').attr('disabled', true);
+                }
+            });
+
+            $('#state_id').change(function(){
+                if($(this).val()!=''){
+                    var state = $(this).val();
+                    $.ajax({
+                        method: "GET",
+                        url: "{{route('country.getCities')}}?state="+state,
+                        success: function(response){
+                            var html = '<option value="">{{trans('app.choose_city')}}</option>';
+                            for(var i = 0; i<response.length; i++){
+                                html += '<option value="'+response[i].id+'">'+response[i].name+'</option>';
+                            }
+                            $('#city_id').html(html);
+                            $('#city_id').attr('disabled', false);
+                        }
+                    });
+                } else {
+                    $('#city_id').val('');
+                    $('#city_id').attr('disabled', true);
+                }
+            });
+        });
+    </script>
 @stop

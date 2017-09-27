@@ -3,6 +3,7 @@
 namespace Vanguard\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Vanguard\Candidate;
 use Vanguard\Http\Requests;
 use Vanguard\Repositories\Message\MessageRepository;
 use Vanguard\Repositories\ConversationRepository;
@@ -11,6 +12,7 @@ use Vanguard\Repositories\User\UserRepository;
 use Vanguard\Message;
 use Vanguard\Vacancy;
 use Vanguard\User;
+use Vanguard\VacancyCandidate;
 use Vanguard\VacancyUser;
 use Vanguard\Events\NotificationEvent;
 use Vanguard\Events\Message\Deleted;
@@ -62,10 +64,23 @@ class MessageController extends Controller
             foreach ($conver->conversations as $con) {
                 $sender = $con->sender_user_id;
                 $dest = $con->destinatary_user_id;
+                if($conver->poster_user_id!=$sender){
+                    $suppp = $sender;
+                } else {
+                    $suppp = $dest;
+                }
+                $candidates_user = [];
+                foreach (Candidate::where('supplier_user_id', $suppp)->get() as $f){
+                    $candidates_user[] = $f->id;
+                }
                 if($sender==$user_id || $dest==$user_id){
                     if(VacancyUser::where('vacancy_id',$conver->id)->where(function ($query) use($sender, $dest){
                             $query->orWhere('supplier_user_id', $sender)->orWhere('supplier_user_id', $dest);
-                        })->where('status',1)->count()>0) {
+                        })->where('status',1)->count()>0 || (VacancyUser::where('vacancy_id',$conver->id)->where(function ($query) use($sender, $dest){
+                                $query->orWhere('supplier_user_id', $sender)->orWhere('supplier_user_id', $dest);
+                            })->where('status',1)->count()==0 && VacancyCandidate::where('vacancy_id', $conver->id)
+                                ->whereIn('candidate_id', $candidates_user)->where('status','!=', 'Rejected')
+                                ->get()->first())) {
                         $codigos[] = $con;
                         $userP = ($con->sender_user_id != $user_id) ? $con->sender_user_id : $con->destinatary_user_id;
                         //$data[$i]['conversations'][$j]['code'] = User::find($userP)->code;
@@ -78,8 +93,6 @@ class MessageController extends Controller
                 $data[] = $conver;
                 $data[$i]['conversations'] = $codigos;
                 $i++;
-            } else {
-                $data[$i]['conversations'] = [];
             }
         }
         $conversations = (object) $data;

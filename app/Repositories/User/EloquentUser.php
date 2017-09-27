@@ -38,6 +38,69 @@ class EloquentUser implements UserRepository
         return User::find($id);
     }
 
+    public function search($id, $user, $perPage, array $data)
+    {
+        $user_id = \Auth::user()->id;
+        /*$company = Company::find($user);
+        $users_company = [];
+        foreach($company->users as $u){
+            $users_company[] = $u->id;
+        }*/
+
+        $supplier = User::where('users.id','!=',Auth::user()->id)->whereNotExists(function($query) use($id){
+            $query->select('vacancy_users.*')->from('vacancy_users')
+                ->where('vacancy_id', $id)->whereRaw('vg_vacancy_users.supplier_user_id = vg_users.id');
+        })->whereHas('company_user', function($q) use($user){
+            $q->where('companies_users.company_id', '!=', $user);
+        })->with('company.category')->with('company_user')
+            ->join('companies_users', 'users.id', '=', 'companies_users.user_id')
+            ->join('companies', 'companies_users.company_id', '=', 'companies.id');
+        dd($supplier->get()[0]);
+        if(isset($data['search']) && $data['search']!=''){
+            $supplier->where('users.code', 'like', '%'.$data['search'].'%');
+            //$supplier->where(function ($query) use($data){
+                /*$query->orWhere('users.code', 'like', '%'.$data['search'].'%');
+                $query->orWhere('target_companies', 'like', '%'.$data['search'].'%');
+                $query->orWhere('off_limits_companies', 'like', '%'.$data['search'].'%');
+                $query->orWhere('responsabilities', 'like', '%'.$data['search'].'%');
+                $query->orWhere('required_experience', 'like', '%'.$data['search'].'%');*/
+            //});
+        }
+
+        if(isset($data['country_id']) && $data['country_id']!=''){
+            $supplier->where('country_id', $data['country_id']);
+        }
+
+        /*if(isset($data['state_id']) && $data['state_id']!=''){
+            $supplier->where('state_id', $data['state_id']);
+        }
+
+        if(isset($data['city_id']) && $data['city_id']!=''){
+            $supplier->where('city_id', $data['city_id']);
+        }*/
+
+        if(isset($data['industry']) && $data['industry']!=''){
+            $supplier->where('industry', $data['industry']);
+        }
+
+        if(isset($data['periods']) && $data['periods']!=''){
+            $supplier->where('vacancies.created_at', '>=', Carbon::now()->subDays($data['periods'])->format('Y-m-d'));
+        }
+
+        if(isset($data['order'])){
+            $supplier->orderBy($data['order'], 'desc');
+        } else {
+            $supplier->orderBy('users.created_at', 'desc');
+        }
+        /*
+        if (isset($data['page']) && $data['page'] != '') {
+            $supplier->offset(($data['page'] - 1) * $perPage);
+        }
+        $supplier->limit($perPage);*/
+
+        return ['count'=> $supplier->count(), 'data' => $supplier->get()];
+    }
+
     /**
      * {@inheritdoc}
      */

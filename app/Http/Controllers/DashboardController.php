@@ -245,7 +245,7 @@ class DashboardController extends Controller
     public function getVacanciesFind(Request $request, $url = null)
     {
         $perPage = 10;
-        $data = $this->vacancies->search(Auth::user()->id, $perPage, array_merge($request->all(), ['type' => ($url!= null) ? $url : 'find']));
+        $data = $this->vacancies->search(\Auth::user()->company_user->company_id, $perPage, array_merge($request->all(), ['type' => ($url!= null) ? $url : 'find']));
         $vacanciesCount = $data['count'];
         $vacancies = $data['data'];
         $data = $request->all();

@@ -164,7 +164,7 @@
                               var html = '<h4>'+$(element).parent().parent().find('.collapsible-header h3').html()+'</h4>';
                               html += '<p>{{trans("app.created_by_you")}}</p>';
 						  } else {
-                              var html = '<h4><a target="_blank" href="/vacancy/'+$(element).parent().parent().find('.collapsible-header').attr('vacancy')+'/show">'+$(element).parent().parent().find('.collapsible-header h3').html()+'</a></h4>';
+                              var html = '<h4><a target="_blank" href="/vacancies/'+$(element).parent().parent().find('.collapsible-header').attr('vacancy')+'/show">'+$(element).parent().parent().find('.collapsible-header h3').html()+'</a></h4>';
                               html += '<p>{{trans("app.created_by_you")}}</p>';
 						  }
 					   } else {

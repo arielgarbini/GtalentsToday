@@ -613,7 +613,7 @@
                     @endforeach
                 </ul>
                 <section class="new-team">
-                    <a href="{{route('supplier.index')}}">
+                    <a href="{{route('supplier.index')}}?vacancy={{$vacancy->id}}">
                         <p>@lang('app.see_more') Supplier</p>
                     </a>
                 </section>

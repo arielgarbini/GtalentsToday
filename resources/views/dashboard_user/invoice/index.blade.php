@@ -51,8 +51,6 @@
 					<th data-field="name">@lang('app.in_opportunity')</th>
 					<th data-field="price">@lang('app.amount')</th>
 					<th clasS="P-estatus">@lang('app.in_status')</th>
-					<th class="Tcargo">@lang('app.type_of_position')</th>
-					<th>@lang('app.bill')</th>
 				</tr>
 			</thead>
 
@@ -64,10 +62,6 @@
 						<td>{{$ch->vacancy->name}}</td>
 						<td>{{$ch->amount}} USD</td>
 						<td clasS="P-estatus">{{$ch->status}}</td>
-						<td class="Tcargo">@lang('app.deposit')</td>
-						<td>
-							<a href="#!">@lang('app.download_invoice')</a>
-						</td>
 					</tr>
 				@endforeach
 			</tbody>

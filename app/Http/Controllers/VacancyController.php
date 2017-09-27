@@ -5,6 +5,7 @@ namespace Vanguard\Http\Controllers;
 use Auth;
 use Cache;
 use Illuminate\Support\Facades\Lang;
+use Vanguard\Balance;
 use Vanguard\Compensation;
 use Vanguard\Country;
 use Vanguard\Events\User\Registered;
@@ -18,6 +19,7 @@ use Vanguard\LanguageVacancy;
 use Vanguard\Mailers\VacancyMailer;
 use Vanguard\Services\Suppliers\SupplierManager;
 use Vanguard\Services\Vacancies\VacancyManager;
+use Vanguard\Setting;
 use Vanguard\State;
 use Vanguard\ContractType;
 use Vanguard\Conversation;
@@ -1052,6 +1054,14 @@ class VacancyController extends Controller
      */
     public function postulateCandidate(Request $request, $id)
     {
+        if(isset($request->typ) && $request->typ==1){
+            $credits = Balance::where('company_id', \Auth::user()->company_user->company_id)->sum('credit');
+            $credits_candidates = Setting::where('key', 'candidate_price')->get()->first()->value;
+            if($credits_candidates > $credits){
+                return redirect()->back()->withErrors(trans('app.error_message_send_candidates_money2'));
+            }
+        }
+
         $vacancy = $this->vacancies->find($id);
 
         $data = [ 'status'      => GeneralStatus::UNCONFIRMED,
@@ -1065,6 +1075,12 @@ class VacancyController extends Controller
             $vacancy_candidates = $this->vacancies->candidates($vacancy->id)->attach($candidate, $data);
             $this->vacancy_candidates_status->create(['candidate_id' =>$candidate,
                 'vacancy_id'=>$vacancy->id, 'status'=>UserStatus::UNCONFIRMED]);
+        }
+        if(isset($request->typ) && $request->typ==1) {
+            Balance::create(['company_id' => \Auth::user()->company_user->company_id, 'credit' => '-'.$credits_candidates,
+                'status'=> 3]);
+            Conversation::create(['sender_user_id' => $vacancy->poster_user_id, 'destinatary_user_id' => Auth::user()->id,
+                        'vacancy_id' => $vacancy->id]);
         }
         event(new NotificationEvent(['element_id' => $vacancy->id,
             'user_id'=>$vacancy->poster_user_id, 'type' => 'request_supplier_candidates', 'name'=>$vacancy->name]));
@@ -1193,11 +1209,12 @@ class VacancyController extends Controller
             if ($companies_users){
               $companies  = $this->companies->find($companies_users->company_id);                
             }
+            $data = $this->getCandidatesSupplier(Auth::user()->id, $vacancy);
+            $userCandidatesAvailable = $data['userCandidatesAvailable'];
+            $credits_candidates = Setting::where('key', 'candidate_price')->get()->first()->value;
             if(!$userSupplierPost){
-                return view('dashboard_user.post.post_user',compact('userVacancy', 'vacancy','companies')) ;
+                return view('dashboard_user.post.post_user',compact('credits_candidates', 'userCandidatesAvailable', 'userVacancy', 'vacancy','companies')) ;
             } else {
-                $data = $this->getCandidatesSupplier(Auth::user()->id, $vacancy);
-                $userCandidatesAvailable = $data['userCandidatesAvailable'];
                 $userCandidatesProgress = $data['userCandidatesProgress'];
                 $userCandidatesRejected = $data['userCandidatesRejected'];
                 return view('dashboard_user.post.post_supplier',compact('userCandidatesRejected', 'userCandidatesProgress', 'userCandidatesAvailable','userVacancy', 'vacancy','companies')) ;

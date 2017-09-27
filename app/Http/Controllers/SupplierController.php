@@ -4,6 +4,17 @@ namespace Vanguard\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Vanguard\Http\Requests;
+use Vanguard\QuantityEmployees;
+use Vanguard\Repositories\Category\CategoryRepository;
+use Vanguard\Repositories\ContractType\ContractTypeRepository;
+use Vanguard\Repositories\Country\CountryRepository;
+use Vanguard\Repositories\Experience\ExperienceRepository;
+use Vanguard\Repositories\ExperienceYear\ExperienceYearRepository;
+use Vanguard\Repositories\FunctionalArea\FunctionalAreaRepository;
+use Vanguard\Repositories\Industry\IndustryRepository;
+use Vanguard\Repositories\Language\LanguageRepository;
+use Vanguard\Repositories\QuantityEmployees\QuantityEmployeesRepository;
+use Vanguard\Repositories\User\UserRepository;
 use Vanguard\VacancyCandidate;
 use Vanguard\Candidate;
 use Vanguard\Invoice;
@@ -18,19 +29,60 @@ class SupplierController extends Controller
 
     private $supplierManager;
 
-    public function __construct(SupplierManager $supplierManager)
+    private $users;
+
+    public function __construct(SupplierManager $supplierManager, UserRepository $users)
     {
         $this->supplierManager = $supplierManager;
+        $this->users = $users;
     }
 
-    public function index(Request $request)
+    public function index(Request $request, FunctionalAreaRepository $functionalArea,
+                          IndustryRepository $industries, CountryRepository $countries,
+                          QuantityEmployeesRepository $quantityEmployees, CategoryRepository $categories)
     {
+        if(!isset($request->vacancy)){
+            return redirect()->route('dashboard');
+        }
         if (session('lang') =='en'){
             $language = 2;
         }else{
             $language = 1;
         }
-        return view('dashboard_user.supplier.index');
+        $categories = $categories->lists($language);
+        $functionalArea = $functionalArea->lists($language);
+        $quantityEmployees = $quantityEmployees->lists($language);
+        $industries = $industries->lists($language);
+        $qualification = ['1' => '1 '.\Lang::get('app.star'),
+            '2' => '2 '.\Lang::get('app.star').'s',
+            '3' => '3 '.\Lang::get('app.star').'s',
+            '4' => '4 '.\Lang::get('app.star').'s',
+            '5' => '5 '.\Lang::get('app.star').'s'];
+        $perPage = 10;
+        $data = $this->users->search($request->vacancy, \Auth::user()->company_user->company_id, $perPage, $request->all());
+        $suppliersCount = $data['count'];
+        $suppliers = $data['data'];
+        $data = $request->all();
+        $countries = $countries->lists()->toArray();
+        $suppliers_users_pages = ceil($suppliersCount / $perPage);
+        $suppliers_users_count = $perPage;
+        $suppliers = $this->supplierManager->orderSuppliers($suppliers, $perPage, $request->all(), $request->vacancy);
+        return view('dashboard_user.supplier.index', compact('qualification', 'categories', 'quantityEmployees', 'functionalArea', 'suppliers_users_count', 'suppliers_users_pages', 'countries', 'data', 'industries','suppliersCount','suppliers'));
+    }
+
+    public function getSuppliersFind(Request $request)
+    {
+        $perPage = 10;
+        $data = $this->users->search($request->vacancy, \Auth::user()->company_user->company_id, $perPage, $request->all());
+        $suppliersCount = $data['count'];
+        $suppliers = $data['data'];
+        $data = $request->all();
+        $suppliers_users_pages = ceil($suppliersCount / $perPage);
+        $suppliers_users_count = $perPage;
+        $suppliers = $this->supplierManager->orderSuppliers($suppliers, $perPage, $request->all(), $request->vacancy);
+        $data = view('partials.vacancies.user', ['vacancies_users' => $vacancies, 'viewed' => $viewed]);
+        $data = $data->render();
+        return response()->json(['count'=>count($vacancies), 'page'=>$vacancies_users_pages, 'data' => $data]);
     }
 
     public function calificationSupplier(Request $request, $id)

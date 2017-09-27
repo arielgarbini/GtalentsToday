@@ -5,6 +5,7 @@ namespace Vanguard\Http\Controllers;
 use Illuminate\Http\Request;
 use Vanguard\Http\Requests;
 use Vanguard\Invoice;
+use Vanguard\Vacancy;
 
 class InvoicesController extends Controller
 {
@@ -24,21 +25,24 @@ class InvoicesController extends Controller
     public function edit($id)
     {
         $invoice = Invoice::find($id);
-
-        if (session('lang') =='en')
-            $language = 2;
-        else
-            $language = 1;
+        $date = explode(' ',$invoice->payment_due);
+        $invoice->payment_due = $date[0];
         $edit = true;
         return view('invoices.edit', compact('edit', 'invoice'));
+    }
+
+    public function update(Request $request, $id)
+    {
+        $invoice = Invoice::find($id);
+        $invoice->update($request->all());
+        return redirect()->route('invoices.list')
+            ->withSuccess(trans('app.company_updated_successfully'));
     }
 
     public function delete($id)
     {
         $invoice = Invoice::find($id);
-
         $invoice->delete();
-
         return redirect()->route('invoices.list')
             ->withSuccess(trans('app.invoice_deleted'));
     }

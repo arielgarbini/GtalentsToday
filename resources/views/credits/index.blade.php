@@ -27,9 +27,17 @@
                 <i class="glyphicon glyphicon-plus"></i>
                 @lang('app.add_credits')
             </a>
+            <a href="" class="open-Modal btn btn-success" data-id="" data-toggle="modal" data-target="#modal_credit8" id="back-credit-price">
+                <i class="glyphicon glyphicon-plus"></i>
+                @lang('app.credits_back')
+            </a>
             <a href="" class="open-Modal btn btn-info" data-id="" data-toggle="modal" data-target="#modal_credit2" id="add-credit-price">
                 <i class="glyphicon glyphicon-plus"></i>
                 @lang('app.change_credits_price')
+            </a>
+            <a href="" class="open-Modal btn btn-info" data-id="" data-toggle="modal" data-target="#modal_credit9" id="candidate-credit-price">
+                <i class="glyphicon glyphicon-plus"></i>
+                @lang('app.change_credits_price_candidate')
             </a>
         </div>
         <div class="col-md-3">
@@ -50,7 +58,8 @@
             </form>
         </div>
     </div>
-
+    <strong>@lang('app.price_per_credit')</strong> {{$last_credit->value}}$<br>
+    <strong>@lang('app.credits_for_candidate')</strong> {{$candidate_price->value}}
     <div class="table-responsive top-border-table" id="vacancies-table-wrapper">
         <table class="table">
             <thead>
@@ -72,16 +81,20 @@
                         <td>
                             @if($inv->status==1)
                                 <span class="label label-success">
-                                    @lang('app.bought')
+                                    @lang('app.credits_purchase')
                                 </span>
-                            @else
+                            @elseif($inv->status==2)
+                                <span class="label label-success">
+                                @lang('app.credits_back')
+                            </span>
+                            @elseif($inv->status==3)
                                 <span class="label label-warning">
-                                    @lang('app.spent')
+                                    @lang('app.credits_use')
                                 </span>
                             @endif
                         </td>
                         <td class="text-center">
-                            <a href="" data-id="" data-toggle="modal" data-target="#modal_credit3-{{$inv->id}}" id="add-credit-price" class="open-Modal btn btn-primary btn-circle edit" title="@lang('app.edit_invoice')">
+                            <a href="" data-id="" data-toggle="modal" data-target="#modal_credit3-{{$inv->id}}" id="add-credit-price" class="open-Modal btn btn-primary btn-circle edit" title="@lang('app.edit_credits')">
                                 <i class="glyphicon glyphicon-edit"></i>
                             </a>
                             <div class="modal" id="modal_credit3-{{$inv->id}}" >
@@ -91,13 +104,13 @@
                                     <div class="modal-content">
                                         <div class="modal-header">
                                             <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                            <div class="modal-title textoFormulario" id="exampleModalLabel"><h3 class="titulillo">@lang('app.add_credits') </h3></div>
+                                            <div class="modal-title textoFormulario" id="exampleModalLabel"><h3 class="titulillo">@lang('app.edit_credits') </h3></div>
                                         </div>
                                         <div class="modal-body">
                                             <div class="row">
                                                 <div class="col-md-12" >
                                                     <label for="company_id" >@lang('app.company'):</label>
-                                                    {!! Form::select('company_id',$companies,$inv->company_id,['id' =>'company_id', 'name' =>'company_id', 'class' => 'form-control']) !!}
+                                                    {!! Form::text('company_id',$inv->company->name,['readonly' => 'readonly', 'id' =>'company_id', 'name' =>'company_id', 'class' => 'form-control']) !!}
                                                 </div>
                                             </div>
                                             <br>
@@ -186,6 +199,68 @@
                         <div class="col-md-12" >
                             <label for="credits">@lang('app.new_price_credits'):</label>
                             {!! Form::text('credits',null,['id' =>'credits','name' =>'credits', 'class' => 'form-control', 'placeholder'=>trans('app.new_price_credits')]) !!}
+                        </div>
+                    </div>
+                </div>
+                <br>
+                <div class="modal-footer">
+                    <input type="submit" id="button_message" data-candidate="" class="btn btn-primary" value="{{trans('app.send')}}" />
+                    <button type="button" class="btn btn-default" data-dismiss="modal">@lang('app.close')</button>
+                </div>
+            </div>
+            {!!form::close()!!}
+        </div>
+    </div>
+
+    <div class="modal" id="modal_credit9" >
+        <div class="modal-dialog" role="document">
+            {!! Form::open(['route' => 'credits.store.price.candidate','id'=>'form_credit_price']) !!}
+            {{csrf_field()}}
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <div class="modal-title textoFormulario" id="exampleModalLabel"><h3 class="titulillo">@lang('app.change_credits_price') </h3></div>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-12" >
+                            <label for="credits">@lang('app.new_price_credits_candidates'):</label>
+                            {!! Form::text('credits',null,['id' =>'credits','name' =>'credits', 'class' => 'form-control', 'placeholder'=>trans('app.new_price_credits')]) !!}
+                        </div>
+                    </div>
+                </div>
+                <br>
+                <div class="modal-footer">
+                    <input type="submit" id="button_message" data-candidate="" class="btn btn-primary" value="{{trans('app.send')}}" />
+                    <button type="button" class="btn btn-default" data-dismiss="modal">@lang('app.close')</button>
+                </div>
+            </div>
+            {!!form::close()!!}
+        </div>
+    </div>
+
+    <div class="modal" id="modal_credit8" >
+        <div class="modal-dialog" role="document">
+            {!! Form::open(['route' => ['credits.store'],'id'=>'form_credit8', 'method' => 'POST']) !!}
+            {{csrf_field()}}
+            <input type="hidden" name="status" value="2">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <div class="modal-title textoFormulario" id="exampleModalLabel"><h3 class="titulillo">@lang('app.credits_back') </h3></div>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-12" >
+                            <label for="company_id" >@lang('app.company'):</label>
+                            {!! Form::select('company_id',$companies,null,['id' =>'company_id', 'name' =>'company_id', 'class' => 'form-control']) !!}
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row">
+                        <div class="col-md-12" >
+                            <label for="credits">@lang('app.credits'):</label>
+                            {!! Form::text('credits',null,['id' =>'credits','name' =>'credits', 'class' => 'form-control', 'placeholder'=>trans('app.credits')]) !!}
                         </div>
                     </div>
                 </div>

@@ -34,9 +34,31 @@
                 @foreach($credits as $cre)
                     <tr>
                         <td>{{$cre->created_at->format('d/m/Y')}}</td>
-                        <td class="positive">{{$cre->credit}}</td>
-                        <td></td>
-                        <td></td>
+                        @if($cre->credit<0)
+                            <td class="negative">{{$cre->credit}}</td>
+                        @else
+                            <td class="positive">{{$cre->credit}}</td>
+                        @endif
+                        <td>
+                            @if($cre->vacancy)
+                                {{$cre->vacancy->name}}
+                            @endif
+                        </td>
+                        <td>
+                            @if($cre->status==1)
+                                <span class="buy-credits-list">
+                                    @lang('app.credits_purchase')
+                                </span>
+                            @elseif($cre->status==2)
+                                <span class="buy-credits-list">
+                                    @lang('app.credits_back')
+                                </span>
+                            @elseif($cre->status==3)
+                                <span class="buy-credits-list2">
+                                    @lang('app.credits_use')
+                                </span>
+                            @endif
+                        </td>
                     </tr>
                 @endforeach
                 <!--CREDITO 1-->

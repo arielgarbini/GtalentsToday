@@ -102,6 +102,6 @@ class EloquentCategory implements CategoryRepository
      */
     public function lists($language = '1', $column = 'name', $key = 'id')
     {
-        return Category::where('language_id', $language)->orderBy('name')->lists($column, $key);
+        return Category::where('language_id', $language)->orderBy('id','asc')->lists($column, $key);
     }
 }

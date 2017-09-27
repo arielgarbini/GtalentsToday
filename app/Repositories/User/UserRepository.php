@@ -26,6 +26,13 @@ interface UserRepository
     public function find($id);
 
     /**
+     * Search users.
+     *
+     * @param array $data
+     * @return mixed
+     */
+    public function search($id, $user, $perPage, array $data);
+    /**
      * Find user by email.
      *
      * @param $email

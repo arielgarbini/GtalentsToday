@@ -211,6 +211,13 @@
                     </a>
                 </div>
             @endif
+            @if(count($suppliers)>=3)
+                <div class="btn-section">
+                    <a href="#modalSendCandidate" id="validate_credits" class="btn-main">
+                        @lang('app.send_candidates_credits')
+                    </a>
+                </div>
+            @endif
             @if(in_array($vacancy->id,$userVacancy))
                 <?php
                     $notification = \Vanguard\Notification::where('element_id', $vacancy->id)
@@ -327,6 +334,103 @@
             </div>
         </div>
     </div>
+
+
+  <!--MODAL PARTICIPAR-->
+  <div id="modalSendCandidate" class="modal modal-userRegistered">
+
+      <div class="modal-header">
+          <!--CERRAR MODAL-->
+          <div class="close">
+              <a href="#!" class="modal-action modal-close">
+                  <span class="icon-gTalents_close-2"></span>
+              </a>
+          </div>
+          <h4>@lang('app.choose_candidate')</h4>
+      </div>
+
+      <div class="modal-content">
+          <strong>@lang('app.available_credits')</strong> {{\Vanguard\Balance::where('company_id', \Auth::user()->company_user->company_id)->sum('credit')}}<br>
+          <strong>@lang('app.cost_send_candidate')</strong> {{$credits_candidates}}
+          <div class="team-container" id="mySuppliers">
+              <!-- RESUMEN-->
+              <section class="team-container-tools">
+                  <!-- ACTIVO 1 -->
+                  <div class="active-one">
+                      <p>{{count($userCandidatesAvailable)}} @lang('app.candidates')</p>
+
+                      <div class="search-opt1 btn-search">
+                          <span class="icon-gTalents_search"></span>
+                      </div>
+                  </div>
+
+                  <!-- SECCION DE BUSQUEDA -->
+                  <form class="active-two">
+                      <input type="text" placeholder="{{trans('app.name_candidates')}}" id="search-candi">
+                      <!--CERRAR SEGMENTO-->
+                      <div class="close btn-closeInput">
+                          <span class="icon-gTalents_close"></span>
+                      </div>
+                  </form>
+              </section>
+
+              <!--LISTADO DE EQUIPO-->
+              <form id="send-candidate-apply" action="{{route('vacancies.postulate.candidate', $vacancy->id)}}" method="POST" class="formLogin select-colab">
+                  {{csrf_field()}}
+                  <input type="hidden" name="typ" value="1">
+                  <ul class="team" id="list-candi">
+                      <!-- SUPPLIER 1 -->
+                      @foreach($userCandidatesAvailable as $candidate)
+                          <li>
+                              <p class="check">
+                                  <input type="radio" id="test{{$candidate['id']}}" name="candidates" class="user-candidates"  value="{{$candidate['id']}}"/>
+                                  <label for="test{{$candidate['id']}}"></label>
+                              </p>
+                              <section class="team-card" style="width: 80% !important;">
+                                  <!--PERSONA-->
+                                  <div class="team-card-person">
+                                      <div class="datos">
+                                          <h3>{{substr($candidate['first_name'].' '.$candidate['last_name'], 0, 20)}}</h3>
+                                          <p>{{substr($candidate['actual_position'], 0, 20)}}</p>
+                                      </div>
+                                  </div>
+
+                                  <!--OPCIONES-->
+                                  <div class="options">
+                                      <!-- Dropdown Trigger -->
+                                      <a class='dropdown-button' href='#' data-activates='option-team{{$candidate['id']}}'>
+                                          <span class="icon-gTalents_submenu"></span>
+                                      </a>
+
+                                      <!-- Dropdown Structure -->
+                                      <ul id='option-team{{$candidate['id']}}' class='dropdown-content'>
+                                          @if($candidate['file']!='')
+                                              <li><a href="/upload/docs/{{$candidate['file']}}" class="cv_candidate" target="_blank">@lang('app.view_cv')</a></li>
+                                          @else
+                                              <li><a href="#">@lang('app.view_cv')</a></li>
+                                          @endif
+                                      </ul>
+                                  </div>
+                              </section>
+                          </li>
+                      @endforeach
+                  </ul>
+
+                  <div class="itemForm icon-help">
+                      <label>@lang('app.write_your_comment')</label>
+                      <textarea name="comment" id="" cols="30" rows="10" placeholder="{{trans('app.write_your_comment')}}"></textarea>
+                  </div>
+
+                  <div class="send-colab">
+                      <!--href="#modalSendColab"-->
+                      <a id="send-candidate" class="waves-effect waves-light">
+                          @lang('app.send_candidate')
+                      </a>
+                  </div>
+              </form>
+          </div>
+      </div>
+  </div>
 @stop
 
 @section('scripts')
@@ -335,8 +439,73 @@
         setTimeout(sendForm, 4000);
     });
 
-        function sendForm(){
-            $('#form-participate').submit();
-        }
+    function sendForm(){
+        $('#form-participate').submit();
+    }
+
+    $(document).ready(function(){
+        $('#send-candidate').click(function(e){
+            var candidates = new Array;
+            $('.user-candidates').each(function(){
+                if($(this).is(':checked')){
+                    candidates.push({id:$(this).val(), name: $(this).parent().parent().find('.datos h3').html(),
+                        position: $(this).parent().parent().find('.datos p').html(),
+                        cv: $(this).parent().parent().find('.cv_candidate').attr('href')});
+                }
+            });
+            if(candidates.length==0){
+                swal({
+                    title: "{{trans('app.error')}}",
+                    text: "{{trans('app.error_message_send_candidates')}}",
+                    timer: 4000,
+                    showConfirmButton: false,
+                    type: "error"
+                });
+                e.preventDefault();
+                e.stopPropagation();
+                return false;
+            } else {
+                $('#send-candidate-apply').submit();
+            }
+        });
+
+        $('#search-candi').keyup(function(){
+            if($(this).val().length>=2){
+                $('#list-candi > li').show();
+                value = $(this).val().toLowerCase();
+                $('#list-candi > li').each(function() {
+                    var title = $(this).find('.datos h3').html().toLowerCase();
+                    var subtitle = $(this).find('.datos p').html().toLowerCase();
+                    if(title.indexOf(value)==-1 && subtitle.indexOf(value)==-1){
+                        $(this).hide();
+                    }
+                });
+            } else {
+                $('#list-candi > li').show();
+            }
+        });
+
+        $('#validate_credits').click(function(r){
+            credits_company = "{{\Vanguard\Balance::where('company_id', \Auth::user()->company_user->company_id)->sum('credit')}}";
+            credits_candidates = "{{$credits_candidates}}";
+            if(parseFloat(credits_candidates) > parseFloat(credits_company)){
+                swal({
+                    title: "{{trans('app.error')}}",
+                    text: "{{trans('app.error_message_send_candidates_money')}}",
+                    timer: 4000,
+                    showConfirmButton: false,
+                    type: "error"
+                });
+                setTimeout(function () {
+                    window.location = "{{route('credits.index')}}";
+                }, 3500);
+                r.preventDefault();
+                r.stopPropagation();
+                return false;
+            } else {
+                $('#modalSendCandidate').modal('open');
+            }
+        })
+    })
     </script>
 @stop

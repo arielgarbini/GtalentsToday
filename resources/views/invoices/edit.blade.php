@@ -1,9 +1,9 @@
 @extends('layouts.app')
 
 @if($edit)
-    @section('page-title', trans('app.edit_company'))
+    @section('page-title', trans('app.edit_invoice'))
 @else
-    @section('page-title', trans('app.add_company'))
+    @section('page-title', trans('app.add_invoice'))
 @endif
 
 @section('content')
@@ -11,12 +11,12 @@
     <div class="row">
         <div class="col-lg-12">
             <h1 class="page-header">
-                {{ $edit ? trans('app.edit_company') : trans('app.create_new_company') }}
-                <small>@lang('app.company_details')</small>
+                {{ $edit ? trans('app.edit_invoice') : trans('app.create_new_invoice') }}
+                <small>@lang('app.invoice_details')</small>
                 <div class="pull-right">
                     <ol class="breadcrumb">
                         <li><a href="{{ route('dashboard') }}">@lang('app.home')</a></li>
-                        <li><a href="{{ route('companies.index') }}">@lang('app.companies')</a></li>
+                        <li><a href="{{ route('invoices.index') }}">@lang('app.invoices')</a></li>
                         <li class="active">{{ $edit ? trans('app.edit') : trans('app.create') }}</li>
                     </ol>
                 </div>
@@ -34,20 +34,6 @@
                 @lang('app.details')
             </a>
         </li>
-        @if($edit)
-            <li role="presentation">
-                <a href="#profile" aria-controls="auth" role="tab" data-toggle="tab">
-                    <i class="fa fa-lock"></i>
-                    @lang('app.profile')
-                </a>
-            </li>
-            <li role="presentation">
-                <a href="#experience" aria-controls="auth" role="tab" data-toggle="tab">
-                    <i class="fa fa-lock"></i>
-                    @lang('app.experience')
-                </a>
-            </li>
-        @endif
     </ul>
 
     <!-- Tab panes -->
@@ -73,32 +59,24 @@
 @stop
 
 @section('styles')
-    {!! HTML::style('assets/css/bootstrap-datetimepicker.min.css') !!}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/css/bootstrap-datepicker.min.css">
     {!! HTML::style('assets/plugins/croppie/croppie.css') !!}
     {!! HTML::style('assets/css/bootstrap-multiselect.css') !!}
 @stop
 
 @section('scripts')
-
-    <script type="text/javascript">
-        $(document).ready(function() {
-            $('.multiselect').multiselect();
-        });
-    </script>
-
-    @if($edit)
-
-        {!! HTML::script('assets/js/bootstrap-multiselect.js') !!}
-
-        {!! JsValidator::formRequest('Vanguard\Http\Requests\Company\UpdateCompanyProfileRequest', '#profile-form') !!}
-        {!! JsValidator::formRequest('Vanguard\Http\Requests\Company\UpdateCompanyExperienceRequest', '#experience-form') !!}
-
-        {!! JsValidator::formRequest('Vanguard\Http\Requests\Company\UpdateCompanyRequest', '#company-form') !!}
-    @else
-        {!! JsValidator::formRequest('Vanguard\Http\Requests\Company\CreateCompanyRequest', '#company-form') !!}
-    @endif
+        {!! HTML::script('assets/js/moment.min.js') !!}
+        <script type="application/javascript" src="    https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/js/bootstrap-datepicker.min.js"></script>
 
     <script>
+        var today = new Date();
+        $('.datepicker').datepicker({
+            format: 'yyyy-mm-dd',
+            endDate: today.getFullYear()+'-'+today.getMonth()+1+'-'+today.getDate()
+        });
 
+        $('.datepickerr').datepicker({
+            format: 'yyyy-mm-dd'
+        });
     </script>
 @stop

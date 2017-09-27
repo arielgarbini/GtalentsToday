@@ -10,6 +10,7 @@ use Vanguard\Http\Requests;
 use Vanguard\Repositories\CreditRepository;
 use Vanguard\Services\Paypal\PaypalService;
 
+use Vanguard\Setting;
 use Vanguard\Vacancy;
 use Vanguard\VacancyCandidate;
 
@@ -29,12 +30,22 @@ class CreditsController extends Controller
 
     public function lists()
     {
+        $last_credit = Credit::orderby('created_at', 'desc')->get()->first();
+        $candidate_price = Setting::where('key', 'candidate_price')->get()->first();
         $credits = Balance::orderBy('created_at', 'desc')->get();
         $companies = ['' => \Lang::get('app.choose_option')];
         foreach(Company::all() as $c){
             $companies[$c->id] = $c->name;
         }
-        return view('credits.index', compact('credits', 'companies'));
+        return view('credits.index', compact('credits', 'companies', 'last_credit', 'candidate_price'));
+    }
+
+    function storePriceCandidate(Request $request)
+    {
+        $sc = Setting::where('key', 'candidate_price')->get()->first();
+        $sc->value = intval($request->credits);
+        $sc->update();
+        return redirect()->route('credits.list')->withSuccess(trans('app.credit_add_candidate'));
     }
 
     public function store(Request $request)
@@ -46,8 +57,13 @@ class CreditsController extends Controller
         if ($validator->fails()) {
             return redirect()->route('credits.list')->withSuccess(trans('app.credit_not_saved'));
         }*/
+        if(isset($request->status)){
+            $status = $request->status;
+        } else {
+            $status = (intval($request->credits)<0) ? 3 : 1;
+        }
         Balance::create(['company_id' => $request->company_id, 'credit' => $request->credits,
-        'status'=>(intval($request->credits)<0) ? 0 : 1]);
+        'status'=>$status]);
 
         return redirect()->route('credits.list')->withSuccess(trans('app.credit_add'));
     }
@@ -77,7 +93,7 @@ class CreditsController extends Controller
     public function update(Request $request, $id)
     {
         $balance = Balance::find($id);
-        $balance->company_id = $request->company_id;
+        //$balance->company_id = $request->company_id;
         $balance->credit = $request->credits;
         $balance->status = (intval($request->credits)<0) ? 0 : 1;
 
@@ -134,7 +150,8 @@ class CreditsController extends Controller
         }
         $candidateSupplier = VacancyCandidate::whereIn('vacancy_id', $vacanciesSupplier)
             ->where('status','Contract')->count();
-        $credits = Balance::where('company_id', \Auth::user()->company_user->company_id)->get();
+        $credits = Balance::where('company_id', \Auth::user()->company_user->company_id)
+            ->orderby('created_at', 'desc')->get();
         return view('dashboard_user.credit.index', compact('candidatePoster', 'candidateSupplier', 'credits', 'latestVacanciesSupplier','latestVacanciesPoster','potentialSupplier','potentialPoster'));
     }
 
