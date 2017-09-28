@@ -40,6 +40,13 @@ $(document).ready(function(){
                 padre.find('.page-'+pagina).removeClass('active');
                 padre.attr('data-page',new_page);
                 $('#loading').hide();
+                $('.modal-trigger').leanModal();
+                try {
+                    $('.modal').modal();
+                }
+                catch(err) {
+                    console.log('che');
+                }
             }
        });
     });

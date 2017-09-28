@@ -20,7 +20,7 @@
                 <!--COMISION-->
                 <div class="itemForm">
                     <label>@lang('app.functional_area')</label>
-                    <select class="browser-default">
+                    <select class="browser-default" name="functional" id="functional">
                         <option value="" @if(!isset($data['functional']) || $data['functional'] == '') selected @endif>@lang('app.select')</option>
                         @foreach($functionalArea as $key=>$value)
                             <option @if(isset($data['functional']) && $data['functional'] == $key) selected @endif value="{{$key}}">{{$value}}</option>
@@ -66,7 +66,7 @@
                 </div>
 
                 <!--CALIFICACION-->
-                <div class="itemForm">
+                <!--<div class="itemForm">
                     <label>@lang('app.qualification')</label>
                     <select class="browser-default" name="qualification" id="qualification">
                         <option value="" @if(!isset($data['qualification']) || $data['qualification'] == '') selected @endif>@lang('app.select')</option>
@@ -74,7 +74,7 @@
                             <option @if(isset($data['qualification']) && $data['qualification'] == $key) selected @endif value="{{$key}}">{{$value}}</option>
                         @endforeach
                     </select>
-                </div>
+                </div>-->
 
                 <!--NIVEL-->
                 <div class="itemForm">
@@ -112,19 +112,6 @@
             <section class="credits-title">
                 <h3>{{trans('app.do_you_have')}} <strong>{{$suppliersCount}} Suppliers</strong> {{trans('app.available')}}</h3>
 
-                <!--FILTRADO DE ORDEN-->
-                <div class="orderFilter">
-                    <label>Ordenar por</label>
-                    <select class="browser-default">
-                        <option value="1" selected>Fecha</option>
-                        <option value="2">Comisión</option>
-                        <option value="3">Industria</option>
-                        <option value="4">Ubicación</option>
-                        <option value="5">Posición</option>
-                        <option value="6">Cantidad Supplier</option>
-                        <option value="7">Estado posiciones</option>
-                    </select>
-                </div>
             </section>
 
             <!--LISTADO DE CREDITOS-->
@@ -138,7 +125,7 @@
                         <section class="supplierContain1">
                             <!--ICONO RANGO-->
                             <figure class="supplierContain1-ranking">
-                                <img class="category-p tooltipped" src="/upload/categories/{{$supplier->company[0]->category->avatar}}" data-position="bottom" data-delay="50" data-tooltip="{{$supplier->company[0]->category->name}}">
+                                <img class="category-p " src="/upload/categories/{{$supplier->company[0]->category->avatar}}" data-position="bottom" data-delay="50" data-tooltip="{{$supplier->company[0]->category->name}}">
                             </figure>
 
                             <div class="datos">
@@ -152,7 +139,7 @@
                     <div class="add-supplier">
                         <!--PERFIL-->
                         <div class="link">
-                            <a modal="modalProfileSupplier{{$supplier->id}}" href="#modalProfileSupplier{{$supplier->id}}" class="waves-effect waves-light">
+                            <a modal="modalProfileSupplier{{$supplier->id}}" href="#" class="will-smith">
                                 <span class="icon-gTalents_profile"></span>
                             </a>
                         </div>
@@ -173,7 +160,7 @@
                 @endforeach
             </ul>
                 @if($suppliers_users_pages>1)
-                    <ul class="pagination" data-pages="{{$suppliers_users_pages}}" data-element="latesVacanciesUser" data-resource="{{route('vacancies.get.find')}}/find" data-count="{{$suppliers_users_count}}" data-page="1">
+                    <ul class="pagination" data-pages="{{$suppliers_users_pages}}" data-element="latesVacanciesUser" data-resource="{{route('suppliers.get.find')}}" data-count="{{$suppliers_users_count}}" data-page="1">
                         <li class="disabled" data-page="last"><span>«</span></li>
                         <li class="active page-1" data-page="1" ><span>1</span></li>
                         @for($j = 2; $j<=$suppliers_users_pages; $j++)
@@ -378,6 +365,11 @@
 @section('scripts')
     <script>
         $(document).ready(function(){
+            $('body').on('click','.will-smith',function(e){
+               $('#'+$(this).attr('modal')).modal('open');
+                e.preventDefault();
+            });
+
             $('#order').change(function(){
                 location.href = $('#formSearch').attr('action')+'?search='+$('#search').val()+'&location='+$('#location').val()+'&industry='+$('#industry').val()+'&periods='+$('#periods').val()+'&order='+$(this).val();
             });

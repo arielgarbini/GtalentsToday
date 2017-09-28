@@ -1083,6 +1083,7 @@ return [
     ],
 
     //invoices
+    'type'      => 'Tipo',
     'invoices' => 'Facturas',
     'list_of_registered_invoices' => 'Lista de facturas registradas',
     'search_for_invoices' => 'Buscar facturas',
@@ -1092,6 +1093,8 @@ return [
     'invoice_deleted' => 'Factura eliminada',
     'are_you_sure_delete_invoice' => 'Seguro desea eliminar esta factura?',
     'invoices_to_charged' => 'Mis Facturas a Cobrar',
+    'invoices_charged'      => 'Facturas a Cobrar',
+    'invoices_pay'      => 'Facturas a Pagar',
     'in_opportunity'         => 'Oportunidad',
     'amount'                => 'Monto',
     'in_status'               => 'Estatus',

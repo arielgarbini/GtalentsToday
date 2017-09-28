@@ -991,6 +991,7 @@ return [
     ],
 
     //invoices
+    'type'      => 'Type',
     'invoices' => 'Invoices',
     'list_of_registered_invoices' => 'List of registered invoices',
     'search_for_invoices' => 'Search for invoices',
@@ -1000,6 +1001,8 @@ return [
     'invoice_deleted' => 'Invoice deleted',
     'are_you_sure_delete_invoice' => 'Are you sure delete invoice?',
     'invoices_to_charged' => 'My Invoices to Be Charged',
+    'invoices_charged'      => 'Invoices to Be Charged',
+    'invoices_pay'      => 'Invoices to Pay',
     'in_opportunity'         => 'Opportunity',
     'amount'                => 'Amount',
     'in_status'               => 'Status',

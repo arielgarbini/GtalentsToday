@@ -47,15 +47,18 @@ class EloquentUser implements UserRepository
             $users_company[] = $u->id;
         }*/
 
-        $supplier = User::where('users.id','!=',Auth::user()->id)->whereNotExists(function($query) use($id){
+        $supplier = User::select('users.*')
+            ->where('users.id','!=',Auth::user()->id)->whereNotExists(function($query) use($id){
             $query->select('vacancy_users.*')->from('vacancy_users')
                 ->where('vacancy_id', $id)->whereRaw('vg_vacancy_users.supplier_user_id = vg_users.id');
         })->whereHas('company_user', function($q) use($user){
             $q->where('companies_users.company_id', '!=', $user);
-        })->with('company.category')->with('company_user')
-            ->join('companies_users', 'users.id', '=', 'companies_users.user_id')
-            ->join('companies', 'companies_users.company_id', '=', 'companies.id');
-        dd($supplier->get()[0]);
+        })->join('companies_users', 'users.id', '=', 'companies_users.user_id')
+            ->join('companies', 'companies_users.company_id', '=', 'companies.id')
+            ->join('address', 'companies.address_id', '=', 'address.id')
+            ->join('experiences', 'companies.id', '=', 'experiences.company_id')
+            ->with('company.category')->with('company_user');
+
         if(isset($data['search']) && $data['search']!=''){
             $supplier->where('users.code', 'like', '%'.$data['search'].'%');
             //$supplier->where(function ($query) use($data){
@@ -68,23 +71,33 @@ class EloquentUser implements UserRepository
         }
 
         if(isset($data['country_id']) && $data['country_id']!=''){
-            $supplier->where('country_id', $data['country_id']);
+            $supplier->where('address.country_id', $data['country_id']);
         }
 
-        /*if(isset($data['state_id']) && $data['state_id']!=''){
-            $supplier->where('state_id', $data['state_id']);
+        if(isset($data['state_id']) && $data['state_id']!=''){
+            $supplier->where('address.state_id', $data['state_id']);
         }
 
         if(isset($data['city_id']) && $data['city_id']!=''){
-            $supplier->where('city_id', $data['city_id']);
-        }*/
-
-        if(isset($data['industry']) && $data['industry']!=''){
-            $supplier->where('industry', $data['industry']);
+            $supplier->where('address.city_id', $data['city_id']);
         }
 
-        if(isset($data['periods']) && $data['periods']!=''){
-            $supplier->where('vacancies.created_at', '>=', Carbon::now()->subDays($data['periods'])->format('Y-m-d'));
+        if(isset($data['industry']) && $data['industry']!=''){
+            $supplier->join('experience_industries', 'experiences.id', '=', 'experience_industries.experience_id');
+            $supplier->where('experience_industries.industry_id', $data['industry']);
+        }
+
+        if(isset($data['functional']) && $data['functional']!=''){
+            $supplier->join('experience_functional_areas', 'experiences.id', '=', 'experience_functional_areas.experience_id');
+            $supplier->where('experience_functional_areas.functional_area_id', $data['industry']);
+        }
+
+        if(isset($data['employees']) && $data['employees']!=''){
+            $supplier->where('companies.quantity_employees_id', $data['employees']);
+        }
+
+        if(isset($data['category']) && $data['category']!=''){
+            $supplier->where('companies.category_id', $data['category']);
         }
 
         if(isset($data['order'])){

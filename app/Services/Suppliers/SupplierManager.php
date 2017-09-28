@@ -90,6 +90,42 @@ class SupplierManager
         return $results;
     }
 
+    public function orderSupplierSearch($suppliers, $paginate, $request = null, $vacancy_id)
+    {
+        $results = [];
+        $country_id = Auth::user()->country_id;
+        $suppliers = $this->getById($suppliers, $vacancy_id);
+        //ordenar por paises
+        if($request==null || !isset($request['country_id'])) {
+            foreach ($suppliers as $v) {
+                if ($v->country_id == $country_id) {
+                    $results[] = $v;
+                    unset($suppliers[$v->id]);
+                }
+            }
+        }
+        //ordenar por industrias
+        if($request==null || !isset($request['industry'])){
+            $industries = $this->getIndustriesLogedUser();
+            foreach($suppliers as $v){
+                $ind = $this->getIndustriesUser($v->id);
+                foreach($ind as $i){
+                    if(in_array($i, $industries)){
+                        $results[] = $v;
+                        unset($suppliers[$v->id]);
+                        break;
+                    }
+                }
+            }
+        }
+        if($request!=null && isset($request['page'])){
+            $results = array_slice(array_merge($results, $suppliers), ($request['page'] - 1) * $paginate, $paginate);
+        } else {
+            $results = array_slice(array_merge($results, $suppliers), 0, $paginate);
+        }
+        return $results;
+    }
+
     public function getIndustriesLogedUser()
     {
         $data = [];

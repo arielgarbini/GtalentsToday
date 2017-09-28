@@ -1211,12 +1211,12 @@ class VacancyController extends Controller
             }
             $data = $this->getCandidatesSupplier(Auth::user()->id, $vacancy);
             $userCandidatesAvailable = $data['userCandidatesAvailable'];
+            $userCandidatesProgress = $data['userCandidatesProgress'];
+            $userCandidatesRejected = $data['userCandidatesRejected'];
             $credits_candidates = Setting::where('key', 'candidate_price')->get()->first()->value;
             if(!$userSupplierPost){
-                return view('dashboard_user.post.post_user',compact('credits_candidates', 'userCandidatesAvailable', 'userVacancy', 'vacancy','companies')) ;
+                return view('dashboard_user.post.post_user',compact('userCandidatesRejected', 'userCandidatesProgress','credits_candidates', 'userCandidatesAvailable', 'userVacancy', 'vacancy','companies')) ;
             } else {
-                $userCandidatesProgress = $data['userCandidatesProgress'];
-                $userCandidatesRejected = $data['userCandidatesRejected'];
                 return view('dashboard_user.post.post_supplier',compact('userCandidatesRejected', 'userCandidatesProgress', 'userCandidatesAvailable','userVacancy', 'vacancy','companies')) ;
             }
 
@@ -1312,6 +1312,21 @@ class VacancyController extends Controller
                 //'tax'              => ($vacancy->condition->comission)/$vacancy->positions_number,
                 'supplier_user_id' => $candidate->supplier_user_id,
                 'poster_user_id'   => $vacancy->poster_user_id,
+                'status'           => InvoiceStatus::PENDING,
+                'payment_due'      => $vacancy->created_at->addDays(12)
+            ];
+            $this->invoices->create($data);
+
+            $data =['vacancy_id'       => $vacancy->id,
+                'number'           => substr (microtime(), 12, 20),
+                'name'             => $request->position,
+                'date_of_admission' => $data_admission[2].'-'.$data_admission[1].'-'.$data_admission[0],
+                'offer'             => $request->details,
+                'candidate_id'      => $candidate->id,
+                'amount' => $request->salario,
+                //'tax'              => ($vacancy->condition->comission)/$vacancy->positions_number,
+                'supplier_user_id' => $candidate->supplier_user_id,
+                'poster_user_id'   => NULL,
                 'status'           => InvoiceStatus::PENDING,
                 'payment_due'      => $vacancy->created_at->addDays(12)
             ];

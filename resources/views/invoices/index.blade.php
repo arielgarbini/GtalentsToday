@@ -61,6 +61,7 @@
             <th>@lang('app.poster')</th>
             <th>@lang('app.date_of_admission')</th>
             <th>@lang('app.amount')</th>
+            <th>@lang('app.type')</th>
             <th>@lang('app.status')</th>
             <th class="text-center">@lang('app.action')</th>
             </thead>
@@ -70,13 +71,26 @@
                     <tr>
                         <td>{{$inv->name}}</td>
                         <td>{{$inv->supplier_user->first_name.' '.$inv->supplier_user->last_name}}</td>
-                        <td>{{$inv->poster_user->first_name.' '.$inv->poster_user->last_name}}</td>
+                        <td>
+                            @if($inv->poster_user!=NULL)
+                            {{$inv->poster_user->first_name.' '.$inv->poster_user->last_name}}
+                            @else
+                                {{$inv->vacancy->poster->first_name.' '.$inv->vacancy->poster->last_name}}
+                            @endif
+                        </td>
                         <td>{{$inv->date_of_admission}}</td>
                         <td>
                             {{number_format($inv->amount, 2)}}$
                         </td>
                         <td>
-                            <span class="label label-{{ $inv->status == 'Approved' ? 'success':'warning' }}">
+                            @if($inv->poster_user!=NULL)
+@lang('app.invoices_pay')
+                            @else
+@lang('app.invoices_charged')
+                            @endif
+                        </td>
+                        <td>
+                            <span class="label label-{{ $inv->status == 'Confirm' ? 'success':'warning' }}">
                                 @lang('app.'.$inv->status)
                             </span>
                         </td>

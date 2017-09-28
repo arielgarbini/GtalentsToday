@@ -12,7 +12,8 @@ class InvoicesController extends Controller
     public function index()
     {
         $pay = Invoice::where('poster_user_id', \Auth::user()->id)->orderBy('created_at', 'desc')->get();
-        $charge = Invoice::where('supplier_user_id', \Auth::user()->id)->orderBy('created_at', 'desc')->get();
+        $charge = Invoice::where('supplier_user_id', \Auth::user()->id)
+            ->where('poster_user_id', NULL)->orderBy('created_at', 'desc')->get();
         return view('dashboard_user.invoice.index', compact('pay', 'charge'));
     }
 

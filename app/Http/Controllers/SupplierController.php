@@ -58,31 +58,31 @@ class SupplierController extends Controller
             '3' => '3 '.\Lang::get('app.star').'s',
             '4' => '4 '.\Lang::get('app.star').'s',
             '5' => '5 '.\Lang::get('app.star').'s'];
-        $perPage = 10;
-        $data = $this->users->search($request->vacancy, \Auth::user()->company_user->company_id, $perPage, $request->all());
-        $suppliersCount = $data['count'];
-        $suppliers = $data['data'];
+        $perPage = 5;
+        $dat = $this->users->search($request->vacancy, \Auth::user()->company_user->company_id, $perPage, $request->all());
+        $suppliers = $dat['data'];
         $data = $request->all();
         $countries = $countries->lists()->toArray();
-        $suppliers_users_pages = ceil($suppliersCount / $perPage);
         $suppliers_users_count = $perPage;
-        $suppliers = $this->supplierManager->orderSuppliers($suppliers, $perPage, $request->all(), $request->vacancy);
+        $suppliers = $this->supplierManager->orderSupplierSearch($suppliers, $perPage, $request->all(), $request->vacancy);
+        $suppliersCount = $dat['count'];
+        $suppliers_users_pages = ceil($suppliersCount / $perPage);
         return view('dashboard_user.supplier.index', compact('qualification', 'categories', 'quantityEmployees', 'functionalArea', 'suppliers_users_count', 'suppliers_users_pages', 'countries', 'data', 'industries','suppliersCount','suppliers'));
     }
 
     public function getSuppliersFind(Request $request)
     {
-        $perPage = 10;
+        $perPage = 5;
         $data = $this->users->search($request->vacancy, \Auth::user()->company_user->company_id, $perPage, $request->all());
         $suppliersCount = $data['count'];
         $suppliers = $data['data'];
         $data = $request->all();
         $suppliers_users_pages = ceil($suppliersCount / $perPage);
         $suppliers_users_count = $perPage;
-        $suppliers = $this->supplierManager->orderSuppliers($suppliers, $perPage, $request->all(), $request->vacancy);
-        $data = view('partials.vacancies.user', ['vacancies_users' => $vacancies, 'viewed' => $viewed]);
+        $suppliers = $this->supplierManager->orderSupplierSearch($suppliers, $perPage, $request->all(), $request->vacancy);
+        $data = view('partials.suppliers.suppliers', ['data' => $data, 'suppliers' => $suppliers]);
         $data = $data->render();
-        return response()->json(['count'=>count($vacancies), 'page'=>$vacancies_users_pages, 'data' => $data]);
+        return response()->json(['count'=>count($suppliers), 'page'=>$suppliers_users_pages, 'data' => $data]);
     }
 
     public function calificationSupplier(Request $request, $id)
