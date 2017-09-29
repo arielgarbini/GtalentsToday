@@ -69,12 +69,12 @@
 					<!--ALERTAS-->
 					<ul class="alerts-div">
 						<!--ALERTA 1-->
-                        @foreach($notifications as $notification)
+						@foreach($notifications as $notification)
 							@if($notification->type=='request_supplier_vacancy')
 								<li class="alert-participar">
 									<div class="motivo">
 										<a href="{{route('vacancies.show',$notification->post_id)}}">
-											<figure>
+											<figure class="color-alerts-grey">
 												<span class="icon-gTalents_point"></span>
 											</figure>
 											<div class="datos">
@@ -91,19 +91,19 @@
 										<input type="hidden" value="{{$notification->supplier_id}}" name="supplier">
 										<span class="icon-gTalents_win-53 acept-alert send_form"></span>
 									</form>
-                                    <form action="{{route('vacancies.reject.supplier',$notification->post_id)}}" method="POST">
-                                        {{csrf_field()}}
-                                        <input type="hidden" value="{{$notification->id}}" name="notification">
-                                        <input type="hidden" value="{{$notification->supplier_id}}" name="supplier">
-                                        <span class="icon-gTalents_close close-alert send_form"></span>
-                                    </form>
 									<!--BTN ELIMINAR -->
+									<form action="{{route('vacancies.reject.supplier',$notification->post_id)}}" method="POST">
+										{{csrf_field()}}
+										<input type="hidden" value="{{$notification->id}}" name="notification">
+										<input type="hidden" value="{{$notification->supplier_id}}" name="supplier">
+										<span class="icon-gTalents_close close-alert send_form"></span>
+									</form>
 								</li>
 							@elseif($notification->type=='invited_supplier_vacancy')
 								<li class="alert-participar">
 									<div class="motivo">
 										<a href="{{route('vacancies.show',$notification->element_id)}}">
-											<figure>
+											<figure class="color-alerts-grey">
 												<span class="icon-gTalents_point"></span>
 											</figure>
 											<div class="datos">
@@ -129,34 +129,36 @@
 									</form>
 								</li>
 							@elseif($notification->type=='approved_supplier_vacancy' || $notification->type=='rejected_supplier_vacancy' || $notification->type=='approbate_supplier_candidate' || $notification->type=='rejected_supplier_candidate')
+
 								<li class="alert-participar">
 									<div class="motivo">
 										<a href="{{route('vacancies.post_user',$notification->element_id)}}">
-											<figure>
+											<figure @if($notification->type=='approved_supplier_vacancy' || $notification->type=='approbate_supplier_candidate') class="color-alerts-green" @else class="color-alerts-red" @endif>
 												<span class="icon-gTalents_point"></span>
 											</figure>
 											<div class="datos">
-												<h4>{{$notification->title_traduccion}}</h4>
+												<h4 @if($notification->type=='approved_supplier_vacancy' || $notification->type=='approbate_supplier_candidate') class="color-alerts-green" @else class="color-alerts-red" @endif>{{$notification->title_traduccion}}</h4>
 												<p>{{$notification->message_traduccion}}</p>
 											</div>
 										</a>
 									</div>
 
 									<!--BTN ELIMINAR -->
-                                    <form action="{{route('notifications.delete',$notification->id)}}" method="POST">
-                                        {{csrf_field()}}
-                                        <span class="icon-gTalents_close close-alert send_form"></span>
-                                    </form>
+									<form action="{{route('notifications.delete',$notification->id)}}" method="POST">
+										{{csrf_field()}}
+										<span class="icon-gTalents_close close-alert send_form"></span>
+									</form>
 								</li>
+
 							@elseif($notification->type=='approved_supplier_invited_vacancy' || $notification->type=='rejected_supplier_invited_vacancy')
 								<li class="alert-participar">
 									<div class="motivo">
 										<a href="{{route('vacancies.show',$notification->element_id)}}">
-											<figure>
+											<figure @if($notification->type=='approved_supplier_invited_vacancy') class="color-alerts-green" @else class="color-alerts-red" @endif>
 												<span class="icon-gTalents_point"></span>
 											</figure>
 											<div class="datos">
-												<h4>{{$notification->title_traduccion}}</h4>
+												<h4 @if($notification->type=='approved_supplier_invited_vacancy') class="color-alerts-green" @else class="color-alerts-red" @endif>{{$notification->title_traduccion}}</h4>
 												<p>{{$notification->message_traduccion}}</p>
 											</div>
 										</a>
@@ -173,11 +175,11 @@
 								<li class="alert-participar">
 									<div class="motivo">
 										<a href="{{route('vacancies.show',$notification->element_id)}}">
-											<figure>
+											<figure class="color-alerts-green">
 												<span class="icon-gTalents_point"></span>
 											</figure>
 											<div class="datos">
-												<h4>{{$notification->title_traduccion}}</h4>
+												<h4 class="color-alerts-green">{{$notification->title_traduccion}}</h4>
 												<p>{{$notification->message_traduccion}}</p>
 											</div>
 										</a>
@@ -193,7 +195,7 @@
 								<li class="alert-participar">
 									<div class="motivo">
 										<a href="{{route('message.indexFrontend')}}">
-											<figure>
+											<figure class="color-alerts-grey">
 												<span class="icon-gTalents_point"></span>
 											</figure>
 											<div class="datos">
@@ -213,11 +215,11 @@
 								<li class="alert-participar">
 									<div class="motivo">
 										<a href="{{route('califications.index')}}">
-											<figure>
+											<figure class="color-alerts-blue">
 												<span class="icon-gTalents_point"></span>
 											</figure>
 											<div class="datos">
-												<h4>{{$notification->title_traduccion}}</h4>
+												<h4 class="color-alerts-blue">{{$notification->title_traduccion}}</h4>
 												<p>{{$notification->message_traduccion}}</p>
 											</div>
 										</a>
@@ -233,11 +235,11 @@
 								<li class="alert-participar">
 									<div class="motivo">
 										<a href="{{route('supplier.calification_supplier', $notification->element_id)}}">
-											<figure>
+											<figure class="color-alerts-blue">
 												<span class="icon-gTalents_point"></span>
 											</figure>
 											<div class="datos">
-												<h4>{{$notification->title_traduccion}}</h4>
+												<h4 class="color-alerts-blue">{{$notification->title_traduccion}}</h4>
 												<p>{{$notification->message_traduccion}}</p>
 											</div>
 										</a>
@@ -253,11 +255,11 @@
 								<li class="alert-participar">
 									<div class="motivo">
 										<a href="{{route('dashboard')}}">
-											<figure>
+											<figure @if($notification->type=='get_points' || $notification->type=='promotion_received') class="color-alerts-blue" @else class="color-alerts-red" @endif>
 												<span class="icon-gTalents_point"></span>
 											</figure>
 											<div class="datos">
-												<h4>{{$notification->title_traduccion}}</h4>
+												<h4 @if($notification->type=='get_points' || $notification->type=='promotion_received') class="color-alerts-blue" @else class="color-alerts-red" @endif>{{$notification->title_traduccion}}</h4>
 												<p>{{$notification->message_traduccion}}</p>
 											</div>
 										</a>
@@ -277,7 +279,7 @@
 									</div>
 								</div>
 							</li>
-                        @endforeach
+						@endforeach
                     </ul>
 				</div>
 			</li>

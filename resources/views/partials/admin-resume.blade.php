@@ -6,7 +6,7 @@
 		</figure>
 		<div class="admin-resum-user-datos">
 			<p>@lang('app.hi'), {{ Auth::user()->present()->name }}</p>
-			<h4>{{ Auth::user()->code }}</h4>
+			<h4>ID: {{ Auth::user()->code }}</h4>
 		</div>
 	</section>
 

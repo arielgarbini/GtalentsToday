@@ -41,4 +41,12 @@ class UserMailer extends AbstractMailer
 
         $this->sendTo($user->email, $subject, $view, $data);
     }
+
+    public function sendRankingUp(User $user, $data)
+    {
+        $view = 'emails.ranking.up';
+        $subject = \Lang::get('app.ranking_up');
+
+        $this->sendTo($user->email, $subject, $view, $data);
+    }
 }

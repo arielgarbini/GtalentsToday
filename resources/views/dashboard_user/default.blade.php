@@ -323,7 +323,7 @@
                                 <li class="alert-participar">
                                     <div class="motivo">
                                         <a href="{{route('vacancies.show',$notification->post_id)}}">
-                                            <figure>
+                                            <figure class="color-alerts-grey">
                                                 <span class="icon-gTalents_point"></span>
                                             </figure>
                                             <div class="datos">
@@ -352,7 +352,7 @@
                                 <li class="alert-participar">
                                     <div class="motivo">
                                         <a href="{{route('vacancies.show',$notification->element_id)}}">
-                                            <figure>
+                                            <figure class="color-alerts-grey">
                                                 <span class="icon-gTalents_point"></span>
                                             </figure>
                                             <div class="datos">
@@ -382,11 +382,11 @@
                                 <li class="alert-participar">
                                     <div class="motivo">
                                         <a href="{{route('vacancies.post_user',$notification->element_id)}}">
-                                            <figure>
+                                            <figure @if($notification->type=='approved_supplier_vacancy' || $notification->type=='approbate_supplier_candidate') class="color-alerts-green" @else class="color-alerts-red" @endif>
                                                 <span class="icon-gTalents_point"></span>
                                             </figure>
                                             <div class="datos">
-                                                <h4>{{$notification->title_traduccion}}</h4>
+                                                <h4 @if($notification->type=='approved_supplier_vacancy' || $notification->type=='approbate_supplier_candidate') class="color-alerts-green" @else class="color-alerts-red" @endif>{{$notification->title_traduccion}}</h4>
                                                 <p>{{$notification->message_traduccion}}</p>
                                             </div>
                                         </a>
@@ -403,11 +403,11 @@
                                 <li class="alert-participar">
                                     <div class="motivo">
                                         <a href="{{route('vacancies.show',$notification->element_id)}}">
-                                            <figure>
+                                            <figure @if($notification->type=='approved_supplier_invited_vacancy') class="color-alerts-green" @else class="color-alerts-red" @endif>
                                                 <span class="icon-gTalents_point"></span>
                                             </figure>
                                             <div class="datos">
-                                                <h4>{{$notification->title_traduccion}}</h4>
+                                                <h4 @if($notification->type=='approved_supplier_invited_vacancy') class="color-alerts-green" @else class="color-alerts-red" @endif>{{$notification->title_traduccion}}</h4>
                                                 <p>{{$notification->message_traduccion}}</p>
                                             </div>
                                         </a>
@@ -424,11 +424,11 @@
                                 <li class="alert-participar">
                                     <div class="motivo">
                                         <a href="{{route('vacancies.show',$notification->element_id)}}">
-                                            <figure>
+                                            <figure class="color-alerts-green">
                                                 <span class="icon-gTalents_point"></span>
                                             </figure>
                                             <div class="datos">
-                                                <h4>{{$notification->title_traduccion}}</h4>
+                                                <h4 class="color-alerts-green">{{$notification->title_traduccion}}</h4>
                                                 <p>{{$notification->message_traduccion}}</p>
                                             </div>
                                         </a>
@@ -444,7 +444,7 @@
                                     <li class="alert-participar">
                                         <div class="motivo">
                                             <a href="{{route('message.indexFrontend')}}">
-                                                <figure>
+                                                <figure class="color-alerts-grey">
                                                     <span class="icon-gTalents_point"></span>
                                                 </figure>
                                                 <div class="datos">
@@ -464,11 +464,11 @@
                                 <li class="alert-participar">
                                     <div class="motivo">
                                         <a href="{{route('califications.index')}}">
-                                            <figure>
+                                            <figure class="color-alerts-blue">
                                                 <span class="icon-gTalents_point"></span>
                                             </figure>
                                             <div class="datos">
-                                                <h4>{{$notification->title_traduccion}}</h4>
+                                                <h4 class="color-alerts-blue">{{$notification->title_traduccion}}</h4>
                                                 <p>{{$notification->message_traduccion}}</p>
                                             </div>
                                         </a>
@@ -484,11 +484,11 @@
                                 <li class="alert-participar">
                                     <div class="motivo">
                                         <a href="{{route('supplier.calification_supplier', $notification->element_id)}}">
-                                            <figure>
+                                            <figure class="color-alerts-blue">
                                                 <span class="icon-gTalents_point"></span>
                                             </figure>
                                             <div class="datos">
-                                                <h4>{{$notification->title_traduccion}}</h4>
+                                                <h4 class="color-alerts-blue">{{$notification->title_traduccion}}</h4>
                                                 <p>{{$notification->message_traduccion}}</p>
                                             </div>
                                         </a>
@@ -504,11 +504,11 @@
                                     <li class="alert-participar">
                                         <div class="motivo">
                                             <a href="{{route('dashboard')}}">
-                                                <figure>
+                                                <figure @if($notification->type=='get_points' || $notification->type=='promotion_received') class="color-alerts-blue" @else class="color-alerts-red" @endif>
                                                     <span class="icon-gTalents_point"></span>
                                                 </figure>
                                                 <div class="datos">
-                                                    <h4>{{$notification->title_traduccion}}</h4>
+                                                    <h4 @if($notification->type=='get_points' || $notification->type=='promotion_received') class="color-alerts-blue" @else class="color-alerts-red" @endif>{{$notification->title_traduccion}}</h4>
                                                     <p>{{$notification->message_traduccion}}</p>
                                                 </div>
                                             </a>

@@ -173,3 +173,19 @@
     border-radius: 10px;
     padding: 3px;
 }
+
+.color-alerts-green{
+    color: #7ac943 !important;
+}
+
+.color-alerts-red{
+    color: #f00 !important;
+}
+
+.color-alerts-blue{
+    color: #2196f3 !important;
+}
+
+.color-alerts-grey{
+    color: #969798 !important;
+}

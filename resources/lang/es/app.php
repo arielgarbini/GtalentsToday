@@ -1048,6 +1048,7 @@ return [
     'all_Selected_text' => 'Todo Seleccionado',
 
     //Emails
+    'company_been_promoted' => 'Tu empresa a sido promovida a la categoría',
     'hi' => 'Hola',
     'new_user_was_registered_on' => 'Nuevo usuario se acaba de registrar en :appname.',
     'website' => 'Sitio web',
@@ -1148,6 +1149,7 @@ return [
     'activity_records'      => 'Registros de Actividades',
 
     //register
+    'ranking_up'            => 'Programa de Lealtad y Recompensa',
     'collaborator_register' => 'El usuario ya está registrado.',
     'resend' => 'Reenviar correo electrónico de confirmación',
     'email_taken' => 'correo electrónico ya ha sido registrado.',

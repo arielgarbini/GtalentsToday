@@ -2,6 +2,7 @@
 
 namespace Vanguard\Listeners;
 
+use Vanguard\Mailers\UserMailer;
 use Vanguard\Point;
 use Vanguard\Company;
 use Vanguard\CompanyUser;
@@ -11,7 +12,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 
 class RankingEventsSubscriber implements ShouldQueue
 {
-    public function handle($event)
+    public function handle($event, UserMailer $mailer)
     {
         $dataRequest = $event->getData();
         if(isset($dataRequest['user_id'])){
@@ -28,6 +29,7 @@ class RankingEventsSubscriber implements ShouldQueue
                 if($category->id!=$company->category_id){
                     $this->updateRanking($company, $category->id);
                     $this->sendNotification($company, $category->name, 'promotion_received');
+                    $this->sendNotificationEmail($company, $category, $mailer);
                 }
             }
         } else {
@@ -77,6 +79,13 @@ class RankingEventsSubscriber implements ShouldQueue
         foreach($this->getListUsersCompany($company->id) as $user){
             event(new NotificationEvent(['element_id' => $company->id,
                 'user_id'=>$user, 'type' => $type, 'name'=>$points]));
+        }
+    }
+
+    public function sendNotificationEmail($company, $category, UserMailer $mailer)
+    {
+        foreach($company->users as $us){
+            $mailer->sendRankingUp($us, ['company' => $company, 'category' => $category]);
         }
     }
 }
