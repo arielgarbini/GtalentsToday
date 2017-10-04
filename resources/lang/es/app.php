@@ -433,7 +433,7 @@ return [
     'companies_where_the_candidate_has_worked'  => 'Empresas donde haya trabajado el candidato', 
     'off_limits_companies'        => 'Empresas Off-limits', 
     'required_experience'         => 'Experiencia Requerida',
-    'key_position_questions'      => 'Preguntas claves de la posición',
+    'key_position_questions'      => 'puntos o preguntas clave de la posición',
     'search_type'                 => 'Tipo de Búsqueda', 
     'contract_type'               => 'Tipo de Contratación',
     'years_of_experience'         => 'Años de Experiencia',
@@ -461,7 +461,7 @@ return [
     'message_created'               => 'Mensaje enviado',
     'all_messages'                  => 'Todos los mensajes',
     'send_message'                  => 'Enviar Mensaje',
-    'reply_send_message'            => 'Responde o envía un mensaje',
+    'reply_send_message'            => 'Responder o enviar un mensaje. Asegúrese de no incluir el nombre de la empresa de contratación, enlaces o información de contacto',
     'created_by_you'                => 'Creado por ti',
 
     //News
@@ -494,7 +494,7 @@ return [
     'user' => 'Usuario',
     'user_sm' => 'usuario',
     'ip_address' => 'Dirección IP',
-    'message' => 'Mensaje',
+    'message' => 'Enviar',
     'log_time' => 'Hora de Registro',
     'more_info' => 'Más información',
     'view_activity_log' => 'Ver registro de actividad',

@@ -21,6 +21,10 @@
                 <p>{{$vacancy->name}}</p>
 
                 <!--DESCRIPCION DEL TRABAJO-->
+                <h4>{{trans('app.general_conditions')}}</h4>
+                <p>{{$vacancy->general_conditions}}
+                </p>
+
                 <h4>{{trans('app.work_description')}}</h4>
                 <p>{{$vacancy->target_companies}}
                 </p>
