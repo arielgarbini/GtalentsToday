@@ -1058,6 +1058,8 @@ return [
     'click_on_link_below' => 'Por favor, haga clic en este enlace de abajo con el fin de restablecer su contraseña:',
     'if_you_cant_click' => 'Si usted no puede Hacer clic en ese enlace, simplemente copia y pega siguiente URL en su navegador en la barra de direcciones:',
     'thank_you_for_registering' => 'Gracias por registrarse.',
+    'welcome_gtalents' => 'Bienvenido a :app website.',
+    'welcome_gtalents2' => 'Su cuenta esta completa y se encuentra en revisión le informaremos cuando este activa para que inicie sessión y empiece a usar la plataforma',
     'user_activated' => 'Has sido activado para entrar en :app website.',
     'confirm_email_on_link_below' => 'Se ruega confirmación de correo electrónico haciendo clic en el siguiente enlace:',
     'confirm_email_linkedin' => 'Se ruega que complete su información haciendo click en el siguiente enlace:',

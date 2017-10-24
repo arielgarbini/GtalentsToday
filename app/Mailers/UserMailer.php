@@ -15,6 +15,15 @@ class UserMailer extends AbstractMailer
         $this->sendTo($user->email, $subject, $view, $data);
     }
 
+    public function sendCongratsEmail($user)
+    {
+        $view = 'emails.registration.congrats';
+        $data = [];
+        $subject = 'Welcome to Gtalents';
+
+        $this->sendTo($user->email, $subject, $view, $data);
+    }
+
     public function sendConfirmationEmailLinkedin($user, $token)
     {
         $view = 'emails.registration.confirmationlinkedin';

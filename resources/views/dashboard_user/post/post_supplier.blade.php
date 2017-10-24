@@ -10,73 +10,46 @@
             <!--TITULO-->
             <div class="jobs-detail-title">
                 <h3>{{$vacancy->name}}</h3>
-                <p>{{$vacancy->location}} | {{$contract['name']}}</p>
             </div>
 
             <!--CUERPO DE LA DESCRIPCION-->
             <div class="jobs-detail-body">
                 <!--DESCRIPCION DE LA EMPRESA-->
-                <h4>{{trans('app.description_company')}}</h4>
-                <p>{{$vacancy->name}}</p>
-
-                <!--DESCRIPCION DEL TRABAJO-->
-                <h4>{{trans('app.general_conditions')}}</h4>
-                <p>{{$vacancy->general_conditions}}
-                </p>
-
-                <h4>{{trans('app.work_description')}}</h4>
-                <p>{{$vacancy->target_companies}}
-                </p>
-
-                <!--EXPERIENCIA DESEADA-->
-                <h4>{{trans('app.desired_experience')}}</h4>
-                <ul class="jobs-detail-body-kills">
-                    <li>
-                        <span class="icon-gTalents_point"></span>
-                        <p>{{$vacancy->required_experience}}</p>
-                    </li>
-                    <!--   <li>
-                           <span class="icon-gTalents_point"></span>
-                           <p>Lenguajes de programación: .NET Framework 3.0 / 4.0 (Excluyente)</p>
-                       </li>
-                       <li>
-                           <span class="icon-gTalents_point"></span>
-                           <p>Bases de Datos: MS SQL Server u ORACLE (Excluyente)</p>
-                       </li>
-                       <li>
-                           <span class="icon-gTalents_point"></span>
-                           <p>Lenguajes de programación: ASP.NET MVC (Deseable)</p>
-                       </li>
-                       <li>
-                           <span class="icon-gTalents_point"></span>
-                           <p>Lenguajes de programación: Java Script (Deseable)</p>
-                       </li>
-
-                   <p>Es requisito contar con experiencia de 1 a 3 años en algunas de las tecnologías antes mencionadas.</p>-->
-                </ul>
-                <!--INFORMACION ADICIONAL-->
-                <h4>@lang('app.additional_information')</h4>
-                <p>{{$vacancy->responsabilities}}</p>
-
-                <!--HORARIO DE TRABAJO-->
-            <!--<h4>{{trans('app.working_hours')}}</h4>
-                <p><span style="color:red"></span></p>-->
-
-                <!--UBICACION-->
                 <h4>{{trans('app.location')}}</h4>
-                <p>{{$vacancy->location}}</p>
+                <p>{{$vacancy->location}} | {{$contract['name']}}</p>
 
                 <!--TIPO DE CONTRATACION-->
                 <h4>{{trans('app.contract_type')}}</h4>
                 <p>{{$contract['name']}}</p>
 
+                <h4>{{trans('app.industry')}}</h4>
+                <p>{{$industry['name']}}</p>
+
                 <!--ESPECIALIZACION-->
                 <h4>{{trans('app.especialization')}}</h4>
                 <p>{{$functionalArea['name']}}</p>
 
+
+                <h4>{{trans('app.positions_number')}}</h4>
+                <p>{{$vacancy->positions_number}}</p>
+
+
+                <!--EXPERIENCIA DESEADA-->
+                <h4>{{trans('app.experience')}}</h4>
+                <ul class="jobs-detail-body-kills">
+                    <li>
+                        <span class="icon-gTalents_point"></span>
+                        <p>{{$vacancy->required_experience}}</p>
+                    </li>
+                </ul>
+
                 <!--AÑOS DE EXPERIENCIA-->
                 <h4>{{trans('app.experience_years')}}</h4>
                 <p>{{$experiencie['name']}}</p>
+
+                <!--INFORMACION ADICIONAL-->
+                <h4>@lang('app.additional_information')</h4>
+                <p>{{$vacancy->responsabilities}}</p>
 
                 <!--IDIOMAS-->
                 <h4>{{trans('app.languages')}}</h4>
@@ -90,8 +63,23 @@
                 <h4>{{trans('app.range_salary')}}</h4>
                 <p>{{$vacancy->range_salary}}</p>
 
+                <h4>{{trans('app.key_position_questions')}}</h4>
+                <p>{{$vacancy->key_position_questions}}</p>
+
+                <h4>{{trans('app.target_companies')}}</h4>
+                <p>{{$vacancy->target_companies}}
+                </p>
+
+                <h4>{{trans('app.off_limits_companies')}}</h4>
+                <p>{{$vacancy->off_limits_companies}}
+                </p>
+
+                <h4>{{trans('app.search_type')}}</h4>
+                <p>@if($vacancy->search_type==1) {{trans('app.contingency')}} @else {{trans('app.retained')}} @endif
+                </p>
+
                 <!--HONORARIO COBRADO AL EMPLEADOR-->
-                <h4>{{trans('app.employer_fee')}}</h4>
+                <h4>{{trans('app.fee_charged_to_employer')}}</h4>
                 <p>
                     @if($vacancy->group1==1)
                         {{$vacancy->fee}}%
@@ -103,6 +91,14 @@
                 <!--PERIODO DE REEMPLAZO-->
                 <h4>{{trans('app.replacement_period')}}</h4>
                 <p>{{$replacementPeriod['name']}}</p>
+
+                <h4>{{trans('app.warranty_employer')}}</h4>
+                <p>{{$vacancy->warranty_employer}}</p>
+
+                <!--DESCRIPCION DEL TRABAJO-->
+                <h4>{{trans('app.general_conditions')}}</h4>
+                <p>{{$vacancy->general_conditions}}
+                </p>
 
                 <!--LINK DESCARGA-->
                 <div class="row">

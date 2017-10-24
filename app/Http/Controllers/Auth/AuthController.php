@@ -923,7 +923,7 @@ class AuthController extends Controller
      * @param CreateVacancyRequest $request
      * @return mixed
      */
-    public function confirmRegister ($token, ConfirmRegisterRequest $request)
+    public function confirmRegister ($token, ConfirmRegisterRequest $request, UserMailer $mailer)
     {
         $user = $this->users->findByConfirmationToken($token);
 
@@ -1137,6 +1137,9 @@ class AuthController extends Controller
                     $invitation->save();
                 }
             }
+
+            $this->sendCongratsEmail($mailer, $user);
+
             return redirect()->to('loginuser')
                 ->withSuccess(trans('app.registration_completed_wait_data_validation'));
         }
@@ -1292,6 +1295,11 @@ class AuthController extends Controller
         $token = str_random(60);
         $this->users->update($user->id, ['confirmation_token' => $token]);
         $mailer->sendConfirmationEmail($user, $token);
+    }
+
+    private function sendCongratsEmail(UserMailer $mailer, $user)
+    {
+        $mailer->sendCongratsEmail($user);
     }
 
 }

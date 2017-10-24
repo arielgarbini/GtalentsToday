@@ -5,6 +5,7 @@ namespace Vanguard\Http\ViewComposers;
 use Illuminate\View\View;
 use Vanguard\ContractType;
 use Vanguard\ExperienceYear;
+use Vanguard\Industry;
 use Vanguard\LanguageVacancy;
 use Vanguard\ReplacementPeriod;
 use Vanguard\FunctionalArea;
@@ -36,6 +37,7 @@ class VacancyComposer
         $experiencie = ExperienceYear::where('value_id', $vacancy->contract_type_id)->where('language_id', $language)->get()->first();
         $replacementPeriod = ReplacementPeriod::where('value_id', $vacancy->contract_type_id)->where('language_id', $language)->get()->first();
         $functionalArea = FunctionalArea::where('value_id', $vacancy->contract_type_id)->where('language_id', $language)->get()->first();
+        $industry = Industry::where('value_id', $vacancy->industry)->where('language_id', $language)->get()->first();
         $suppliers = VacancyUser::where('vacancy_id', $vacancy->id)->where('status',1)->get();
         $candidatesApproved = VacancyCandidate::where('vacancy_id', $vacancy->id)
             ->where('status','!=','Unconfirmed')->where('status','!=','Rejected')->get();
@@ -95,5 +97,6 @@ class VacancyComposer
         $view->with('experiencie', $experiencie);
         $view->with('replacementPeriod', $replacementPeriod);
         $view->with('functionalArea', $functionalArea);
+        $view->with('industry', $industry);
     }
 }
