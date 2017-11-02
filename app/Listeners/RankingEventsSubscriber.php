@@ -12,8 +12,9 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 
 class RankingEventsSubscriber implements ShouldQueue
 {
-    public function handle($event, UserMailer $mailer)
+    public function handle($event)
     {
+        $mailer = new UserMailer();
         $dataRequest = $event->getData();
         if(isset($dataRequest['user_id'])){
             $company = $this->getUserCompany($dataRequest['user_id']);
