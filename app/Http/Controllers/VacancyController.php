@@ -374,6 +374,51 @@ class VacancyController extends Controller
 
     }
 
+    public function getVacancyStepTwo(Request $request, ContractTypeRepository $contractTypes,
+                                      LanguageRepository $languages, ExperienceYearRepository $experience,
+                                      FunctionalAreaRepository $functionalArea, IndustryRepository $industries, $id = null){
+        if (session('lang') =='en'){
+            $language = 2;
+            $searchType = ['1'=>'Contingency', '2'=>'Retained'];
+        }else{
+            $language = 1;
+            $searchType = ['1' => 'Contingencia', '2' => 'Retenido'];
+        }
+        if($id!=null){
+            $vacancy = $this->vacancies->find($id);
+            if(Auth::user()->company[0]->id!=$vacancy->poster->company[0]->id){
+                return redirect()->route('vacancies.post_user', $id);
+            }
+            $langs = LanguageVacancy::where('vacancy_id', $id)->get();
+            $langc = [];
+            foreach ($langs as $l){
+                $langc[] = $l['type_id'].'-'.$l->type($language);
+            }
+        } else {
+            $langs = false;
+            $langc = [];
+            $vacancy = false;
+        }
+        $lans = ['1' => \Lang::get('app.native'), '2' => \Lang::get('app.fluent'), '3' => \Lang::get('app.good'), '4' => \Lang::get('app.functional'), '5' => \Lang::get('app.basic')];
+        $compensations = Compensation::orderBy('id', 'asc')->lists('salary', 'salary');
+        $contractTypes = $contractTypes->lists($language);
+        $experience = $experience->lists($language);
+        $languages = [];
+        foreach(LanguageType::where('language_id', $language)->get() as $lan){
+            $languages[$lan['value_id'].'-'.$lan['name']] = $lan['name'];
+        }
+        $functionalArea = $functionalArea->lists($language);
+        $industries = $industries->lists($language);
+        $replacement_period = ['' => 'None'];
+        foreach(ReplacementPeriod::where('language_id',$language)->get() as $re){
+            $replacement_period[$re['value_id']] = $re['name'];
+        }
+        $vacancy_id = $id;
+        $supliers_recommended = $this->supplierManager->getRecommended($id, 4, [], $vacancy_id);
+        return view('dashboard_user.post.post_step2' , compact('vacancy_id', 'supliers_recommended'), ['vacancies' => $vacancy]);
+
+    }
+
     public function postVacancyStepOneAjax(Request $request, $id)
     {
         $data = [];
@@ -442,7 +487,8 @@ class VacancyController extends Controller
                 'group1'                   => 'required',
                 'fee'                      => 'required',
                 'terms'                    => 'required',
-                ] 
+                ] ,
+                ['terms.required' => Lang::get('app.terms_of_service_post')]
                 );
 
         $data = [      
@@ -867,6 +913,7 @@ class VacancyController extends Controller
 
     public function invitedSupplier(Request $request, $id)
     {
+
         $vacancy = $this->vacancies->find($id);
 
         if($vacancy->countApplicationByStatus(GeneralStatus::ACTIVE) >= 3)
@@ -887,6 +934,11 @@ class VacancyController extends Controller
 
         if(isset($request->view)){
             return redirect()->route('vacancies.show', $id)
+                ->withSuccess(trans('app.invited_supplier'));
+        }
+
+        if(isset($request->view2)){
+            return redirect()->route('vacancies.step2', $id)
                 ->withSuccess(trans('app.invited_supplier'));
         }
 
@@ -1044,6 +1096,18 @@ class VacancyController extends Controller
             'vacancy_id'=>$vacancy->id, 'status'=>GeneralStatus::REJECTED]);
         return redirect()->back()
             ->withSuccess(trans('app.rejected_candidate'));
+    }
+
+    public function deleteCandidate(Request $request, $id)
+    {
+        $vacancy = $this->vacancies->find($request->vacancy);
+
+        $vacancy->updateStatusCandidate($id, 'Deleted');
+
+        $this->vacancy_candidates_status->create(['candidate_id' =>$id,
+            'vacancy_id'=>$vacancy->id, 'status'=> 'Deleted']);
+        return redirect()->back()
+            ->withSuccess(trans('app.deleted_candidate'));
     }
 
     /**
@@ -1213,7 +1277,11 @@ class VacancyController extends Controller
             $userCandidatesAvailable = $data['userCandidatesAvailable'];
             $userCandidatesProgress = $data['userCandidatesProgress'];
             $userCandidatesRejected = $data['userCandidatesRejected'];
-            $credits_candidates = Setting::where('key', 'candidate_price')->get()->first()->value;
+            try{
+                $credits_candidates = Setting::where('key', 'candidate_price')->get()->first()->value;
+            } catch(\Exception $e){
+                $credits_candidates = 100;
+            }
             if(!$userSupplierPost){
                 return view('dashboard_user.post.post_user',compact('userCandidatesRejected', 'userCandidatesProgress','credits_candidates', 'userCandidatesAvailable', 'userVacancy', 'vacancy','companies')) ;
             } else {
@@ -1246,7 +1314,8 @@ class VacancyController extends Controller
                     ->where('language_id', $language)->get()->first()->name;
                 $i++;
             }
-            if(VacancyCandidate::where('candidate_id', $can->id)->where('vacancy_id', $vacancy->id)->where('status','!=','Rejected')->get()->first()) {
+            if(VacancyCandidate::where('candidate_id', $can->id)->where('vacancy_id', $vacancy->id)
+                ->where('status','!=','Rejected')->where('status','!=','Deleted')->get()->first()) {
                 $data2[] = $can;
                 $data2[$j]['actual_position'] = ActualPosition::where('value_id', $can->actual_position_id)
                     ->where('language_id', $language)->get()->first()->name;

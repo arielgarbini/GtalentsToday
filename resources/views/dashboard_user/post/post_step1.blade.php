@@ -195,8 +195,12 @@
                 <!--CHECKBOX DE TERMINOS-->
                 <div class="itemCheck">
                     <p>
+                    @if($vacancy!=false && $vacancy->general_conditions!='')
                     {!! Form::checkbox('terms',1,true, ['id' => 'filled-in-box', 'class' => 'filled-in','checked' ]) !!}
-                    <label for="tos">@lang('app.i_accept')
+                    @else
+                    {!! Form::checkbox('terms',1,null, ['id' => 'filled-in-box', 'class' => 'filled-in' ]) !!}
+                    @endif
+                    <label for="tos" id="filled-in-box-click">@lang('app.i_accept')
                         <a href="#tos-modal" class="modal-trigger waves-effect waves-light">@lang('app.terms_of_service')</a>
                     </label>
                     @if($errors->has('terms'))
@@ -342,6 +346,15 @@
                 $('#fee').val('');
                 $('#fee').attr('maxlength',6);
                 $('#des').html('$');
+            });
+
+            $('#filled-in-box-click').click(function () {
+               console.log($('#filled-in-box').is(":checked"));
+                if($('#filled-in-box').is(":checked")){
+                   $('#filled-in-box').prop('checked', false);
+               } else {
+                   $('#filled-in-box').prop('checked', true);
+               }
             });
        });
 </script>

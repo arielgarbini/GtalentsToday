@@ -181,7 +181,7 @@
                 swal({
                     title: "{{trans('app.success')}}",
                     text: "{{\Session::get('success')}}",
-                    timer: 3000,
+                    timer: 5000,
                     showConfirmButton: false,
                     type: "success"
                 });

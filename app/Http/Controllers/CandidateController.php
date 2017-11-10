@@ -126,7 +126,8 @@ class CandidateController extends Controller
             ['first_name'       => 'required|min:3',
                 'last_name'     => 'required|min:3',
                 'email'         => 'required|email|unique:candidates',
-                'company'          => 'required',
+                'company'       => 'required',
+                'file'          => 'required'
             ] );
 
         $company_id = CompanyUser::where(['user_id' => Auth::user()->id])->get()->first()->company_id;

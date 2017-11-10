@@ -152,7 +152,7 @@
                                                         $factur = ($vacancy_opportunity->fee * $factur) / 100;
                                                         $factur = number_format($factur, 2, '.', ',');
                                                     } else {
-                                                        $factura = $vacancy_opportunity->fee;
+                                                        $factur = $vacancy_opportunity->fee;
                                                     }
                                                 } catch(\exception $e){
                                                     $factur = '';
@@ -244,7 +244,7 @@
                                                         $factur = ($vacancy_opportunity->fee * $factur) / 100;
                                                         $factur = number_format($factur, 2, '.', ',');
                                                     } else {
-                                                        $factura = $vacancy_opportunity->fee;
+                                                        $factur = $vacancy_opportunity->fee;
                                                     }
                                                 } catch(\exception $e){
                                                     $factur = '';

@@ -34,13 +34,14 @@ class VacancyComposer
         $vacancy = $view->getData()['vacancy'];
         $userCategorie = User::find($vacancy->poster_user_id)->company[0]->category;
         $contract = ContractType::where('value_id', $vacancy->contract_type_id)->where('language_id', $language)->get()->first();
-        $experiencie = ExperienceYear::where('value_id', $vacancy->contract_type_id)->where('language_id', $language)->get()->first();
+        $experiencie = ExperienceYear::where('value_id', $vacancy->years_experience)->where('language_id', $language)->get()->first();
         $replacementPeriod = ReplacementPeriod::where('value_id', $vacancy->contract_type_id)->where('language_id', $language)->get()->first();
         $functionalArea = FunctionalArea::where('value_id', $vacancy->contract_type_id)->where('language_id', $language)->get()->first();
         $industry = Industry::where('value_id', $vacancy->industry)->where('language_id', $language)->get()->first();
         $suppliers = VacancyUser::where('vacancy_id', $vacancy->id)->where('status',1)->get();
         $candidatesApproved = VacancyCandidate::where('vacancy_id', $vacancy->id)
-            ->where('status','!=','Unconfirmed')->where('status','!=','Rejected')->get();
+            ->where('status','!=','Unconfirmed')->where('status','!=','Deleted')
+            ->where('status','!=','Rejected')->get();
         $candidatesRejected = VacancyCandidate::where('vacancy_id', $vacancy->id)
             ->where('status','Rejected')->get();
         $candidatesUnRead = VacancyCandidate::where('vacancy_id', $vacancy->id)->where('status', 'Unconfirmed')->get();
@@ -82,7 +83,7 @@ class VacancyComposer
             $vacancy->location .= ' / '.$vacancy->city->name;
         }
         $languages = LanguageVacancy::where('vacancy_id', $vacancy->id)->get();
-
+        $vacancy->required_experience = explode("\r\n", $vacancy->required_experience);
         $view->with('userCategorie', $userCategorie);
         $view->with('languages', $languages);
         $view->with('language', $language);

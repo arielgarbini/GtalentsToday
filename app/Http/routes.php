@@ -1062,6 +1062,12 @@ Route::get('vacancies/step/1/{id?}', [
     'middleware' => ['auth', 'permission:vacancies.create']
 ]);
 
+Route::get('vacancies/step/2/{id?}', [
+    'as' => 'vacancies.step2',
+    'uses' => 'VacancyController@getVacancyStepTwo',
+    'middleware' => ['auth', 'permission:vacancies.create']
+]);
+
 Route::post('vacancies/step/1/{id?}', [
     'as' => 'vacancies.step1',
     'uses' => 'VacancyController@postVacancyStepOne',
@@ -1181,6 +1187,12 @@ Route::post('vacancies/{id}/approbate/candidate', [
 Route::post('vacancies/{id}/reject/candidate', [
     'as' => 'vacancies.reject.candidate',
     'uses' => 'VacancyController@rejectCandidate',
+    'middleware' => 'permission:vacancies.view'
+]);
+
+Route::post('vacancies/{id}/delete/candidate', [
+    'as' => 'vacancies.delete.candidate',
+    'uses' => 'VacancyController@deleteCandidate',
     'middleware' => 'permission:vacancies.view'
 ]);
 

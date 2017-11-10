@@ -37,10 +37,12 @@
                 <!--EXPERIENCIA DESEADA-->
                 <h4>{{trans('app.experience')}}</h4>
                 <ul class="jobs-detail-body-kills">
+                    @foreach($vacancy->required_experience as $rr)
                     <li>
                         <span class="icon-gTalents_point"></span>
-                        <p>{{$vacancy->required_experience}}</p>
+                        <p>{!!$rr!!}</p>
                     </li>
+                    @endforeach
                 </ul>
 
                 <!--AÑOS DE EXPERIENCIA-->
@@ -471,7 +473,7 @@
                                                 <a href="#">@lang('app.accept')</a>
                                             </li>
                                         </form>
-                                        <form method="POST" action="{{route('vacancies.reject.candidate',$candidate['id'])}}">
+                                        <form method="POST" action="{{route('vacancies.delete.candidate',$candidate['id'])}}">
                                             {{csrf_field()}}
                                             <li class="send_form">
                                                 <input type="hidden" name="vacancy" value="{{$vacancy->id}}">

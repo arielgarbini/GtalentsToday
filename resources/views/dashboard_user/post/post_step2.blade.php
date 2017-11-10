@@ -85,7 +85,7 @@
                     <form method="POST" action="{{route('vacancies.invited.supplier', $vacancy_id)}}">
                         {{csrf_field()}}
                         <input type="hidden" value="{{$supplier->id}}" name="supplier">
-                        <input type="hidden" value="1" name="view">
+                        <input type="hidden" value="1" name="view2">
                         <a href="#" class="send_form">
                             <span class="icon-gTalent_add-supplier"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span><span class="path5"></span></span>
                         </a>

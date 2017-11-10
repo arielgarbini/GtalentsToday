@@ -37,10 +37,12 @@
                 <!--EXPERIENCIA DESEADA-->
                 <h4>{{trans('app.experience')}}</h4>
                 <ul class="jobs-detail-body-kills">
-                    <li>
-                        <span class="icon-gTalents_point"></span>
-                        <p>{{$vacancy->required_experience}}</p>
-                    </li>
+                    @foreach($vacancy->required_experience as $rr)
+                        <li>
+                            <span class="icon-gTalents_point"></span>
+                            <p>{!!$rr!!}</p>
+                        </li>
+                    @endforeach
                 </ul>
 
                 <!--AÑOS DE EXPERIENCIA-->
@@ -227,7 +229,7 @@
 
                     <!--CANDIDATOS-->
                     <div class="item-option">
-                        <h4>{{count($candidatesApproved)}}</h4>
+                        <h4>{{count($userCandidatesProgress)}}</h4>
                         <span class="opt-sm">@lang('app.candidates')</span>
                     </div>
                 </div>
@@ -382,7 +384,20 @@
                                         @endif
                                         <!-- href="#modalHistorico" -->
                                         <li class="open-modal-history" value="{{$candidate['id']}}"><a class="waves-effect waves-light">@lang('app.historical')</a></li>
-                                    <!--<li><a href="#">@lang('app.discard')</a></li>-->
+                                        <?php
+                                            $verify = \Vanguard\VacancyCandidate::where('candidate_id', $candidate['id'])
+                                                ->where('vacancy_id', $vacancy->id)->whereIn('status', ['Unconfirmed', 'Read'])->get()->first();
+                                        ?>
+                                        @if($verify)
+                                            <form method="POST" action="{{route('vacancies.delete.candidate',$candidate['id'])}}">
+                                            {{csrf_field()}}
+                                            <li class="send_form">
+                                                <input type="hidden" name="vacancy" value="{{$vacancy->id}}">
+                                                <a href="#" >@lang('app.discard')</a>
+                                            </li>
+                                            </form>
+                                        @endif
+                                        <!--<li><a href="#">@lang('app.discard')</a></li>-->
                                     </ul>
                                 </div>
                             </section>

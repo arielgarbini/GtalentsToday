@@ -38,10 +38,12 @@
                 <!--EXPERIENCIA DESEADA-->
                 <h4>{{trans('app.experience')}}</h4>
                 <ul class="jobs-detail-body-kills">
-                    <li>
-                        <span class="icon-gTalents_point"></span>
-                        <p>{{$vacancy->required_experience}}</p>
-                    </li>
+                    @foreach($vacancy->required_experience as $rr)
+                        <li>
+                            <span class="icon-gTalents_point"></span>
+                            <p>{!!$rr!!}</p>
+                        </li>
+                    @endforeach
                 </ul>
 
                 <!--AÑOS DE EXPERIENCIA-->
