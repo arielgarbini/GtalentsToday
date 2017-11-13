@@ -325,30 +325,6 @@
 					</div>
 				</div>
 
-				<div class="categoria-container-item">
-					<!--TITULO CATEGORIA-->
-					<a href="#!" class="option" style="color:#4d4d4d !important; padding:0px;">
-						<h4 style="font-size: 1em;">@lang('app.job_title')</h4>
-						<span class="hint--right hint--large hint--bounce" aria-label="{{trans('app.job_title_direction')}}">
-                            <i class="icon-gTalents_help "></i>
-                        </span>
-					</a>
-				</div>
-				<div class="itemForm">
-					{!! Form::select('job_title_id', $jobTitle , ($profile!='') ? $profile->jobtitle_id : '', ['message' => trans('app.job_title_id_required'), 'class' => 'validate-select browser-default', 'id' => 'job_title_id', 'placeholder' => trans('app.job_title')]) !!}
-				</div>
-
-				<!--CODIGO PROMOCIONAL-->
-				<div class="itemForm" id="reference_job_title">
-					<label>@lang('app.reference_job')</label>
-					{!! Form::text('reference_job', ($profile!='') ? $profile->reference_job : '', ['id' => 'reference_job', 'placeholder' => trans('app.reference_job')]) !!}
-				</div>
-
-				<div class="itemForm">
-					<label for="years_experience_id">@lang('app.current_company')</label>
-					{!! Form::text('current_company', ($profile!='') ? $profile->current_company : '' , ['class' => 'validate-select', 'message' => trans('app.current_company_required'), 'id' => 'current_company', 'placeholder' => trans('app.current_company')]) !!}
-				</div>
-
 				<div class="itemForm">
 					<label for="years_experience_id">@lang('app.years_of_experience')</label>
 					{!! Form::select('years_experience_id', $experienceYears , ($profile!='') ? $profile->years_experience_id : '', ['message' => trans('app.years_experience_required'), 'class' => 'validate-select browser-default', 'id' => 'years_experience_id', 'placeholder' => trans('app.years_of_experience')]) !!}
@@ -382,7 +358,6 @@
 				<!--TITULO DE LA SECCION-->
 				<div class="formLogin-title">
 					<h4>@lang('app.notifications')</h4>
-					<p>@lang('app.norifications_comment1')</p>
 				</div>
 				<!--PASSWORD-->
 				<div class="itemForm">
@@ -466,14 +441,16 @@
 			<div class="formContainer-confirm" id="paso4-3">
 				<!--CONDICIONES DE USO-->
 				<div class="condiciones-uso">
-					<h4>@lang('app.terms_of_use')</h4>
-					<div class="condiciones-uso-container">
+					<label for="tos">
+						<a href="#tos-modal" class="modal-trigger waves-effect waves-light">@lang('app.terms_of_service')</a>
+					</label>
+					<!--<div class="condiciones-uso-container">
 						<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Minus veritatis quisquam, dignissimos distinctio, eos repellendus dolore ab quasi repellat voluptates ex vitae minima tempore commodi non repudiandae earum. Rem, molestiae!</p>
 
 						<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Facere enim, voluptas impedit culpa ut debitis dolorem. Suscipit dolore, tempore architecto id ipsam sequi, sint ab earum ullam libero ducimus vel.</p>
 
 						<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Facere enim, voluptas impedit culpa ut debitis dolorem. Suscipit dolore, tempore architecto id ipsam sequi, sint ab earum ullam libero ducimus vel.</p>
-					</div>
+					</div>-->
 				</div>
 
 				<!--CHECKBOX DE TERMINOS-->
@@ -584,6 +561,29 @@
 		</section>			
 
 	</article>
+
+	<div id="tos-modal" class="modal modalText">
+		<!--CERRAR-->
+		<div class="modal-footer">
+			<a class=" modal-action modal-close waves-effect waves-green btn-flat">
+				<span class="icon-gTalents_close"></span>
+			</a>
+		</div>
+
+		<!--CONTENIDO-->
+		<div class="modal-content">
+			<!--GARANTIAS-->
+			<article class="generic grid">
+				<!--TITULO DE LA SECCION-->
+				<section class="generic-title">
+					<span class="icon-gTalents_garantia"></span>
+					<h2> {{ trans('app.terms_of_service' ) }} </h2>
+				</section>
+
+				<embed src="{{URL::to('/GTALENTSAGREEMENT.docx.pdf')}}" width="600" height="500" alt="pdf" pluginspage="http://www.adobe.com/products/acrobat/readstep2.html">
+			</article>
+		</div>
+	</div>
 @stop
 
 @section('scripts')
