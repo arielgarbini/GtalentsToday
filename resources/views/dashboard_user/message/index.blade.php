@@ -42,7 +42,7 @@
 			<!-- LISTADO DE SUPPLIER POR POST-->
 			<ul class="collapsible" data-collapsible="accordion">
 				@foreach($conversations as $conversation)
-					<li>
+					<li @if($conversation->poster_user_id==Auth::user()->id) style="border:1px solid #7ac943;" @endif>
 						<div class="collapsible-header" value="{{$conversation->poster_user_id}}" vacancy="{{$conversation->id}}">
 							<h3>{{$conversation->name}}</h3>
 						</div>

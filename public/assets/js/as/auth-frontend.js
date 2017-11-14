@@ -42,7 +42,7 @@ $(document).ready(
 
                     $(".modalText, .historial-status").niceScroll({cursorwidth:"12px" , zindex:"9999" , cursorborder:"0px", cursorborderradius:"0px"});
 
-                    $(".alerts-div, .team, .message-body, .message-main-contact ").niceScroll({cursorwidth:"7px" , zindex:"3" , cursorborder:"0px", cursorborderradius:"0px"});
+                    $(".alerts-di, .team, .message-body, .message-main-contact ").niceScroll({cursorwidth:"7px" , zindex:"3" , cursorborder:"0px", cursorborderradius:"0px"});
 
                     //Iniciar selectores
                     $('select').material_select();

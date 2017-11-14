@@ -67,7 +67,7 @@
 					<!-- NOTIFICACIONES -->
 				<div class="bills" id="alertNavContain">
 					<!--ALERTAS-->
-					<ul class="alerts-div">
+					<ul class="alerts-div" style="overflow: auto !important;">
 						<!--ALERTA 1-->
 						@foreach($notifications as $notification)
 							@if($notification->type=='request_supplier_vacancy')

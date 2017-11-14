@@ -457,7 +457,7 @@ return [
     'received'               => 'Received',
     'search_for_messages'    => 'Search for messages',
     'add_message'            => 'New Message',
-    'message_created'        => 'Message sended',
+    'message_created'        => 'Message sent',
     'new_message'            => 'New message.',
     'updated_message'        => 'Updated message.',
     'deleted_message'        => 'Deleted message.',
