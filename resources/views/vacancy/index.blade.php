@@ -76,13 +76,13 @@
                         </td>
                         <td class="text-center">
                             @permission('vacancies.view')
-                            <a href="{{ route('vacancies.show', $vacancy->id) }}" class="btn btn-success btn-circle"
+                            <a href="{{ route('vacancies.showVacancy', $vacancy->id) }}" class="btn btn-success btn-circle"
                                title="@lang('app.view_vacancy')" data-toggle="tooltip" data-placement="top">
                                 <i class="glyphicon glyphicon-eye-open"></i>
                             </a>
                             @endpermission
                             @permission('vacancies.edit')
-                            <a href="{{ route('vacancies.edit', $vacancy) }}" class="btn btn-primary btn-circle edit" title="@lang('app.edit_vacancy')"
+                            <a href="{{ route('vacancies.editVacancy', $vacancy) }}" class="btn btn-primary btn-circle edit" title="@lang('app.edit_vacancy')"
                                     data-toggle="tooltip" data-placement="top">
                                 <i class="glyphicon glyphicon-edit"></i>
                             </a>

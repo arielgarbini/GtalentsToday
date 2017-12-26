@@ -22,7 +22,7 @@
 @include('partials.messages')
 
 <div class="row">
-    <div class="col-lg-8 col-md-8"> 
+    <div class="col-lg-8 col-md-8">
         <div class="panel panel-default">
             <div class="panel-body">
                 <span class="pull-right small">
@@ -33,7 +33,7 @@
                         </a>
                     @endif
                 </span>
-                <h3>{{ $vacancy->name }}</h3> 
+                <h3>{{ $vacancy->name }}</h3>
                 <caption>{{ $vacancy->location }}</caption>
                 <hr />
                 <h4>@lang('app.description')</h4>
@@ -69,7 +69,7 @@
                 <h4>{{trans('app.replacement_period')}}</h4>
                 <p>{{$vacancy->replacement_period}}</p>
                 <br />
-                
+
                 @if(count($vacancy->languages))
                     <h4>@lang('app.languages_required')</h4>
                     @foreach($vacancy->languages as $lang)
@@ -77,7 +77,7 @@
                     @endforeach
                     <br />
                 @endif
-                    
+
                 @if($vacancy->range_salary)
                <h4> {{  trans('app.range_salary')}} : {{ $vacancy->range_salary }}</h4>
                 @endif
@@ -108,9 +108,9 @@
                                 </a>
                             </div>
                         </div>
-                    </div> 
+                    </div>
             </div>
-        </div> 
+        </div>
     </div>
     <div class="col-lg-4 col-md-4">
 
@@ -121,11 +121,11 @@
             <br />
             <br />
         @endif
-            
+
         <p>{{trans('app.status')}}:  <span class="label label-{{ $vacancy->vacancy_status_id == 1 ? 'success':'warning' }}">
             {{ $vacancy->vacancy_status->getNameLang($vacancy->vacancy_status_id)->name }}
         </span></p>
-       
+
         @if (($vacancy->vacancy_status_id== 2 ) || ($vacancy->vacancy_status_id==6))
         <a href="{{route('vacancies.vacancy_status', $vacancy->id)}}">
             <button type="button" class="btn btn-primary" style="width:100%;">
@@ -134,7 +134,7 @@
         </a>
         @endif
         <br /> <br />
-      
+
         <!--<div class="panel panel-default">
             <div class="panel-heading">
                 @lang('app.vacancy')
@@ -180,19 +180,19 @@
                             </div>
                             </td>
                         </tr>
-                       
+
                     </table>
-                     
+
                 </div>
             </div>
-         
+
             <div class="panel panel-default">
                 <div class="panel-heading">
                     @lang('app.pending_candidates')
                 </div>
                 <div class="panel-body">
                     <table class="table">
-                     
+
                         <tr>
                             <td>
                             <div class="col-lg-12">
@@ -211,12 +211,12 @@
                             </div>
                             </td>
                         </tr>
-                       
-                     
-                    </table>                    
+
+
+                    </table>
                 </div>
             </div>
-            
+
         @endif
 
             <div class="panel panel-default">
@@ -233,12 +233,12 @@
                                 </button>
                             </td>
                         </tr>
-                       
-                     
+
+
                     </table>
                 </div>
             </div>-->
-        
+
 
         <div class="panel panel-default">
             <div class="panel-heading">
@@ -262,11 +262,11 @@
                         <th>@lang('app.warranty'):</th>
                         <td>{{ $vacancy->warranty_employee }}</td>
                     </tr>
-                 
+
                 </table>
             </div>
-        </div> 
-    </div>      
+        </div>
+    </div>
 </div>
 
 <div class="row">

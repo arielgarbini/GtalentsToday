@@ -46,6 +46,9 @@
                             <input type="text" readonly id="doc_text" placeholder="{{ $edit ? trans('app.edit_or_leave_blank') : trans('app.select_file') }}">
                         </label>
                     </div>
+                    @if($edit)
+                        @if($candidate->file) <a href="/upload/docs/{{$candidate->file}}" target="_blank">{{$candidate->file}}</a>   @endif
+                    @endif
                 </div>
                 <div class="col-md-6">
                     <div class="form-group">

@@ -35,6 +35,7 @@
         </a>
     </li>
     @if($edit)
+        <!--
         <li role="presentation">
             <a href="#profile" aria-controls="auth" role="tab" data-toggle="tab">
                 <i class="fa fa-lock"></i>
@@ -46,7 +47,7 @@
                 <i class="fa fa-lock"></i>
                 @lang('app.experience')
             </a>
-        </li>
+        </li>-->
     @endif
 </ul>
 

@@ -34,7 +34,7 @@
                 <a href="#consultants" aria-controls="details" role="tab" data-toggle="tab">
                    @lang('app.consultants_associated')
                 </a>
-            </li>
+            </li><!--
             <li role="presentation">
                 <a href="#profile" aria-controls="details" role="tab" data-toggle="tab">
                     @lang('app.profile')
@@ -44,7 +44,7 @@
                 <a href="#experience" aria-controls="details" role="tab" data-toggle="tab">
                     @lang('app.experience')
                 </a>
-            </li>
+            </li>-->
 
         </ul>
            <!-- Tab panes -->
@@ -64,20 +64,7 @@
                     </div>
                 </div>
             </div>
-            <div role="tabpanel" class="tab-pane" id="profile">
-                <div class="panel panel-default">
-                    <div class="panel-body">
-                        @include('company.partials.show_profile')
-                    </div>
-                </div>
-            </div>
-            <div role="tabpanel" class="tab-pane" id="experience">
-                <div class="panel panel-default">
-                    <div class="panel-body">
-                        @include('company.partials.show_experience')
-                    </div>
-                </div>
-            </div>
+
         </div>           
     </div>
 </div>

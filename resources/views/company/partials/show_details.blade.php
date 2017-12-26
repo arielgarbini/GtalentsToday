@@ -45,9 +45,5 @@
         <th>@lang('app.address')</th>
         <td>{{ $company->address->address ? $company->address->address : '-' }}</td>
     </tr>
-    <tr>
-        <th>@lang('app.address_type_id')</th>
-        <td>{{ $company->address->address_type->name ? $company->address->address_type->name : '-' }}</td>
-    </tr>
 
 </table>

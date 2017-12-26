@@ -40,7 +40,6 @@
                 <ul class="jobs-detail-body-kills">
                     @foreach($vacancy->required_experience as $rr)
                         <li>
-                            <span class="icon-gTalents_point"></span>
                             <p>{!!$rr!!}</p>
                         </li>
                     @endforeach

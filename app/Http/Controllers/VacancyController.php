@@ -577,6 +577,49 @@ class VacancyController extends Controller
      * @param VacancyRepository $id
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
+
+    public function showVacancy(  $id,
+                                  SchemeWorkRepository $schemeWorks,
+                                  ContractTypeRepository $contractTypes,
+                                  VacancyStatusRepository $vacancyStatus,
+                                  AddressTypeRepository $addressTypes,
+                                  LanguageRepository $languages)
+    {
+        $edit = true;
+        $vacancy = $this->vacancies->find($id);
+
+        if($vacancy->poster_user_id != $this->theUser->id And !$this->theUser->hasRole('Admin'))
+            return redirect()->route('vacancies.index')
+                ->withErrors(trans('app.only_edit_your_vacancies'));
+
+        if (session('lang') =='en'){
+            $language = 2;
+        }else{
+            $language = 1;
+        }
+
+        $schemeWorks = $schemeWorks->lists($language);
+        $contractTypes = $contractTypes->lists($language);
+        $vacancyStatus = $vacancyStatus->lists($language);
+        $addressTypes = $addressTypes->lists($language);
+        $countries = $this->countries->lists()->toArray();
+        $languages = $languages->lists()->toArray();
+        $language_selected = $this->listSelected($vacancy->languages);
+        if(!isset($vacancy))
+            return redirect()->route('vacancies.index')
+                ->withErrors(trans('app.register_not_found'));
+
+        return view('vacancy.view', compact('edit',
+            'vacancy',
+            'schemeWorks',
+            'contractTypes',
+            'vacancyStatus',
+            'countries',
+            'addressTypes',
+            'languages',
+            'language_selected'));
+    }
+
     public function edit (  $id,
                             SchemeWorkRepository $schemeWorks,
                             ContractTypeRepository $contractTypes,
@@ -604,7 +647,6 @@ class VacancyController extends Controller
         $countries = $this->countries->lists()->toArray();
         $languages = $languages->lists()->toArray();
         $language_selected = $this->listSelected($vacancy->languages);
-
         if(!isset($vacancy))
                 return redirect()->route('vacancies.index')
                     ->withErrors(trans('app.register_not_found'));

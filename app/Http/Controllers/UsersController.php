@@ -562,7 +562,6 @@ class UsersController extends Controller
         } else {
             $address = '';
         }
-        $expe = Experience::where('company_id', $user->company_user->company_id)->get()->first();
         $industries_id = [];
         $industries_name = [];
         $region_id = [];
@@ -575,17 +574,23 @@ class UsersController extends Controller
         $type3_name = [];
         $type4_id = [];
         $type4_name = [];
-        if($expe){
-            $indus = ExperienceIndustry::where('experience_id', $expe->id)->get();
-            foreach($indus as $na){
-                $industries_id[] = $na->industry_id;
-                $industries_name[] = $na->industry($language)->name;
+        try{
+            $expe = Experience::where('company_id', $user->company_user->company_id)->get()->first();
+            if($expe){
+                $indus = ExperienceIndustry::where('experience_id', $expe->id)->get();
+                foreach($indus as $na){
+                    $industries_id[] = $na->industry_id;
+                    $industries_name[] = $na->industry($language)->name;
+                }
+                $funca = ExperienceRegion::where('experience_id', $expe->id)->get();
+                foreach($funca as $na){
+                    $region_id[] = $na->region_id;
+                    $region_name[] = $na->region($language)->name;
+                }
             }
-            $funca = ExperienceRegion::where('experience_id', $expe->id)->get();
-            foreach($funca as $na){
-                $region_id[] = $na->region_id;
-                $region_name[] = $na->region($language)->name;
-            }
+
+        } catch(\Exception $e){
+
         }
 
         if($company!=''){

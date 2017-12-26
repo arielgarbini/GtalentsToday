@@ -1086,14 +1086,20 @@ Route::get('vacancies/{vacancy}/show', [
     'middleware' => ['auth', 'permission:vacancies.view']
 ]);
 
+Route::get('vacancies/{vacancy}/showVacancy', [
+    'as' => 'vacancies.showVacancy',
+    'uses' => 'VacancyController@showVacancy',
+    'middleware' => ['auth', 'permission:vacancies.view']
+]);
+
 Route::get('vacancies/{vacancy}/getSuppliers', [
     'as' => 'vacancies.show.getsuppliers',
     'uses' => 'VacancyController@getSupplierRecommended',
     'middleware' => ['auth', 'permission:vacancies.view']
 ]);
 
-Route::get('vacancies/{vacancy}/edit', [
-    'as' => 'vacancies.edit',
+Route::get('vacancies/{vacancy}/editVacancy', [
+    'as' => 'vacancies.editVacancy',
     'uses' => 'VacancyController@edit',
     'middleware' => ['auth', 'permission:vacancies.edit']
 ]);

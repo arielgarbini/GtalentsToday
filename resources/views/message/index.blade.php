@@ -66,23 +66,9 @@
 </div>
 
 <div class="table-responsive top-border-table" id="messages-table-wrapper">
-   <div class="col-md-2">
-    <thead>
-            <th>@lang('app.all_messages')</th>
-    </thead>        
-    <table class="table">
-        <tbody>
-            <tr>
-                <td></td>
-                <td></td>
-            </tr>
-        </tbody>
-    </table>      
-   </div> 
-    <div class="col-md-10">
+    <div class="col-md-12">
     <table class="table">
         <thead>
-            <th>#</th>
             <th>@lang('app.user')</th>
             <th>@lang('app.user_destinatary')</th>
             <th>@lang('app.subject')</th>
@@ -94,12 +80,11 @@
             @if (count($messages))
                 @foreach ($messages as $message)
                    <tr style="cursor:pointer">
-                        <td><input type="checkbox" id="message_id"> </td>
-                        <td>{{ $message->sender->first_name }}</td>
-                       <td>{{ $message->destinatary->first_name }}</td>
+                        <td>{{ $message->sender->first_name }} ID: {{ $message->sender->code}}</td>
+                       <td>{{ $message->destinatary->first_name }} ID: {{ $message->destinatary->code}}</td>
                         <td>{{ $message->subject }}</td>
                         <td>{{ $message->message }}</td>
-                        <td class="text-center">{{strftime("%d/%b/%Y",strtotime($message->created_at)) }}</td>
+                        <td class="text-center">{{$message->created_at->format('d/m/Y H:i') }}</td>
                         <td>
                             <a href="{{ route('messages.details', $message->id) }}" class="btn btn-success btn-circle"
                                title="@lang('app.view_details')" data-toggle="tooltip" data-placement="top">

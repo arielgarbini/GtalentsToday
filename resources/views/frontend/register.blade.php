@@ -111,7 +111,7 @@
 
 	</article>
 
-	<div id="tos-modal" class="modal modalText">
+	<div id="tos-modal" class="modal modalText" style="display: none;">
 		<!--CERRAR-->
 		<div class="modal-footer">
 			<a class=" modal-action modal-close waves-effect waves-green btn-flat">

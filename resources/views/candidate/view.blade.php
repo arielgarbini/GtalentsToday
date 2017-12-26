@@ -47,7 +47,7 @@
                         </tr>
                         <tr>
                             <th>@lang('app.resume')</th>
-                            <td>@if($candidate->file) <a href="/upload/docs/{{$candidate->file}}">{{$candidate->file}}</a> @else - @endif</td>
+                            <td>@if($candidate->file) <a target="_blank" href="/upload/docs/{{$candidate->file}}">{{$candidate->file}}</a> @else - @endif</td>
                         </tr>
                         <tr>
                             <th>@lang('app.status')</th>
