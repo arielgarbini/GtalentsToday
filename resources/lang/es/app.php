@@ -1226,5 +1226,6 @@ return [
     'get_points'                    => 'Has recibido',
     'promotion_received'  => 'Has recibido una promoción a',
     'change_status_paused'          => 'Se ha pausado la vacante',
-    'change_status_closed'          => 'Se ha cerrado la vacante'
+    'change_status_closed'          => 'Se ha cerrado la vacante',
+    'down' => 'Descargar CV'
 ];

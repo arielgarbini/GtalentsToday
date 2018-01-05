@@ -10,9 +10,9 @@
             @endif
         @else
             @if($dataFinal['register'] == true)
-                window.opener.successError({'register': "{{$dataFinal['register']}}", 'message': "{{$dataFinal['message']}}", 'url': "{{$dataFinal['url']}}"});
+                window.opener.successConfirm({'register': "{{$dataFinal['register']}}", 'message': "{{$dataFinal['message']}}", 'url': "{{$dataFinal['url']}}"});
             @else
-                window.opener.successError({'message': "{{$dataFinal['message']}}", 'url': "{{$dataFinal['url']}}"});
+                window.opener.successConfirm({'message': "{{$dataFinal['message']}}", 'url': "{{$dataFinal['url']}}"});
             @endif
         @endif
         window.close();

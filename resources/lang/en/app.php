@@ -439,7 +439,7 @@ return [
     'positions_number'            => 'Number of Openings',
     'name_position'               => 'Job Title',
     'employer_fee'                => 'Employer fee', 
-    'fee_charged_to_employer'     => 'Total Search Fee',
+    'fee_charged_to_employer'     => 'Total Search F    ee',
     'replacement_period'         =>  'Replacement Period',
     'warranty_employer'           => 'Warranty Details',
     'additional_information'     => 'Additional Information',
@@ -1131,5 +1131,6 @@ return [
     'get_points'                    => '+',
     'promotion_received'  => 'Have you received a promotion to',
     'change_status_paused'          => 'This vacancy has been paused',
-    'change_status_closed'          => 'This vacancy has been closed'
+    'change_status_closed'          => 'This vacancy has been closed',
+    'down' => 'Download CV'
 ];
