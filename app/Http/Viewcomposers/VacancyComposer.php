@@ -12,7 +12,7 @@ use Vanguard\FunctionalArea;
 use Vanguard\User;
 use Vanguard\VacancyUser;
 use Vanguard\VacancyCandidate;
-use Vanguard\ActualPosition;
+use Vanguard\ActualPositionCandidate;
 use Vanguard\Repositories\VacancyViewedRepository;
 
 class VacancyComposer
@@ -50,7 +50,7 @@ class VacancyComposer
         $i = 0;
         foreach ($candidatesUnRead as $can){
                 $data[] = $can->candidate;
-                $data[$i]['actual_position'] = ActualPosition::where('value_id', $data[$i]['actual_position_id'])
+                $data[$i]['actual_position'] = ActualPositionCandidate::where('value_id', $data[$i]['actual_position_id'])
                     ->where('language_id', $language)->get()->first()->name;
                 $i++;
         }
@@ -59,7 +59,7 @@ class VacancyComposer
         $i = 0;
         foreach ($candidatesApproved as $can){
             $data[] = $can->candidate;
-            $data[$i]['actual_position'] = ActualPosition::where('value_id', $data[$i]['actual_position_id'])
+            $data[$i]['actual_position'] = ActualPositionCandidate::where('value_id', $data[$i]['actual_position_id'])
                 ->where('language_id', $language)->get()->first()->name;
             $i++;
         }

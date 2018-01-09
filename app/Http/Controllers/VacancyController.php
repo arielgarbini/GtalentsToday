@@ -11,7 +11,7 @@ use Vanguard\Country;
 use Vanguard\Events\User\Registered;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Input;
-use Vanguard\ActualPosition;
+use Vanguard\ActualPositionCandidate;
 use Vanguard\Candidate;
 use Vanguard\Language;
 use Vanguard\LanguageType;
@@ -1352,20 +1352,20 @@ class VacancyController extends Controller
         foreach ($users as $can){
             if(!VacancyCandidate::where('candidate_id', $can->id)->where('vacancy_id', $vacancy->id)->get()->first()) {
                 $data1[] = $can;
-                $data1[$i]['actual_position'] = ActualPosition::where('value_id', $can->actual_position_id)
+                $data1[$i]['actual_position'] = ActualPositionCandidate::where('value_id', $can->actual_position_id)
                     ->where('language_id', $language)->get()->first()->name;
                 $i++;
             }
             if(VacancyCandidate::where('candidate_id', $can->id)->where('vacancy_id', $vacancy->id)
                 ->where('status','!=','Rejected')->where('status','!=','Deleted')->get()->first()) {
                 $data2[] = $can;
-                $data2[$j]['actual_position'] = ActualPosition::where('value_id', $can->actual_position_id)
+                $data2[$j]['actual_position'] = ActualPositionCandidate::where('value_id', $can->actual_position_id)
                     ->where('language_id', $language)->get()->first()->name;
                 $j++;
             }
             if(VacancyCandidate::where('candidate_id', $can->id)->where('vacancy_id', $vacancy->id)->where('status','Rejected')->get()->first()) {
                 $data3[] = $can;
-                $data3[$p]['actual_position'] = ActualPosition::where('value_id', $can->actual_position_id)
+                $data3[$p]['actual_position'] = ActualPositionCandidate::where('value_id', $can->actual_position_id)
                     ->where('language_id', $language)->get()->first()->name;
                 $p++;
             }

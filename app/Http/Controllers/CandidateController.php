@@ -14,7 +14,7 @@ use Vanguard\Services\Upload\FileManager;
 use Vanguard\Http\Requests;
 use Vanguard\User;
 use Vanguard\Candidate;
-use Vanguard\ActualPosition;
+use Vanguard\ActualPositionCandidate;
 use Vanguard\Company;
 use Vanguard\Country;
 use Vanguard\Compensation;

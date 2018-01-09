@@ -3,7 +3,7 @@
 namespace Vanguard\Http\ViewComposers;
 
 use Illuminate\View\View;
-use Vanguard\ActualPosition;
+use Vanguard\ActualPositionCandidate;
 use Vanguard\Company;
 use Vanguard\Country;
 use Vanguard\Compensation;
@@ -18,7 +18,7 @@ class CandidateComposer
             $language = 1;
         }
 
-        $positions = ActualPosition::where('language_id', $language)->orderBy('name')->lists('name', 'value_id')->all();
+        $positions = ActualPositionCandidate::where('language_id', $language)->orderBy('name')->lists('name', 'value_id')->all();
         $companies = Company::orderBy('name')->lists('name', 'id')->all();
         $countries = Country::orderBy('name', 'asc')->lists('name', 'id')->all();
         $compensations = Compensation::orderBy('id')->lists('salary', 'id')->all();

@@ -3,7 +3,7 @@
 namespace Vanguard\Http\Controllers;
 
 use Vanguard\Candidate;
-use Vanguard\ActualPosition;
+use Vanguard\ActualPositionCandidate;
 use Illuminate\Http\Request;
 use Vanguard\Notification;
 use Vanguard\Repositories\Activity\ActivityRepository;
@@ -130,7 +130,7 @@ class DashboardController extends Controller
         $i = 0;
         foreach ($candidates as $can){
             $data1[] = $can;
-            $data1[$i]['actual_position'] = ActualPosition::where('value_id', $can->actual_position_id)
+            $data1[$i]['actual_position'] = ActualPositionCandidate::where('value_id', $can->actual_position_id)
                 ->where('language_id', $language)->get()->first()->name;
             $i++;
         }
