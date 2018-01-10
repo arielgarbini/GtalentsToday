@@ -32,7 +32,6 @@
 			<li><img src="assets/img/slider-2.png" alt=""></li>
 			<li><img src="assets/img/slider-3.png" alt=""></li>
 			<li><img src="assets/img/slider-4.png" alt=""></li>
-			<li><img src="assets/img/slider-5.png" alt=""></li>
 		</ul>
 
 		<!-- TABLET-->
@@ -41,7 +40,6 @@
 			<li><img src="assets/img/slider-2-tablet.png" alt=""></li>
 			<li><img src="assets/img/slider-3-tablet.png" alt=""></li>
 			<li><img src="assets/img/slider-4-tablet.png" alt=""></li>
-			<li><img src="assets/img/slider-5-tablet.png" alt=""></li>
 		</ul>
 
 		<!-- MOBILE-->
@@ -50,7 +48,6 @@
 			<li><img src="assets/img/slider-2-mobile.png" alt=""></li>
 			<li><img src="assets/img/slider-3-mobile.png" alt=""></li>
 			<li><img src="assets/img/slider-4-mobile.png" alt=""></li>
-			<li><img src="assets/img/slider-5-mobile.png" alt=""></li>
 		</ul>
 </article>
 
